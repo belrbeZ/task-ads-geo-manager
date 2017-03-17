@@ -6,7 +6,7 @@ package keeper.config;
  * Time: 22:49
  */
 
-/*
+/**
  * Main Application Spring Configuration
  */
 public class ApplicationConfig {
