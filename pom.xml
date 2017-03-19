@@ -4,9 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>Keeper</groupId>
-    <artifactId>Keeper</artifactId>
+    <groupId>com.keeper</groupId>
+    <artifactId>keeper</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <modules>
+        <module>util</module>
+        <module>dao</module>
+        <module>app</module>
+        <module>rest</module>
+    </modules>
 
 </project>
