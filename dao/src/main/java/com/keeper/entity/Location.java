@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Location {
 
-    public static final Location emptyLocation = new Location();
+    public static final Location empty = new Location();
 
     private Integer id;
     private Integer userId;

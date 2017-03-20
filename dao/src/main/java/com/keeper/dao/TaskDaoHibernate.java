@@ -14,28 +14,28 @@ import java.util.List;
  */
 public class TaskDaoHibernate {
 
-    public static final List<Task> emptyTaskList = new ArrayList<Task>();
 
     //<editor-fold desc="TaskCRUD">
 
-    public List<Task> createTask(Task task) {
+    public List<Task> createTask(List<Task> tasks) {
 
-        return emptyTaskList;
+        return null;
     }
 
-    public List<Task> getTask(List<Integer> id) {
+    public List<Task> readTask(List<Integer> ids) {
 
-        return emptyTaskList;
+        return null;
     }
 
-    public List<Task> removeTask(Integer id) {
 
-        return emptyTaskList;
+    public List<Task> updateTask(List<Task> tasks) {
+
+        return null;
     }
 
-    public List<Task> updateTask(Task task) {
+    public List<Task> deleteTask(List<Integer> ids) {
 
-        return emptyTaskList;
+        return null;
     }
     //</editor-fold>
 

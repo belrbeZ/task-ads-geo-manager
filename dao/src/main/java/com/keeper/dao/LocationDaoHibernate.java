@@ -9,7 +9,6 @@ import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,77 +16,74 @@ import java.util.List;
  */
 public class LocationDaoHibernate {
 
-    public static final List<Location> emptyLocationList = new ArrayList<Location>();
-    public static final List<Coordinate> emptyCoordList = new ArrayList<Coordinate>();
-    public static final List<Route> emptyRouteList = new ArrayList<Route>();
 
-    //<editor-fold desc="Location">
+    //<editor-fold desc="LocationCRUD">
 
-    public List<Location> getLocation(Integer userId) {
+    public List<Location> createLocation(Integer userId, Location location) {
 
-        return emptyLocationList;
+        return null;
     }
 
+    public List<Location> readLocation(List<Integer> userId) {
 
-    public List<Location> setLocation(Integer userId, Location location) {
-
-        return emptyLocationList;
-    }
-
-    public List<Location> removeLocation(Integer userId) {
-
-        return emptyLocationList;
+        return null;
     }
 
     public List<Location> updateLocation(Integer userId, Location location) {
 
-        return emptyLocationList;
+        return null;
+    }
+
+    public List<Location> deleteLocation(List<Integer> userId) {
+
+        return null;
     }
     //</editor-fold>
 
-    //<editor-fold desc="Coordinates">
+    //<editor-fold desc="CoordinatesCRUD">
 
-    public List<Coordinate> getCoordinates(Integer userId, List<Integer> coordinateIds) {
+    public List<Coordinate> createCoordinates(Integer userId, List<Coordinate> coordinates) {
 
-        return emptyCoordList;
+        return null;
     }
 
-    public List<Coordinate> addCoordinates(Integer userId, List<Coordinate> coordinates) {
+    public List<Coordinate> readCoordinates(Integer userId, List<Integer> coordinateIds) {
 
-        return emptyCoordList;
-    }
-
-    public List<Coordinate> removeCoordinates(Integer userId, List<Integer> coordinateIds) {
-
-        return emptyCoordList;
+        return null;
     }
 
     public List<Coordinate> updateCoordinates(Integer userId, List<Coordinate> coordinates) {
 
-        return emptyCoordList;
+        return null;
+    }
+
+    public List<Coordinate> deleteCoordinates(Integer userId, List<Integer> coordinateIds) {
+
+        return null;
     }
     //</editor-fold>
 
-    //<editor-fold desc="Routes">
+    //<editor-fold desc="RoutesCRUD">
 
-    public List<Route> getRoutes(Integer userId, List<Integer> routeIds) {
+    public List<Route> createRoutes(Integer userId, List<Route> routes) {
 
-        return emptyRouteList;
+        return null;
     }
 
-    public List<Route> addRoutes(Integer userId, List<Route> routes) {
+    public List<Route> readRoutes(Integer userId, List<Integer> routeIds) {
 
-        return emptyRouteList;
-    }
-
-    public List<Route> removeRoutes(Integer userId, List<Integer> routeIds) {
-
-        return emptyRouteList;
+        return null;
     }
 
     public List<Route> updateRoute(Integer userId, List<Integer> routeIds) {
 
-        return emptyRouteList;
+        return null;
+    }
+
+    public List<Route> deleteRoutes(Integer userId, List<Integer> routeIds) {
+
+        return null;
     }
     //</editor-fold>
+
 }

@@ -14,28 +14,29 @@ import java.util.List;
  */
 public class UserDaoHibernate {
 
-    public static final List<User> emptyUserList = new ArrayList<User>();
+
 
     //<editor-fold desc="UserCRUD">
 
-    public List<User> getUser(List<Integer> id) {
+    public List<User> createUser(List<User> users) {
 
-        return emptyUserList;
+        return null;
     }
 
-    public List<User> updateUser(List<User> user) {
+    public List<User> readUser(List<Integer> ids) {
 
-        return emptyUserList;
+        return null;
     }
 
-    public List<User> createUser(List<User> user) {
+    public List<User> updateUser(List<User> users) {
 
-        return emptyUserList;
+        return null;
     }
 
-    public List<User> removeUser(List<Integer> id) {
 
-        return emptyUserList;
+    public List<User> deleteUser(List<Integer> ids) {
+
+        return null;
     }
     //</editor-fold>
 

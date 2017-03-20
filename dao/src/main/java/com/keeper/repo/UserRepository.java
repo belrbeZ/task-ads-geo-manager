@@ -4,33 +4,37 @@ package com.keeper.repo;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.dao.UserDaoHibernate;
 import com.keeper.entity.User;
+
+import static com.keeper.util.CollectorResolver.makeIdList;
+import static com.keeper.util.CollectorResolver.makeUserList;
+
+import static com.keeper.util.CollectorResolver.getFirstUser;
 
 /**
  * Repository to work with User
  */
 public class UserRepository {
 
+    private UserDaoHibernate userDao;
+
     //<editor-fold desc="UserCRUD">
 
-    public User getUser(Integer id) {
+    public User addUser(User user) {
+        return getFirstUser(userDao.createUser(makeUserList(user)));
+    }
 
-        return User.emptyUser;
+    public User getUser(Integer id) {
+        return getFirstUser(userDao.readUser(makeIdList(id)));
     }
 
     public User updateUser(User user) {
-
-        return User.emptyUser;
-    }
-
-    public User createUser(User user) {
-
-        return User.emptyUser;
+        return getFirstUser(userDao.updateUser(makeUserList(user)));
     }
 
     public User removeUser(Integer id) {
-
-        return User.emptyUser;
+        return getFirstUser(userDao.deleteUser(makeIdList(id)));
     }
     //</editor-fold>
 

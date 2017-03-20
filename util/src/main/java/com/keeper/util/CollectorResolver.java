@@ -6,7 +6,6 @@ package com.keeper.util;
 
 import com.keeper.entity.*;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +15,12 @@ import java.util.List;
 public class CollectorResolver {
 
     //<editor-fold desc="makeList">
-    private static List<Route>        nullableRouteList   = null;
-    private static List<Integer>      nullableIdList      = null;
-    private static List<Location>     nullableLocationList = null;
-    private static List<Coordinate>   nullableCoordList   = null;
-    private static List<User>         nullableUserList    = null;
-    private static List<Task>         nullableTaskList    = null;
+    private static final List<Route>        nullableRouteList   = null;
+    private static final List<Integer>      nullableIdList      = null;
+    private static final List<Location>     nullableLocationList = null;
+    private static final List<Coordinate>   nullableCoordList   = null;
+    private static final List<User>         nullableUserList    = null;
+    private static final List<Task>         nullableTaskList    = null;
 
     public static List<Integer> makeIdList(final Integer value) {
         return value != null ? new ArrayList<Integer>() {{ add(value); }} : nullableIdList;
@@ -49,25 +48,30 @@ public class CollectorResolver {
     //</editor-fold>
 
     //<editor-fold desc="getFirst">
+    private static final User         nullableUser    = User.empty;
+    private static final Task         nullableTask    = Task.empty;
+    private static final Route        nullableRoute   = Route.empty;
+    private static final Coordinate   nullableCoord   = Coordinate.empty;
+    private static final Location     nullableLocation = Location.empty;
 
     public static User getFirstUser(List<User> users) {
-        return (users == null || users.isEmpty()) ? User.emptyUser : users.get(0);
+        return (users == null || users.isEmpty()) ? nullableUser : users.get(0);
     }
 
     public static Location getFirstLocation(List<Location> locations) {
-        return (locations == null || locations.isEmpty()) ? Location.emptyLocation : locations.get(0);
+        return (locations == null || locations.isEmpty()) ? nullableLocation : locations.get(0);
     }
 
     public static Coordinate getFirstCoordinate(List<Coordinate> coordinates) {
-        return (coordinates == null || coordinates.isEmpty()) ? Coordinate.emptyCoordinate : coordinates.get(0);
+        return (coordinates == null || coordinates.isEmpty()) ? nullableCoord : coordinates.get(0);
     }
 
     public static Route getFirstRoute(List<Route> routes) {
-        return (routes == null || routes.isEmpty()) ? Route.emptyRoute : routes.get(0);
+        return (routes == null || routes.isEmpty()) ? nullableRoute : routes.get(0);
     }
 
     public static Task getFirstTask(List<Task> tasks) {
-        return (tasks == null || tasks.isEmpty()) ? Task.emptyTask : tasks.get(0);
+        return (tasks == null || tasks.isEmpty()) ? nullableTask : tasks.get(0);
     }
     //</editor-fold>
 }

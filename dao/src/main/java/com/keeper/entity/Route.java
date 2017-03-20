@@ -11,7 +11,7 @@ import com.keeper.states.RouteType;
  */
 public class Route {
 
-    public static final Route emptyRoute = new Route();
+    public static final Route empty = new Route();
 
     private Integer id;
     private Integer userId;
