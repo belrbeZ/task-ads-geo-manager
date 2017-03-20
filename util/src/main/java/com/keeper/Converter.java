@@ -9,32 +9,32 @@ import com.keeper.entity.*;
 import java.util.Locale;
 
 /**
- * Default Comment
+ * Used to convert entities to JSON and other format representation
  */
 public class Converter
 {
 
-    public String convertToJson(User usr) {
+    public static String convertToJson(User usr) {
 
         return "";
     }
 
-    public String converToJson(Task task) {
+    public static String converToJson(Task task) {
 
         return "";
     }
 
-    public String convertToJson(Route route) {
+    public static String convertToJson(Route route) {
 
         return "";
     }
 
-    public String convertToJson(Coordinate coord) {
+    public static String convertToJson(Coordinate coord) {
 
         return "";
     }
 
-    public String convertToJson(Location location) {
+    public static String convertToJson(Location location) {
 
         return "";
     }

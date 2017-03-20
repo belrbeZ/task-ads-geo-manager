@@ -5,8 +5,20 @@ package com.keeper.controllers;
  */
 
 /**
- * Default Comment
+ * Control Profile Rest End points
  */
 public class ProfileRestController {
+
+    private final String restPath = "/profile";
+
+    public String getProfile() {
+
+        return "";
+    }
+
+    public String patchProfile() {
+
+        return "";
+    }
 
 }

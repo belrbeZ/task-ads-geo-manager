@@ -5,7 +5,7 @@ package com.keeper.config;
  */
 
 /**
- * Default Comment
+ * Used to configure all Spring and other things
  */
 public class RestConfig {
 

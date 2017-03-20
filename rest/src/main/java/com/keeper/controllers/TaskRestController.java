@@ -5,8 +5,30 @@ package com.keeper.controllers;
  */
 
 /**
- * Default Comment
+ * Control Tasks Rest End points
  */
 public class TaskRestController {
+
+    private final String restPath = "/tasks";
+
+    public String getTasks() {
+
+        return "";
+    }
+
+    public String postTasks() {
+
+        return "";
+    }
+
+    public String patchTasks() {
+
+        return "";
+    }
+
+    public String deleteTasks() {
+
+        return "";
+    }
 
 }

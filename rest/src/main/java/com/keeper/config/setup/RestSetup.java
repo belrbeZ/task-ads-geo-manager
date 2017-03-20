@@ -5,7 +5,7 @@ package com.keeper.config.setup;
  */
 
 /**
- * Default Comment
+ * Setting up and initialize Spring Component
  */
 public class RestSetup {
 

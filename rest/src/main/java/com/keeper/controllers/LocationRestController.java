@@ -5,8 +5,30 @@ package com.keeper.controllers;
  */
 
 /**
- * Default Comment
+ * Control Location Rest End points
  */
 public class LocationRestController {
+
+    private final String restPath = "/locations";
+
+    public String getLocation() {
+
+        return "";
+    }
+
+    public String postLocation() {
+
+        return "";
+    }
+
+    public String patchLocation() {
+
+        return "";
+    }
+
+    public String deleteLocation() {
+
+        return "";
+    }
 
 }
