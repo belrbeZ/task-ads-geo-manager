@@ -13,22 +13,22 @@ public class TaskRestController {
 
     public String getTasks() {
 
-        return "";
+        return null;
     }
 
     public String postTasks() {
 
-        return "";
+        return null;
     }
 
     public String patchTasks() {
 
-        return "";
+        return null;
     }
 
     public String deleteTasks() {
 
-        return "";
+        return null;
     }
 
 }

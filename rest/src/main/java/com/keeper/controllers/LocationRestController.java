@@ -13,22 +13,22 @@ public class LocationRestController {
 
     public String getLocation() {
 
-        return "";
+        return null;
     }
 
     public String postLocation() {
 
-        return "";
+        return null;
     }
 
     public String patchLocation() {
 
-        return "";
+        return null;
     }
 
     public String deleteLocation() {
 
-        return "";
+        return null;
     }
 
 }

@@ -7,6 +7,17 @@ package com.keeper.states;
 /**
  * Default Comment
  */
-public enum  RouteType {
+public enum RouteType {
+    COMMON(0),
+    COMPLEX(1);
 
+    private final int value;
+
+    RouteType(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

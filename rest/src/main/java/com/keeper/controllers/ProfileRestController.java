@@ -13,12 +13,12 @@ public class ProfileRestController {
 
     public String getProfile() {
 
-        return "";
+        return null;
     }
 
     public String patchProfile() {
 
-        return "";
+        return null;
     }
 
 }

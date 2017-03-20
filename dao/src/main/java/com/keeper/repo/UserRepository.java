@@ -7,18 +7,18 @@ package com.keeper.repo;
 import com.keeper.entity.User;
 
 /**
- * Default Comment
+ * Repository to work with User
  */
 public class UserRepository {
 
     public User getUser(Integer id) {
 
-        return new User();
+        return null;
     }
 
-    public User patchUser(Integer id) {
+    public User updateUser(Integer id) {
 
-        return new User();
+        return null;
     }
 
 }
