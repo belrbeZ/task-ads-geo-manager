@@ -11,6 +11,8 @@ import java.sql.Timestamp;
  */
 public class SleepTime {
 
+    public static final SleepTime emptySleepTime = new SleepTime();
+
     private Integer userId;
 
     private Boolean isEnabled;

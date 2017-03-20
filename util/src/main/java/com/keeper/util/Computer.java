@@ -1,4 +1,4 @@
-package com.keeper;
+package com.keeper.util;
 
 /*
  * Created by GoodforGod on 20.03.2017.
@@ -14,14 +14,16 @@ import java.util.List;
  */
 public class Computer {
 
+    public static final Double emptyMark = -1.;
+
     public static Double computeRouteMark(List<Route> routes) {
 
-        return 0.0;
+        return emptyMark;
     }
 
     public static Double computeCoordinateMark(List<Coordinate> coords) {
 
-        return 0.0;
+        return emptyMark;
     }
 
 }

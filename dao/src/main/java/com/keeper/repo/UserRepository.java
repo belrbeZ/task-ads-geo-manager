@@ -11,14 +11,27 @@ import com.keeper.entity.User;
  */
 public class UserRepository {
 
+    //<editor-fold desc="UserCRUD">
+
     public User getUser(Integer id) {
 
-        return null;
+        return User.emptyUser;
     }
 
-    public User updateUser(Integer id) {
+    public User updateUser(User user) {
 
-        return null;
+        return User.emptyUser;
     }
+
+    public User createUser(User user) {
+
+        return User.emptyUser;
+    }
+
+    public User removeUser(Integer id) {
+
+        return User.emptyUser;
+    }
+    //</editor-fold>
 
 }

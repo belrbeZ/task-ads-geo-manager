@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class Task {
 
+    public static final Task emptyTask = new Task();
+
     private Integer id;
     private Integer topicStarterId;
 

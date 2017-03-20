@@ -12,6 +12,8 @@ import com.keeper.states.UserType;
  */
 public class User {
 
+    public static final User emptyUser = new User();
+
     private Integer id;
 
     private UserState state;

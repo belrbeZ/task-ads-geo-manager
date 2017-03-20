@@ -12,6 +12,8 @@ import java.util.TimeZone;
  */
 public class Zone {
 
+    public static final Zone emptyZone = new Zone();
+
     private Integer userId;
 
     private String city;

@@ -9,6 +9,8 @@ package com.keeper.entity;
  */
 public class Picture {
 
+    public static final Picture emptyPic = new Picture();
+
     private Integer userId;
 
     private String pic;

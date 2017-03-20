@@ -1,4 +1,4 @@
-package com.keeper;
+package com.keeper.util;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -14,28 +14,30 @@ import java.util.Locale;
 public class Converter
 {
 
+    public static final String emptyJson = "";
+
     public static String convertToJson(User usr) {
 
-        return "";
+        return emptyJson;
     }
 
     public static String converToJson(Task task) {
 
-        return "";
+        return emptyJson;
     }
 
     public static String convertToJson(Route route) {
 
-        return "";
+        return emptyJson;
     }
 
     public static String convertToJson(Coordinate coord) {
 
-        return "";
+        return emptyJson;
     }
 
     public static String convertToJson(Location location) {
 
-        return "";
+        return emptyJson;
     }
 }

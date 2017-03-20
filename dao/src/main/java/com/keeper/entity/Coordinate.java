@@ -9,6 +9,8 @@ package com.keeper.entity;
  */
 public class Coordinate {
 
+    public static final Coordinate emptyCoordinate = new Coordinate();
+
     private Integer id;
 
     private String latitude;

@@ -11,10 +11,10 @@ import com.keeper.states.RouteType;
  */
 public class Route {
 
+    public static final Route emptyRoute = new Route();
+
     private Integer id;
-
     private Integer userId;
-
     private RouteType type;
 
 
