@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  */
 public class SleepTime {
 
-    public static final SleepTime emptySleepTime = new SleepTime();
+    public static final SleepTime empty = new SleepTime();
 
     private Integer userId;
 
@@ -19,14 +19,16 @@ public class SleepTime {
     private Timestamp timeStart;
     private Timestamp timeEnd;
 
+    private SleepTime() { }
+
+    public SleepTime(Integer userId) {
+        this.userId = userId;
+    }
+
     //<editor-fold desc="GetterAndSetter">
 
     public Integer getUserId() {
         return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public Boolean getEnabled() {

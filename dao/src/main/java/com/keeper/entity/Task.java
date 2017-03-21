@@ -7,30 +7,54 @@ package com.keeper.entity;
 import com.keeper.states.TaskState;
 import com.keeper.states.TaskType;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Task model implementation
  */
-public class Task {
+public class Task extends CoordinateStorage {
 
     public static final Task empty = new Task();
 
     private Integer id;
     private Integer topicStarterId;
 
-    private TaskType  type;
-    private TaskState state;
+    private TaskType type;
+    private TaskState state = TaskState.HIDEN;
 
     private String theme;
-    private String description;
+    private String descr;
     private Picture pic;
 
-    private List<String>    tags                = new ArrayList<String>();
-    private List<Integer>   participants        = new ArrayList<Integer>();
-    private List<Integer>   activeParticipants  = new ArrayList<Integer>();
-    private List<Coordinate> coordinates        = new ArrayList<Coordinate>();
+    private Set<String>    tags                = new HashSet<>();
+    private Set<Integer>   participants         = new HashSet<>();
+    private Set<Integer>   activeParticipants   = new HashSet<>();
+
+    private Task() {}
+
+    public Task(Integer topicStarterId, TaskType type, String theme, String descr) {
+        this.topicStarterId = topicStarterId;
+        this.type = type;
+        this.theme = theme;
+        this.descr = descr;
+    }
+
+    public Task(Integer topicStarterId, TaskType type, String theme, String descr, Picture pic) {
+        this(topicStarterId, type, theme, descr);
+        this.pic = pic;
+    }
+
+    public Task(Integer topicStarterId, TaskType type, String theme, String descr, Set<String> tags) {
+        this(topicStarterId, type, theme, descr);
+        this.tags = tags;
+    }
+
+    public Task(Integer topicStarterId, TaskType type, String theme, String descr, Picture pic, Set<String > tags) {
+        this(topicStarterId, type, theme, descr, pic);
+        this.tags = tags;
+    }
 
     //<editor-fold desc="GetterAndSetter">
 
@@ -38,24 +62,12 @@ public class Task {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getTopicStarterId() {
         return topicStarterId;
     }
 
-    public void setTopicStarterId(Integer topicStarterId) {
-        this.topicStarterId = topicStarterId;
-    }
-
     public TaskType getType() {
         return type;
-    }
-
-    public void setType(TaskType type) {
-        this.type = type;
     }
 
     public TaskState getState() {
@@ -66,6 +78,8 @@ public class Task {
         this.state = state;
     }
 
+
+
     public String getTheme() {
         return theme;
     }
@@ -74,12 +88,12 @@ public class Task {
         this.theme = theme;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
 
     public Picture getPic() {
@@ -90,36 +104,30 @@ public class Task {
         this.pic = pic;
     }
 
-    public List<String> getTags() {
+    public Set<String> getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(Set<String> tags) {
         this.tags = tags;
     }
 
-    public List<Integer> getParticipants() {
+
+
+    public Set<Integer> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<Integer> participants) {
+    public void setParticipants(Set<Integer> participants) {
         this.participants = participants;
     }
 
-    public List<Integer> getActiveParticipants() {
+    public Set<Integer> getActiveParticipants() {
         return activeParticipants;
     }
 
-    public void setActiveParticipants(List<Integer> activeParticipants) {
+    public void setActiveParticipants(Set<Integer> activeParticipants) {
         this.activeParticipants = activeParticipants;
-    }
-
-    public List<Coordinate> getCoordinates() {
-        return coordinates;
-    }
-
-    public void setCoordinates(List<Coordinate> coordinates) {
-        this.coordinates = coordinates;
     }
 
     //</editor-fold>
@@ -131,11 +139,12 @@ public class Task {
 
         Task task = (Task) o;
 
-        return id.equals(task.id);
+        return id != null ? id.equals(task.id) : task.id == null;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id != null ? id.hashCode() : 0;
     }
 }
+

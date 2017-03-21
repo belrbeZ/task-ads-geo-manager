@@ -17,8 +17,21 @@ public class Coordinate {
     private String longitude;
     private Integer radius;
 
-    private Double mark;
+    private Mark mark;
     private String about;
+
+    private Coordinate() {}
+
+    public Coordinate(String latitude, String longitude, Integer radius) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
+    }
+
+    public Coordinate(String latitude, String longitude, Integer radius, String about) {
+        this(latitude, longitude, radius);
+        this.about = about;
+    }
 
     //<editor-fold desc="GetterAndSetter">
 
@@ -26,24 +39,12 @@ public class Coordinate {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
     public String getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
     }
 
     public Integer getRadius() {
@@ -54,11 +55,11 @@ public class Coordinate {
         this.radius = radius;
     }
 
-    public Double getMark() {
+    public Mark getMark() {
         return mark;
     }
 
-    public void setMark(Double mark) {
+    public void setMark(Mark mark) {
         this.mark = mark;
     }
 

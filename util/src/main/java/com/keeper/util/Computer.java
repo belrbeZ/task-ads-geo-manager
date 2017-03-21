@@ -5,6 +5,7 @@ package com.keeper.util;
  */
 
 import com.keeper.entity.Coordinate;
+import com.keeper.entity.Mark;
 import com.keeper.entity.Route;
 
 import java.util.List;
@@ -14,16 +15,19 @@ import java.util.List;
  */
 public class Computer {
 
-    public static final Double emptyMark = -1.;
+    //<editor-fold desc="HotMark">
 
-    public static Double computeRouteMark(List<Route> routes) {
+    public static final Mark emptyMark = Mark.empty;
 
-        return emptyMark;
-    }
-
-    public static Double computeCoordinateMark(List<Coordinate> coords) {
+    public static Mark computeRouteMark(List<Route> routes) {
 
         return emptyMark;
     }
+
+    public static Mark computeCoordinateMark(List<Coordinate> coords) {
+
+        return emptyMark;
+    }
+    //</editor-fold>
 
 }

@@ -16,25 +16,43 @@ public class User {
 
     private Integer id;
 
-    private UserState state;
+    private UserState state = UserState.AWAIT_VERIFICATION;
     private UserType type;
 
     private String name;
     private String email;
     private String phone;
+    private String password;
     private String about;
 
     private Zone zone;
     private SleepTime sleepTime;
 
+    private User() { }
+
+    private User(UserType type, String name, String password, String about, Zone zone) {
+        this.type = type;
+        this.name = name;
+        this.password = password;
+        this.about = about;
+
+        this.zone = zone;
+    }
+
+    public User(UserType type, String name, String email, String password, String about, Zone zone) {
+        this(type, name, password, about, zone);
+        this.email = email;
+    }
+
+    public User(UserType type, String name, String email, String phone, String password, String about, Zone zone) {
+        this(type, name, email, password, about, zone);
+        this.phone = phone;
+    }
+
     //<editor-fold desc="GetterAndSetter">
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public UserState getState() {
@@ -47,10 +65,6 @@ public class User {
 
     public UserType getType() {
         return type;
-    }
-
-    public void setType(UserType type) {
-        this.type = type;
     }
 
     public String getName() {
@@ -75,6 +89,14 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getAbout() {

@@ -12,7 +12,7 @@ import java.util.TimeZone;
  */
 public class Zone {
 
-    public static final Zone emptyZone = new Zone();
+    public static Zone empty = new Zone();
 
     private Integer userId;
 
@@ -22,14 +22,24 @@ public class Zone {
     private Timestamp registerDate;
     private TimeZone timeZone;
 
+    private Zone(){ }
+
+    public Zone(Integer userId, String city, String country) {
+        this.userId = userId;
+        this.city = city;
+        this.country = country;
+    }
+
+    public Zone(Integer userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
+        this(userId, city, country);
+        this.registerDate = registerDate;
+        this.timeZone = timeZone;
+    }
+
     //<editor-fold desc="GetterAndSetter">
 
     public Integer getUserId() {
         return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
     }
 
     public String getCity() {
