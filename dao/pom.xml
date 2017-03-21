@@ -16,7 +16,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <joda-version>2.9.6</joda-version>
+        <java-version>1.8</java-version>
+
+        <junit-version>3.8.1</junit-version>
+        <jodatime-version>2.9.6</jodatime-version>
 
         <spring-data-version>1.11.1.RELEASE</spring-data-version>
         <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
@@ -27,10 +30,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>${joda-version}</version>
+            <version>${jodatime-version}</version>
         </dependency>
+
+        <!-- Spring -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,11 +56,15 @@
             <version>${spring-data-jpa-version}</version>
         </dependency>
 
+        <!-- JDBC -->
+
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql-jdbc-version}</version>
         </dependency>
+
+        <!-- Models -->
 
         <dependency>
             <groupId>com.keeper</groupId>
@@ -56,11 +72,5 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 </project>
