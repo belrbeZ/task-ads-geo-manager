@@ -1,4 +1,4 @@
-package com.keeper.repo;
+package com.keeper.service;
 
 import com.keeper.dao.hibernate.factory.FactoryDao;
 import com.keeper.dao.hibernate.LocationDao;
@@ -9,7 +9,7 @@ import com.keeper.entity.User;
 /**
  * Created by AlexVasil on 22.03.2017.
  */
-public class GenericRepository {
+public class GenericService {
 
 //     EJB3 CMT:
 //     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -25,9 +25,9 @@ public class GenericRepository {
 
         FactoryDao factory = FactoryDao.instance(FactoryDao.HIBERNATE);
 
-        LocationRepository locationRepository = new LocationRepository(factory.getLocationDAO());
-        UserRepository userRepository = new UserRepository(factory.getUserDAO());
-        TaskRepository taskRepository = new TaskRepository(factory.getTaskDAO());
+        LocationService locationService = new LocationService(factory.getLocationDAO());
+        UserService userService = new UserService(factory.getUserDAO());
+        TaskService taskRepository = new TaskService(factory.getTaskDAO());
 
 
 

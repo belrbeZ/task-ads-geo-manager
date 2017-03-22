@@ -12,26 +12,15 @@
     <name>util</name>
     <url>http://maven.apache.org</url>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <java-version>1.8</java-version>
-
-        <junit-version>3.8.1</junit-version>
-        <jackson-version>2.8.7</jackson-version>
-    </properties>
-
     <dependencies>
+        <!-- Common -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson-version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
 

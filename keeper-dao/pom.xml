@@ -5,78 +5,50 @@
         <groupId>com.keeper</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>dao</artifactId>
     <packaging>jar</packaging>
-
     <name>dao</name>
     <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <java-version>1.8</java-version>
-
-        <junit-version>3.8.1</junit-version>
-        <jodatime-version>2.9.6</jodatime-version>
-
-        <spring-data-version>1.11.1.RELEASE</spring-data-version>
-        <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
-        <spring-data-jpa-version>1.11.1.RELEASE</spring-data-jpa-version>
-
-        <postgresql-jdbc-version>9.4.1212</postgresql-jdbc-version>
-    </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>${jodatime-version}</version>
         </dependency>
 
         <!-- Spring -->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring-boot-version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>${spring-data-jpa-version}</version>
         </dependency>
 
         <!-- JDBC -->
-
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>${postgresql-jdbc-version}</version>
         </dependency>
-
-
 
         <!-- Hibernate -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.2.9.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
-            <version>5.2.9.Final</version>
         </dependency>
+
         <!--<dependency>-->
             <!--<groupId>javassist</groupId>-->
             <!--<artifactId>javassist</artifactId>-->
@@ -102,7 +74,7 @@
             <!--<version>5.0.1.Final</version>-->
         <!--</dependency>-->
 
-        <!-- Hibernate library dependecy start -->
+        <!-- Hibernate dependency -->
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
@@ -127,15 +99,10 @@
             <!--<version>2.7.7</version>-->
         <!--</dependency>-->
 
-        <!-- Hibernate library dependecy end -->
-
-        <!-- Models -->
-
         <dependency>
             <groupId>com.keeper</groupId>
             <artifactId>util</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
 </project>

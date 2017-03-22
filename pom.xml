@@ -12,16 +12,129 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <!-- JDK -->
         <jdk-version>1.8</jdk-version>
+        <servlet-api-version>3.1.0</servlet-api-version>
+        <jsp-api-version>2.3.1</jsp-api-version>
+        <jstl-version>1.2</jstl-version>
+
+        <!-- Hibernate -->
+        <hibernate-version>5.2.9.Final</hibernate-version>
+
+        <!-- Common -->
+        <junit-version>3.8.1</junit-version>
+        <jodatime-version>2.9.6</jodatime-version>
+        <jackson-version>2.8.7</jackson-version>
+
+        <!-- Spring -->
+        <spring-data-version>1.11.1.RELEASE</spring-data-version>
+        <spring-context-version>4.3.7.RELEASE</spring-context-version>
+        <spring-web-mvc-vesrion>4.3.7.RELEASE</spring-web-mvc-vesrion>
+
+        <!-- Spring Boot -->
+        <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
+
+        <!-- JDBC -->
+        <postgresql-jdbc-version>9.4.1212</postgresql-jdbc-version>
+
+        <!-- Loggers -->
         <log4j-version>1.2.17</log4j-version>
         <slf4j-version>1.7.5</slf4j-version>
     </properties>
 
+    <dependencyManagement>
+        <dependencies>
+            <!-- Common -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit-version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${jodatime-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson-version}</version>
+            </dependency>
+
+            <!-- Servlet And Jsp -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet-api-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>javax.servlet.jsp-api</artifactId>
+                <version>${jsp-api-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>jstl</artifactId>
+                <version>${jstl-version}</version>
+            </dependency>
+
+            <!-- Spring -->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-jpa</artifactId>
+                <version>${spring-data-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring-web-mvc-vesrion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring-context-version}</version>
+            </dependency>
+
+            <!-- Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-rest</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+
+            <!-- JDBC -->
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql-jdbc-version}</version>
+            </dependency>
+
+            <!-- Hibernate -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>${hibernate-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-c3p0</artifactId>
+                <version>${hibernate-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <modules>
-        <module>util</module>
-        <module>dao</module>
-        <module>app</module>
-        <module>rest</module>
+        <module>keeper-core-util</module>
+        <module>keeper-dao</module>
+        <module>keeper-webapp</module>
+        <module>keeper-api</module>
     </modules>
 
 </project>
