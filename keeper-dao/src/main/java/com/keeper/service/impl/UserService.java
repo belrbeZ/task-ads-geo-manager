@@ -11,12 +11,16 @@ import com.keeper.dao.hibernate.impl.UserDaoHibernate;
 import com.keeper.dao.hibernate.UserDao;
 import com.keeper.entity.User;
 import com.keeper.service.IUserService;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
 
 import static com.keeper.util.CollectorResolver.*;
 
 /**
  * Repository to work with User
  */
+@Repository
 public class UserService implements IUserService {
 
     private UserDaoHibernate userDao;

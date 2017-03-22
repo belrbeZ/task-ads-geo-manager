@@ -13,6 +13,7 @@ import com.keeper.entity.Coordinate;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 import com.keeper.service.ILocationService;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ import static com.keeper.util.CollectorResolver.*;
 /**
  * Repository to work with Locations
  */
+@Repository
 public class LocationService implements ILocationService {
 
     private LocationDaoHibernate locationDao;

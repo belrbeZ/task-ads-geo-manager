@@ -33,13 +33,11 @@ public class CoordinateStorage {
         return coord;
     }
 
-    public Coordinate removeCoordinate(final Integer coordId) {
-        Coordinate coord = this.coordinates.stream()
-                .filter(coordinate -> Objects.equals(coordinate.getId(), coordId))
+    public Coordinate removeCoordinate(final Long coordId) {
+         return this.coordinates.stream()
+                .filter(coordinate -> coordId.equals(coordinate.getId()))
                 .findFirst()
                 .get();
-
-        return coord;
     }
 
 }

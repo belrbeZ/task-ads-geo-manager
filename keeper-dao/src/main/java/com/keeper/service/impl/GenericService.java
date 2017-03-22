@@ -5,10 +5,12 @@ import com.keeper.dao.hibernate.LocationDao;
 import com.keeper.dao.hibernate.UserDao;
 import com.keeper.entity.Location;
 import com.keeper.entity.User;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by AlexVasil on 22.03.2017.
  */
+@Repository
 public class GenericService {
 
 //     EJB3 CMT:
