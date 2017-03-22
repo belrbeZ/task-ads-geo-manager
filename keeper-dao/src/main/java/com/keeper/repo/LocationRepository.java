@@ -4,9 +4,14 @@ package com.keeper.repo;
  * Created by GoodforGod on 23.03.2017.
  */
 
+import com.keeper.entity.Location;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 /**
- * Default Comment
+ * Spring Data JPA Repository for Locations
+ *
+ * MUST BE EXTENDED TO SUPPORT ROUTES, COORDINATES
  */
-public interface LocationRepository {
+public interface LocationRepository extends JpaRepository<Location, Long> {
 
 }

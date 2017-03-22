@@ -14,7 +14,7 @@ public class Zone {
 
     public static Zone empty = new Zone();
 
-    private Integer userId;
+    private Long userId;
 
     private String city;
     private String country;
@@ -24,13 +24,13 @@ public class Zone {
 
     private Zone(){ }
 
-    public Zone(Integer userId, String city, String country) {
+    public Zone(Long userId, String city, String country) {
         this.userId = userId;
         this.city = city;
         this.country = country;
     }
 
-    public Zone(Integer userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
+    public Zone(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
         this(userId, city, country);
         this.registerDate = registerDate;
         this.timeZone = timeZone;
@@ -38,7 +38,7 @@ public class Zone {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

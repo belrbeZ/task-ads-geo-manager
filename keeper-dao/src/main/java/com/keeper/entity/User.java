@@ -17,7 +17,7 @@ public class User implements IModel<Integer>{
 
     public static final User empty = new User();
 
-    private Integer id;
+    private Long id;
 
     private UserState state = UserState.AWAIT_VERIFICATION;
     private UserType type;
@@ -54,7 +54,7 @@ public class User implements IModel<Integer>{
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

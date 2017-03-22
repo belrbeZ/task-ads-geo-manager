@@ -11,7 +11,6 @@ import com.keeper.states.TaskState;
 import com.keeper.states.TaskType;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -21,7 +20,7 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
 
     public static final Task empty = new Task();
 
-    private Integer id;
+    private Long id;
     private Integer topicStarterId;
 
     private TaskType type;
@@ -61,7 +60,7 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

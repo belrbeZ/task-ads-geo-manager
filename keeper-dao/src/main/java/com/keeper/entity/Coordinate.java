@@ -21,7 +21,7 @@ public class Coordinate implements IModel<Integer> {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "coord_id", unique = true, nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "latitude")
     private String latitude;
@@ -50,7 +50,7 @@ public class Coordinate implements IModel<Integer> {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

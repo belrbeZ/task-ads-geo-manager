@@ -13,7 +13,7 @@ public class Picture {
 
     public static final Picture empty = new Picture();
 
-    private Integer id;
+    private Long id;
     private Integer ownerId;
 
     private PicType type = PicType.TASK;
@@ -28,7 +28,7 @@ public class Picture {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

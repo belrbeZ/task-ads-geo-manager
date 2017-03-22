@@ -13,7 +13,7 @@ public class SleepTime {
 
     public static final SleepTime empty = new SleepTime();
 
-    private Integer userId;
+    private Long userId;
 
     private Boolean isEnabled;
     private Timestamp timeStart;
@@ -21,13 +21,13 @@ public class SleepTime {
 
     private SleepTime() { }
 
-    public SleepTime(Integer userId) {
+    public SleepTime(Long userId) {
         this.userId = userId;
     }
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

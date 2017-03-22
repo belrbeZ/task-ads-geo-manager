@@ -18,7 +18,7 @@ public class Route extends CoordinateStorage {
 
     public static final Route empty = new Route();
 
-    private Integer id;
+    private Long id;
     private Integer userId;
 
     private RouteType type;
@@ -45,7 +45,7 @@ public class Route extends CoordinateStorage {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 

@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class CoordinateStorage {
 
-    private Set<Coordinate> coordinates = new HashSet<Coordinate>();
+    private Set<Coordinate> coordinates = new HashSet<>();
 
     public Set<Coordinate> getCoordinates() {
         return coordinates;

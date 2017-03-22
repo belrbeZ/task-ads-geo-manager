@@ -16,7 +16,7 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
 
     public static final Location empty = new Location();
 
-    private Integer id;
+    private Long id;
     private Integer userId;
 
     private Set<Coordinate> coordinates = new HashSet<>();
@@ -33,7 +33,7 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
