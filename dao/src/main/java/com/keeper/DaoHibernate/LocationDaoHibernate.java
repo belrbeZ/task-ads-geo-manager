@@ -1,20 +1,25 @@
-package com.keeper.dao;
+package com.keeper.DaoHibernate;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
  */
 
+import com.keeper.dao.GenericHibernateDAO;
+import com.keeper.dao.LocationDAO;
 import com.keeper.entity.Coordinate;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**
- * Default Comment
+ * Created by AlexVasil on 22.03.2017.
  */
-public class LocationDaoHibernate {
+public class LocationDaoHibernate extends GenericHibernateDAO<Location, Integer> implements LocationDAO {
 
 
     //<editor-fold desc="LocationCRUD">

@@ -12,15 +12,15 @@ import java.util.Set;
 /**
  * Location Implementation, contains all routes and coordinates for User KeepEyeOn History
  */
-public class Location extends CoordinateStorage {
+public class Location extends CoordinateStorage implements IModel<Integer> {
 
     public static final Location empty = new Location();
 
     private Integer id;
     private Integer userId;
 
-    private Set<Coordinate> coordinates = new HashSet<>();
-    private Set<Route> routes = new HashSet<>();
+    private Set<Coordinate> coordinates = new HashSet<Coordinate>();
+    private Set<Route> routes = new HashSet<Coordinate>();
 
     private Mark totalCoordinateMark;
     private Mark totalRouteMark;

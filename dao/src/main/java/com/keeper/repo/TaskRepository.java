@@ -2,9 +2,13 @@ package com.keeper.repo;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
  */
 
-import com.keeper.dao.TaskDaoHibernate;
+import com.keeper.DaoHibernate.TaskDaoHibernate;
+import com.keeper.dao.TaskDAO;
 import com.keeper.entity.Task;
 
 import static com.keeper.util.CollectorResolver.makeTaskList;
@@ -18,6 +22,14 @@ import static com.keeper.util.CollectorResolver.getFirstTask;
 public class TaskRepository {
 
     private TaskDaoHibernate taskDao;
+
+    public TaskRepository(TaskDAO taskDao) {
+        this.taskDao = (TaskDaoHibernate) taskDao;
+    }
+
+    public TaskDaoHibernate getTaskDao() {
+        return taskDao;
+    }
 
     //<editor-fold desc="TaskCRUD">
 

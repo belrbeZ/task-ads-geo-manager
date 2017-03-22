@@ -2,22 +2,37 @@ package com.keeper.entity;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
+ *
  */
 
-/**
- * Default Comment
- */
-public class Coordinate {
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
+@Entity
+@Table(name = "Coordinates", catalog = "entities")
+public class Coordinate implements IModel<Integer> {
 
     public static final Coordinate empty = new Coordinate();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "coord_id", unique = true, nullable = false)
     private Integer id;
 
+    @Column(name = "latitude")
     private String latitude;
+    @Column(name = "longitude")
     private String longitude;
+    @Column(name = "radius")
     private Integer radius;
 
+    @Column(name = "mark")
     private Mark mark;
+    @Column(name = "about")
     private String about;
 
     private Coordinate() {}

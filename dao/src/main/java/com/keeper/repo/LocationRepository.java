@@ -2,9 +2,13 @@ package com.keeper.repo;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
  */
 
-import com.keeper.dao.LocationDaoHibernate;
+import com.keeper.DaoHibernate.LocationDaoHibernate;
+import com.keeper.dao.LocationDAO;
 import com.keeper.entity.Coordinate;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
@@ -20,6 +24,14 @@ import static com.keeper.util.CollectorResolver.*;
 public class LocationRepository {
 
     private LocationDaoHibernate locationDao;
+
+    public LocationRepository(LocationDAO locationDao) {
+        this.locationDao = (LocationDaoHibernate) locationDao;
+    }
+
+    public LocationDaoHibernate getLocationDao() {
+        return locationDao;
+    }
 
     //<editor-fold desc="Location">
 

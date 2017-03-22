@@ -2,6 +2,9 @@ package com.keeper.entity;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
  */
 
 import com.keeper.states.UserState;
@@ -10,7 +13,7 @@ import com.keeper.states.UserType;
 /**
  * User model implementation
  */
-public class User {
+public class User implements IModel<Integer>{
 
     public static final User empty = new User();
 

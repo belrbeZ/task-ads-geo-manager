@@ -2,6 +2,9 @@ package com.keeper.entity;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
  */
 
 import com.keeper.states.TaskState;
@@ -14,7 +17,7 @@ import java.util.Set;
 /**
  * Task model implementation
  */
-public class Task extends CoordinateStorage {
+public class Task extends CoordinateStorage implements IModel<Integer>{
 
     public static final Task empty = new Task();
 
@@ -28,9 +31,9 @@ public class Task extends CoordinateStorage {
     private String descr;
     private Picture pic;
 
-    private Set<String>    tags                = new HashSet<>();
-    private Set<Integer>   participants         = new HashSet<>();
-    private Set<Integer>   activeParticipants   = new HashSet<>();
+    private Set<String>    tags                = new HashSet<String>();
+    private Set<Integer>   participants         = new HashSet<Integer>();
+    private Set<Integer>   activeParticipants   = new HashSet<Integer>();
 
     private Task() {}
 

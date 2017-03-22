@@ -13,7 +13,7 @@ import java.util.Set;
  */
 public class CoordinateStorage {
 
-    private Set<Coordinate> coordinates = new HashSet<>();
+    private Set<Coordinate> coordinates = new HashSet<Coordinate>();
 
     public Set<Coordinate> getCoordinates() {
         return coordinates;
@@ -34,10 +34,7 @@ public class CoordinateStorage {
     }
 
     public Coordinate removeCoordinate(final Integer coordId) {
-        Coordinate coord = this.coordinates.stream()
-                .filter(coordinate -> Objects.equals(coordinate.getId(), coordId))
-                .findFirst()
-                .get();
+        Coordinate coord = this.coordinates.stream().filter(coordinate -> Objects.equals(coordinate.getId(), coordId)).findFirst().get();
 
         return coord;
     }

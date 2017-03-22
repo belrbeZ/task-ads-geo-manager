@@ -2,9 +2,13 @@ package com.keeper.repo;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
  */
 
-import com.keeper.dao.UserDaoHibernate;
+import com.keeper.DaoHibernate.UserDaoHibernate;
+import com.keeper.dao.UserDAO;
 import com.keeper.entity.User;
 
 import static com.keeper.util.CollectorResolver.makeIdList;
@@ -18,6 +22,14 @@ import static com.keeper.util.CollectorResolver.getFirstUser;
 public class UserRepository {
 
     private UserDaoHibernate userDao;
+
+    public UserRepository(UserDAO userDao) {
+        this.userDao = (UserDaoHibernate)userDao;
+    }
+
+    public UserDaoHibernate getUserDao() {
+        return userDao;
+    }
 
     //<editor-fold desc="UserCRUD">
 
