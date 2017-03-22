@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.impl;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -10,6 +10,7 @@ package com.keeper.service;
 import com.keeper.dao.hibernate.impl.TaskDaoHibernate;
 import com.keeper.dao.hibernate.TaskDao;
 import com.keeper.entity.Task;
+import com.keeper.service.ITaskService;
 
 import static com.keeper.util.CollectorResolver.makeTaskList;
 import static com.keeper.util.CollectorResolver.makeIdList;
@@ -19,7 +20,7 @@ import static com.keeper.util.CollectorResolver.getFirstTask;
 /**
  * Repository to work with Tasks
  */
-public class TaskService {
+public class TaskService implements ITaskService {
 
     private TaskDaoHibernate taskDao;
 

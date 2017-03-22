@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.impl;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -12,6 +12,7 @@ import com.keeper.dao.hibernate.LocationDao;
 import com.keeper.entity.Coordinate;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
+import com.keeper.service.ILocationService;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ import static com.keeper.util.CollectorResolver.*;
 /**
  * Repository to work with Locations
  */
-public class LocationService {
+public class LocationService implements ILocationService {
 
     private LocationDaoHibernate locationDao;
 

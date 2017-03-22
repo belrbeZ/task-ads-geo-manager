@@ -23,7 +23,17 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Integer> impleme
         return null;
     }
 
-    public List<User> readUser(List<Integer> ids) {
+    public List<User> readUserById(List<Integer> ids) {
+
+        return null;
+    }
+
+    public List<User> readUserByEmail(List<String> emails) {
+
+        return null;
+    }
+
+    public List<User> readUserByPhone(List<String> phone) {
 
         return null;
     }
@@ -33,8 +43,17 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Integer> impleme
         return null;
     }
 
+    public List<User> deleteUserById(List<Integer> ids) {
 
-    public List<User> deleteUser(List<Integer> ids) {
+        return null;
+    }
+
+    public List<User> deleteUserByEmail(List<String> emails) {
+
+        return null;
+    }
+
+    public List<User> deleteUserByPhone(List<String> phones) {
 
         return null;
     }

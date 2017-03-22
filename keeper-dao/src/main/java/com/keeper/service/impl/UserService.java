@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.impl;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -10,16 +10,14 @@ package com.keeper.service;
 import com.keeper.dao.hibernate.impl.UserDaoHibernate;
 import com.keeper.dao.hibernate.UserDao;
 import com.keeper.entity.User;
+import com.keeper.service.IUserService;
 
-import static com.keeper.util.CollectorResolver.makeIdList;
-import static com.keeper.util.CollectorResolver.makeUserList;
-
-import static com.keeper.util.CollectorResolver.getFirstUser;
+import static com.keeper.util.CollectorResolver.*;
 
 /**
  * Repository to work with User
  */
-public class UserService {
+public class UserService implements IUserService {
 
     private UserDaoHibernate userDao;
 
@@ -38,7 +36,13 @@ public class UserService {
     }
 
     public User getUser(Integer id) {
-        return getFirstUser(userDao.readUser(makeIdList(id)));
+        return getFirstUser(userDao.readUserById(makeIdList(id)));
+    }
+
+    public User getUser(String email, String phone) {
+        return (email != null)
+                ? getFirstUser(userDao.readUserByEmail(makeStringList(email)))
+                : getFirstUser(userDao.readUserByPhone(makeStringList(phone)));
     }
 
     public User updateUser(User user) {
@@ -46,7 +50,13 @@ public class UserService {
     }
 
     public User removeUser(Integer id) {
-        return getFirstUser(userDao.deleteUser(makeIdList(id)));
+        return getFirstUser(userDao.deleteUserById(makeIdList(id)));
+    }
+
+    public User removeUser(String email, String phone) {
+        return (email != null)
+                ? getFirstUser(userDao.deleteUserByEmail(makeStringList(email)))
+                : getFirstUser(userDao.deleteUserByPhone(makeStringList(phone)));
     }
     //</editor-fold>
 

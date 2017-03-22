@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.impl;
 
 import com.keeper.dao.hibernate.factory.FactoryDao;
 import com.keeper.dao.hibernate.LocationDao;

@@ -15,6 +15,7 @@ import java.util.List;
 public class CollectorResolver {
 
     //<editor-fold desc="makeList">
+    private static final List<String>       nullableStringList  = null;
     private static final List<Route>        nullableRouteList   = null;
     private static final List<Integer>      nullableIdList      = null;
     private static final List<Location>     nullableLocationList = null;
@@ -24,6 +25,10 @@ public class CollectorResolver {
 
     public static List<Integer> makeIdList(final Integer value) {
         return value != null ? new ArrayList<Integer>() {{ add(value); }} : nullableIdList;
+    }
+
+    public static List<String> makeStringList(final String value) {
+        return value != null ? new ArrayList<String>() {{add(value);}} : nullableStringList;
     }
 
     public static List<Coordinate> makeCoordList(final Coordinate value) {
