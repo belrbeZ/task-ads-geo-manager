@@ -10,8 +10,13 @@ package com.keeper.entity;
 import com.keeper.states.TaskState;
 import com.keeper.states.TaskType;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.HashSet;
 import java.util.Set;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Task model implementation
@@ -20,19 +25,37 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
 
     public static final Task empty = new Task();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
+
+    @Column(name = "ownerId", nullable = false)
     private Integer topicStarterId;
 
+    @Column(name = "type", nullable = false)
     private TaskType type;
+
+    @Column(name = "state", nullable = false)
     private TaskState state = TaskState.HIDEN;
 
+    @Column(name = "theme")
     private String theme;
+
+    @Column(name = "descr")
     private String descr;
+
+    @Column(name = "pic")
     private Picture pic;
 
-    private Set<String>    tags                = new HashSet<String>();
-    private Set<Integer>   participants         = new HashSet<Integer>();
-    private Set<Integer>   activeParticipants   = new HashSet<Integer>();
+    @Column(name = "tags")
+    private Set<String>    tags                = new HashSet<>();
+
+    @Column(name = "participants")
+    private Set<Integer>   participants         = new HashSet<>();
+
+    @Column(name = "activeParticipants")
+    private Set<Integer>   activeParticipants   = new HashSet<>();
 
     private Task() {}
 

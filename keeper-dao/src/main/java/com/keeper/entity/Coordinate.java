@@ -20,7 +20,7 @@ public class Coordinate implements IModel<Integer> {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "coord_id", unique = true, nullable = false)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
     @Column(name = "latitude")

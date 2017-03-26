@@ -4,10 +4,15 @@ package com.keeper.entity;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Location Implementation, contains all routes and coordinates for User KeepEyeOn History
@@ -16,13 +21,21 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
 
     public static final Location empty = new Location();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
+
+    @Column(name = "user_id", nullable = false)
     private Integer userId;
 
     private Set<Coordinate> coordinates = new HashSet<>();
     private Set<Route> routes = new HashSet<>();
 
+    @Column(name = "totalCoordMark")
     private Mark totalCoordinateMark;
+
+    @Column(name = "totalRouteMark")
     private Mark totalRouteMark;
 
     private Location() { }

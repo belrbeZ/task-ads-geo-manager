@@ -6,10 +6,15 @@ package com.keeper.entity;
 
 import com.keeper.states.RouteType;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Route Location implementation
@@ -18,11 +23,21 @@ public class Route extends CoordinateStorage {
 
     public static final Route empty = new Route();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
+
+    @Column(name = "ownerId", nullable = false)
     private Integer userId;
 
+    @Column(name = "type", nullable = false)
     private RouteType type;
+
+    @Column(name = "mark")
     private Mark mark = Mark.empty;
+
+    @Column(name = "about")
     private String about;
 
     private Route() {}

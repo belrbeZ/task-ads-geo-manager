@@ -13,5 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * MUST BE EXTENDED TO SUPPORT ZONES, SLEEPTIMES
  */
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 
+    User findByPhone(String phone);
 }

@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * Used in Location and Route to work with coord set
  */
-public class CoordinateStorage {
+public abstract class CoordinateStorage {
 
     private Set<Coordinate> coordinates = new HashSet<>();
 

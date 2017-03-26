@@ -4,7 +4,12 @@ package com.keeper.entity;
  * Created by GoodforGod on 20.03.2017.
  */
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Sleep Time Notification Period Implementation
@@ -13,10 +18,18 @@ public class SleepTime {
 
     public static final SleepTime empty = new SleepTime();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Long userId;
 
-    private Boolean isEnabled;
+    @Column(name = "type", nullable = false)
+    private Boolean isEnabled = false;
+
+    @Column(name = "type")
     private Timestamp timeStart;
+
+    @Column(name = "type")
     private Timestamp timeEnd;
 
     private SleepTime() { }

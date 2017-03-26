@@ -10,6 +10,12 @@ package com.keeper.entity;
 import com.keeper.states.UserState;
 import com.keeper.states.UserType;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+import static javax.persistence.GenerationType.IDENTITY;
+
 /**
  * User model implementation
  */
@@ -17,18 +23,36 @@ public class User implements IModel<Integer>{
 
     public static final User empty = new User();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Long id;
 
+    @Column(name = "state", nullable = false)
     private UserState state = UserState.AWAIT_VERIFICATION;
+
+    @Column(name = "type", nullable = false)
     private UserType type;
 
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "phone", nullable = false)
     private String phone;
+
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "about")
     private String about;
 
+    @Column(name = "zone")
     private Zone zone;
+
+    @Column(name = "sleepTime", nullable = false)
     private SleepTime sleepTime;
 
     private User() { }

@@ -29,10 +29,6 @@ public class UserService implements IUserService {
         this.userDao = (UserDaoHibernate)userDao;
     }
 
-    public UserDaoHibernate getUserDao() {
-        return userDao;
-    }
-
     //<editor-fold desc="UserCRUD">
 
     public User addUser(User user) {

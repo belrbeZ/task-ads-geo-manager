@@ -9,6 +9,7 @@ package com.keeper.service.impl;
 
 import com.keeper.dao.hibernate.impl.LocationDaoHibernate;
 import com.keeper.dao.hibernate.LocationDao;
+import com.keeper.dao.springrepo.LocationRepository;
 import com.keeper.entity.Coordinate;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
@@ -28,12 +29,10 @@ public class LocationService implements ILocationService {
 
     private LocationDaoHibernate locationDao;
 
+    private LocationRepository localRepo;
+
     public LocationService(LocationDao locationDao) {
         this.locationDao = (LocationDaoHibernate) locationDao;
-    }
-
-    public LocationDaoHibernate getLocationDao() {
-        return locationDao;
     }
 
     //<editor-fold desc="Location">

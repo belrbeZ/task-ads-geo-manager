@@ -4,8 +4,13 @@ package com.keeper.entity;
  * Created by GoodforGod on 20.03.2017.
  */
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.util.TimeZone;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * User Current Time Zone and Location
@@ -14,13 +19,22 @@ public class Zone {
 
     public static Zone empty = new Zone();
 
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)
     private Long userId;
 
+    @Column(name = "id")
     private String city;
+
+    @Column(name = "country", nullable = false)
     private String country;
 
+    @Column(name = "registerDate", nullable = false)
     private Timestamp registerDate;
-    private TimeZone timeZone;
+
+    @Column(name = "timeZone", nullable = false)
+    private TimeZone timeZone = TimeZone.getDefault();
 
     private Zone(){ }
 

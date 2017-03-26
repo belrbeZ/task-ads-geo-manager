@@ -30,10 +30,6 @@ public class TaskService implements ITaskService {
         this.taskDao = (TaskDaoHibernate) taskDao;
     }
 
-    public TaskDaoHibernate getTaskDao() {
-        return taskDao;
-    }
-
     //<editor-fold desc="TaskCRUD">
 
     public Task addTask(Task task) {
