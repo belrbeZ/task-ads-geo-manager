@@ -2,6 +2,9 @@ package com.keeper.service;
 
 /*
  * Created by GoodforGod on 23.03.2017.
+ *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import com.keeper.entity.Coordinate;
@@ -16,42 +19,42 @@ import java.util.List;
 public interface ILocationService {
     //<editor-fold desc="Location">
 
-    Location addLocation(Integer userId, Location location);
+    Location addLocation(Long userId, Location location);
 
-    Location getLocation(Integer userId);
+    Location getLocation(Long userId);
 
-    Location updateLocation(Integer userId, Location location);
+    Location updateLocation(Long userId, Location location);
 
-    Location removeLocation(Integer userId);
+    Location removeLocation(Long userId);
     //</editor-fold>
 
     //<editor-fold desc="Coordinates">
 
-    Coordinate addCoordinates(Integer userId, Coordinate coord);
-    List<Coordinate> addCoordinates(Integer userId, List<Coordinate> coords);
+    Coordinate addCoordinates(Long userId, Coordinate coord);
+    List<Coordinate> addCoordinates(Long userId, List<Coordinate> coords);
 
-    Coordinate getCoordinates(final Integer userId, Integer coordId);
-    List<Coordinate> getCoordinates(Integer userId, List<Integer> coordIds);
+    Coordinate getCoordinates(final Long userId, Long coordId);
+    List<Coordinate> getCoordinates(Long userId, List<Long> coordIds);
 
-    Coordinate updateCoordinates(Integer userId, Coordinate coord);
-    List<Coordinate> updateCoordinates(Integer userId, List<Coordinate> coords);
+    Coordinate updateCoordinates(Long userId, Coordinate coord);
+    List<Coordinate> updateCoordinates(Long userId, List<Coordinate> coords);
 
-    Coordinate removeCoordinates(Integer userId, Integer coordId);
-    List<Coordinate> removeCoordinates(Integer userId, List<Integer> coordIds);
+    Coordinate removeCoordinates(Long userId, Long coordId);
+    List<Coordinate> removeCoordinates(Long userId, List<Long> coordIds);
     //</editor-fold>
 
     //<editor-fold desc="Routes">
 
-    Route addRoutes(Integer userId, Route route);
-    List<Route> addRoutes(Integer userId, List<Route> routes);
+    Route addRoutes(Long userId, Route route);
+    List<Route> addRoutes(Long userId, List<Route> routes);
 
-    Route getRoutes(Integer userId, Integer routeId);
-    List<Route> getRoutes(Integer userId, List<Integer> routeIds);
+    Route getRoutes(Long userId, Long routeId);
+    List<Route> getRoutes(Long userId, List<Long> routeIds);
 
-    Route updateRoute(Integer userId, Integer routeId);
-    List<Route> updateRoute(Integer userId, List<Integer> routeIds);
+    Route updateRoute(Long userId, Long routeId);
+    List<Route> updateRoute(Long userId, List<Long> routeIds);
 
-    Route removeRoute(Integer userId, Integer routeId);
-    List<Route> removeRoutes(Integer userId, List<Integer> routeIds);
+    Route removeRoute(Long userId, Long routeId);
+    List<Route> removeRoutes(Long userId, List<Long> routeIds);
     //</editor-fold>
 }

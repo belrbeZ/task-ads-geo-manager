@@ -5,6 +5,8 @@ package com.keeper.entity;
  *
  * Updated by AlexVasil on 22.03.2017.
  *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import com.keeper.states.TaskState;
@@ -21,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Task model implementation
  */
-public class Task extends CoordinateStorage implements IModel<Integer>{
+public class Task extends CoordinateStorage implements IModel<Long>{
 
     public static final Task empty = new Task();
 
@@ -31,7 +33,7 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
     private Long id;
 
     @Column(name = "ownerId", nullable = false)
-    private Integer topicStarterId;
+    private Long topicStarterId;
 
     @Column(name = "type", nullable = false)
     private TaskType type;
@@ -49,34 +51,34 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
     private Picture pic;
 
     @Column(name = "tags")
-    private Set<String>    tags                = new HashSet<>();
+    private Set<String>    tags                = new HashSet<String>();
 
     @Column(name = "participants")
-    private Set<Integer>   participants         = new HashSet<>();
+    private Set<Long>   participants         = new HashSet<Long>();
 
     @Column(name = "activeParticipants")
-    private Set<Integer>   activeParticipants   = new HashSet<>();
+    private Set<Long>   activeParticipants   = new HashSet<Long>();
 
     private Task() {}
 
-    public Task(Integer topicStarterId, TaskType type, String theme, String descr) {
+    public Task(Long topicStarterId, TaskType type, String theme, String descr) {
         this.topicStarterId = topicStarterId;
         this.type = type;
         this.theme = theme;
         this.descr = descr;
     }
 
-    public Task(Integer topicStarterId, TaskType type, String theme, String descr, Picture pic) {
+    public Task(Long topicStarterId, TaskType type, String theme, String descr, Picture pic) {
         this(topicStarterId, type, theme, descr);
         this.pic = pic;
     }
 
-    public Task(Integer topicStarterId, TaskType type, String theme, String descr, Set<String> tags) {
+    public Task(Long topicStarterId, TaskType type, String theme, String descr, Set<String> tags) {
         this(topicStarterId, type, theme, descr);
         this.tags = tags;
     }
 
-    public Task(Integer topicStarterId, TaskType type, String theme, String descr, Picture pic, Set<String > tags) {
+    public Task(Long topicStarterId, TaskType type, String theme, String descr, Picture pic, Set<String > tags) {
         this(topicStarterId, type, theme, descr, pic);
         this.tags = tags;
     }
@@ -87,7 +89,7 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
         return id;
     }
 
-    public Integer getTopicStarterId() {
+    public Long getTopicStarterId() {
         return topicStarterId;
     }
 
@@ -139,19 +141,19 @@ public class Task extends CoordinateStorage implements IModel<Integer>{
 
 
 
-    public Set<Integer> getParticipants() {
+    public Set<Long> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<Integer> participants) {
+    public void setParticipants(Set<Long> participants) {
         this.participants = participants;
     }
 
-    public Set<Integer> getActiveParticipants() {
+    public Set<Long> getActiveParticipants() {
         return activeParticipants;
     }
 
-    public void setActiveParticipants(Set<Integer> activeParticipants) {
+    public void setActiveParticipants(Set<Long> activeParticipants) {
         this.activeParticipants = activeParticipants;
     }
 

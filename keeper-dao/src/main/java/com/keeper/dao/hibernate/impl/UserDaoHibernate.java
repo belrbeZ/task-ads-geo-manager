@@ -1,20 +1,28 @@
 package com.keeper.dao.hibernate.impl;
 
-/*
- * Created by GoodforGod on 19.03.2017.
- *
- * Updated by AlexVasil on 22.03.2017.
- */
-
 import com.keeper.dao.hibernate.UserDao;
 import com.keeper.entity.User;
 
 import java.util.List;
 
-/**
- * Default Comment
+/*
+ * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 22.03.2017.
+ *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
-public class UserDaoHibernate extends GenericDaoHibernate<User, Integer> implements UserDao {
+
+public class UserDaoHibernate extends GenericDaoHibernate<User, Long> implements UserDao {
+
+
+    @SuppressWarnings("unchecked")
+    public List<User> findAll() {
+        // Note, this query is also possible with Spring Data JPAs "Derived Query" technique, which magically implements
+        // interface methods based on the name.
+        return getSession().createQuery("select u from Users u").list();
+    }
 
     //<editor-fold desc="UserCRUD">
 
@@ -23,7 +31,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Integer> impleme
         return null;
     }
 
-    public List<User> readUserById(List<Integer> ids) {
+    public List<User> readUserById(List<Long> ids) {
 
         return null;
     }
@@ -43,7 +51,7 @@ public class UserDaoHibernate extends GenericDaoHibernate<User, Integer> impleme
         return null;
     }
 
-    public List<User> deleteUserById(List<Integer> ids) {
+    public List<User> deleteUserById(List<Long> ids) {
 
         return null;
     }

@@ -5,15 +5,17 @@ package com.keeper.entity;
  *
  * Updated by AlexVasil on 22.03.2017.
  *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import com.keeper.states.UserState;
 import com.keeper.states.UserType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
 import java.sql.Timestamp;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -21,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * User model implementation
  */
-public class User implements IModel<Integer>{
+public class User implements IModel<Long>{
 
     public static final User empty = new User();
 
@@ -36,15 +38,22 @@ public class User implements IModel<Integer>{
     @Column(name = "type", nullable = false)
     private UserType type;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @NotEmpty
+    @Column(name = "firstName", nullable = false)
+    private String FirstName;
 
+    @NotEmpty
+    @Column(name = "lastName", nullable = false)
+    private String LastName;
+
+    @NotEmpty
     @Column(name = "email", nullable = false)
     private String email;
 
     @Column(name = "phone", nullable = false)
     private String phone;
 
+    @NotEmpty
     @Column(name = "password", nullable = false)
     private String password;
 
@@ -68,22 +77,23 @@ public class User implements IModel<Integer>{
 
     private User() { }
 
-    private User(UserType type, String name, String password, String about, Zone zone) {
+    private User(UserType type, String fName, String lName, String password, String about, Zone zone) {
         this.type = type;
-        this.name = name;
+        this.FirstName = fName;
+        this.LastName = lName;
         this.password = password;
         this.about = about;
 
         this.zone = zone;
     }
 
-    public User(UserType type, String name, String email, String password, String about, Zone zone) {
-        this(type, name, password, about, zone);
+    public User(UserType type, String fName, String lName, String email, String password, String about, Zone zone) {
+        this(type, fName,lName, password, about, zone);
         this.email = email;
     }
 
-    public User(UserType type, String name, String email, String phone, String password, String about, Zone zone) {
-        this(type, name, email, password, about, zone);
+    public User(UserType type, String fName, String lName, String email, String phone, String password, String about, Zone zone) {
+        this(type, fName,lName, email, password, about, zone);
         this.phone = phone;
     }
 
@@ -105,12 +115,20 @@ public class User implements IModel<Integer>{
         return type;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return FirstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getLastName() {
+        return LastName;
+    }
+
+    public void setFirstName(String firstName) {
+        FirstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        LastName = lastName;
     }
 
     public String getEmail() {

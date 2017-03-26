@@ -5,14 +5,15 @@ import java.util.List;
 
 /**
  * Created by AlexVasil on 22.03.2017.
+ *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 public interface GenericDao<T, PK extends Serializable> {
 
     T findById(PK id, boolean lock);
 
     List<T> findAll();
-
-    List<T> findByExample(T exampleInstance);
 
     T makePersistent(T entity);
 

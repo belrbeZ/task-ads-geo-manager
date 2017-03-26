@@ -2,14 +2,15 @@ package com.keeper.entity;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -17,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Location Implementation, contains all routes and coordinates for User KeepEyeOn History
  */
-public class Location extends CoordinateStorage implements IModel<Integer> {
+public class Location extends CoordinateStorage implements IModel<Long> {
 
     public static final Location empty = new Location();
 
@@ -27,9 +28,9 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    private Long userId;
 
-    private Set<Route> routes = new HashSet<>();
+    private Set<Route> routes = new HashSet<Route>();
 
     @Column(name = "totalCoordMark")
     private Mark totalCoordinateMark;
@@ -39,7 +40,7 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
 
     private Location() { }
 
-    public Location(Integer userId) {
+    public Location(Long userId) {
         this.userId = userId;
     }
 
@@ -49,7 +50,7 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
         return id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

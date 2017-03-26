@@ -17,14 +17,14 @@ public class CollectorResolver {
     //<editor-fold desc="makeList">
     private static final List<String>       nullableStringList  = null;
     private static final List<Route>        nullableRouteList   = null;
-    private static final List<Integer>      nullableIdList      = null;
+    private static final List<Long>      nullableIdList      = null;
     private static final List<Location>     nullableLocationList = null;
     private static final List<Coordinate>   nullableCoordList   = null;
     private static final List<User>         nullableUserList    = null;
     private static final List<Task>         nullableTaskList    = null;
 
-    public static List<Integer> makeIdList(final Integer value) {
-        return value != null ? new ArrayList<Integer>() {{ add(value); }} : nullableIdList;
+    public static List<Long> makeIdList(final Long value) {
+        return value != null ? new ArrayList<Long>() {{ add(value); }} : nullableIdList;
     }
 
     public static List<String> makeStringList(final String value) {

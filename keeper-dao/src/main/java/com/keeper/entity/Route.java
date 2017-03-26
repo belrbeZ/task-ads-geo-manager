@@ -2,6 +2,9 @@ package com.keeper.entity;
 
 /*
  * Created by GoodforGod on 19.03.2017.
+ *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import com.keeper.states.RouteType;
@@ -9,7 +12,6 @@ import com.keeper.states.RouteType;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,7 +31,7 @@ public class Route extends CoordinateStorage {
     private Long id;
 
     @Column(name = "ownerId", nullable = false)
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "type", nullable = false)
     private RouteType type;
@@ -42,18 +44,18 @@ public class Route extends CoordinateStorage {
 
     private Route() {}
 
-    public Route(Integer userId, RouteType type, String about){
+    public Route(Long userId, RouteType type, String about){
         this.userId = userId;
         this.type = type;
         this.about = about;
     }
 
-    public Route(Integer userId, RouteType type, String about, List<Coordinate> coords) {
+    public Route(Long userId, RouteType type, String about, List<Coordinate> coords) {
         this(userId, type, about);
-        setCoordinates(new HashSet<>(coords));
+        setCoordinates(new HashSet<Coordinate>(coords));
     }
 
-    public Route(Integer userId, RouteType type, String about, Set<Coordinate> coords) {
+    public Route(Long userId, RouteType type, String about, Set<Coordinate> coords) {
         this(userId, type, about);
         setCoordinates(coords);
     }
@@ -64,7 +66,7 @@ public class Route extends CoordinateStorage {
         return id;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 

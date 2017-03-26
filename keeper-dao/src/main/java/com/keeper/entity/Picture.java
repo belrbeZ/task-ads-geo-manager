@@ -2,6 +2,9 @@ package com.keeper.entity;
 
 /*
  * Created by GoodforGod on 20.03.2017.
+ *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import com.keeper.states.PicType;
@@ -26,7 +29,7 @@ public class Picture {
     private Long id;
 
     @Column(name = "ownerId", nullable = false)
-    private Integer ownerId;
+    private Long ownerId;
 
     @Column(name = "type", nullable = false)
     private PicType type = PicType.TASK;
@@ -36,7 +39,7 @@ public class Picture {
 
     private Picture() {}
 
-    public Picture(Integer ownerId, String pic) {
+    public Picture(Long ownerId, String pic) {
         this.ownerId = ownerId;
         this.pic = pic;
     }
@@ -47,7 +50,7 @@ public class Picture {
         return id;
     }
 
-    public Integer getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 

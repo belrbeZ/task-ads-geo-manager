@@ -5,6 +5,7 @@ package com.keeper.entity;
  *
  * Updated by AlexVasil on 22.03.2017.
  *
+ * Updated by AlexVasil on 26.03.2017.
  *
  */
 
@@ -14,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "Coordinates", catalog = "entities")
-public class Coordinate implements IModel<Integer> {
+public class Coordinate implements IModel<Long> {
 
     public static final Coordinate empty = new Coordinate();
 

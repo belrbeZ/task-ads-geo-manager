@@ -48,56 +48,33 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>javassist</groupId>-->
-            <!--<artifactId>javassist</artifactId>-->
-            <!--<version>3.22.0-CR1</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; Hibernate framework &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>hibernate</groupId>-->
-            <!--<artifactId>hibernate3</artifactId>-->
-            <!--<version>3.2.r14201-2</version>-->
-        <!--</dependency>-->
-
-        <!--&lt;!&ndash; Hibernate annotation &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>hibernate-annotations</groupId>-->
-            <!--<artifactId>hibernate-annotations</artifactId>-->
-            <!--<version>3.5.6-Final</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>hibernate-commons-annotations</groupId>-->
-            <!--<artifactId>hibernate-commons-annotations</artifactId>-->
-            <!--<version>5.0.1.Final</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+        </dependency>
 
         <!-- Hibernate dependency -->
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
         </dependency>
 
         <dependency>
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
-            <version>1.2</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>commons-collections</groupId>-->
-            <!--<artifactId>commons-collections</artifactId>-->
-            <!--<version>3.2.1</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>antlr</groupId>-->
-            <!--<artifactId>antlr</artifactId>-->
-            <!--<version>2.7.7</version>-->
-        <!--</dependency>-->
+        <!-- JPA -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.11.Final</version>
+        </dependency>
 
         <dependency>
             <groupId>com.keeper</groupId>

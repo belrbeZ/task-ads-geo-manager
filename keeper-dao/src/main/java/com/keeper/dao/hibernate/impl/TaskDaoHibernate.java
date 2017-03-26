@@ -5,6 +5,8 @@ package com.keeper.dao.hibernate.impl;
  *
  * Updated by AlexVasil on 22.03.2017.
  *
+ * Updated by AlexVasil on 26.03.2017.
+ *
  */
 
 import com.keeper.dao.hibernate.TaskDao;
@@ -15,8 +17,15 @@ import java.util.List;
 /**
  * Default Comment
  */
-public class TaskDaoHibernate extends GenericDaoHibernate<Task, Integer> implements TaskDao {
+public class TaskDaoHibernate extends GenericDaoHibernate<Task, Long> implements TaskDao {
 
+
+    @SuppressWarnings("unchecked")
+    public List<Task> findAll() {
+        // Note, this query is also possible with Spring Data JPAs "Derived Query" technique, which magically implements
+        // interface methods based on the name.
+        return getSession().createQuery("select t from Tasks t").list();
+    }
 
     //<editor-fold desc="TaskCRUD">
 
@@ -25,7 +34,7 @@ public class TaskDaoHibernate extends GenericDaoHibernate<Task, Integer> impleme
         return null;
     }
 
-    public List<Task> readTask(List<Integer> ids) {
+    public List<Task> readTask(List<Long> ids) {
 
         return null;
     }
@@ -36,7 +45,7 @@ public class TaskDaoHibernate extends GenericDaoHibernate<Task, Integer> impleme
         return null;
     }
 
-    public List<Task> deleteTask(List<Integer> ids) {
+    public List<Task> deleteTask(List<Long> ids) {
 
         return null;
     }
