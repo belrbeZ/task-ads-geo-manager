@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Spring Data JPA Repository for Tasks
  *
- * MUST BE EXTENDED TO SUPPORT PICS, COORDS
+ * MUST BE EXTENDED TO SUPPORT PICS, COORDINATES
  */
 public interface TaskRepository extends JpaRepository<Task, Long> {
 

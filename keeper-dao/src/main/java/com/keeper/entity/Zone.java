@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.TimeZone;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -31,7 +32,7 @@ public class Zone {
     private String country;
 
     @Column(name = "registerDate", nullable = false)
-    private Timestamp registerDate;
+    private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
 
     @Column(name = "timeZone", nullable = false)
     private TimeZone timeZone = TimeZone.getDefault();
