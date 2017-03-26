@@ -29,7 +29,6 @@ public class Location extends CoordinateStorage implements IModel<Integer> {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
-    private Set<Coordinate> coordinates = new HashSet<>();
     private Set<Route> routes = new HashSet<>();
 
     @Column(name = "totalCoordMark")

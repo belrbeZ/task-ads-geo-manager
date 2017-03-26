@@ -14,6 +14,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import java.sql.Timestamp;
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
@@ -50,10 +52,19 @@ public class User implements IModel<Integer>{
     private String about;
 
     @Column(name = "zone")
+    private Long zoneId;
+
+    // Retrieved from DB via Query
     private Zone zone;
 
-    @Column(name = "sleepTime", nullable = false)
-    private SleepTime sleepTime;
+    @Column(name = "type", nullable = false)
+    private Boolean isEnabled = false;
+
+    @Column(name = "type")
+    private Timestamp timeStart;
+
+    @Column(name = "type")
+    private Timestamp timeEnd;
 
     private User() { }
 
@@ -142,12 +153,28 @@ public class User implements IModel<Integer>{
         this.zone = zone;
     }
 
-    public SleepTime getSleepTime() {
-        return sleepTime;
+    public Boolean getEnabled() {
+        return isEnabled;
     }
 
-    public void setSleepTime(SleepTime sleepTime) {
-        this.sleepTime = sleepTime;
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public Timestamp getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(Timestamp timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public Timestamp getTimeEnd() {
+        return timeEnd;
+    }
+
+    public void setTimeEnd(Timestamp timeEnd) {
+        this.timeEnd = timeEnd;
     }
     //</editor-fold>
 

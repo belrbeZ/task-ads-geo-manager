@@ -4,6 +4,7 @@ package com.keeper.controllers;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.util.PathManager;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UserRestController {
 
-    private final String restPath = "/profile";
+    private final String restPath = PathManager.API + PathManager.REST_PROFILE;
 
     public String getProfile() {
 

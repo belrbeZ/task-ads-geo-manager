@@ -9,8 +9,10 @@ package com.keeper.service.impl;
 
 import com.keeper.dao.hibernate.impl.TaskDaoHibernate;
 import com.keeper.dao.hibernate.TaskDao;
+import com.keeper.dao.springrepo.TaskRepository;
 import com.keeper.entity.Task;
 import com.keeper.service.ITaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import static com.keeper.util.CollectorResolver.makeTaskList;
@@ -24,7 +26,11 @@ import static com.keeper.util.CollectorResolver.getFirstTask;
 @Repository
 public class TaskService implements ITaskService {
 
+    @Autowired
     private TaskDaoHibernate taskDao;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
     public TaskService(TaskDao taskDao) {
         this.taskDao = (TaskDaoHibernate) taskDao;

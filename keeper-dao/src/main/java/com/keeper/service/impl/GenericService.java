@@ -28,8 +28,8 @@ public class GenericService {
         FactoryDao factory = FactoryDao.instance(FactoryDao.HIBERNATE);
 
         LocationService locationService = new LocationService(factory.getLocationDAO());
-        UserService userService = new UserService(factory.getUserDAO());
-        TaskService taskRepository = new TaskService(factory.getTaskDAO());
+        UserService userService         = new UserService(factory.getUserDAO());
+        TaskService taskRepository      = new TaskService(factory.getTaskDAO());
 
 
 

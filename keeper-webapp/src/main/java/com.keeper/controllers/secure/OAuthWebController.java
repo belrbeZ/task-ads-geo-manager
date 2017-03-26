@@ -4,10 +4,8 @@ package com.keeper.controllers.secure;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.entity.Token;
 import com.keeper.util.PathManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class OAuthWebController {
 
     // Model vs ModelAndView READ!
-    @RequestMapping(value = PathManager.REGISTER, method = RequestMethod.GET)
+    @RequestMapping(value = PathManager.WEB_REGISTER, method = RequestMethod.GET)
     public ModelAndView registerPage() {
 
         return new ModelAndView("Hi");

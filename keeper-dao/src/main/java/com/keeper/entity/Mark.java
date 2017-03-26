@@ -6,6 +6,8 @@ package com.keeper.entity;
 
 /**
  * Indicates how HOT is route or coordinate for our users
+ *
+ * IN MEMORY
  */
 public class Mark {
 
