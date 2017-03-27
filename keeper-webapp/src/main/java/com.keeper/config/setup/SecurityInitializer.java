@@ -7,6 +7,6 @@ package com.keeper.config.setup;
 /**
  * Default Comment
  */
-public class AppSetup {
+public class SecurityInitializer {
 
 }

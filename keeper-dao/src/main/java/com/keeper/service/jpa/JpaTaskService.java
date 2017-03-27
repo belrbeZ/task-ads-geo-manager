@@ -1,6 +1,6 @@
 package com.keeper.service.jpa;
 
-import com.keeper.dao.springrepo.TaskRepository;
+import com.keeper.dao.repo.TaskRepository;
 import com.keeper.entity.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +43,7 @@ public class JpaTaskService {
 
     @Transactional
     public void printTasksStartingWith(String start) {
-        for (Task task : taskRepository.findByNameStartingWith(start)) {
+        for (Task task : taskRepository.findAll()) {
             System.out.println(task);
         }
     }

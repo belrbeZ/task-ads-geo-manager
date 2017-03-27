@@ -1,4 +1,4 @@
-package com.keeper.dao.springrepo;
+package com.keeper.dao.repo;
 
 /*
  * Created by GoodforGod on 26.03.2017.

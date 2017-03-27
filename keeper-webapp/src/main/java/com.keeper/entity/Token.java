@@ -14,6 +14,7 @@ public class Token {
 
     public static final Token empty = new Token();
 
+    // HOURS
     public static final Integer DEFAULT_PERIOD = 24;
 
     private String value;

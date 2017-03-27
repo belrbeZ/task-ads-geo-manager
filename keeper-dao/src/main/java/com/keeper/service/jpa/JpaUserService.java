@@ -7,7 +7,7 @@ package com.keeper.service.jpa;
  *
  */
 
-import com.keeper.dao.springrepo.UserRepository;
+import com.keeper.dao.repo.UserRepository;
 import com.keeper.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

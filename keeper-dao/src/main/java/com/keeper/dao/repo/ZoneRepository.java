@@ -1,4 +1,4 @@
-package com.keeper.dao.springrepo;
+package com.keeper.dao.repo;
 
 /*
  * Created by GoodforGod on 26.03.2017.
@@ -6,10 +6,11 @@ package com.keeper.dao.springrepo;
 
 import com.keeper.entity.Zone;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Default Comment
  */
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
-
+    Zone findById(@Param("ownerId") Long ownerId);
 }

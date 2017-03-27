@@ -1,4 +1,4 @@
-package com.keeper.dao.springrepo;
+package com.keeper.dao.repo;
 
 /*
  * Created by GoodforGod on 23.03.2017.
@@ -9,15 +9,13 @@ package com.keeper.dao.springrepo;
 
 import com.keeper.entity.Location;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Spring Data JPA Repository for Locations
- *
- * MUST BE EXTENDED TO SUPPORT ROUTES, COORDINATES
  */
 public interface LocationRepository extends JpaRepository<Location, Long> {
-    List<Location> findByUserIdStartingWith(String start);
+    Location findByOwnerId(@Param("ownerId") Long ownerId);
 
+    void deleteByOwnerId(@Param("ownerId") Long ownerId);
 }

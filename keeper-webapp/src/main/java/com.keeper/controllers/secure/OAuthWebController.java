@@ -11,7 +11,7 @@ import com.keeper.config.JpaSpringConfig;
 import com.keeper.entity.User;
 import com.keeper.entity.Zone;
 import com.keeper.service.hibernate.HibernateGenericService;
-import com.keeper.service.impl.UserService;
+import com.keeper.service.impl.UserRepoService;
 import com.keeper.service.jpa.JpaUserService;
 import com.keeper.states.UserType;
 import com.keeper.util.PathManager;
@@ -38,7 +38,7 @@ public class OAuthWebController {
 
     //For using Spring data
     @Autowired
-    UserService userService;
+    UserRepoService userRepoService;
 
     @Autowired
     MessageSource messageSource;
@@ -67,7 +67,7 @@ public class OAuthWebController {
     @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
 
-        List<User> users = userService.findAllUsers();
+        List<User> users = userRepoService.getAllUsers();
         model.addAttribute("users", users);
         return "userslist";
     }
@@ -96,7 +96,7 @@ public class OAuthWebController {
             return "registration";
         }
 
-        userService.addUser(user);
+        userRepoService.addUser(user);
 
         model.addAttribute("success", "User " + user.getEmail() + " "+ user.getEmail() + " registered successfully");
         //return "success";

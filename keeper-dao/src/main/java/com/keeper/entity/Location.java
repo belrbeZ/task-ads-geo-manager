@@ -7,9 +7,7 @@ package com.keeper.entity;
  *
  */
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +16,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Location Implementation, contains all routes and coordinates for User KeepEyeOn History
  */
+@Entity
+@Table(name = "Locations", schema = "entities")
 public class Location extends CoordinateStorage implements IModel<Long> {
 
     public static final Location empty = new Location();

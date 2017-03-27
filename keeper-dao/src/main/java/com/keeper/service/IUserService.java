@@ -9,6 +9,8 @@ package com.keeper.service;
 
 import com.keeper.entity.User;
 
+import java.util.List;
+
 /**
  * Default Comment
  */
@@ -16,10 +18,14 @@ public interface IUserService {
     User addUser(User user);
 
     User getUser(Long id);
+    User getUser(User user);
     User getUser(String email, String phone);
+
+    List<User> getAllUsers();
 
     User updateUser(User user);
 
-    User removeUser(Long id);
-    User removeUser(String email, String phone);
+    void removeUser(Long id);
+    User removeUser(User user);
+    void removeUser(String email, String phone);
 }

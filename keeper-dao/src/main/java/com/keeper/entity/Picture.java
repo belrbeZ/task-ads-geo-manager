@@ -9,9 +9,7 @@ package com.keeper.entity;
 
 import com.keeper.states.PicType;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -19,6 +17,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Picture model
  */
+@Entity
+@Table(name = "Pictures", schema = "entities")
 public class Picture {
 
     public static final Picture empty = new Picture();

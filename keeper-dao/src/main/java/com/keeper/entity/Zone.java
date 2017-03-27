@@ -4,9 +4,7 @@ package com.keeper.entity;
  * Created by GoodforGod on 20.03.2017.
  */
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
@@ -16,16 +14,18 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * User Current Time Zone and Location
  */
+@Entity
+@Table(name = "Zones", schema = "entities")
 public class Zone {
 
     public static Zone empty = new Zone();
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private Long userId;
+    @Column(name = "ownerId", unique = true, nullable = false)
+    private Long ownerId;
 
-    @Column(name = "id")
+    @Column(name = "city")
     private String city;
 
     @Column(name = "country", nullable = false)
@@ -39,8 +39,8 @@ public class Zone {
 
     private Zone(){ }
 
-    public Zone(Long userId, String city, String country) {
-        this.userId = userId;
+    public Zone(Long ownerId, String city, String country) {
+        this.ownerId = ownerId;
         this.city = city;
         this.country = country;
     }
@@ -53,8 +53,8 @@ public class Zone {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Long getUserId() {
-        return userId;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
     public String getCity() {

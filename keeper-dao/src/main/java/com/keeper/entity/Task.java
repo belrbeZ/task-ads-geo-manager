@@ -12,9 +12,7 @@ package com.keeper.entity;
 import com.keeper.states.TaskState;
 import com.keeper.states.TaskType;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +21,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Task model implementation
  */
+@Entity
+@Table(name = "Tasks", schema = "entities")
 public class Task extends CoordinateStorage implements IModel<Long>{
 
     public static final Task empty = new Task();

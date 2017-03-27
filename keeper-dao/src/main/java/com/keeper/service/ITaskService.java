@@ -5,6 +5,9 @@ package com.keeper.service;
  */
 
 import com.keeper.entity.Task;
+import com.keeper.entity.User;
+
+import java.util.List;
 
 /**
  * Default Comment
@@ -13,11 +16,18 @@ import com.keeper.entity.Task;
  *
  */
 public interface ITaskService {
-    Task addTask(Task task);
+    Task addTask(User user, Task task);
 
     Task getTask(Long id);
+    Task getTask(Task task);
+    List<Task> getTask(User user);
+    List<Task> getTask(String theme);
+    List<Task> getTask(List<String> tags);
+
+    List<Task> getAllTasks();
 
     Task updateTask(Task task);
 
-    Task removeTask(Long id);
+    void removeTask(User user, Long id);
+    Task removeTask(User user, Task task);
 }

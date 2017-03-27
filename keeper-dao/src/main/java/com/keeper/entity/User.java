@@ -13,9 +13,7 @@ import com.keeper.states.UserState;
 import com.keeper.states.UserType;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -23,6 +21,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * User model implementation
  */
+@Entity
+@Table(name = "Users", schema = "entities")
 public class User implements IModel<Long>{
 
     public static final User empty = new User();

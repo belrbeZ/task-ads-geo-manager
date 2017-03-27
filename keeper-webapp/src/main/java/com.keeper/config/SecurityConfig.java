@@ -7,6 +7,6 @@ package com.keeper.config;
 /**
  * Default Comment
  */
-public class SecureConfig {
+public class SecurityConfig {
 
 }

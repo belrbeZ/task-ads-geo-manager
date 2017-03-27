@@ -4,7 +4,7 @@ package com.keeper.service.jpa;
  * Created by AlexVasil on 26.03.2017.
  */
 
-import com.keeper.dao.springrepo.LocationRepository;
+import com.keeper.dao.repo.LocationRepository;
 import com.keeper.entity.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class JpaLocationService {
 
     @Transactional
     public void printLocationsStartingWith(String start) {
-        for (Location location : locationRepository.findByUserIdStartingWith(start)) {
+        for (Location location : locationRepository.findByOwnerId(start)) {
             System.out.println(location);
         }
     }

@@ -1,5 +1,6 @@
-package com.keeper.config;
+package com.keeper.config.setup;
 
+import com.keeper.config.AppConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**

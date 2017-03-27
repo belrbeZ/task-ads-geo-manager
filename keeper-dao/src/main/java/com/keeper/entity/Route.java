@@ -9,9 +9,7 @@ package com.keeper.entity;
 
 import com.keeper.states.RouteType;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +19,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Route Location implementation
  */
+@Entity
+@Table(name = "Routes", schema = "entities")
 public class Route extends CoordinateStorage {
 
     public static final Route empty = new Route();
