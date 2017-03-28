@@ -29,6 +29,7 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Modules -->
         <dependency>
             <groupId>com.keeper</groupId>
             <artifactId>keeper-dao</artifactId>
