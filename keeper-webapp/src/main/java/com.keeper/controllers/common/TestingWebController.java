@@ -23,7 +23,7 @@ import java.util.List;
  * Used for Testing and Debugging
  */
 //@Controller
-public class TestingPageWebController {
+public class TestingWebController {
 
     private final UserRepoService userRepoService;
 
@@ -38,7 +38,7 @@ public class TestingPageWebController {
         JpaUserService jpaUserService = ctxJpa.getBean(JpaUserService.class);*/
 
     @Autowired
-    public TestingPageWebController(UserRepoService userRepoService) {
+    public TestingWebController(UserRepoService userRepoService) {
         this.userRepoService = userRepoService;
     }
 

@@ -1,4 +1,4 @@
-package test.java;
+package com.keeper;
 
 import com.keeper.config.JpaSpringConfig;
 import com.keeper.service.hibernate.HibernateGenericService;
@@ -17,7 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * Testing of JPA and Hibernate
  */
 
-public class Test{
+public class TestJpaDemoConfig {
 
     public static void main(String[] args) {
 
