@@ -12,7 +12,6 @@ import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 import com.keeper.entity.User;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**

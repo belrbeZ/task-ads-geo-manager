@@ -9,8 +9,8 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.dao.hibernate.LocationDao;
-import com.keeper.dao.hibernate.impl.LocationDaoHibernate;
+import com.keeper.dao.jpahibernate.LocationDao;
+import com.keeper.dao.jpahibernate.impl.LocationDaoImpl_JpaHibernate;
 import com.keeper.dao.repo.CoordinateRepository;
 import com.keeper.dao.repo.LocationRepository;
 import com.keeper.dao.repo.RouteRepository;
@@ -33,7 +33,7 @@ import static com.keeper.util.CollectorResolver.*;
 @Service("locationService")
 public class LocationRepoService implements ILocationService {
 
-    private final LocationDaoHibernate locationDao;
+    private final LocationDaoImpl_JpaHibernate locationDao;
 
     private final LocationRepository localRepo;
     private final CoordinateRepository coordinateRepo;
@@ -44,7 +44,7 @@ public class LocationRepoService implements ILocationService {
                                LocationRepository localRepo,
                                CoordinateRepository coordinateRepo,
                                RouteRepository routeRepo) {
-        this.locationDao = (LocationDaoHibernate) locationDao;
+        this.locationDao = (LocationDaoImpl_JpaHibernate) locationDao;
         this.localRepo = localRepo;
         this.coordinateRepo = coordinateRepo;
         this.routeRepo = routeRepo;

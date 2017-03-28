@@ -6,8 +6,6 @@ package com.keeper.util;
 
 import com.keeper.entity.*;
 
-import java.util.Locale;
-
 /**
  * Used to convert entities to JSON and other format representation
  */

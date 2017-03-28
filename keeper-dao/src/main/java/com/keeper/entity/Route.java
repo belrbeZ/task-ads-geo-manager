@@ -52,7 +52,7 @@ public class Route extends CoordinateStorage {
 
     public Route(Long userId, RouteType type, String about, List<Coordinate> coords) {
         this(userId, type, about);
-        setCoordinates(new HashSet<Coordinate>(coords));
+        setCoordinates(new HashSet<>(coords));
     }
 
     public Route(Long userId, RouteType type, String about, Set<Coordinate> coords) {
