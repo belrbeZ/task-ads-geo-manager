@@ -7,7 +7,7 @@ package com.keeper.util;
 /**
  * Stores all paths for Controllers and Rest End Points
  */
-public class PathManager {
+public class PathNameResolver {
     public static final String WEB_REGISTER = "/register";
     public static final String WEB_OAUTH    = "/oauth";
     public static final String WEB_MAIN     = "/main";

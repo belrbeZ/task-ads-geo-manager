@@ -31,6 +31,10 @@
         <spring-context-version>4.3.7.RELEASE</spring-context-version>
         <spring-web-mvc-vesrion>4.3.7.RELEASE</spring-web-mvc-vesrion>
 
+        <!-- Spring Secure -->
+        <spring-secure-version>4.2.2.RELEASE</spring-secure-version>
+        <spring-secure-oauth-version>2.1.0.RELEASE</spring-secure-oauth-version>
+
         <!-- Spring Boot -->
         <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
 
@@ -90,17 +94,34 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring-web-mvc-vesrion}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring-context-version}</version>
             </dependency>
+
+            <!-- Spring Secure -->
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
-                <version>3.2.0.RELEASE</version>
+                <version>${spring-secure-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-core</artifactId>
+                <version>${spring-secure-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-config</artifactId>
+                <version>${spring-secure-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security.oauth</groupId>
+                <artifactId>spring-security-oauth2</artifactId>
+                <version>${spring-secure-oauth-version}</version>
+            </dependency>
+
             <!-- Spring Boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -110,6 +131,11 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-rest</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
 
@@ -130,7 +156,6 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-c3p0</artifactId>
                 <version>${hibernate-version}</version>
-                <!--<version>5.2.9.Final</version-->
             </dependency>
 
             <dependency>

@@ -7,100 +7,34 @@ package com.keeper.controllers.secure;
  *
  */
 
-import com.keeper.config.JpaSpringConfig;
-import com.keeper.entity.User;
-import com.keeper.entity.Zone;
-import com.keeper.service.hibernate.HibernateGenericService;
 import com.keeper.service.impl.UserRepoService;
-import com.keeper.service.jpa.JpaUserService;
-import com.keeper.states.UserType;
-import com.keeper.util.PathManager;
+import com.keeper.util.PathNameResolver;
+import com.keeper.util.ViewNameResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.validation.Valid;
-import java.util.List;
 
 /**
- * Default Comment
+ * Control Web & Api OAUTH and Registration forms
  */
 @Controller
 public class OAuthWebController {
 
-    //For using Spring data
-    @Autowired
-    UserRepoService userRepoService;
+    private final UserRepoService userRepoService;
 
     @Autowired
-    MessageSource messageSource;
-
-
-    //For using Hibernate
-    ApplicationContext ctxHiber = new ClassPathXmlApplicationContext("applicationContext-tx-annot.xml");
-    HibernateGenericService<User, Long> productServiceHiber = ctxHiber.getBean(HibernateGenericService.class);
-
-
-    //For using JPA
-    ApplicationContext ctxJpa = new AnnotationConfigApplicationContext(JpaSpringConfig.class);
-    JpaUserService jpaUserService = ctxJpa.getBean(JpaUserService.class);
-
-
-    // Model vs ModelAndView READ!
-    @RequestMapping(value = PathManager.WEB_REGISTER, method = RequestMethod.GET)
-    public ModelAndView registerPage() {
-
-        return new ModelAndView("Hi");
+    public OAuthWebController(UserRepoService userRepoService, MessageSource messageSource) {
+        this.userRepoService = userRepoService;
     }
 
-    /**
-     * This method will list all existing users.
-     */
-    @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-    public String listUsers(ModelMap model) {
+    @RequestMapping(value = PathNameResolver.WEB_REGISTER, method = RequestMethod.GET)
+    public String registerPage(Model model) {
 
-        List<User> users = userRepoService.getAllUsers();
-        model.addAttribute("users", users);
-        return "userslist";
-    }
 
-    /**
-     * This method will provide the medium to add a new user.
-     */
-    @RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
-    public String newUser(ModelMap model) {
-        //TEST
-        User user = new User(UserType.USER, "name", "email", "phone", "password", "about", new Zone(222L, "city", "country"));
-        model.addAttribute("user", user);
-        model.addAttribute("edit", false);
-        return "registration";
-    }
-
-    /**
-     * This method will be called on form submission, handling POST request for
-     * saving user in database. It also validates the user input
-     */
-    @RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
-    public String saveUser(@Valid User user, BindingResult result,
-                           ModelMap model) {
-
-        if (result.hasErrors()) {
-            return "registration";
-        }
-
-        userRepoService.addUser(user);
-
-        model.addAttribute("success", "User " + user.getEmail() + " "+ user.getEmail() + " registered successfully");
-        //return "success";
-        return "registrationsuccess";
+        return ViewNameResolver.WEB_REGISTER;
     }
 
 }

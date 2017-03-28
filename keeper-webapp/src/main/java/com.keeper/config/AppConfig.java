@@ -15,6 +15,8 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import org.springframework.web.servlet.view.tiles3.TilesView;
 
 /**
  * Default Comment
@@ -34,6 +36,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         registry.viewResolver(viewResolver);
+    }
+
+    @Bean
+    public UrlBasedViewResolver viewResolver()
+    {
+        UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
+        urlBasedViewResolver.setViewClass(TilesView.class);
+        urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
+        return urlBasedViewResolver;
     }
 
     /**
