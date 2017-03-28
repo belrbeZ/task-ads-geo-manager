@@ -29,7 +29,7 @@ public class Converter
         return emptyJson;
     }
 
-    public static String convertToJson(Coordinate coord) {
+    public static String convertToJson(GeoPoint coord) {
 
         return emptyJson;
     }

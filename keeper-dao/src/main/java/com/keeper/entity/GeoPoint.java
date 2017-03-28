@@ -14,10 +14,10 @@ import javax.persistence.*;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "Coordinates", catalog = "entities")
-public class Coordinate implements IModel<Long> {
+@Table(name = "GeoPoints", catalog = "entities")
+public class GeoPoint implements IModel<Long> {
 
-    public static final Coordinate empty = new Coordinate();
+    public static final GeoPoint empty = new GeoPoint();
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -36,15 +36,15 @@ public class Coordinate implements IModel<Long> {
     @Column(name = "about")
     private String about;
 
-    private Coordinate() {}
+    private GeoPoint() {}
 
-    public Coordinate(String latitude, String longitude, Integer radius) {
+    public GeoPoint(String latitude, String longitude, Integer radius) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
     }
 
-    public Coordinate(String latitude, String longitude, Integer radius, String about) {
+    public GeoPoint(String latitude, String longitude, Integer radius, String about) {
         this(latitude, longitude, radius);
         this.about = about;
     }

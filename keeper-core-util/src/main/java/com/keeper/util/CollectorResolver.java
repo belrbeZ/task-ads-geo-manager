@@ -19,7 +19,7 @@ public class CollectorResolver {
     private static final List<Route>        nullableRouteList   = null;
     private static final List<Long>      nullableIdList      = null;
     private static final List<Location>     nullableLocationList = null;
-    private static final List<Coordinate>   nullableCoordList   = null;
+    private static final List<GeoPoint>   nullableCoordList   = null;
     private static final List<User>         nullableUserList    = null;
     private static final List<Task>         nullableTaskList    = null;
 
@@ -31,8 +31,8 @@ public class CollectorResolver {
         return value != null ? new ArrayList<String>() {{add(value);}} : nullableStringList;
     }
 
-    public static List<Coordinate> makeCoordList(final Coordinate value) {
-        return value != null ? new ArrayList<Coordinate>() {{ add(value);}} : nullableCoordList;
+    public static List<GeoPoint> makeCoordList(final GeoPoint value) {
+        return value != null ? new ArrayList<GeoPoint>() {{ add(value);}} : nullableCoordList;
     }
 
     public static List<Route> makeRouteList(final Route value) {
@@ -56,7 +56,7 @@ public class CollectorResolver {
     private static final User         nullableUser    = User.empty;
     private static final Task         nullableTask    = Task.empty;
     private static final Route        nullableRoute   = Route.empty;
-    private static final Coordinate   nullableCoord   = Coordinate.empty;
+    private static final GeoPoint nullableCoord   = GeoPoint.empty;
     private static final Location     nullableLocation = Location.empty;
 
     public static User getFirstUser(List<User> users) {
@@ -67,8 +67,8 @@ public class CollectorResolver {
         return (locations == null || locations.isEmpty()) ? nullableLocation : locations.get(0);
     }
 
-    public static Coordinate getFirstCoordinate(List<Coordinate> coordinates) {
-        return (coordinates == null || coordinates.isEmpty()) ? nullableCoord : coordinates.get(0);
+    public static GeoPoint getFirstCoordinate(List<GeoPoint> geoPoints) {
+        return (geoPoints == null || geoPoints.isEmpty()) ? nullableCoord : geoPoints.get(0);
     }
 
     public static Route getFirstRoute(List<Route> routes) {

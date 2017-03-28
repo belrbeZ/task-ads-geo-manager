@@ -14,4 +14,5 @@ public class ViewResolver {
     public static final String WEB_WELCOME  = "welcome";
     public static final String WEB_INFO     = "info";
     public static final String WEB_MAIN     = "main";
+    public static final String WEB_PROFILE  = "profile";
 }

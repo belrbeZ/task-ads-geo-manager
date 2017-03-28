@@ -23,7 +23,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Table(name = "Tasks", schema = "entities")
-public class Task extends CoordinateStorage implements IModel<Long>{
+public class Task extends GeoPointStorage implements IModel<Long>{
 
     public static final Task empty = new Task();
 

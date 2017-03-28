@@ -21,7 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Table(name = "Routes", schema = "entities")
-public class Route extends CoordinateStorage {
+public class Route extends GeoPointStorage {
 
     public static final Route empty = new Route();
 
@@ -50,14 +50,14 @@ public class Route extends CoordinateStorage {
         this.about = about;
     }
 
-    public Route(Long userId, RouteType type, String about, List<Coordinate> coords) {
+    public Route(Long userId, RouteType type, String about, List<GeoPoint> geoPoints) {
         this(userId, type, about);
-        setCoordinates(new HashSet<>(coords));
+        setGeoPoints(new HashSet<>(geoPoints));
     }
 
-    public Route(Long userId, RouteType type, String about, Set<Coordinate> coords) {
+    public Route(Long userId, RouteType type, String about, Set<GeoPoint> geoPoints) {
         this(userId, type, about);
-        setCoordinates(coords);
+        setGeoPoints(new HashSet<>(geoPoints));
     }
 
     //<editor-fold desc="GetterAndSetter">

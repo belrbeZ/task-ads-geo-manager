@@ -47,6 +47,10 @@ public class TaskRepoService implements ITaskService {
         return taskRepository.findOne(id);
     }
 
+    public List<Task> getTasks(Long ownerId) {
+        return taskRepository.findByOwnerId(ownerId);
+    }
+
     public Task getTask(Task task) {
         return taskRepository.findOne(task.getId());
     }
@@ -58,7 +62,6 @@ public class TaskRepoService implements ITaskService {
     public List<Task> getTask(User user){
         return taskRepository.findAllByUser(user);
     }
-
 
     public List<Task> getTask(List<String> tags) {
         return taskRepository.findAllByTags(tags);

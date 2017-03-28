@@ -5,12 +5,12 @@ package com.keeper.controllers;
  */
 
 import com.keeper.util.PathResolver;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Control Tasks Rest End points
  */
-@Controller
+@RestController
 public class TaskRestController {
 
     private final String restPath = PathResolver.API + PathResolver.REST_TASKS;

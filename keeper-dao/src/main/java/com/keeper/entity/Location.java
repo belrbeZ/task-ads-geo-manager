@@ -18,7 +18,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Table(name = "Locations", schema = "entities")
-public class Location extends CoordinateStorage implements IModel<Long> {
+public class Location extends GeoPointStorage implements IModel<Long> {
 
     public static final Location empty = new Location();
 
@@ -32,8 +32,8 @@ public class Location extends CoordinateStorage implements IModel<Long> {
 
     private Set<Route> routes = new HashSet<>();
 
-    @Column(name = "totalCoordMark")
-    private Mark totalCoordinateMark;
+    @Column(name = "totalGeoPointMark")
+    private Mark totalGeoPointMark;
 
     @Column(name = "totalRouteMark")
     private Mark totalRouteMark;
@@ -77,12 +77,12 @@ public class Location extends CoordinateStorage implements IModel<Long> {
 
     //<editor-fold desc="Marks">
 
-    public Mark getTotalCoordinateMark() {
-        return totalCoordinateMark;
+    public Mark getTotalGeoPointMark() {
+        return totalGeoPointMark;
     }
 
-    public void setTotalCoordinateMark(Mark totalCoordinateMark) {
-        this.totalCoordinateMark = totalCoordinateMark;
+    public void setTotalGeoPointMark(Mark totalGeoPointMark) {
+        this.totalGeoPointMark = totalGeoPointMark;
     }
 
     public Mark getTotalRouteMark() {

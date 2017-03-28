@@ -7,7 +7,7 @@ package com.keeper.service;
  *
  */
 
-import com.keeper.entity.Coordinate;
+import com.keeper.entity.GeoPoint;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 import com.keeper.entity.User;
@@ -27,8 +27,7 @@ public interface ILocationService {
 
     List<Location> getAllLocations();
 
-    Location updateLocation(Long userId, Location location);
-    Location updateLocation(User user, Location location);
+    Location updateLocation(Location location);
 
     void removeLocation(Long userId);
     Location removeLocation(Location location);
@@ -36,27 +35,15 @@ public interface ILocationService {
 
     //<editor-fold desc="Coordinates">
 
-    Coordinate addCoordinates(Long userId, Coordinate coord);
-    Coordinate addCoordinates(User user, Coordinate coord);
-    List<Coordinate> addCoordinates(Long userId, List<Coordinate> coords);
-    List<Coordinate> addCoordinates(User user, List<Coordinate> coords);
+    List<GeoPoint> addGeoPoints(Long userId, List<GeoPoint> geoPoints);
 
-    Coordinate getCoordinates(Long userId, Long coordId);
-    Coordinate getCoordinates(User user, Long coordId);
-    List<Coordinate> getCoordinates(Long userId, List<Long> coordIds);
-    List<Coordinate> getCoordinates(User user, List<Long> coordIds);
+    List<GeoPoint> getGeoPoints(Long userId, List<Long> geoPointsIds);
 
-    List<Coordinate> getAllCoordionates();
+    List<GeoPoint> getAllGeoPoints();
 
-    Coordinate updateCoordinates(Long userId, Coordinate coord);
-    Coordinate updateCoordinates(User user, Coordinate coord);
-    List<Coordinate> updateCoordinates(Long userId, List<Coordinate> coords);
-    List<Coordinate> updateCoordinates(User user, List<Coordinate> coords);
+    List<GeoPoint> updateGeoPoints(Long userId, List<GeoPoint> geoPoints);
 
-    void removeCoordinates(Long userId, Long coordId);
-    void removeCoordinates(User user, Long coordId);
-    void removeCoordinates(Long userId, List<Long> coordIds);
-    void removeCoordinates(User user, List<Long> coordIds);
+    void removeGeoPoints(Long userId, List<Long> geoPointsIds);
     //</editor-fold>
 
     //<editor-fold desc="Routes">

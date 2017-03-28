@@ -11,10 +11,10 @@ package com.keeper.service.impl;
 
 import com.keeper.dao.jpahibernate.LocationDao;
 import com.keeper.dao.jpahibernate.impl.LocationDaoImpl_JpaHibernate;
-import com.keeper.dao.repo.CoordinateRepository;
+import com.keeper.dao.repo.GeoPointRepository;
 import com.keeper.dao.repo.LocationRepository;
 import com.keeper.dao.repo.RouteRepository;
-import com.keeper.entity.Coordinate;
+import com.keeper.entity.GeoPoint;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 import com.keeper.entity.User;
@@ -33,49 +33,40 @@ import static com.keeper.util.CollectorResolver.*;
 @Service("locationService")
 public class LocationRepoService implements ILocationService {
 
-    private final LocationDaoImpl_JpaHibernate locationDao;
+    @Autowired private LocationDaoImpl_JpaHibernate locationDao;
 
-    private final LocationRepository localRepo;
-    private final CoordinateRepository coordinateRepo;
-    private final RouteRepository routeRepo;
-
-    @Autowired
-    public LocationRepoService(LocationDao locationDao,
-                               LocationRepository localRepo,
-                               CoordinateRepository coordinateRepo,
-                               RouteRepository routeRepo) {
-        this.locationDao = (LocationDaoImpl_JpaHibernate) locationDao;
-        this.localRepo = localRepo;
-        this.coordinateRepo = coordinateRepo;
-        this.routeRepo = routeRepo;
-    }
+    @Autowired private LocationRepository localRepo;
+    @Autowired private GeoPointRepository geoPointRepo;
+    @Autowired private RouteRepository routeRepo;
 
     //<editor-fold desc="Location">
 
+    @Override
     public Location addLocation(Long ownerId, Location location) {
         return localRepo.save(location);
     }
 
+    @Override
     public Location getLocation(Long ownerId) {
         return localRepo.findByOwnerId(ownerId);
     }
 
+    @Override
     public List<Location> getAllLocations() {
         return localRepo.findAll();
     }
 
-    public Location updateLocation(Long ownerId, Location location) {
+    @Override
+    public Location updateLocation(Location location) {
         return localRepo.save(location);
     }
 
-    public Location updateLocation(User user, Location location) {
-        return localRepo.save(location);
-    }
-
+    @Override
     public void removeLocation(Long ownerId) {
         localRepo.deleteByOwnerId(ownerId);
     }
 
+    @Override
     public Location removeLocation(Location location) {
         localRepo.delete(location);
         return location;
@@ -84,81 +75,29 @@ public class LocationRepoService implements ILocationService {
 
     //<editor-fold desc="Coordinates">
 
-    public Coordinate addCoordinates(Long userId, Coordinate coord) {
-        return coordinateRepo.save(coord);
-    }
-
-    public List<Coordinate> addCoordinates(Long userId, List<Coordinate> coords) {
-        return locationDao.createCoordinates(userId, coords);
+    @Override
+    public List<GeoPoint> addGeoPoints(Long userId, List<GeoPoint> geoPoints) {
+        return locationDao.createCoordinates(userId, geoPoints);
     }
 
     @Override
-    public Coordinate addCoordinates(User user, Coordinate coord) {
-        return null;
+    public List<GeoPoint> getGeoPoints(Long userId, List<Long> geoPointsIds) {
+        return locationDao.readCoordinates(userId, geoPointsIds);
     }
 
     @Override
-    public List<Coordinate> addCoordinates(User user, List<Coordinate> coords) {
-        return null;
-    }
-
-    public Coordinate getCoordinates(final Long userId, Long coordId) {
-        return getFirstCoordinate(locationDao.readCoordinates(userId, makeIdList(coordId)));
-    }
-
-    public List<Coordinate> getCoordinates(Long userId, List<Long> coordIds) {
-        return locationDao.readCoordinates(userId, coordIds);
+    public List<GeoPoint> getAllGeoPoints() {
+        return geoPointRepo.findAll();
     }
 
     @Override
-    public Coordinate getCoordinates(User user, Long coordId) {
-        return null;
+    public List<GeoPoint> updateGeoPoints(Long userId, List<GeoPoint> geoPoints) {
+        return locationDao.updateCoordinates(userId, geoPoints);
     }
 
     @Override
-    public List<Coordinate> getCoordinates(User user, List<Long> coordIds) {
-        return null;
-    }
-
-    @Override
-    public List<Coordinate> getAllCoordionates() {
-        return null;
-    }
-
-    public Coordinate updateCoordinates(Long userId, Coordinate coord) {
-        return getFirstCoordinate(locationDao.updateCoordinates(userId, makeCoordList(coord)));
-    }
-
-    public List<Coordinate> updateCoordinates(Long userId, List<Coordinate> coords) {
-        return locationDao.updateCoordinates(userId, coords);
-    }
-
-    @Override
-    public Coordinate updateCoordinates(User user, Coordinate coord) {
-        return null;
-    }
-
-    @Override
-    public List<Coordinate> updateCoordinates(User user, List<Coordinate> coords) {
-        return null;
-    }
-
-    public void removeCoordinates(Long userId, Long coordId) {
-        getFirstCoordinate(locationDao.deleteCoordinates(userId, makeIdList(coordId)));
-    }
-
-    public void removeCoordinates(Long userId, List<Long> coordIds) {
-        locationDao.deleteCoordinates(userId, coordIds);
-    }
-
-    @Override
-    public void removeCoordinates(User user, Long coordId) {
-
-    }
-
-    @Override
-    public void removeCoordinates(User user, List<Long> coordIds) {
-
+    public void removeGeoPoints(Long userId, List<Long> geoPointsIds) {
+        locationDao.deleteCoordinates(userId, geoPointsIds);
     }
 
     //</editor-fold>
@@ -244,5 +183,4 @@ public class LocationRepoService implements ILocationService {
     }
 
     //</editor-fold>
-
 }

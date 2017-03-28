@@ -4,7 +4,7 @@ package com.keeper.util;
  * Created by GoodforGod on 20.03.2017.
  */
 
-import com.keeper.entity.Coordinate;
+import com.keeper.entity.GeoPoint;
 import com.keeper.entity.Mark;
 import com.keeper.entity.Route;
 
@@ -24,7 +24,7 @@ public class Computer {
         return emptyMark;
     }
 
-    public static Mark computeCoordinateMark(List<Coordinate> coords) {
+    public static Mark computeCoordinateMark(List<GeoPoint> coords) {
 
         return emptyMark;
     }

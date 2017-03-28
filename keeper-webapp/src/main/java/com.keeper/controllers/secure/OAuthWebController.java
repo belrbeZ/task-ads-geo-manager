@@ -22,12 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class OAuthWebController {
 
-    private final UserRepoService userRepoService;
-
     @Autowired
-    public OAuthWebController(UserRepoService userRepoService) {
-        this.userRepoService = userRepoService;
-    }
+    private UserRepoService userRepoService;
 
     @RequestMapping(value = PathResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
     public String registerPage(Model model) {
@@ -36,22 +32,33 @@ public class OAuthWebController {
         return ViewResolver.WEB_REGISTER;
     }
 
-    @RequestMapping(value = PathResolver.WEB_OAUTH, method = RequestMethod.GET)
-    public String oauthPage(Model model) {
-
-
-        return ViewResolver.WEB_OAUTH;
-    }
-
-    @RequestMapping(value = PathResolver.WEB_PAGE_REGISTER, method = RequestMethod.POST)
+    @RequestMapping(value = PathResolver.WEB_PAGE_REGISTER,
+                    method = RequestMethod.POST)
     public String registerPost(Model model) {
 
 
         return ViewResolver.WEB_REGISTER;
     }
 
-    @RequestMapping(value = PathResolver.WEB_OAUTH, method = RequestMethod.POST)
+    @RequestMapping(value = PathResolver.WEB_OAUTH,
+                    method = RequestMethod.GET)
+    public String oauthPage(Model model) {
+
+
+        return ViewResolver.WEB_OAUTH;
+    }
+
+    @RequestMapping(value = PathResolver.WEB_OAUTH,
+                    method = RequestMethod.POST)
     public String oauthPost(Model model) {
+
+
+        return ViewResolver.WEB_OAUTH;
+    }
+
+    @RequestMapping(value = PathResolver.WEB_OAUTH + PathResolver.WEB_TOKEN,
+                    method = RequestMethod.GET)
+    public String oauthToken(Model model) {
 
 
         return ViewResolver.WEB_OAUTH;

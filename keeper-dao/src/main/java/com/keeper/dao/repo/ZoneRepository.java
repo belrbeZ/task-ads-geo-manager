@@ -12,5 +12,5 @@ import org.springframework.data.repository.query.Param;
  * Default Comment
  */
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
-    Zone findById(@Param("ownerId") Long ownerId);
+    Zone findByOwnerId(@Param("ownerId") Long ownerId);
 }

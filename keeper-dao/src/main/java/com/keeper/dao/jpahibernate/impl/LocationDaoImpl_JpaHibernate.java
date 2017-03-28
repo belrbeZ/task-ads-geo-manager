@@ -12,7 +12,7 @@ package com.keeper.dao.jpahibernate.impl;
  */
 
 import com.keeper.dao.jpahibernate.LocationDao;
-import com.keeper.entity.Coordinate;
+import com.keeper.entity.GeoPoint;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 import org.springframework.stereotype.Repository;
@@ -63,22 +63,22 @@ public class LocationDaoImpl_JpaHibernate extends GenericDaoImpl_JpaHibernate<Lo
 
     //<editor-fold desc="CoordinatesCRUD">
 
-    public List<Coordinate> createCoordinates(Long userId, List<Coordinate> coordinates) {
+    public List<GeoPoint> createCoordinates(Long userId, List<GeoPoint> geoPoints) {
 
         return null;
     }
 
-    public List<Coordinate> readCoordinates(Long userId, List<Long> coordinateIds) {
+    public List<GeoPoint> readCoordinates(Long userId, List<Long> coordinateIds) {
 
         return null;
     }
 
-    public List<Coordinate> updateCoordinates(Long userId, List<Coordinate> coordinates) {
+    public List<GeoPoint> updateCoordinates(Long userId, List<GeoPoint> geoPoints) {
 
         return null;
     }
 
-    public List<Coordinate> deleteCoordinates(Long userId, List<Long> coordinateIds) {
+    public List<GeoPoint> deleteCoordinates(Long userId, List<Long> coordinateIds) {
 
         return null;
     }
