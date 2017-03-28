@@ -8,10 +8,9 @@ package com.keeper.controllers.secure;
  */
 
 import com.keeper.service.impl.UserRepoService;
-import com.keeper.util.PathNameResolver;
-import com.keeper.util.ViewNameResolver;
+import com.keeper.util.PathResolver;
+import com.keeper.util.ViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,31 +29,31 @@ public class OAuthWebController {
         this.userRepoService = userRepoService;
     }
 
-    @RequestMapping(value = PathNameResolver.WEB_REGISTER, method = RequestMethod.GET)
+    @RequestMapping(value = PathResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
     public String registerPage(Model model) {
 
 
-        return ViewNameResolver.WEB_REGISTER;
+        return ViewResolver.WEB_REGISTER;
     }
 
-    @RequestMapping(value = PathNameResolver.WEB_OAUTH, method = RequestMethod.GET)
+    @RequestMapping(value = PathResolver.WEB_OAUTH, method = RequestMethod.GET)
     public String oauthPage(Model model) {
 
 
-        return ViewNameResolver.WEB_OAUTH;
+        return ViewResolver.WEB_OAUTH;
     }
 
-    @RequestMapping(value = PathNameResolver.WEB_REGISTER, method = RequestMethod.POST)
+    @RequestMapping(value = PathResolver.WEB_PAGE_REGISTER, method = RequestMethod.POST)
     public String registerPost(Model model) {
 
 
-        return ViewNameResolver.WEB_REGISTER;
+        return ViewResolver.WEB_REGISTER;
     }
 
-    @RequestMapping(value = PathNameResolver.WEB_OAUTH, method = RequestMethod.POST)
+    @RequestMapping(value = PathResolver.WEB_OAUTH, method = RequestMethod.POST)
     public String oauthPost(Model model) {
 
 
-        return ViewNameResolver.WEB_OAUTH;
+        return ViewResolver.WEB_OAUTH;
     }
 }

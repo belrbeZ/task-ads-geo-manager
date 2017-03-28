@@ -1,6 +1,8 @@
 package com.keeper.config.setup;
 
 import com.keeper.config.AppConfig;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -13,6 +15,14 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new Class[] { AppConfig.class };
     }
 
+    @Bean
+    public CharacterEncodingFilter characterEncodingFilter() {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        return filter;
+    }
+
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return null;
@@ -22,5 +32,4 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
     protected String[] getServletMappings() {
         return new String[] { "/" };
     }
-
 }
