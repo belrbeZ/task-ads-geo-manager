@@ -12,6 +12,11 @@
     <name>Keeper API App</name>
     <url>http://maven.apache.org</url>
 
+    <properties>
+        <maven.compiler.source>${jdk-version}</maven.compiler.source>
+        <maven.compiler.target>${jdk-version}</maven.compiler.target>
+    </properties>
+
     <dependencies>
         <!-- Common -->
         <dependency>

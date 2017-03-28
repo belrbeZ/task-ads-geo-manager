@@ -26,7 +26,7 @@ public class OAuthWebController {
     private final UserRepoService userRepoService;
 
     @Autowired
-    public OAuthWebController(UserRepoService userRepoService, MessageSource messageSource) {
+    public OAuthWebController(UserRepoService userRepoService) {
         this.userRepoService = userRepoService;
     }
 
