@@ -4,7 +4,7 @@ package com.keeper.config;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.WebappResolver;
+import com.keeper.util.WebMappingResolver;
 
 import com.keeper.util.SecureResolver;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +27,7 @@ public class ResourceSecurityConfig extends ResourceServerConfigurerAdapter{
     private final String PATH_AUTH  = SecureResolver.PATH_AUTH + "/**";
     private final String PATH_ADMIN = SecureResolver.PATH_ADMIN + "/**";
 
-    private final String ResourceId = WebappResolver.WEB_OAUTH;
+    private final String ResourceId = WebMappingResolver.WEB_OAUTH;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resource) {

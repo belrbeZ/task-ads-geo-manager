@@ -9,6 +9,8 @@ import com.keeper.entity.User;
 import com.keeper.entity.Zone;
 import com.keeper.service.impl.UserRepoService;
 import com.keeper.states.UserType;
+import com.keeper.util.ViewResolver;
+import com.keeper.util.WebMappingResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,15 +29,17 @@ public class TestingWebController {
 
     private final UserRepoService userRepoService;
 
-    /*    private final MessageSource messageSource;
+    /*
+    private final MessageSource messageSource;
 
-        //For using Hibernate
-        ApplicationContext ctxHiber = new ClassPathXmlApplicationContext("applicationContext-tx-annot.xml");
-        HibernateGenericService<User, Long> productServiceHiber = ctxHiber.getBean(HibernateGenericService.class);
+    //For using Hibernate
+    ApplicationContext ctxHiber = new ClassPathXmlApplicationContext("applicationContext-tx-annot.xml");
+    HibernateGenericService<User, Long> productServiceHiber = ctxHiber.getBean(HibernateGenericService.class);
 
-        //For using JPA
-        ApplicationContext ctxJpa = new AnnotationConfigApplicationContext(JpaSpringConfig.class);
-        JpaUserService jpaUserService = ctxJpa.getBean(JpaUserService.class);*/
+    //For using JPA
+    ApplicationContext ctxJpa = new AnnotationConfigApplicationContext(JpaSpringConfig.class);
+    JpaUserService jpaUserService = ctxJpa.getBean(JpaUserService.class);
+    */
 
     @Autowired
     public TestingWebController(UserRepoService userRepoService) {
@@ -45,42 +49,46 @@ public class TestingWebController {
     /**
      * This method will list all existing users.
      */
-    @RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
+    @RequestMapping(value = WebMappingResolver.TEST_USERS, method = RequestMethod.GET)
     public String listUsers(ModelMap model) {
 
         List<User> users = userRepoService.getAllUsers();
         model.addAttribute("users", users);
-        return "userslist";
+        return ViewResolver.TEST_USERLIST;
     }
 
     /**
      * This method will provide the medium to add a new user.
      */
-    @RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
+    @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
     public String newUser(ModelMap model) {
         //TEST
         User user = new User(UserType.USER, "name", "email", "phone", "password", "about", new Zone(222L, "city", "country"));
         model.addAttribute("user", user);
         model.addAttribute("edit", false);
-        return "registration";
+        return ViewResolver.WEB_REGISTER;
     }
 
     /**
      * This method will be called on form submission, handling POST request for
      * saving user in database. It also validates the user input
      */
-    @RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
-    public String saveUser(@Valid User user, BindingResult result,
+    @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER, method = RequestMethod.POST)
+    public String saveUser(@Valid User user,
+                           BindingResult result,
                            ModelMap model) {
 
-        if (result.hasErrors()) {
-            return "registration";
-        }
+        if (result.hasErrors())
+            return ViewResolver.WEB_REGISTER;
 
         userRepoService.addUser(user);
 
-        model.addAttribute("success", "User " + user.getEmail() + " "+ user.getEmail() + " registered successfully");
-        //return "success";
-        return "registrationsuccess";
+        model.addAttribute("msg", "User "
+                + user.getEmail()
+                + " "
+                + user.getEmail()
+                + " registered successfully");
+
+        return ViewResolver.WEB_MAIN;
     }
 }

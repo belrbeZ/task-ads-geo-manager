@@ -27,8 +27,6 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 @EnableAuthorizationServer
 public class AuthServiceConfig extends AuthorizationServerConfigurerAdapter {
 
-    private final String REALM ="MY_OAUTH_REALM";
-
     @Autowired
     private TokenStore tokenStore;
 
@@ -39,6 +37,7 @@ public class AuthServiceConfig extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
 
     private final String TRUSTED_CLIENT_ID = SecureResolver.TRUSTED_CLIENT_ID;
+    private final String REALM ="MY_OAUTH_REALM";
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -48,13 +47,14 @@ public class AuthServiceConfig extends AuthorizationServerConfigurerAdapter {
                 .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                 .scopes("read", "write", "trust")
                 .secret("secret")
-                .accessTokenValiditySeconds(SecureResolver.ACCESS_TOKEN_PERIOD).
-                refreshTokenValiditySeconds(SecureResolver.REFRESH_TOKEN_PERIOD);
+                .accessTokenValiditySeconds(SecureResolver.ACCESS_TOKEN_PERIOD)
+                .refreshTokenValiditySeconds(SecureResolver.REFRESH_TOKEN_PERIOD);
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        endpoints.tokenStore(tokenStore).userApprovalHandler(userApprovalHandler)
+        endpoints.tokenStore(tokenStore)
+                .userApprovalHandler(userApprovalHandler)
                 .authenticationManager(authenticationManager);
     }
 

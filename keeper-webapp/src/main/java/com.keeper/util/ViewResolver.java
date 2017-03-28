@@ -15,4 +15,8 @@ public class ViewResolver {
     public static final String WEB_INFO     = "info";
     public static final String WEB_MAIN     = "main";
     public static final String WEB_PROFILE  = "profile";
+    public static final String WEB_ERROR    = "error";
+    public static final String WEB_DENIED   = "denied";
+
+    public static final String TEST_USERLIST = "usertest";
 }

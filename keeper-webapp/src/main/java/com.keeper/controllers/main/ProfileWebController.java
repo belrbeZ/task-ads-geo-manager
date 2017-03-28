@@ -5,7 +5,7 @@ package com.keeper.controllers.main;
  */
 
 import com.keeper.entity.User;
-import com.keeper.util.WebappResolver;
+import com.keeper.util.WebMappingResolver;
 import com.keeper.util.ViewResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ProfileWebController {
 
-    @RequestMapping(value = WebappResolver.WEB_PAGE_PROFILE,
+    @RequestMapping(value = WebMappingResolver.WEB_PAGE_PROFILE,
                     method = RequestMethod.GET)
     public String profilePage(Model model) {
 
@@ -27,7 +27,7 @@ public class ProfileWebController {
         return ViewResolver.WEB_PROFILE;
     }
 
-    @RequestMapping(value = WebappResolver.WEB_PAGE_PROFILE,
+    @RequestMapping(value = WebMappingResolver.WEB_PAGE_PROFILE,
                     method = RequestMethod.POST)
     public String profilePageUpdate(@PathVariable User user,
                                     Model model) {
