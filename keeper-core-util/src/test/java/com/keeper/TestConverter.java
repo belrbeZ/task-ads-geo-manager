@@ -1,4 +1,4 @@
-package java.com.keeper;
+package com.keeper;
 
 /*
  * Created by @GoodforGod on 28.03.2017.

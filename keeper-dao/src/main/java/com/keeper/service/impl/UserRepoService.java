@@ -9,8 +9,8 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.dao.hibernate.UserDao;
-import com.keeper.dao.hibernate.impl.UserDaoHibernate;
+import com.keeper.dao.jpahibernate.UserDao;
+import com.keeper.dao.jpahibernate.impl.UserDaoImpl_JpaHibernate;
 import com.keeper.dao.repo.UserRepository;
 import com.keeper.entity.User;
 import com.keeper.service.IUserService;
@@ -25,13 +25,13 @@ import java.util.List;
 @Service("userService")
 public class UserRepoService implements IUserService {
 
-    private final UserDaoHibernate userDao;
+    private final UserDaoImpl_JpaHibernate userDao;
 
     private final UserRepository userRepo;
 
     @Autowired
     public UserRepoService(UserDao userDao, UserRepository userRepo) {
-        this.userDao = (UserDaoHibernate)userDao;
+        this.userDao = (UserDaoImpl_JpaHibernate)userDao;
         this.userRepo = userRepo;
     }
 

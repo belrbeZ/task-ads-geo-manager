@@ -9,10 +9,11 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.dao.hibernate.TaskDao;
-import com.keeper.dao.hibernate.impl.TaskDaoHibernate;
+import com.keeper.dao.jpahibernate.TaskDao;
+import com.keeper.dao.jpahibernate.impl.TaskDaoImpl_JpaHibernate;
 import com.keeper.dao.repo.TaskRepository;
 import com.keeper.entity.Task;
+import com.keeper.entity.User;
 import com.keeper.service.ITaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +26,13 @@ import java.util.List;
 @Service("taskService")
 public class TaskRepoService implements ITaskService {
 
-    private final TaskDaoHibernate taskDao;
+    private final TaskDaoImpl_JpaHibernate taskDao;
 
     private final TaskRepository taskRepository;
 
     @Autowired
     public TaskRepoService(TaskDao taskDao, TaskRepository taskRepository) {
-        this.taskDao = (TaskDaoHibernate) taskDao;
+        this.taskDao = (TaskDaoImpl_JpaHibernate) taskDao;
         this.taskRepository = taskRepository;
     }
 
@@ -40,6 +41,7 @@ public class TaskRepoService implements ITaskService {
     public Task addTask(Task task) {
         return taskRepository.save(task);
     }
+
 
     public Task getTask(Long id) {
         return taskRepository.findOne(id);
@@ -52,6 +54,11 @@ public class TaskRepoService implements ITaskService {
     public List<Task> getTask(String theme) {
         return taskRepository.findAllByTheme(theme);
     }
+
+    public List<Task> getTask(User user){
+        return taskRepository.findAllByUser(user);
+    }
+
 
     public List<Task> getTask(List<String> tags) {
         return taskRepository.findAllByTags(tags);
@@ -70,8 +77,11 @@ public class TaskRepoService implements ITaskService {
     }
 
     public Task removeTask(Task task) {
-        return taskRepository.findOne(task.getId());
+        Task tmp = taskRepository.findOne(task.getId());
+        taskRepository.delete(task.getId());
+        return tmp;
     }
+
     //</editor-fold>
 
 }

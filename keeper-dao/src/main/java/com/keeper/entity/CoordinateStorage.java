@@ -5,7 +5,6 @@ package com.keeper.entity;
  */
 
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -37,7 +36,7 @@ public abstract class CoordinateStorage {
          return this.coordinates.stream()
                 .filter(coordinate -> coordId.equals(coordinate.getId()))
                 .findFirst()
-                .get();
+                .orElse(null);
     }
 
 }

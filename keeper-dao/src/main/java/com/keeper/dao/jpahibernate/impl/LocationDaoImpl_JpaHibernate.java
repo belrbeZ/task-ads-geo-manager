@@ -1,4 +1,4 @@
-package com.keeper.dao.hibernate.impl;
+package com.keeper.dao.jpahibernate.impl;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -7,12 +7,15 @@ package com.keeper.dao.hibernate.impl;
  *
  * Updated by AlexVasil on 26.03.2017.
  *
+ * Updated by AlexVasil on 28.03.2017.
+ *
  */
 
-import com.keeper.dao.hibernate.LocationDao;
+import com.keeper.dao.jpahibernate.LocationDao;
 import com.keeper.entity.Coordinate;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
@@ -21,16 +24,19 @@ import java.util.List;
  * Created by AlexVasil on 26.03.2017.
  *
  */
+@Repository
+public class LocationDaoImpl_JpaHibernate extends GenericDaoImpl_JpaHibernate<Location, Long> implements LocationDao {
 
-public class LocationDaoHibernate extends GenericDaoHibernate<Location, Long> implements LocationDao {
 
-
-    @SuppressWarnings("unchecked")
+//    @SuppressWarnings("unchecked")
     public List<Location> findAll() {
         // Note, this query is also possible with Spring Data JPAs "Derived Query" technique, which magically implements
         // interface methods based on the name.
-        return getSession().createQuery("select l from Locations l").list();
+        return entityManager.createQuery("SELECT item FROM Locations item",
+                Location.class)
+                .getResultList();
     }
+
 
     //<editor-fold desc="LocationCRUD">
 

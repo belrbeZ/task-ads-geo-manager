@@ -51,13 +51,13 @@ public class Task extends CoordinateStorage implements IModel<Long>{
     private Picture pic;
 
     @Column(name = "tags")
-    private Set<String>    tags                = new HashSet<String>();
+    private Set<String>    tags                = new HashSet<>();
 
     @Column(name = "participants")
-    private Set<Long>   participants         = new HashSet<Long>();
+    private Set<Long>   participants         = new HashSet<>();
 
     @Column(name = "activeParticipants")
-    private Set<Long>   activeParticipants   = new HashSet<Long>();
+    private Set<Long>   activeParticipants   = new HashSet<>();
 
     private Task() {}
 

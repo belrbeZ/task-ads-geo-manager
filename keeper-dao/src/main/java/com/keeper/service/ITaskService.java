@@ -16,7 +16,7 @@ import java.util.List;
  *
  */
 public interface ITaskService {
-    Task addTask(User user, Task task);
+    Task addTask(Task task);
 
     Task getTask(Long id);
     Task getTask(Task task);
@@ -28,6 +28,6 @@ public interface ITaskService {
 
     Task updateTask(Task task);
 
-    void removeTask(User user, Long id);
-    Task removeTask(User user, Task task);
+    void removeTask(Long id);
+    Task removeTask(Task task);
 }

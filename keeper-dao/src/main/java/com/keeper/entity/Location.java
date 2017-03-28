@@ -30,7 +30,7 @@ public class Location extends CoordinateStorage implements IModel<Long> {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    private Set<Route> routes = new HashSet<Route>();
+    private Set<Route> routes = new HashSet<>();
 
     @Column(name = "totalCoordMark")
     private Mark totalCoordinateMark;
@@ -103,8 +103,9 @@ public class Location extends CoordinateStorage implements IModel<Long> {
 
         Location location = (Location) o;
 
-        if (id != null ? !id.equals(location.id) : location.id != null) return false;
-        return userId != null ? userId.equals(location.userId) : location.userId == null;
+//        if (id != null ? !id.equals(location.id) : location.id != null) return false;
+
+        return (id != null ? id.equals(location.id) : location.id == null) && (userId != null ? userId.equals(location.userId) : location.userId == null);
     }
 
     @Override
