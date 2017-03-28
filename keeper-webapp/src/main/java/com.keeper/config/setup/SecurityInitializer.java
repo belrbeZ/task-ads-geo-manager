@@ -4,9 +4,11 @@ package com.keeper.config.setup;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
+
 /**
- * Default Comment
+ * Set up Spring Secure
  */
-public class SecurityInitializer {
+public class SecurityInitializer extends AbstractSecurityWebApplicationInitializer {
 
 }
