@@ -5,9 +5,8 @@ package com.keeper.controllers.main;
  */
 
 import com.keeper.entity.User;
-import com.keeper.util.PathResolver;
+import com.keeper.util.WebappResolver;
 import com.keeper.util.ViewResolver;
-import com.sun.javafx.sg.prism.NGShape;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class ProfileWebController {
 
-    @RequestMapping(value = PathResolver.WEB_PAGE_PROFILE,
+    @RequestMapping(value = WebappResolver.WEB_PAGE_PROFILE,
                     method = RequestMethod.GET)
     public String profilePage(Model model) {
 
@@ -28,7 +27,7 @@ public class ProfileWebController {
         return ViewResolver.WEB_PROFILE;
     }
 
-    @RequestMapping(value = PathResolver.WEB_PAGE_PROFILE,
+    @RequestMapping(value = WebappResolver.WEB_PAGE_PROFILE,
                     method = RequestMethod.POST)
     public String profilePageUpdate(@PathVariable User user,
                                     Model model) {

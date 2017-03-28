@@ -4,7 +4,12 @@ package com.keeper.controllers;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.PathResolver;
+import com.keeper.entity.Task;
+import com.keeper.util.ApiResolver;
+import com.keeper.util.WebappResolver;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,26 +18,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TaskRestController {
 
-    private final String restPath = PathResolver.API + PathResolver.REST_TASKS;
+    private final String restPath = ApiResolver.API + ApiResolver.REST_LOCATION;
 
-    public String getTasks() {
-
-        return null;
-    }
-
-    public String postTasks() {
+    @RequestMapping(value = restPath,
+                    method = RequestMethod.GET,
+                    produces = ApiResolver.PRODUCER_JSON)
+    public String get(Model model) {
 
         return null;
     }
 
-    public String patchTasks() {
+    @RequestMapping(value = restPath,
+                    method = RequestMethod.GET,
+                    produces = ApiResolver.PRODUCER_JSON)
+    public String postTask(Model model) {
 
         return null;
     }
 
-    public String deleteTasks() {
+    @RequestMapping(value = restPath,
+                    method = RequestMethod.GET,
+                    produces = ApiResolver.PRODUCER_JSON)
+    public String patch(Model model) {
 
         return null;
     }
 
+    @RequestMapping(value = restPath,
+                    method = RequestMethod.GET,
+                    produces = ApiResolver.PRODUCER_JSON)
+    public String delete(Model model) {
+
+        return null;
+    }
 }

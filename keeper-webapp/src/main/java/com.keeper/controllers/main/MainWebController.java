@@ -5,7 +5,7 @@ package com.keeper.controllers.main;
  */
 
 import com.keeper.entity.GeoPoint;
-import com.keeper.util.PathResolver;
+import com.keeper.util.WebappResolver;
 import com.keeper.util.ViewResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class MainWebController {
 
-    @RequestMapping(value = PathResolver.WEB_PAGE_MAIN,
+    @RequestMapping(value = WebappResolver.WEB_PAGE_MAIN,
                     method = RequestMethod.GET)
     public String mainPage(Model model) {
 
@@ -27,7 +27,7 @@ public class MainWebController {
         return ViewResolver.WEB_MAIN;
     }
 
-    @RequestMapping(value = PathResolver.WEB_PAGE_MAIN,
+    @RequestMapping(value = WebappResolver.WEB_PAGE_MAIN,
                     method = RequestMethod.POST)
     public String mainPageUpdateGeoPoint(@PathVariable GeoPoint geoPoint,
                                          Model model) {
