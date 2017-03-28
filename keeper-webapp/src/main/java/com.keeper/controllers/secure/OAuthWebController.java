@@ -37,4 +37,24 @@ public class OAuthWebController {
         return ViewNameResolver.WEB_REGISTER;
     }
 
+    @RequestMapping(value = PathNameResolver.WEB_OAUTH, method = RequestMethod.GET)
+    public String oauthPage(Model model) {
+
+
+        return ViewNameResolver.WEB_OAUTH;
+    }
+
+    @RequestMapping(value = PathNameResolver.WEB_REGISTER, method = RequestMethod.POST)
+    public String registerPost(Model model) {
+
+
+        return ViewNameResolver.WEB_REGISTER;
+    }
+
+    @RequestMapping(value = PathNameResolver.WEB_OAUTH, method = RequestMethod.POST)
+    public String oauthPost(Model model) {
+
+
+        return ViewNameResolver.WEB_OAUTH;
+    }
 }

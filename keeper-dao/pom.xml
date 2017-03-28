@@ -87,4 +87,9 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>keeper-dao</finalName>
+    </build>
+
 </project>

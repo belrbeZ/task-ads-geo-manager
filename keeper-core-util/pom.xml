@@ -35,4 +35,8 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>keeper-coreutil</finalName>
+    </build>
 </project>
