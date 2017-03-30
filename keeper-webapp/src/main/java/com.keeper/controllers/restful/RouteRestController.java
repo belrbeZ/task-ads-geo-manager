@@ -1,7 +1,7 @@
-package com.keeper.controllers;
+package com.keeper.controllers.restful;
 
 /*
- * Created by GoodforGod on 19.03.2017.
+ * Created by @GoodforGod on 28.03.2017.
  */
 
 import com.keeper.util.ApiResolver;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Control Tasks Rest End points
+ * Default Comment
  */
 @RestController
-public class TaskRestController {
+public class RouteRestController {
 
     private final String restEndpoint = ApiResolver.API + ApiResolver.REST_LOCATION;
     private final String restProduces = ApiResolver.PRODUCES_APP_JSON + ApiResolver.PRODUCES_CHARSET;
@@ -30,7 +30,7 @@ public class TaskRestController {
     @RequestMapping(value = restEndpoint,
                     method = RequestMethod.POST,
                     produces = restProduces)
-    public String postTask(Model model) {
+    public String post(Model model) {
 
         return null;
     }

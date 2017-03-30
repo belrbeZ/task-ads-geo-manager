@@ -1,4 +1,4 @@
-package com.keeper.controllers;
+package com.keeper.controllers.restful;
 
 /*
  * Created by @GoodforGod on 28.03.2017.
@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class GeoPointRestController {
 
     private final String restEndpoint = ApiResolver.API + ApiResolver.REST_LOCATION;
-    private final String restProduces = ApiResolver.PRODUCES_APP_JSON + ApiResolver.PRODUCES_CHARSET;
+    private final String restProduces = ApiResolver.PRODUCES_APP_PLAIN + ApiResolver.PRODUCES_CHARSET;
 
     @RequestMapping(value = restEndpoint,
                     method = RequestMethod.GET,
                     produces = restProduces)
     public String get(Model model) {
 
-        return null;
+        return "test-get-geopoint";
     }
 
     @RequestMapping(value = restEndpoint,

@@ -8,10 +8,19 @@
     <artifactId>keeper</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>${spring-boot-parent-version}</version>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdk-version}</maven.compiler.source>
         <maven.compiler.target>${jdk-version}</maven.compiler.target>
+
+        <maven-jar-plugin-version>3.0.2</maven-jar-plugin-version>
+        <maven-war-plugin-version>2.6</maven-war-plugin-version>
 
         <!-- JDK -->
         <jdk-version>1.8</jdk-version>
@@ -203,6 +212,13 @@
 
     <build>
         <finalName>keeper-core-webapp</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>

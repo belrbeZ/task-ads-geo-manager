@@ -53,10 +53,10 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-c3p0</artifactId>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!-- Hibernate dependency -->
         <dependency>
@@ -81,11 +81,11 @@
             <version>4.3.11.Final</version>
         </dependency>
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.keeper</groupId>
             <artifactId>keeper-coreutil</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <packaging>jar</packaging>
@@ -97,6 +97,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin-version}</version>
             </plugin>
         </plugins>
     </build>
