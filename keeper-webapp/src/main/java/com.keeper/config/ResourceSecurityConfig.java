@@ -4,9 +4,8 @@ package com.keeper.config;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.WebMappingResolver;
-
 import com.keeper.util.SecureResolver;
+import com.keeper.util.WebMappingResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;

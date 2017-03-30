@@ -4,11 +4,10 @@ package com.keeper.controllers.common;
  * Created by @GoodforGod on 28.03.2017.
  */
 
-import com.keeper.dao.repo.UserRepository;
 import com.keeper.entity.User;
 import com.keeper.entity.Zone;
+import com.keeper.entity.states.UserType;
 import com.keeper.service.impl.UserRepoService;
-import com.keeper.states.UserType;
 import com.keeper.util.ViewResolver;
 import com.keeper.util.WebMappingResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,27 +23,16 @@ import java.util.List;
 /**
  * Used for Testing and Debugging
  */
-//@Controller
+@Controller
 public class TestingWebController {
 
     private final UserRepoService userRepoService;
-
-    /*
-    private final MessageSource messageSource;
-
-    //For using Hibernate
-    ApplicationContext ctxHiber = new ClassPathXmlApplicationContext("applicationContext-tx-annot.xml");
-    HibernateGenericService<User, Long> productServiceHiber = ctxHiber.getBean(HibernateGenericService.class);
-
-    //For using JPA
-    ApplicationContext ctxJpa = new AnnotationConfigApplicationContext(JpaSpringConfig.class);
-    JpaUserService jpaUserService = ctxJpa.getBean(JpaUserService.class);
-    */
 
     @Autowired
     public TestingWebController(UserRepoService userRepoService) {
         this.userRepoService = userRepoService;
     }
+
 
     /**
      * This method will list all existing users.

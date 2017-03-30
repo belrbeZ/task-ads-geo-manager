@@ -5,8 +5,8 @@ package com.keeper.controllers.main;
  */
 
 import com.keeper.entity.GeoPoint;
-import com.keeper.util.WebMappingResolver;
 import com.keeper.util.ViewResolver;
+import com.keeper.util.WebMappingResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;

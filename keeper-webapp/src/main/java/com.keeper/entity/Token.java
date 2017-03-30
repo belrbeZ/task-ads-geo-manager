@@ -47,8 +47,9 @@ public class Token {
 
         Token token = (Token) o;
 
-        if (value != null ? !value.equals(token.value) : token.value != null) return false;
-        return validFor != null ? validFor.equals(token.validFor) : token.validFor == null;
+//        if (value != null ? !value.equals(token.value) : token.value != null) return false;
+
+        return (value != null ? value.equals(token.value) : token.value == null) && (validFor != null ? validFor.equals(token.validFor) : token.validFor == null);
     }
 
     @Override
