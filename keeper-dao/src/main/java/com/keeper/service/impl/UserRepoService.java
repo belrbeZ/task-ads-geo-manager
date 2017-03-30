@@ -9,33 +9,48 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.dao.jpahibernate.UserDao;
-import com.keeper.dao.jpahibernate.impl.UserDaoImpl_JpaHibernate;
-import com.keeper.dao.repo.UserRepository;
 import com.keeper.entity.User;
-import com.keeper.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.keeper.repo.UserRepository;
+import com.keeper.service.contracts.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
  * Repository to work with User
  */
-@Service("userService")
+@Service(value = "userService")
+
 public class UserRepoService implements IUserService {
 
-    private final UserDaoImpl_JpaHibernate userDao;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    private final UserRepository userRepo;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    @Autowired
-    public UserRepoService(UserDao userDao, UserRepository userRepo) {
-        this.userDao = (UserDaoImpl_JpaHibernate)userDao;
-        this.userRepo = userRepo;
+//    private QueryDslJpaRepository<User, Long> userRepository;
+
+    @Resource
+    private UserRepository userRepo;
+
+
+    List<User> findAllCustomersWithName(String name){
+        return entityManager.createQuery("SELECT c FROM Users c WHERE c.name LIKE :custName")
+                .setParameter("custName", name)
+                .setMaxResults(10)
+                .getResultList();
     }
 
     //<editor-fold desc="UserCRUD">
+
+    public boolean findUser(Long id){
+        return userRepo.findOne(id) != null;
+    }
 
     public User addUser(User user) {
         return userRepo.save(user);
@@ -50,6 +65,7 @@ public class UserRepoService implements IUserService {
     }
 
     public User getUser(String email, String phone) {
+
         return (email != null && !email.isEmpty())
                 ? userRepo.findByEmail(email)
                 : userRepo.findByPhone(phone);
@@ -80,4 +96,23 @@ public class UserRepoService implements IUserService {
         return user;
     }
     //</editor-fold>
+
+
+//    /**
+//     * An initialization method which is run after the bean has been constructed.
+//     * This ensures that the entity manager is injected before we try to use it.
+//     */
+//    @PostConstruct
+//    public void init() {
+//        JpaEntityInformation<User, Long> userEntityInfo = new JpaMetamodelEntityInformation<>(User.class, entityManager.getMetamodel());
+//        userRepository = new QueryDslJpaRepository<>(userEntityInfo, entityManager);
+//    }
+//
+//    /**
+//     * This setter method should be used only by unit tests
+//     * @param userRepository
+//     */
+//    protected void setPersonRepository(QueryDslJpaRepository<User, Long> userRepository) {
+//        this.userRepository = userRepository;
+//    }
 }

@@ -1,4 +1,4 @@
-package com.keeper.states;
+package com.keeper.entity.states;
 
 /*
  * Created by GoodforGod on 20.03.2017.
@@ -7,14 +7,14 @@ package com.keeper.states;
 /**
  * Default Comment
  */
-public enum TaskType {
-    COMMON(0),
-    CALL(1),
-    ADVERTISE(2);
+public enum UserState {
+    AWAIT_VERIFICATION(0),
+    REJECTED(2),
+    VERIFIED(1);
 
     private final int value;
 
-    TaskType(int value) {
+    UserState(int value) {
         this.value = value;
     }
 

@@ -1,4 +1,4 @@
-package com.keeper.states;
+package com.keeper.entity.states;
 
 /*
  * Created by GoodforGod on 20.03.2017.
@@ -7,16 +7,13 @@ package com.keeper.states;
 /**
  * Default Comment
  */
-public enum TaskState {
-    HIDEN(0),
-    OKAY(1),
-    CLOSED(2),
-    REJECTED(3),
-    BANNED(4);
+public enum RouteType {
+    COMMON(0),
+    COMPLEX(1);
 
     private final int value;
 
-    TaskState(int value) {
+    RouteType(int value) {
         this.value = value;
     }
 

@@ -3,11 +3,13 @@ package com.keeper.entity;
 /*
  * Created by GoodforGod on 20.03.2017.
  *
- * Updated by AlexVasil on 26.03.2017.
+ * Updated by AlexVasil on 30.03.2017.
  *
  */
 
-import com.keeper.states.PicType;
+
+
+import com.keeper.entity.states.PicType;
 
 import javax.persistence.*;
 

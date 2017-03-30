@@ -1,19 +1,19 @@
-package com.keeper.states;
+package com.keeper.entity.states;
 
 /*
- * Created by GoodforGod on 20.03.2017.
+ * Created by GoodforGod on 21.03.2017.
  */
 
 /**
  * Default Comment
  */
-public enum RouteType {
-    COMMON(0),
-    COMPLEX(1);
+public enum PicType {
+    TASK(0),
+    USER(1);
 
     private final int value;
 
-    RouteType(int value) {
+    PicType(int value) {
         this.value = value;
     }
 

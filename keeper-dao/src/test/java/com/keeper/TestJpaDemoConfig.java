@@ -16,6 +16,8 @@ public class TestJpaDemoConfig {
 //        demoHibernateSpringXmlTransactionAnnotations();
 //        demoJpaSpringJavaConfig();
 
+        System.out.println("Test");
+
     }
 
     public static void demoJpaSpringJavaConfig() {

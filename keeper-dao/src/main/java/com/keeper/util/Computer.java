@@ -19,6 +19,7 @@ public class Computer {
 
     public static final Mark emptyMark = Mark.empty;
 
+
     public static Mark computeRouteMark(List<Route> routes) {
 
         return emptyMark;

@@ -3,14 +3,12 @@ package com.keeper.entity;
 /*
  * Created by GoodforGod on 19.03.2017.
  *
- * Updated by AlexVasil on 22.03.2017.
- *
- * Updated by AlexVasil on 26.03.2017.
+ * Updated by AlexVasil on 30.03.2017.
  *
  */
 
-import com.keeper.states.UserState;
-import com.keeper.states.UserType;
+import com.keeper.entity.states.UserState;
+import com.keeper.entity.states.UserType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -23,6 +21,10 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 @Entity
 @Table(name = "Users", schema = "entities")
+@org.hibernate.annotations.NamedQuery(
+        name="User.findAllUsersWithName",
+        query="SELECT c FROM Users c WHERE c.name LIKE :custName"
+)
 public class User implements IModel<Long>{
 
     public static final User empty = new User();

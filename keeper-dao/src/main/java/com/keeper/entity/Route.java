@@ -3,11 +3,12 @@ package com.keeper.entity;
 /*
  * Created by GoodforGod on 19.03.2017.
  *
- * Updated by AlexVasil on 26.03.2017.
+ * Updated by AlexVasil on 30.03.2017.
  *
  */
 
-import com.keeper.states.RouteType;
+
+import com.keeper.entity.states.RouteType;
 
 import javax.persistence.*;
 import java.util.HashSet;

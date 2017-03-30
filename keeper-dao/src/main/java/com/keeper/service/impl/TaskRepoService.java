@@ -3,38 +3,32 @@ package com.keeper.service.impl;
 /*
  * Created by GoodforGod on 19.03.2017.
  *
- * Updated by AlexVasil on 22.03.2017.
- *
- * Updated by AlexVasil on 26.03.2017.
+ * Updated by AlexVasil on 30.03.2017.
  *
  */
 
-import com.keeper.dao.jpahibernate.TaskDao;
-import com.keeper.dao.jpahibernate.impl.TaskDaoImpl_JpaHibernate;
-import com.keeper.dao.repo.TaskRepository;
 import com.keeper.entity.Task;
 import com.keeper.entity.User;
-import com.keeper.service.ITaskService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.keeper.repo.TaskRepository;
+import com.keeper.service.contracts.ITaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Repository Service to work with Tasks
  */
-@Service("taskService")
+@Service(value = "taskService")
 public class TaskRepoService implements ITaskService {
 
-    private final TaskDaoImpl_JpaHibernate taskDao;
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    private final TaskRepository taskRepository;
-
-    @Autowired
-    public TaskRepoService(TaskDao taskDao, TaskRepository taskRepository) {
-        this.taskDao = (TaskDaoImpl_JpaHibernate) taskDao;
-        this.taskRepository = taskRepository;
-    }
+    @Resource
+    private TaskRepository taskRepository;
 
     //<editor-fold desc="TaskCRUD">
 
@@ -48,7 +42,7 @@ public class TaskRepoService implements ITaskService {
     }
 
     public List<Task> getTasks(Long ownerId) {
-        return taskRepository.findByOwnerId(ownerId);
+        return taskRepository.findByTopicStarterId(ownerId);
     }
 
     public Task getTask(Task task) {
@@ -60,10 +54,10 @@ public class TaskRepoService implements ITaskService {
     }
 
     public List<Task> getTask(User user){
-        return taskRepository.findAllByUser(user);
+        return taskRepository.findAllByTopicStarterId(user.getId());
     }
 
-    public List<Task> getTask(List<String> tags) {
+    public List<Task> getTask(Set<String> tags) {
         return taskRepository.findAllByTags(tags);
     }
 

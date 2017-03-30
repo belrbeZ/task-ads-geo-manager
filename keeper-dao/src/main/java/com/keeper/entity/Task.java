@@ -3,14 +3,12 @@ package com.keeper.entity;
 /*
  * Created by GoodforGod on 19.03.2017.
  *
- * Updated by AlexVasil on 22.03.2017.
- *
- * Updated by AlexVasil on 26.03.2017.
+ * Updated by AlexVasil on 30.03.2017.
  *
  */
 
-import com.keeper.states.TaskState;
-import com.keeper.states.TaskType;
+import com.keeper.entity.states.TaskState;
+import com.keeper.entity.states.TaskType;
 
 import javax.persistence.*;
 import java.util.HashSet;
