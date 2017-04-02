@@ -260,17 +260,18 @@
 
     <!--First version. If all modules are jar.-->
     <!--<build>-->
-        <!--<finalName>keeper-webapp</finalName>-->
+    <!--<finalName>keeper-webapp</finalName>-->
 
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<version>${maven-war-plugin-version}</version>-->
+    <!--<plugins>-->
+    <!--<plugin>-->
+    <!--<groupId>org.apache.maven.plugins</groupId>-->
+    <!--<artifactId>maven-war-plugin</artifactId>-->
+    <!--<version>${maven-war-plugin-version}</version>-->
 
-            <!--</plugin>-->
-        <!--</plugins>-->
+    <!--</plugin>-->
+    <!--</plugins>-->
     <!--</build>-->
+
     <build>
         <plugins>
             <plugin>
@@ -291,7 +292,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
     </build>
 
 
