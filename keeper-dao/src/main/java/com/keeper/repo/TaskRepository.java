@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * Spring Data JPA Repository for Tasks
  */
-public interface TaskRepository extends JpaRepository<Task, Long> , QueryDslPredicateExecutor<Task> {
+public interface TaskRepository extends JpaRepository<Task, Long> {//, QueryDslPredicateExecutor<Task> {
     List<Task> findAllByTags(Set<String> tags);
 
     List<Task> findAllByTopicStarterId(@Param("userId") Long userId);

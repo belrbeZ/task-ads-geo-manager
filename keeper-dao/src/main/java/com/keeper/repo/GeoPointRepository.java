@@ -14,6 +14,6 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 /**
  * Default Comment
  */
-public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> , QueryDslPredicateExecutor<GeoPoint> {
+public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> {//, QueryDslPredicateExecutor<GeoPoint>
 
 }

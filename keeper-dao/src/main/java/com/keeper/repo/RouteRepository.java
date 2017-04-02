@@ -15,5 +15,5 @@ import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 /**
  * Default Comment
  */
-public interface RouteRepository extends JpaRepository<Route, Long> , QueryDslPredicateExecutor<Task> {
+public interface RouteRepository extends JpaRepository<Route, Long>{// , QueryDslPredicateExecutor<Task>
 }

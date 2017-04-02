@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+    <!--<parent>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
+        <!--<version>${spring-boot-version}</version>-->
+    <!--</parent>-->
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.keeper</groupId>
     <artifactId>keeper</artifactId>
@@ -47,6 +53,21 @@
         <!-- Loggers -->
         <log4j-version>1.2.17</log4j-version>
         <slf4j-version>1.7.5</slf4j-version>
+
+
+
+        <!-- Sonar -->
+        <sonar-maven-plugin.version>2.5</sonar-maven-plugin.version>
+        <sonar.language>java</sonar.language>
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+
+        <!-- Plugin -->
+        <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
+        <jacoco-maven-plugin.version>0.7.3.201502191951</jacoco-maven-plugin.version>
+
+
     </properties>
 
     <dependencyManagement>
@@ -193,7 +214,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>keeper-core-util</module>
         <module>keeper-dao</module>
         <module>keeper-webapp</module>
         <module>keeper-api</module>
@@ -201,8 +221,79 @@
 
     <packaging>pom</packaging>
 
+    <!--<build>-->
+        <!--<pluginManagement>-->
+            <!--<plugins>-->
+                <!--<plugin>-->
+                    <!--<groupId>org.apache.maven.plugins</groupId>-->
+                    <!--<artifactId>maven-surefire-plugin</artifactId>-->
+                    <!--<version>${maven-surefire-plugin.version}</version>-->
+                <!--</plugin>-->
+            <!--</plugins>-->
+        <!--</pluginManagement>-->
+
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.jacoco</groupId>-->
+                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
+                <!--<version>${jacoco-maven-plugin.version}</version>-->
+                <!--<configuration>-->
+                    <!--<destFile>${project.basedir}/../target/jacoco.exec</destFile>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>prepare-agent</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>sonar-maven-plugin</artifactId>-->
+                <!--<version>${sonar-maven-plugin.version}</version>-->
+            <!--</plugin>-->
+
+        <!--</plugins>-->
+    <!--</build>-->
+
+    <!--First version. If all modules are jar.-->
+    <!--<build>-->
+        <!--<finalName>keeper-webapp</finalName>-->
+
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>${maven-war-plugin-version}</version>-->
+
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
     <build>
-        <finalName>keeper-core-webapp</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <tagBase>
+                        svn://svn.int.company.at/stmlf-repository/prototype/bbsng/tags
+                    </tagBase>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${jdk-version}</source>
+                    <target>${jdk-version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
     </build>
+
+
 
 </project>

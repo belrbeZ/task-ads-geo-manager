@@ -81,26 +81,26 @@
             <version>4.3.11.Final</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>com.keeper</groupId>-->
-            <!--<artifactId>keeper-coreutil</artifactId>-->
-            <!--<version>1.0-SNAPSHOT</version>-->
-        <!--</dependency>-->
 
+        <!--<dependency>-->
+            <!--<groupId>com.querydsl</groupId>-->
+            <!--<artifactId>querydsl-*</artifactId>-->
+            <!--<version>4.1.3</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
-    <packaging>jar</packaging>
+    <!--<packaging>jar</packaging>-->
 
-    <build>
-        <finalName>keeper-dao</finalName>
+    <!--<build>-->
+        <!--<finalName>keeper-dao</finalName>-->
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-jar-plugin</artifactId>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
 
 </project>

@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Spring Data JPA Repository for Locations
  */
-public interface LocationRepository extends JpaRepository<Location, Long> , QueryDslPredicateExecutor<Location> {
+public interface LocationRepository extends JpaRepository<Location, Long > {//, QueryDslPredicateExecutor<Location>
 
     List<Location> findAllByUserId(@Param("ownerId") Long ownerId);
 

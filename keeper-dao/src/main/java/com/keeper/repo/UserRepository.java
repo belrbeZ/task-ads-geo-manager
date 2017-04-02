@@ -15,7 +15,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * Spring Data JPA Repository for User
  */
-public interface UserRepository extends JpaRepository<User, Long>, QueryDslPredicateExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Long>{//, QueryDslPredicateExecutor<User>
     User findByEmail(@Param("email") String email);
     User findByPhone(@Param("phone") String phone);
 
