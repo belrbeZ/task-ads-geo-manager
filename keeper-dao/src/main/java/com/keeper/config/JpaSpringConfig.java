@@ -2,10 +2,8 @@ package com.keeper.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -20,7 +18,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 /**
  * Created by AlexVasil on 26.03.2017.
@@ -36,10 +34,10 @@ import java.util.logging.Logger;
 @PropertySource(value = { "classpath:jdbc.properties" })
 public class JpaSpringConfig {
 
-    protected static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
-    protected static final String PROPERTY_NAME_DATABASE_PASSWORD = "db.password";
-    protected static final String PROPERTY_NAME_DATABASE_URL = "db.url";
-    protected static final String PROPERTY_NAME_DATABASE_USERNAME = "db.username";
+    protected static final String PROPERTY_NAME_DATABASE_DRIVER = "jdbc.driverClassName";
+    protected static final String PROPERTY_NAME_DATABASE_PASSWORD = "jdbc.password";
+    protected static final String PROPERTY_NAME_DATABASE_URL = "jdbc.url";
+    protected static final String PROPERTY_NAME_DATABASE_USERNAME = "jdbc.username";
 
     private static final String PROPERTY_NAME_HIBERNATE_DIALECT = "hibernate.dialect";
     private static final String PROPERTY_NAME_HIBERNATE_FORMAT_SQL = "hibernate.format_sql";
@@ -49,8 +47,8 @@ public class JpaSpringConfig {
 
     private static final String PROPERTY_PACKAGES_TO_SCAN = "com.keeper.entity";
 
-    private static final Logger logger = Logger
-            .getLogger(JpaSpringConfig.class.getName());
+//    private static final Logger logger = Logger
+//            .getLogger(JpaSpringConfig.class.getName());
 
     @Resource
     private Environment environment;
@@ -68,8 +66,8 @@ public class JpaSpringConfig {
     }
 
     @Bean(destroyMethod = "close")
-    public EntityManagerFactory myEmf(DataSource dataSource) {
-        logger.info("Loading Entity Manager...");
+    public EntityManagerFactory myEmf(@Qualifier("dataSource") DataSource dataSource) {
+//        logger.info("Loading Entity Manager...");
 
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
@@ -92,7 +90,7 @@ public class JpaSpringConfig {
 
     @Bean
     public JpaTransactionManager txManager(EntityManagerFactory entityManagerFactory) {
-        logger.info("Loading Transaction Manager...");
+//        logger.info("Loading Transaction Manager...");
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);

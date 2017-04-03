@@ -37,12 +37,15 @@ public class User implements IModel<Long>{
     @Column(name = "state", nullable = false)
     private UserState state = UserState.AWAIT_VERIFICATION;
 
+//    @Embedded?
     @Column(name = "type", nullable = false)
     private UserType type;
 
     @NotEmpty
     @Column(name = "firstName", nullable = false)
     private String FirstName;
+
+
 
     @NotEmpty
     @Column(name = "lastName", nullable = false)

@@ -5,6 +5,7 @@ import com.keeper.managers.ItemNotFoundException;
 import com.keeper.managers.impl.UserDtoDaoManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -42,7 +43,8 @@ public class UserController extends AbstractController {
     
     protected static final String REQUEST_MAPPING_LIST = "/";
     
-    @Resource
+//    @Resource
+//    @Autowired //final
     private UserDtoDaoManager userDtoDaoManager;
 
 //    @Resource

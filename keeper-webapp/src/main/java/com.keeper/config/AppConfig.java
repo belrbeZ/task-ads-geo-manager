@@ -26,7 +26,7 @@ import javax.annotation.Resource;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.keeper")
 @PropertySource(value = { "classpath:messages.properties" })
-@Import({WebSecurityConfig.class})
+@Import({AuthMethodSecurityConfig.class, AuthServiceConfig.class, ResourceSecurityConfig.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     private static final String MESSAGESOURCE_BASENAME = "messages";
