@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <!--<parent>-->
-        <!--<groupId>org.springframework.boot</groupId>-->
-        <!--<artifactId>spring-boot-starter-parent</artifactId>-->
-        <!--<version>${spring-boot-version}</version>-->
-    <!--</parent>-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.keeper</groupId>
@@ -15,6 +15,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <parent-groupId>com.keeper</parent-groupId>
+        <parent-artifactId>keeper</parent-artifactId>
+        <parent-version>1.0-SNAPSHOT</parent-version>
+
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdk-version}</maven.compiler.source>
         <maven.compiler.target>${jdk-version}</maven.compiler.target>
@@ -31,13 +36,15 @@
         <hibernate-validator-version>5.4.1.Final</hibernate-validator-version>
 
         <dom4j-version>1.6.1</dom4j-version>
-        <commons-logging-version>1.2</commons-logging-version>
+        <!--<commons-logging-version>1.2</commons-logging-version>-->
 
         <!-- Common -->
         <junit-version>3.8.1</junit-version>
         <jodatime-version>2.9.6</jodatime-version>
         <jackson-version>2.8.7</jackson-version>
 
+
+        <c3p0-version>0.9.5.2</c3p0-version>
         <!-- Spring -->
         <spring-data-version>1.11.1.RELEASE</spring-data-version>
         <spring-context-version>4.3.7.RELEASE</spring-context-version>
@@ -52,11 +59,13 @@
         <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
         <spring-boot-parent-version>1.5.2.RELEASE</spring-boot-parent-version>
 
+
+        <spring-tx-version>4.3.7.RELEASE</spring-tx-version>
         <!-- JDBC -->
-        <postgresql-jdbc-version>9.4.1212</postgresql-jdbc-version>
+        <postgresql-jdbc-version>9.4-1200-jdbc4</postgresql-jdbc-version>
 
         <!-- Loggers -->
-        <log4j-version>1.2.17</log4j-version>
+        <!--<log4j-version>1.2.17</log4j-version>-->
         <slf4j-version>1.7.5</slf4j-version>
 
         <!--JUnit-->
@@ -78,6 +87,7 @@
 
     <dependencyManagement>
         <dependencies>
+
             <!-- Common -->
             <dependency>
                 <groupId>junit</groupId>
@@ -96,6 +106,12 @@
                 <version>${jackson-version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.mchange</groupId>
+                <artifactId>c3p0</artifactId>
+                <version>${c3p0-version}</version>
+            </dependency>
             <!-- Servlet And Jsp -->
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -118,6 +134,11 @@
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-jpa</artifactId>
                 <version>${spring-data-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring-tx-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -160,12 +181,22 @@
             <!-- Spring Boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-rest</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-jdbc</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
             <dependency>
@@ -183,16 +214,16 @@
                 <artifactId>spring-boot-starter-actuator</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-tomcat</artifactId>
-                <version>${spring-boot-version}</version>
-                <scope>provided</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+                <!--<version>${spring-boot-version}</version>-->
+                <!--<scope>provided</scope>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <scope>test</scope>
+                <version>${spring-boot-version}</version>
             </dependency>
 
 
@@ -233,12 +264,28 @@
                 <version>${dom4j-version}</version>
             </dependency>
 
+
+            <!--LOGGING-->
+            <!--<dependency>-->
+                <!--<groupId>commons-logging</groupId>-->
+                <!--<artifactId>commons-logging</artifactId>-->
+                <!--<version>${commons-logging-version}</version>-->
+            <!--</dependency>-->
             <dependency>
-                <groupId>commons-logging</groupId>
-                <artifactId>commons-logging</artifactId>
-                <version>${commons-logging-version}</version>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>1.7.25</version>
             </dependency>
 
+
+            <!--WAR-->
+            <dependency>
+                <groupId>${parent-groupId}</groupId>
+                <artifactId>${parent-artifactId}-service-impl</artifactId>
+                <version>${parent-version}</version>
+                <type>war</type>
+                <scope>runtime</scope>
+            </dependency>
 
         </dependencies>
 
@@ -250,7 +297,7 @@
         <module>keeper-api</module>
     </modules>
 
-    <packaging>war</packaging>
+    <packaging>pom</packaging>
 
     <!--<build>-->
         <!--<pluginManagement>-->
@@ -324,6 +371,21 @@
                     <target>${jdk-version}</target>
                 </configuration>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash;<dependentWarExcludes>WEB-INF/web.xml,**/**.class</dependentWarExcludes>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<webResources>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<resource>&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;  change if necessary &ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;<directory>src/main/webapp/WEB-INF</directory>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<filtering>true</filtering>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<targetPath>WEB-INF</targetPath>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</resource>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</webResources>&ndash;&gt;-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 
