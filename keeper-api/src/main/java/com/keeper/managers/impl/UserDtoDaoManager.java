@@ -7,6 +7,7 @@ import com.keeper.entity.states.UserType;
 import com.keeper.managers.ItemNotFoundException;
 import com.keeper.managers.contracts.IUserDtoManager;
 import com.keeper.service.impl.UserRepoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -24,9 +25,13 @@ import java.util.List;
 @Service
 public class UserDtoDaoManager implements IUserDtoManager<User> {
 
-
-    @Resource
+    @Autowired
     private UserRepoService userRepoService;
+
+//    @Autowired
+//    public UserDtoDaoManager() {
+//        this.userRepoService = new UserRepoService();
+//    }
 
 
     //<editor-fold desc="UserCRUD">
@@ -127,4 +132,8 @@ public class UserDtoDaoManager implements IUserDtoManager<User> {
         return userDto;
     }
 
+    public void test(){
+        System.out.println("UserDtoDaoManager");
+        userRepoService.test();
+    }
 }

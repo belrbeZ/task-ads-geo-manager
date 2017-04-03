@@ -1,15 +1,18 @@
 package com.keeper.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.support.PersistenceExceptionTranslator;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.orm.jpa.vendor.OpenJpaDialect;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
@@ -17,6 +20,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * Created by AlexVasil on 26.03.2017.
@@ -45,6 +49,9 @@ public class JpaSpringConfig {
 
     private static final String PROPERTY_PACKAGES_TO_SCAN = "com.keeper.entity";
 
+    private static final Logger logger = Logger
+            .getLogger(JpaSpringConfig.class.getName());
+
     @Resource
     private Environment environment;
 
@@ -62,6 +69,8 @@ public class JpaSpringConfig {
 
     @Bean(destroyMethod = "close")
     public EntityManagerFactory myEmf(DataSource dataSource) {
+        logger.info("Loading Entity Manager...");
+
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource);
         factoryBean.setPackagesToScan(PROPERTY_PACKAGES_TO_SCAN);
@@ -83,6 +92,8 @@ public class JpaSpringConfig {
 
     @Bean
     public JpaTransactionManager txManager(EntityManagerFactory entityManagerFactory) {
+        logger.info("Loading Transaction Manager...");
+
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
@@ -111,4 +122,10 @@ public class JpaSpringConfig {
 
         return entityManagerFactoryBean;
     }
+
+    @Bean
+    public PersistenceExceptionTranslator persistenceExceptionTranslator() {
+        return new OpenJpaDialect();
+    }
+
 }

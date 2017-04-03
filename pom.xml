@@ -27,6 +27,11 @@
 
         <!-- Hibernate -->
         <hibernate-version>5.2.9.Final</hibernate-version>
+        <javassist-version>3.21.0-GA</javassist-version>
+        <hibernate-validator-version>5.4.1.Final</hibernate-validator-version>
+
+        <dom4j-version>1.6.1</dom4j-version>
+        <commons-logging-version>1.2</commons-logging-version>
 
         <!-- Common -->
         <junit-version>3.8.1</junit-version>
@@ -54,7 +59,8 @@
         <log4j-version>1.2.17</log4j-version>
         <slf4j-version>1.7.5</slf4j-version>
 
-
+        <!--JUnit-->
+        <junit-version>3.8.1</junit-version>
 
         <!-- Sonar -->
         <sonar-maven-plugin.version>2.5</sonar-maven-plugin.version>
@@ -167,6 +173,28 @@
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring-boot-version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+            </dependency>
+
 
             <!-- JDBC -->
             <dependency>
@@ -190,27 +218,30 @@
             <dependency>
                 <groupId>javassist</groupId>
                 <artifactId>javassist</artifactId>
-                <version>3.21.0-GA</version>
+                <version>${javassist-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>5.4.1.Final</version>
+                <version>${hibernate-validator-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>dom4j</groupId>
                 <artifactId>dom4j</artifactId>
-                <version>1.6.1</version>
+                <version>${dom4j-version}</version>
             </dependency>
 
             <dependency>
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
-                <version>1.2</version>
+                <version>${commons-logging-version}</version>
             </dependency>
+
+
         </dependencies>
+
     </dependencyManagement>
 
     <modules>
@@ -219,7 +250,7 @@
         <module>keeper-api</module>
     </modules>
 
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
 
     <!--<build>-->
         <!--<pluginManagement>-->
@@ -260,17 +291,19 @@
 
     <!--First version. If all modules are jar.-->
     <!--<build>-->
-    <!--<finalName>keeper-webapp</finalName>-->
+        <!--<finalName>keeper-webapp</finalName>-->
 
-    <!--<plugins>-->
-    <!--<plugin>-->
-    <!--<groupId>org.apache.maven.plugins</groupId>-->
-    <!--<artifactId>maven-war-plugin</artifactId>-->
-    <!--<version>${maven-war-plugin-version}</version>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-war-plugin</artifactId>-->
+                <!--<version>${maven-war-plugin-version}</version>-->
 
-    <!--</plugin>-->
-    <!--</plugins>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
     <!--</build>-->
+
+
 
     <build>
         <plugins>
@@ -295,5 +328,17 @@
     </build>
 
 
+
+    <!--<build>-->
+        <!--<finalName>keeper-core-webapp</finalName>-->
+
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
 
 </project>

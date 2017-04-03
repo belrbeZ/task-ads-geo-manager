@@ -8,9 +8,10 @@ package com.keeper.repo;
  */
 
 import com.keeper.entity.Task;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Set;
@@ -18,6 +19,8 @@ import java.util.Set;
 /**
  * Spring Data JPA Repository for Tasks
  */
+@Repository
+@Qualifier(value = "taskRepository")
 public interface TaskRepository extends JpaRepository<Task, Long> {//, QueryDslPredicateExecutor<Task> {
     List<Task> findAllByTags(Set<String> tags);
 

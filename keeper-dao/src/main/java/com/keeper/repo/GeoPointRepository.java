@@ -8,12 +8,15 @@ package com.keeper.repo;
  */
 
 import com.keeper.entity.GeoPoint;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
+import org.springframework.stereotype.Repository;
 
 /**
  * Default Comment
  */
+@Repository
+@Qualifier(value = "geoPointRepository")
 public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> {//, QueryDslPredicateExecutor<GeoPoint>
 
 }

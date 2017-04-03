@@ -5,27 +5,23 @@ package com.keeper;
  */
 
 
+import com.keeper.service.impl.UserRepoService;
+import junit.framework.TestCase;
+
 /**
  * Testing of JPA and Hibernate
  */
 
-public class TestJpaDemoConfig {
+public class TestJpaDemoConfig extends TestCase {
 
-    public static void main(String[] args) {
+//    @Autowired
+//    @Qualifier("userService")
+//    static UserRepoService userRepoService;
 
-//        demoHibernateSpringXmlTransactionAnnotations();
-//        demoJpaSpringJavaConfig();
-
-        System.out.println("Test");
-
+    public void testApp() {
+        UserRepoService userRepoService = new UserRepoService();
+        System.out.println("TestJpaDemoConfig");
+        userRepoService.getAllUsers();
     }
 
-    public static void demoJpaSpringJavaConfig() {
-//        ApplicationContext ctx = new AnnotationConfigApplicationContext(JpaSpringConfig.class);
-//        TaskRepoService taskRepoService = new TaskRepoService();
-//        for (Task task:
-//            taskRepoService.getAllTasks()) {
-//            System.out.println(task.toString());
-//        }
-    }
 }

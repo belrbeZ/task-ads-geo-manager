@@ -13,6 +13,8 @@ import com.keeper.repo.TaskRepository;
 import com.keeper.service.contracts.ITaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +30,8 @@ public class TaskRepoService implements ITaskService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
     @Resource
+//    @Autowired
+//    @Qualifier(value = "taskRepository")
     private TaskRepository taskRepository;
 
     //<editor-fold desc="TaskCRUD">

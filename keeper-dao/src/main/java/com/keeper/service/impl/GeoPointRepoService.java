@@ -4,6 +4,8 @@ import com.keeper.repo.GeoPointRepository;
 import com.keeper.service.contracts.IGeoPointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,13 +16,15 @@ import javax.annotation.Resource;
  * @author AlexVasil
  *
  */
-@Service(value = "geoPointRepoService")
+@Service(value = "geoPointService")
 public class GeoPointRepoService implements IGeoPointService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
 
     @Resource
+//    @Autowired
+    @Qualifier(value = "geoPointRepository")
     private GeoPointRepository geoPointRepository;
 
 

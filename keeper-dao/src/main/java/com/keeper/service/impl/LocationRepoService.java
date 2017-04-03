@@ -17,6 +17,8 @@ import com.keeper.repo.RouteRepository;
 import com.keeper.service.contracts.ILocationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -34,13 +36,16 @@ public class LocationRepoService implements ILocationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
     @Resource
-    private LocationRepository locationRepo;
+//    @Autowired
+    private @Qualifier(value = "locationRepository") LocationRepository locationRepo;
 
     @Resource
-    private GeoPointRepository geoPointRepo;
+//    @Autowired
+    private @Qualifier(value = "geoPointRepository")GeoPointRepository geoPointRepo;
 
     @Resource
-    private RouteRepository routeRepo;
+//    @Autowired
+    private @Qualifier(value = "routeRepository") RouteRepository routeRepo;
 
     //<editor-fold desc="Location">
 

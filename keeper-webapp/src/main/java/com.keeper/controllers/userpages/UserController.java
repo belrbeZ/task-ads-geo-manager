@@ -182,6 +182,13 @@ public class UserController extends AbstractController {
         return USER_LIST_VIEW;
     }
 
+
+    public void test() {
+        LOGGER.debug("Rendering user list page");
+
+        userDtoDaoManager.test();
+
+    }
    
     /**
      * This setter method should only be used by unit tests

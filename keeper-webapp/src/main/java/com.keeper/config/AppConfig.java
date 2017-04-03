@@ -8,10 +8,7 @@ package com.keeper.config;
  */
 
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.*;
@@ -29,10 +26,11 @@ import javax.annotation.Resource;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.keeper")
 @PropertySource(value = { "classpath:messages.properties" })
+@Import({WebSecurityConfig.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
-    private static final String PROPERTY_NAME_MESSAGESOURCE_BASENAME = "message.source.basename";
-    private static final String PROPERTY_NAME_MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE = "message.source.use.code.as.default.message";
+    private static final String MESSAGESOURCE_BASENAME = "messages";
+    private static final boolean MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE = true;
 
     @Resource
     private Environment environment;
@@ -74,8 +72,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename(environment.getRequiredProperty(PROPERTY_NAME_MESSAGESOURCE_BASENAME));
-        messageSource.setUseCodeAsDefaultMessage(Boolean.parseBoolean(environment.getRequiredProperty(PROPERTY_NAME_MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE)));
+        messageSource.setBasename(MESSAGESOURCE_BASENAME);
+        messageSource.setUseCodeAsDefaultMessage(MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE);
 
         return messageSource;
     }

@@ -11,7 +11,12 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @author AlexVasil
  *
  */
+//@SpringBootApplication
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+//    public static void main(String[] args) {
+//        SpringApplication.run(KeeperAppBootInit.class, args);
+//    }
 
     @Override
     protected Class<?>[] getRootConfigClasses() {

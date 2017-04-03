@@ -10,15 +10,19 @@ package com.keeper.repo;
 import com.keeper.entity.GeoPoint;
 import com.keeper.entity.Location;
 import com.keeper.entity.Route;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Spring Data JPA Repository for Locations
  */
+
+@Repository
+@Qualifier(value = "locationRepository")
 public interface LocationRepository extends JpaRepository<Location, Long > {//, QueryDslPredicateExecutor<Location>
 
     List<Location> findAllByUserId(@Param("ownerId") Long ownerId);

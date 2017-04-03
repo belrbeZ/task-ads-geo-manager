@@ -4,7 +4,7 @@ package com.keeper.controllers.main;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.entity.GeoPoint;
+import com.keeper.dto.GeoPointDto;
 import com.keeper.util.ViewResolver;
 import com.keeper.util.WebMappingResolver;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class MainWebController {
 
     @RequestMapping(value = WebMappingResolver.WEB_PAGE_MAIN,
                     method = RequestMethod.POST)
-    public String mainPageUpdateGeoPoint(@PathVariable GeoPoint geoPoint,
+    public String mainPageUpdateGeoPoint(@PathVariable GeoPointDto geoPoint,
                                          Model model) {
 
 
