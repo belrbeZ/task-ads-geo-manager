@@ -4,7 +4,7 @@ package com.keeper.controllers.restful;
  * Created by @GoodforGod on 28.03.2017.
  */
 
-import com.keeper.util.ApiResolver;
+import com.keeper.util.resolvers.ApiResolver;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

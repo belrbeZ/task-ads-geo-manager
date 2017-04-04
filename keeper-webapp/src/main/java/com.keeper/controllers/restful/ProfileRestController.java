@@ -4,14 +4,14 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.ApiResolver;
+import com.keeper.util.resolvers.ApiResolver;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Control Profile Rest End points
+ * Control ProfileDTO Rest End points
  */
 @RestController
 public class ProfileRestController {

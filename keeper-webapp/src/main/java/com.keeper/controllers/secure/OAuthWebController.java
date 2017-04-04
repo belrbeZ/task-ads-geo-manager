@@ -8,8 +8,8 @@ package com.keeper.controllers.secure;
  */
 
 import com.keeper.service.impl.UserRepoService;
-import com.keeper.util.WebMappingResolver;
-import com.keeper.util.ViewResolver;
+import com.keeper.util.resolvers.WebMappingResolver;
+import com.keeper.util.resolvers.ViewResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

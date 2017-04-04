@@ -4,9 +4,9 @@ package com.keeper.controllers.main;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.entity.GeoPoint;
-import com.keeper.util.WebMappingResolver;
-import com.keeper.util.ViewResolver;
+import com.keeper.model.dao.GeoPoint;
+import com.keeper.util.resolvers.WebMappingResolver;
+import com.keeper.util.resolvers.ViewResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
