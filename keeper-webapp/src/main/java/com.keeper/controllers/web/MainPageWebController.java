@@ -1,4 +1,4 @@
-package com.keeper.controllers.main;
+package com.keeper.controllers.web;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Default Comment
  */
 @Controller
-public class MainWebController {
+public class MainPageWebController {
 
     @RequestMapping(value = WebMappingResolver.WEB_PAGE_MAIN,
                     method = RequestMethod.GET)

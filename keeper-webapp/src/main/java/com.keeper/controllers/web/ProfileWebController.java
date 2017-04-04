@@ -1,4 +1,4 @@
-package com.keeper.controllers.main;
+package com.keeper.controllers.web;
 
 /*
  * Created by @GoodforGod on 28.03.2017.
@@ -29,7 +29,11 @@ public class ProfileWebController {
 
     @RequestMapping(value = WebMappingResolver.WEB_PAGE_PROFILE,
                     method = RequestMethod.POST)
-    public String profilePageUpdate(@PathVariable User user,
+    public String profilePageUpdate(@PathVariable String name,
+                                    @PathVariable String email,
+                                    @PathVariable String phone,
+                                    @PathVariable String password,
+                                    @PathVariable String repassword,
                                     Model model) {
 
         return ViewResolver.WEB_PROFILE;

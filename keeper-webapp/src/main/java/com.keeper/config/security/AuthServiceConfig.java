@@ -23,14 +23,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 @EnableAuthorizationServer
 public class AuthServiceConfig extends AuthorizationServerConfigurerAdapter {
 
-    @Autowired
-    private TokenStore tokenStore;
-
-    @Autowired
-    private UserApprovalHandler userApprovalHandler;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    @Autowired private TokenStore tokenStore;
+    @Autowired private UserApprovalHandler userApprovalHandler;
+    @Autowired private AuthenticationManager authenticationManager;
 
     private final String TRUSTED_CLIENT_ID = SecureResolver.TRUSTED_CLIENT_ID;
     private final String REALM ="MY_OAUTH_REALM";

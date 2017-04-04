@@ -18,5 +18,5 @@ public class ViewResolver {
     public static final String WEB_ERROR    = "error";
     public static final String WEB_DENIED   = "denied";
 
-    public static final String TEST_USERLIST = "usertest";
+    public static final String TEST_USERLIST = "testing";
 }
