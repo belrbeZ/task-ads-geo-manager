@@ -5,36 +5,34 @@ package com.keeper.util;
  */
 
 import com.keeper.entity.*;
+import com.keeper.entity.dto.GeoPointDTO;
+import com.keeper.entity.dto.RouteDTO;
+import com.keeper.entity.dto.TaskDTO;
+import com.keeper.entity.dto.UserDTO;
 
 /**
  * Used to convert entities to JSON and other format representation
  */
 public class Converter
 {
-
     public static final String emptyJson = "";
 
-    public static String convertToJson(User usr) {
+    public static String convertToJson(UserDTO usr) {
 
         return emptyJson;
     }
 
-    public static String converToJson(Task task) {
+    public static String converToJson(TaskDTO task) {
 
         return emptyJson;
     }
 
-    public static String convertToJson(Route route) {
+    public static String convertToJson(RouteDTO route) {
 
         return emptyJson;
     }
 
-    public static String convertToJson(GeoPoint coord) {
-
-        return emptyJson;
-    }
-
-    public static String convertToJson(Location location) {
+    public static String convertToJson(GeoPointDTO coord) {
 
         return emptyJson;
     }
