@@ -11,17 +11,12 @@ package com.keeper.service.impl;
 
 import com.keeper.entity.User;
 import com.keeper.repo.UserRepository;
-import com.keeper.service.contracts.IUserService;
+import com.keeper.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -34,75 +29,53 @@ public class UserRepoService implements IUserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-//    @PersistenceContext
-//    private EntityManager entityManager;
-
-//    private QueryDslJpaRepository<User, Long> userRepository;
-
-//    @Resource
     @Autowired
-    private UserRepository userRepo;
+    private UserRepository repository;
 
-//    @Transactional(readOnly=true)
-////    @Override
-//    List<User> findAllCustomersWithName(String name){
-//        return entityManager.createQuery("SELECT c FROM Users c WHERE c.name LIKE :custName")
-//                .setParameter("custName", name)
-//                .setMaxResults(10)
-//                .getResultList();
-//    }
-
-    //<editor-fold desc="UserCRUD">
-
-    public boolean findUser(Long id){
-        return userRepo.findOne(id) != null;
+    @Override
+    public boolean isExists(String email, String phone) {
+        return false;
     }
 
+    @Override
     public User addUser(User user) {
-        return userRepo.save(user);
+        return null;
     }
 
+    @Override
     public User getUser(Long id) {
-        return userRepo.findOne(id);
+        return null;
     }
 
-    public User getUser(User user) {
-        return userRepo.findOne(user.getId());
-    }
-
+    @Override
     public User getUser(String email, String phone) {
-
-        return (email != null && !email.isEmpty())
-                ? userRepo.findByEmail(email)
-                : userRepo.findByPhone(phone);
+        return null;
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepo.findAll();
+        return null;
     }
 
+    @Override
     public User updateUser(User user) {
-        return userRepo.save(user);
+        return null;
     }
 
-    public void removeUser(Long id) {
-        userRepo.delete(id);
-    }
-
-    public void removeUser(String email, String phone) {
-        if(email != null && !email.isEmpty())
-            userRepo.deleteByEmail(email);
-        else
-            userRepo.deleteByPhone(phone);
-    }
-
+    @Override
     public User removeUser(User user) {
-        userRepo.delete(user);
-        return user;
+        return null;
     }
-    //</editor-fold>
 
+    @Override
+    public void removeUser(Long id) {
+
+    }
+
+    @Override
+    public void removeUser(String email, String phone) {
+
+    }
 
 //    /**
 //     * An initialization method which is run after the bean has been constructed.

@@ -8,7 +8,6 @@ package com.keeper.repo;
  */
 
 import com.keeper.entity.GeoPoint;
-import com.keeper.entity.Location;
 import com.keeper.entity.Route;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;

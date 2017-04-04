@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 /**
  * Default Comment
  */
+@Deprecated
 public class Token {
 
     public static final Token empty = new Token();

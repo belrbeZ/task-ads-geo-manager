@@ -1,4 +1,4 @@
-package com.keeper.service.contracts;
+package com.keeper.service;
 
 /*
  * Created by GoodforGod on 23.03.2017.
@@ -17,13 +17,8 @@ import java.util.List;
  */
 public interface IUserService {
 
-    /**
-     * Creates a new user.
-     * @param id   The information of the searching user.
-     * @return  result of searching.
-     */
-    boolean findUser(Long id);
-    
+    boolean isExists(String email, String phone);
+
     /**
      * Creates a new user.
      * @param user   The information of the created user.
@@ -37,7 +32,6 @@ public interface IUserService {
      * @return  The found user. If no user is found, this method returns null.
      */
     User getUser(Long id);
-    User getUser(User user);
     User getUser(String email, String phone);
 
     List<User> getAllUsers();

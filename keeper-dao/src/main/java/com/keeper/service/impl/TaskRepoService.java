@@ -10,11 +10,10 @@ package com.keeper.service.impl;
 import com.keeper.entity.Task;
 import com.keeper.entity.User;
 import com.keeper.repo.TaskRepository;
-import com.keeper.service.contracts.ITaskService;
+import com.keeper.service.ITaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,60 +28,51 @@ public class TaskRepoService implements ITaskService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    @Resource
-//    @Autowired
-//    @Qualifier(value = "taskRepository")
-    private TaskRepository taskRepository;
+    @Autowired
+    private TaskRepository repository;
 
-    //<editor-fold desc="TaskCRUD">
-
+    @Override
     public Task addTask(Task task) {
-        return taskRepository.save(task);
+        return null;
     }
 
-
+    @Override
     public Task getTask(Long id) {
-        return taskRepository.findOne(id);
+        return null;
     }
 
-    public List<Task> getTasks(Long ownerId) {
-        return taskRepository.findByTopicStarterId(ownerId);
+    @Override
+    public List<Task> getTask(User user) {
+        return null;
     }
 
-    public Task getTask(Task task) {
-        return taskRepository.findOne(task.getId());
-    }
-
+    @Override
     public List<Task> getTask(String theme) {
-        return taskRepository.findAllByTheme(theme);
+        return null;
     }
 
-    public List<Task> getTask(User user){
-        return taskRepository.findAllByTopicStarterId(user.getId());
-    }
-
+    @Override
     public List<Task> getTask(Set<String> tags) {
-        return taskRepository.findAllByTags(tags);
+        return null;
     }
 
+    @Override
     public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+        return null;
     }
 
+    @Override
     public Task updateTask(Task task) {
-        return taskRepository.save(task);
+        return null;
     }
 
+    @Override
     public void removeTask(Long id) {
-        taskRepository.delete(id);
+
     }
 
+    @Override
     public Task removeTask(Task task) {
-        Task tmp = taskRepository.findOne(task.getId());
-        taskRepository.delete(task.getId());
-        return tmp;
+        return null;
     }
-
-    //</editor-fold>
-
 }

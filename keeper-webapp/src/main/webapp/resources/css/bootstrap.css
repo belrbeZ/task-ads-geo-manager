@@ -264,10 +264,12 @@ th {
     border: 1px solid #ddd !important;
   }
 }
+
 @font-face {
   font-family: 'Glyphicons Halflings';
 
 }
+
 .glyphicon {
   position: relative;
   top: 1px;
@@ -280,6 +282,7 @@ th {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 .glyphicon-asterisk:before {
   content: "\2a";
 }

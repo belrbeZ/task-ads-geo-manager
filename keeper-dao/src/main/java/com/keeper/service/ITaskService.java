@@ -1,4 +1,4 @@
-package com.keeper.service.contracts;
+package com.keeper.service;
 
 /*
  * Created by GoodforGod on 23.03.2017.
@@ -16,8 +16,7 @@ import java.util.Set;
 public interface ITaskService {
     Task addTask(Task task);
 
-//    Task getTask(Long id);
-//    Task getTask(Task task);
+    Task getTask(Long id);
     List<Task> getTask(User user);
     List<Task> getTask(String theme);
     List<Task> getTask(Set<String> tags);

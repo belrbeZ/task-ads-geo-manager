@@ -12,14 +12,14 @@ import java.util.List;
 /**
  * Help to resolve and work with entity collections
  */
-public class CollectorResolver {
+public class EntityCollectionResolver {
 
     //<editor-fold desc="makeList">
+
     private static final List<String>       nullableStringList  = null;
     private static final List<Route>        nullableRouteList   = null;
-    private static final List<Long>      nullableIdList      = null;
-    private static final List<Location>     nullableLocationList = null;
-    private static final List<GeoPoint>   nullableCoordList   = null;
+    private static final List<Long>         nullableIdList      = null;
+    private static final List<GeoPoint>     nullableCoordList   = null;
     private static final List<User>         nullableUserList    = null;
     private static final List<Task>         nullableTaskList    = null;
 
@@ -39,10 +39,6 @@ public class CollectorResolver {
         return value != null ? new ArrayList<Route>() {{add(value);}} : nullableRouteList;
     }
 
-    public static List<Location> makeLocationList(final Location value) {
-        return value != null ? new ArrayList<Location>() {{add(value);}} : nullableLocationList;
-    }
-
     public static List<User> makeUserList(final User value) {
         return value != null ? new ArrayList<User>() {{add(value);}} : nullableUserList;
     }
@@ -57,14 +53,9 @@ public class CollectorResolver {
     private static final Task         nullableTask    = Task.empty;
     private static final Route        nullableRoute   = Route.empty;
     private static final GeoPoint nullableCoord   = GeoPoint.empty;
-    private static final Location     nullableLocation = Location.empty;
 
     public static User getFirstUser(List<User> users) {
         return (users == null || users.isEmpty()) ? nullableUser : users.get(0);
-    }
-
-    public static Location getFirstLocation(List<Location> locations) {
-        return (locations == null || locations.isEmpty()) ? nullableLocation : locations.get(0);
     }
 
     public static GeoPoint getFirstCoordinate(List<GeoPoint> geoPoints) {
