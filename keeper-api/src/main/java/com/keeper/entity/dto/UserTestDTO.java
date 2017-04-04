@@ -1,52 +1,37 @@
-package com.keeper.entity;
+package com.keeper.entity.dto;
 
 /*
- * Created by GoodforGod on 19.03.2017.
- *
- * Updated by AlexVasil on 30.03.2017.
- *
+ * Created by @GoodforGod on 4.04.2017.
  */
 
 import com.keeper.entity.states.UserState;
 import com.keeper.entity.states.UserType;
-import com.keeper.util.DatabaseResolver;
-import org.hibernate.validator.constraints.NotEmpty;
 
-import javax.persistence.*;
-import java.sql.Timestamp;
+import java.security.Timestamp;
 import java.util.TimeZone;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
 /**
- * User model implementation
+ * Default Comment
  */
+public class UserTestDTO {
+    public static final UserTestDTO empty = new UserTestDTO();
 
+    private Long id;
+    private UserState state = UserState.AWAIT_VERIFICATION;
+    private UserType type;
+    private String name;
+    private String email;
+    private String phone;
+    private String password;
+    private String about;
+    private Boolean isNotified = false;
+    private Timestamp muteStart;
+    private Timestamp muteEnd;
+    private TimeZone timeZone = TimeZone.getDefault();
 
-@Entity
-@Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
-public class User {
+    private UserTestDTO() { }
 
-    public static final User empty = new User();
-
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "state")                                 private UserState state = UserState.AWAIT_VERIFICATION;
-    @Column(name = "type")                                  private UserType type;
-    @Column(name = "name", nullable = false)                private String name;
-    @Column(name = "email")                                 private String email;
-    @Column(name = "phone")                                 private String phone;
-    @Column(name = "password")                              private String password;
-    @Column(name = "about")                                 private String about;
-    @Column(name = "isNotified")                            private Boolean isNotified = false;
-    @Column(name = "startMuteTime")                         private Timestamp muteStart;
-    @Column(name = "endMuteTime")                           private Timestamp muteEnd;
-    @Column(name = "timeZone")                              private TimeZone timeZone = TimeZone.getDefault();
-
-    private User() { }
-
-    public User(UserType type, String name, String email, String phone, String password, String about) {
+    public UserTestDTO(UserType type, String name, String email, String phone, String password, String about) {
         this.type = type;
         this.name = name;
         this.email = email;
@@ -55,7 +40,7 @@ public class User {
         this.about = about;
     }
 
-    public User(UserType type, String name, String email, String phone, String password, String about, TimeZone timeZone){
+    public UserTestDTO(UserType type, String name, String email, String phone, String password, String about, TimeZone timeZone){
         this(type, name, email, phone, password, about);
     }
 

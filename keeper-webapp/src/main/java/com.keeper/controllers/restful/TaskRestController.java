@@ -1,4 +1,4 @@
-package com.keeper.controllers;
+package com.keeper.controllers.restful;
 
 /*
  * Created by GoodforGod on 19.03.2017.

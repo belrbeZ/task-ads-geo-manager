@@ -1,6 +1,6 @@
 package com.keeper.managers.impl;
 
-import com.keeper.dto.RouteDto;
+import com.keeper.entity.dto.RouteDTO;
 import com.keeper.entity.Route;
 import com.keeper.managers.IRouteDtoManager;
 import com.keeper.service.impl.RouteRepoService;
@@ -24,53 +24,52 @@ public class RouteDtoDaoManager implements IRouteDtoManager<Route> {
 
     //<editor-fold desc="Dao&Dto">
 
-        @Override
-        public Route parseDtoToDao(RouteDto dtoMode) {
-        return null;
-        }
+    @Override
+    public Route parseDtoToDao(RouteDTO dtoMode) {
+                                               return null;
+                                                           }
 
-        @Override
-        public RouteDto parseDaoToDto(Route daoModel) {
-        return null;
-        }
+    @Override
+    public RouteDTO parseDaoToDto(Route daoModel) {
+                                                return null;
+                                                            }
 
-
-        @Override
-        public List<Route> parseDtoToDao(List<RouteDto> dtoModelList) {
+    @Override
+    public List<RouteDTO> parseDaoToDto(List<Route> daoModelList) {
         return null;
-        }
-        //</editor-fold>
+    }
+
+    @Override
+    public List<Route> parseDtoToDao(List<RouteDTO> dtoModelList) {
+                                                                return null;
+                                                                                            }
+    //</editor-fold>
 
     //<editor-fold desc="Operations">
 
-        @Override
-        public List<Route> addRoutes(Long ownerId, List<Route> routes) {
+    @Override
+    public List<RouteDTO> addRoutes(Long ownerId, List<RouteDTO> routes) {
         return null;
-        }
+    }
 
-        @Override
-        public List<Route> getRoutes(Long ownerId, List<Long> routeIds) {
+    @Override
+    public List<RouteDTO> getRoutes(Long ownerId, List<Long> routeIds) {
         return null;
-        }
+    }
 
-        @Override
-        public List<RouteDto> parseDaoToDto(List<Route> daoModelList) {
+    @Override
+    public List<RouteDTO> getAllRoutes() {
         return null;
-        }
+    }
 
-        @Override
-        public List<Route> getAllRoutes() {
+    @Override
+    public List<RouteDTO> updateRoute(Long ownerId, List<Long> routeIds) {
         return null;
-        }
+    }
 
-        @Override
-        public List<Route> updateRoute(Long ownerId, List<Long> routeIds) {
-        return null;
-        }
+    @Override
+    public void removeRoutes(Long ownerId, List<Long> routeIds) {
 
-        @Override
-        public void removeRoutes(Long ownerId, List<Long> routeIds) {
-
-        }
-        //</editor-fold>
+    }
+    //</editor-fold>
 }

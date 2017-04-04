@@ -1,10 +1,10 @@
-package com.keeper.controllers.main;
+package com.keeper.controllers.common;
 
 /*
  * Created by @GoodforGod on 28.03.2017.
  */
 
-import com.keeper.dto.UserDto;
+import com.keeper.entity.dto.UserDTO;
 import com.keeper.util.ViewResolver;
 import com.keeper.util.WebMappingResolver;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class ProfileWebController {
 
     @RequestMapping(value = WebMappingResolver.WEB_PAGE_PROFILE,
                     method = RequestMethod.POST)
-    public String profilePageUpdate(@PathVariable UserDto user,
+    public String profilePageUpdate(@PathVariable UserDTO user,
                                     Model model) {
 
         return ViewResolver.WEB_PROFILE;

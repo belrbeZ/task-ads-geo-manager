@@ -8,6 +8,7 @@ package com.keeper.entity;
 
 import com.keeper.entity.states.UserState;
 import com.keeper.entity.states.UserType;
+import com.keeper.util.DatabaseResolver;
 //import com.keeper.util.resolvers.DatabaseResolver;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import java.util.TimeZone;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "test_user_table", schema = "test" )
+@Table(name = DatabaseResolver.TEST_TABLE_USERS, schema = DatabaseResolver.TEST_SCHEMA)
 public class UserTest {
 
     public static final UserTest empty = new UserTest();

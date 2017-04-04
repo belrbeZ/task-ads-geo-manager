@@ -1,17 +1,12 @@
 package com.keeper.managers.impl;
 
-import com.keeper.dto.UserDto;
+import com.keeper.entity.dto.UserDTO;
 import com.keeper.entity.User;
-import com.keeper.entity.Zone;
-import com.keeper.entity.states.UserType;
-import com.keeper.managers.ItemNotFoundException;
 import com.keeper.managers.IUserDtoManager;
 import com.keeper.service.impl.UserRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -30,22 +25,22 @@ public class UserDtoDaoManager implements IUserDtoManager<User> {
     //<editor-fold desc="Dao&Dto">
 
     @Override
-    public User parseDtoToDao(UserDto dtoMode) {
+    public User parseDtoToDao(UserDTO dtoMode) {
         return null;
     }
 
     @Override
-    public UserDto parseDaoToDto(User daoModel) {
+    public UserDTO parseDaoToDto(User daoModel) {
         return null;
     }
 
     @Override
-    public List<User> parseDtoToDao(List<UserDto> dtoModelList) {
+    public List<User> parseDtoToDao(List<UserDTO> dtoModelList) {
         return null;
     }
 
     @Override
-    public List<UserDto> parseDaoToDto(List<User> daoModelList) {
+    public List<UserDTO> parseDaoToDto(List<User> daoModelList) {
         return null;
     }
     //</editor-fold>
@@ -58,32 +53,32 @@ public class UserDtoDaoManager implements IUserDtoManager<User> {
     }
 
     @Override
-    public User addUser(User user) {
+    public UserDTO addUser(UserDTO user) {
         return null;
     }
 
     @Override
-    public User getUser(Long id) {
+    public UserDTO getUser(Long id) {
         return null;
     }
 
     @Override
-    public User getUser(String email, String phone) {
+    public UserDTO getUser(String email, String phone) {
         return null;
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return null;
     }
 
     @Override
-    public User updateUser(User user) {
+    public UserDTO updateUser(UserDTO user) {
         return null;
     }
 
     @Override
-    public User removeUser(User user) {
+    public UserDTO removeUser(UserDTO user) {
         return null;
     }
 
@@ -96,5 +91,7 @@ public class UserDtoDaoManager implements IUserDtoManager<User> {
     public void removeUser(String email, String phone) {
 
     }
+
+
     //</editor-fold>
 }

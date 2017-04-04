@@ -1,7 +1,7 @@
 package com.keeper.managers;
 
-import com.keeper.dto.GeoPointDto;
 import com.keeper.entity.GeoPoint;
+import com.keeper.entity.dto.GeoPointDTO;
 import com.keeper.service.IGeoPointService;
 
 import java.util.List;
@@ -13,6 +13,14 @@ import java.util.List;
  *
  */
 
-public interface IGeoPointDtoManager<T> extends IModelDtoManager<T, GeoPointDto>, IGeoPointService {
+public interface IGeoPointDtoManager<T> extends IModelDtoManager<T, GeoPointDTO>  {
+    List<GeoPointDTO> addGeoPoints(Long ownerId, List<GeoPointDTO> geoPoints);
 
+    List<GeoPointDTO> getGeoPoints(Long ownerId, List<Long> geoPointsIds);
+
+    List<GeoPointDTO> getAllGeoPoints();
+
+    List<GeoPointDTO> updateGeoPoints(Long ownerId, List<GeoPointDTO> geoPoints);
+
+    void removeGeoPoints(Long ownerId, List<Long> geoPointsIds);
 }

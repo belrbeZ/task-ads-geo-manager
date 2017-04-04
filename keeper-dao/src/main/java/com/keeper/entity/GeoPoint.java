@@ -9,13 +9,15 @@ package com.keeper.entity;
  *
  */
 
+import com.keeper.util.DatabaseResolver;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
-@Table(name = "GeoPoints", schema = "entities")
-public class GeoPoint implements IModel<Long> {
+@Table(name = DatabaseResolver.TABLE_GEOPOINTS, schema = DatabaseResolver.SCHEMA)
+public class GeoPoint {
 
     public static final GeoPoint empty = new GeoPoint();
 
@@ -70,5 +72,4 @@ public class GeoPoint implements IModel<Long> {
         this.info = info;
     }
     //</editor-fold>
-
 }

@@ -1,7 +1,6 @@
 package com.keeper.managers.impl;
 
-import com.keeper.dto.TaskDto;
-import com.keeper.dto.UserDto;
+import com.keeper.entity.dto.TaskDTO;
 import com.keeper.entity.Task;
 import com.keeper.entity.User;
 import com.keeper.managers.ITaskDtoManager;
@@ -28,22 +27,22 @@ public class TaskDtoDaoManager implements ITaskDtoManager<Task> {
     //<editor-fold desc="Dao&Dto">
 
     @Override
-    public Task parseDtoToDao(TaskDto dtoMode) {
+    public Task parseDtoToDao(TaskDTO dtoMode) {
         return null;
     }
 
     @Override
-    public TaskDto parseDaoToDto(Task daoModel) {
+    public TaskDTO parseDaoToDto(Task daoModel) {
         return null;
     }
 
     @Override
-    public List<Task> parseDtoToDao(List<TaskDto> dtoModelList) {
+    public List<Task> parseDtoToDao(List<TaskDTO> dtoModelList) {
         return null;
     }
 
     @Override
-    public List<TaskDto> parseDaoToDto(List<Task> daoModelList) {
+    public List<TaskDTO> parseDaoToDto(List<Task> daoModelList) {
         return null;
     }
     //</editor-fold>
@@ -51,39 +50,37 @@ public class TaskDtoDaoManager implements ITaskDtoManager<Task> {
     //<editor-fold desc="Operations">
 
     @Override
-    public Task addTask(Task task) {
-        return null;
-    }
-
-
-    @Override
-    public Task getTask(Long id) {
+    public TaskDTO addTask(Task TaskDTO) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(User user) {
-        return null;
-    }
-
-
-    @Override
-    public List<Task> getTask(String theme) {
+    public TaskDTO getTask(Long id) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(Set<String> tags) {
+    public List<TaskDTO> getTask(User user) {
         return null;
     }
 
     @Override
-    public List<Task> getAllTasks() {
+    public List<TaskDTO> getTask(String theme) {
         return null;
     }
 
     @Override
-    public Task updateTask(Task task) {
+    public List<TaskDTO> getTask(Set<String> tags) {
+        return null;
+    }
+
+    @Override
+    public List<TaskDTO> getAllTasks() {
+        return null;
+    }
+
+    @Override
+    public TaskDTO updateTask(TaskDTO task) {
         return null;
     }
 
@@ -93,8 +90,10 @@ public class TaskDtoDaoManager implements ITaskDtoManager<Task> {
     }
 
     @Override
-    public Task removeTask(Task task) {
+    public TaskDTO removeTask(TaskDTO task) {
         return null;
     }
+
+
     //</editor-fold>
 }

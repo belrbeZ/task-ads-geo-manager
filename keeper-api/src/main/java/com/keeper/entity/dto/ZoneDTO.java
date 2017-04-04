@@ -1,12 +1,14 @@
-package com.keeper.entity;
+package com.keeper.entity.dto;
 
 /*
- * Created by GoodforGod on 20.03.2017.
+ * Created by Alexandr Vasiliev on 30.03.2017.
  */
 
-import com.keeper.util.DatabaseResolver;
+import com.keeper.entity.Zone;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
@@ -16,29 +18,25 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * User Current Time Zone and Location
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_ZONES, schema = DatabaseResolver.SCHEMA)
-public class Zone {
+public class ZoneDTO {
 
-    public static Zone empty = new Zone();
+    public static ZoneDTO empty = new ZoneDTO();
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "userId", unique = true, nullable = false)   private Long userId;
-    @Column(name = "city")                                      private String city;
-    @Column(name = "country", nullable = false)                 private String country;
-    @Column(name = "registerDate", nullable = false)            private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
-    @Column(name = "timeZone", nullable = false)                private TimeZone timeZone = TimeZone.getDefault();
+    private Long userId;
+    private String city;
+    private String country;
+    private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
+    private TimeZone timeZone = TimeZone.getDefault();
 
-    private Zone(){ }
+    private ZoneDTO(){ }
 
-    public Zone(Long userId, String city, String country) {
+    public ZoneDTO(Long userId, String city, String country) {
         this.userId = userId;
         this.city = city;
         this.country = country;
     }
 
-    public Zone(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
+    public ZoneDTO(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
         this(userId, city, country);
         this.registerDate = registerDate;
         this.timeZone = timeZone;

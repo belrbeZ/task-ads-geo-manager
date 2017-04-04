@@ -9,6 +9,7 @@ package com.keeper.entity;
 
 
 import com.keeper.entity.states.RouteType;
+import com.keeper.util.DatabaseResolver;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -20,45 +21,23 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Route Location implementation
  */
-//@Entity
-//@Table(name = "Routes", schema = "entities")
-public class Route extends GeoPointStorage implements IModel<Long> {
+@Entity
+@Table(name = DatabaseResolver.TABLE_ROUTES, schema = DatabaseResolver.SCHEMA)
+public class Route {
 
     public static final Route empty = new Route();
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private Long id;
-
-    @Column(name = "ownerId", nullable = false)
-    private Long userId;
-
-    @Column(name = "type", nullable = false)
-    private RouteType type;
-
-    @Column(name = "mark")
-    private Mark mark = Mark.empty;
-
-    @Column(name = "about")
-    private String about;
+    @Column(name = "id", unique = true, nullable = false)   private Long id;
+    @Column(name = "type", nullable = false)                private RouteType type;
+    @Column(name = "info")                                  private String info;
 
     private Route() {}
 
-    public Route(Long userId, RouteType type, String about){
-        this.userId = userId;
+    public Route(RouteType type, String info){
         this.type = type;
-        this.about = about;
-    }
-
-    public Route(Long userId, RouteType type, String about, List<GeoPoint> geoPoints) {
-        this(userId, type, about);
-        setGeoPoints(new HashSet<>(geoPoints));
-    }
-
-    public Route(Long userId, RouteType type, String about, Set<GeoPoint> geoPoints) {
-        this(userId, type, about);
-        setGeoPoints(new HashSet<>(geoPoints));
+        this.info = info;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -67,44 +46,17 @@ public class Route extends GeoPointStorage implements IModel<Long> {
         return id;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
     public RouteType getType() {
         return type;
     }
 
-    public Mark getMark() {
-        return mark;
+    public String getInfo() {
+        return info;
     }
 
-    public void setMark(Mark mark) {
-        this.mark = mark;
-    }
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     //</editor-fold>
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Route route = (Route) o;
-
-        return id != null ? id.equals(route.id) : route.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
 }

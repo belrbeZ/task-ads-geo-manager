@@ -1,4 +1,4 @@
-package com.keeper.entity;
+package com.keeper.entity.dto;
 
 /*
  * Created by GoodforGod on 21.03.2017.
@@ -9,13 +9,11 @@ package com.keeper.entity;
  *
  * IN MEMORY
  */
-public class Mark implements IModel<Long>{
+public class MarkDTO {
 
-    public static Mark empty = new Mark();
+    public static final MarkDTO empty = new MarkDTO();
 
     private Double value;
-
-    //<editor-fold desc="GetterAdnSetter">
 
     public Double getValue() {
         return value;
@@ -23,12 +21,5 @@ public class Mark implements IModel<Long>{
 
     public void setValue(Double value) {
         this.value = value;
-    }
-    //</editor-fold>
-
-
-    @Override
-    public Long getId() {
-        return null;
     }
 }

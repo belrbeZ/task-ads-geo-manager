@@ -1,7 +1,7 @@
 package com.keeper.controllers.userpages;
 
 
-import com.keeper.dto.UserDto;
+import com.keeper.entity.dto.UserDTO;
 import com.keeper.managers.ItemNotFoundException;
 import com.keeper.managers.impl.UserDtoDaoManager;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -71,13 +70,8 @@ public class UserController extends AbstractController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         LOGGER.debug("Deleting user with id: " + id);
 
-        try {
-            userDtoDaoManager.removeUser(id);
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_DELETED, id);
-        } catch (ItemNotFoundException e) {
-            LOGGER.debug("No user found with id: " + id);
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_DELETED_USER_WAS_NOT_FOUND);
-        }
+        userDtoDaoManager.removeUser(id);
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_DELETED, id);
 
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
     }
@@ -92,7 +86,7 @@ public class UserController extends AbstractController {
     public String showCreateUserForm(Model model) {
         LOGGER.debug("Rendering create user form");
         
-        model.addAttribute(MODEL_ATTIRUTE_USER, new UserDto());
+        model.addAttribute(MODEL_ATTIRUTE_USER, UserDTO.empty);
 
         return USER_ADD_FORM_VIEW;
     }
@@ -105,16 +99,16 @@ public class UserController extends AbstractController {
      * @return
      */
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
-    public String submitCreateUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserDto created, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String submitCreateUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserDTO created, BindingResult bindingResult, RedirectAttributes attributes) {
         LOGGER.debug("Create user form was submitted with information: " + created);
 
         if (bindingResult.hasErrors()) {
             return USER_ADD_FORM_VIEW;
         }
                 
-        UserDto user = userDtoDaoManager.addUser(created);
+        UserDTO user = userDtoDaoManager.addUser(created);
 
-        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_CREATED, user.getFirstName());
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_CREATED, user.getName());
 
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
     }
@@ -130,7 +124,7 @@ public class UserController extends AbstractController {
     public String showEditUserForm(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
         LOGGER.debug("Rendering edit user form for user with id: " + id);
         
-        UserDto user = userDtoDaoManager.getUser(id);
+        UserDTO user = userDtoDaoManager.getUser(id);
         if (user == null) {
             LOGGER.debug("No user found with id: " + id);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_USER_WAS_NOT_FOUND);
@@ -150,7 +144,7 @@ public class UserController extends AbstractController {
      * @return
      */
     @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
-    public String submitEditUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserDto updated, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String submitEditUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserDTO updated, BindingResult bindingResult, RedirectAttributes attributes) {
         LOGGER.debug("Edit user form was submitted with information: " + updated);
         
         if (bindingResult.hasErrors()) {
@@ -158,14 +152,9 @@ public class UserController extends AbstractController {
             return USER_EDIT_FORM_VIEW;
         }
         
-        try {
-            UserDto user = userDtoDaoManager.updateUser(updated);
-            addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_EDITED, user.getFirstName());
-        } catch (ItemNotFoundException e) {
-            LOGGER.debug("No user was found with id: " + updated.getId());
-            addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_USER_WAS_NOT_FOUND);
-        }
-        
+        UserDTO user = userDtoDaoManager.updateUser(updated);
+        addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_EDITED, user.getName());
+
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
     }
     
@@ -179,7 +168,7 @@ public class UserController extends AbstractController {
     public String showList(Model model) {
         LOGGER.debug("Rendering user list page");
 
-        List<UserDto> users = userDtoDaoManager.getAllUsers();
+        List<UserDTO> users = userDtoDaoManager.getAllUsers();
         model.addAttribute(MODEL_ATTRIBUTE_USERS, users);
 
         return USER_LIST_VIEW;
@@ -189,7 +178,7 @@ public class UserController extends AbstractController {
     public void test() {
         LOGGER.debug("Rendering user list page");
 
-        userDtoDaoManager.test();
+        //userDtoDaoManager.test();
 
     }
    

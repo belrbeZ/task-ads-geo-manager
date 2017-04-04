@@ -1,7 +1,7 @@
 package com.keeper.entity;
 
 /*
- * Created by GoodforGod on 20.03.2017.
+ * Created by @GoodforGod on 4.04.2017.
  */
 
 import com.keeper.util.DatabaseResolver;
@@ -14,13 +14,13 @@ import java.util.TimeZone;
 import static javax.persistence.GenerationType.IDENTITY;
 
 /**
- * User Current Time Zone and Location
+ * Default Comment
  */
 @Entity
-@Table(name = DatabaseResolver.TABLE_ZONES, schema = DatabaseResolver.SCHEMA)
-public class Zone {
+@Table(name = DatabaseResolver.TEST_TABLE_ZONES, schema = DatabaseResolver.TEST_SCHEMA)
+public class ZoneTest {
 
-    public static Zone empty = new Zone();
+    public static ZoneTest empty = new ZoneTest();
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -30,15 +30,15 @@ public class Zone {
     @Column(name = "registerDate", nullable = false)            private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
     @Column(name = "timeZone", nullable = false)                private TimeZone timeZone = TimeZone.getDefault();
 
-    private Zone(){ }
+    private ZoneTest(){ }
 
-    public Zone(Long userId, String city, String country) {
+    public ZoneTest(Long userId, String city, String country) {
         this.userId = userId;
         this.city = city;
         this.country = country;
     }
 
-    public Zone(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
+    public ZoneTest(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
         this(userId, city, country);
         this.registerDate = registerDate;
         this.timeZone = timeZone;

@@ -1,6 +1,6 @@
 package com.keeper.managers.impl;
 
-import com.keeper.dto.GeoPointDto;
+import com.keeper.entity.dto.GeoPointDTO;
 import com.keeper.entity.GeoPoint;
 import com.keeper.managers.IGeoPointDtoManager;
 import com.keeper.service.impl.GeoPointRepoService;
@@ -25,22 +25,22 @@ public class GeoPointDtoDaoManager implements IGeoPointDtoManager<GeoPoint> {
     //<editor-fold desc="Dao&Dto">
 
     @Override
-    public GeoPoint parseDtoToDao(GeoPointDto dtoMode) {
+    public GeoPoint parseDtoToDao(GeoPointDTO dtoMode) {
         return null;
     }
 
     @Override
-    public GeoPointDto parseDaoToDto(GeoPoint daoModel) {
+    public GeoPointDTO parseDaoToDto(GeoPoint daoModel) {
         return null;
     }
 
     @Override
-    public List<GeoPoint> parseDtoToDao(List<GeoPointDto> dtoModelList) {
+    public List<GeoPoint> parseDtoToDao(List<GeoPointDTO> dtoModelList) {
         return null;
     }
 
     @Override
-    public List<GeoPointDto> parseDaoToDto(List<GeoPoint> daoModelList) {
+    public List<GeoPointDTO> parseDaoToDto(List<GeoPoint> daoModelList) {
         return null;
     }
     //</editor-fold>
@@ -48,22 +48,22 @@ public class GeoPointDtoDaoManager implements IGeoPointDtoManager<GeoPoint> {
     //<editor-fold desc="Operations">
 
     @Override
-    public List<GeoPoint> addGeoPoints(Long ownerId, List<GeoPoint> geoPoints) {
+    public List<GeoPointDTO> addGeoPoints(Long ownerId, List<GeoPointDTO> geoPoints) {
         return null;
     }
 
     @Override
-    public List<GeoPoint> getGeoPoints(Long ownerId, List<Long> geoPointsIds) {
+    public List<GeoPointDTO> getGeoPoints(Long ownerId, List<Long> geoPointsIds) {
         return null;
     }
 
     @Override
-    public List<GeoPoint> getAllGeoPoints() {
+    public List<GeoPointDTO> getAllGeoPoints() {
         return null;
     }
 
     @Override
-    public List<GeoPoint> updateGeoPoints(Long ownerId, List<GeoPoint> geoPoints) {
+    public List<GeoPointDTO> updateGeoPoints(Long ownerId, List<GeoPointDTO> geoPoints) {
         return null;
     }
 

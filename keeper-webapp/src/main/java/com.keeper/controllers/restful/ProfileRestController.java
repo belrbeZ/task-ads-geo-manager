@@ -1,7 +1,7 @@
-package com.keeper.controllers;
+package com.keeper.controllers.restful;
 
 /*
- * Created by @GoodforGod on 28.03.2017.
+ * Created by GoodforGod on 19.03.2017.
  */
 
 import com.keeper.util.ApiResolver;
@@ -11,26 +11,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Default Comment
+ * Control Profile Rest End points
  */
 @RestController
-public class GeoPointRestController {
+public class ProfileRestController {
 
-    private final String restEndpoint = ApiResolver.API + ApiResolver.REST_LOCATION;
+    private final String restEndpoint = ApiResolver.API + ApiResolver.REST_PROFILE;
     private final String restProduces = ApiResolver.PRODUCES_APP_JSON + ApiResolver.PRODUCES_CHARSET;
 
     @RequestMapping(value = restEndpoint,
                     method = RequestMethod.GET,
                     produces = restProduces)
     public String get(Model model) {
-
-        return null;
-    }
-
-    @RequestMapping(value = restEndpoint,
-                    method = RequestMethod.POST,
-                    produces = restProduces)
-    public String post(Model model) {
 
         return null;
     }
@@ -43,11 +35,4 @@ public class GeoPointRestController {
         return null;
     }
 
-    @RequestMapping(value = restEndpoint,
-                    method = RequestMethod.DELETE,
-                    produces = restProduces)
-    public String delete(Model model) {
-
-        return null;
-    }
 }

@@ -10,6 +10,7 @@ package com.keeper.entity;
 
 
 import com.keeper.entity.states.PicType;
+import com.keeper.util.DatabaseResolver;
 
 import javax.persistence.*;
 
@@ -19,30 +20,24 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Picture model
  */
-//@Entity
-//@Table(name = "Pictures", schema = "entities")
+@Entity
+@Table(name = DatabaseResolver.TABLE_PICS, schema = DatabaseResolver.SCHEMA)
 public class Picture {
 
     public static final Picture empty = new Picture();
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)
-    private Long id;
-
-    @Column(name = "ownerId", nullable = false)
-    private Long ownerId;
-
-    @Column(name = "type", nullable = false)
-    private PicType type = PicType.TASK;
-
-    @Column(name = "value", nullable = false)
-    private String pic;
+    @Column(name = "id", unique = true, nullable = false)   private Long id;
+    @Column(name = "userId")                                private Long userId;
+    @Column(name = "taskId")                                private Long taskId;
+    @Column(name = "value", nullable = false)               private String pic;
 
     private Picture() {}
 
-    public Picture(Long ownerId, String pic) {
-        this.ownerId = ownerId;
+    public Picture(Long userId, Long taskId, String pic) {
+        this.userId = userId;
+        this.taskId = taskId;
         this.pic = pic;
     }
 
@@ -52,12 +47,12 @@ public class Picture {
         return id;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public PicType getType() {
-        return type;
+    public Long getTaskId() {
+        return taskId;
     }
 
     public String getPic() {
@@ -67,6 +62,5 @@ public class Picture {
     public void setPic(String pic) {
         this.pic = pic;
     }
-
     //</editor-fold>
 }

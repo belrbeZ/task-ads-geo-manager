@@ -1,10 +1,10 @@
-package com.keeper.controllers.main;
+package com.keeper.controllers.common;
 
 /*
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.dto.GeoPointDto;
+import com.keeper.entity.dto.GeoPointDTO;
 import com.keeper.util.ViewResolver;
 import com.keeper.util.WebMappingResolver;
 import org.springframework.stereotype.Controller;
@@ -29,7 +29,7 @@ public class MainWebController {
 
     @RequestMapping(value = WebMappingResolver.WEB_PAGE_MAIN,
                     method = RequestMethod.POST)
-    public String mainPageUpdateGeoPoint(@PathVariable GeoPointDto geoPoint,
+    public String mainPageUpdateGeoPoint(@PathVariable GeoPointDTO geoPoint,
                                          Model model) {
 
 

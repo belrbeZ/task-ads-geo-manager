@@ -1,4 +1,4 @@
-package com.keeper.dto;
+package com.keeper.entity.dto;
 
 /**
  * Created by Alexandr Vasiliev on 29.03.2017.
@@ -7,31 +7,28 @@ package com.keeper.dto;
  *
  */
 
-public class GeoPointDto implements ModelDto<Long> {
+public class GeoPointDTO {
 
-
-    public static final GeoPointDto empty = new GeoPointDto();
+    public static final GeoPointDTO empty = new GeoPointDTO();
 
     private Long id;
-
     private String latitude;
     private String longitude;
     private Integer radius;
+    private String info;
 
-    private MarkDto mark;
-    private String about;
+    private GeoPointDTO() {}
 
-    private GeoPointDto() {}
-
-    public GeoPointDto(String latitude, String longitude, Integer radius) {
+    public GeoPointDTO(Long id, String latitude, String longitude, Integer radius) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
+        this.id = id;
     }
 
-    public GeoPointDto(String latitude, String longitude, Integer radius, String about) {
-        this(latitude, longitude, radius);
-        this.about = about;
+    public GeoPointDTO(Long id, String latitude, String longitude, Integer radius, String info) {
+        this(id, latitude, longitude, radius);
+        this.info = info;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -56,23 +53,12 @@ public class GeoPointDto implements ModelDto<Long> {
         this.radius = radius;
     }
 
-    public MarkDto getMark() {
-        return mark;
+    public String getInfo() {
+        return info;
     }
 
-    public void setMark(MarkDto mark) {
-        this.mark = mark;
-    }
-
-    public String getAbout() {
-        return about;
-    }
-
-    public void setAbout(String about) {
-        this.about = about;
+    public void setInfo(String info) {
+        this.info = info;
     }
     //</editor-fold>
-
-
-
 }
