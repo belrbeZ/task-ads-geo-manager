@@ -19,8 +19,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Task model implementation
  */
-@Entity
-@Table(name = "Tasks", schema = "entities")
+//@Entity
+//@Table(name = "Tasks", schema = "entities")
 public class Task extends GeoPointStorage implements IModel<Long>{
 
     public static final Task empty = new Task();

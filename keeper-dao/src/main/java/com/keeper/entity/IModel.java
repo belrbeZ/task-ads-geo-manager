@@ -8,6 +8,6 @@ import java.io.Serializable;
  * @author AlexVasil
  *
  */
-public interface IModel<ID extends Serializable> {
+public interface IModel<ID extends Serializable> extends Serializable {
     ID getId();
 }

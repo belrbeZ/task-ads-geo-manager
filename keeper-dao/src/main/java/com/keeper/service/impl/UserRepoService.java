@@ -15,6 +15,7 @@ import com.keeper.service.contracts.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,28 +28,29 @@ import java.util.List;
  * Repository to work with User
  */
 
-@Service(value = "userService")
+//@Service(value = "userService")
+@Repository
 public class UserRepoService implements IUserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    @PersistenceContext
-    private EntityManager entityManager;
+//    @PersistenceContext
+//    private EntityManager entityManager;
 
 //    private QueryDslJpaRepository<User, Long> userRepository;
 
-    @Resource
-//    @Autowired
+//    @Resource
+    @Autowired
     private UserRepository userRepo;
 
-    @Transactional(readOnly=true)
-//    @Override
-    List<User> findAllCustomersWithName(String name){
-        return entityManager.createQuery("SELECT c FROM Users c WHERE c.name LIKE :custName")
-                .setParameter("custName", name)
-                .setMaxResults(10)
-                .getResultList();
-    }
+//    @Transactional(readOnly=true)
+////    @Override
+//    List<User> findAllCustomersWithName(String name){
+//        return entityManager.createQuery("SELECT c FROM Users c WHERE c.name LIKE :custName")
+//                .setParameter("custName", name)
+//                .setMaxResults(10)
+//                .getResultList();
+//    }
 
     //<editor-fold desc="UserCRUD">
 

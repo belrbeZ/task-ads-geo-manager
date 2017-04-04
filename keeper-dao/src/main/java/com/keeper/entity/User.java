@@ -19,12 +19,14 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * User model implementation
  */
-@Entity
-@Table(name = "Users", schema = "entities")
-@org.hibernate.annotations.NamedQuery(
-        name="User.findAllUsersWithName",
-        query="SELECT c FROM Users c WHERE c.name LIKE :custName"
-)
+
+
+//@Entity
+//@Table(name = "test_user_table", schema = "test")
+//@NamedQuery(
+//        name="User.findAllUsersWithName",
+//        query="SELECT c FROM test_user_table c WHERE c.name LIKE :custName"
+//)
 public class User implements IModel<Long>{
 
     public static final User empty = new User();
@@ -42,14 +44,8 @@ public class User implements IModel<Long>{
     private UserType type;
 
     @NotEmpty
-    @Column(name = "firstName", nullable = false)
-    private String FirstName;
-
-
-
-    @NotEmpty
-    @Column(name = "lastName", nullable = false)
-    private String LastName;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @NotEmpty
     @Column(name = "email", nullable = false)
@@ -82,23 +78,22 @@ public class User implements IModel<Long>{
 
     private User() { }
 
-    private User(UserType type, String fName, String lName, String password, String about, Zone zone) {
+    private User(UserType type, String name, String password, String about, Zone zone) {
         this.type = type;
-        this.FirstName = fName;
-        this.LastName = lName;
+        this.name = name;
         this.password = password;
         this.about = about;
 
         this.zone = zone;
     }
 
-    public User(UserType type, String fName, String lName, String email, String password, String about, Zone zone) {
-        this(type, fName,lName, password, about, zone);
+    public User(UserType type, String name, String email, String password, String about, Zone zone) {
+        this(type, name, password, about, zone);
         this.email = email;
     }
 
-    public User(UserType type, String fName, String lName, String email, String phone, String password, String about, Zone zone) {
-        this(type, fName,lName, email, password, about, zone);
+    public User(UserType type, String name, String email, String phone, String password, String about, Zone zone) {
+        this(type, name, email, password, about, zone);
         this.phone = phone;
     }
 
@@ -120,20 +115,12 @@ public class User implements IModel<Long>{
         return type;
     }
 
-    public String getFirstName() {
-        return FirstName;
+    public String getName() {
+        return name;
     }
 
-    public String getLastName() {
-        return LastName;
-    }
-
-    public void setFirstName(String firstName) {
-        FirstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        LastName = lastName;
+    public void setName(String firstName) {
+        name = firstName;
     }
 
     public String getEmail() {

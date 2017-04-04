@@ -15,8 +15,8 @@ import static javax.persistence.GenerationType.IDENTITY;
  * User Current Time Zone and Location
  */
 @Entity
-@Table(name = "Zones", schema = "entities")
-public class Zone {
+@Table(name = "zones", schema = "test")
+public class Zone implements IModel<Long> {
 
     public static Zone empty = new Zone();
 
@@ -49,6 +49,11 @@ public class Zone {
         this(userId, city, country);
         this.registerDate = registerDate;
         this.timeZone = timeZone;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
     }
 
     //<editor-fold desc="GetterAndSetter">

@@ -20,9 +20,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Route Location implementation
  */
-@Entity
-@Table(name = "Routes", schema = "entities")
-public class Route extends GeoPointStorage {
+//@Entity
+//@Table(name = "Routes", schema = "entities")
+public class Route extends GeoPointStorage implements IModel<Long> {
 
     public static final Route empty = new Route();
 

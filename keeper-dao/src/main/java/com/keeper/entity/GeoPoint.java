@@ -13,8 +13,8 @@ import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Entity
-@Table(name = "GeoPoints", catalog = "entities")
+//@Entity
+//@Table(name = "GeoPoints", catalog = "entities")
 public class GeoPoint implements IModel<Long> {
 
     public static final GeoPoint empty = new GeoPoint();

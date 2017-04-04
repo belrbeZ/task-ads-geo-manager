@@ -1,6 +1,9 @@
 package com.keeper.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.*;
@@ -9,8 +12,10 @@ import org.springframework.dao.support.PersistenceExceptionTranslator;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.OpenJpaDialect;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
@@ -47,12 +52,13 @@ public class JpaSpringConfig {
 
     private static final String PROPERTY_PACKAGES_TO_SCAN = "com.keeper.entity";
 
-//    private static final Logger logger = Logger
-//            .getLogger(JpaSpringConfig.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(JpaSpringConfig.class);
 
     @Resource
     private Environment environment;
 
+
+    /* FIRST WORKING VERSION */
     @Bean(destroyMethod = "close")
     public ComboPooledDataSource myDataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -126,4 +132,71 @@ public class JpaSpringConfig {
         return new OpenJpaDialect();
     }
 
+
+//    /* SECOND NOT WORKING
+//     * from https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.definition
+//     */
+//    @Bean
+//    public DataSource dataSource() {
+//
+//        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+//        return builder.setType(EmbeddedDatabaseType.HSQL).build();
+//    }
+//
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//
+//        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+//        vendorAdapter.setGenerateDdl(true);
+//
+//        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+//        factory.setJpaVendorAdapter(vendorAdapter);
+//        factory.setPackagesToScan("com.keeper");
+//        factory.setDataSource(dataSource());
+//        return factory;
+//    }
+
+//    @Bean
+//    public PlatformTransactionManager transactionManager() {
+//
+//        JpaTransactionManager txManager = new JpaTransactionManager();
+//        txManager.setEntityManagerFactory((EntityManagerFactory) entityManagerFactory());
+//        return txManager;
+//    }
+
+
+
+//    /* THIRD VARIANT NOT WORKING
+//    *  from https://blog.openshift.com/postgresql-polyglot-persistence-part-3/
+//    */
+//    @Bean
+//    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+//        LocalContainerEntityManagerFactoryBean entityManagerFactory = new LocalContainerEntityManagerFactoryBean();
+//        entityManagerFactory.setDataSource(dataSource());
+//        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+//        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
+//        hibernateJpaVendorAdapter.setGenerateDdl(true);
+//        hibernateJpaVendorAdapter.setShowSql(Boolean.parseBoolean(environment.getRequiredProperty(PROPERTY_NAME_HIBERNATE_SHOW_SQL)));
+//        entityManagerFactory.setJpaVendorAdapter(hibernateJpaVendorAdapter);
+//        return entityManagerFactory;
+//    }
+//
+    @Bean(destroyMethod = "close")
+    @Primary
+    public DataSource dataSource() {
+        BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setDriverClassName(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_DRIVER));
+        dataSource.setUrl(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_URL));
+        dataSource.setUsername(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_USERNAME));
+        dataSource.setPassword(environment.getRequiredProperty(PROPERTY_NAME_DATABASE_PASSWORD));
+        dataSource.setTestOnBorrow(true);
+        dataSource.setTestOnReturn(true);
+        dataSource.setTestWhileIdle(true);
+        dataSource.setTimeBetweenEvictionRunsMillis(1800000);
+        dataSource.setNumTestsPerEvictionRun(3);
+        dataSource.setMinEvictableIdleTimeMillis(1800000);
+        dataSource.setValidationQuery("SELECT version()");
+
+        return dataSource;
+    }
 }

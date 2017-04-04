@@ -9,7 +9,7 @@ package com.keeper.entity;
  *
  * IN MEMORY
  */
-public class Mark {
+public class Mark implements IModel<Long>{
 
     public static Mark empty = new Mark();
 
@@ -25,4 +25,10 @@ public class Mark {
         this.value = value;
     }
     //</editor-fold>
+
+
+    @Override
+    public Long getId() {
+        return null;
+    }
 }

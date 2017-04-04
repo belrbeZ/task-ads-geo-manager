@@ -93,8 +93,7 @@ public class UserDtoDaoManager implements IUserDtoManager<User> {
     public User parseDtoToDao(UserDto userDto) {
         User user = new User(UserType.USER, "name", "email", "phone", "password", "about", new Zone(222L, "city", "country"));
 
-        user.setFirstName(user.getFirstName());
-        user.setLastName(user.getLastName());
+        user.setName(user.getName());
 
         return user;
     }
@@ -126,8 +125,7 @@ public class UserDtoDaoManager implements IUserDtoManager<User> {
         UserDto userDto = new UserDto();
 
         userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
+        userDto.setFirstName(user.getName());
 
         return userDto;
     }

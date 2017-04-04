@@ -16,8 +16,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Location Implementation, contains all routes and coordinates for User KeepEyeOn History
  */
-@Entity
-@Table(name = "Locations", schema = "entities")
+//@Entity
+//@Table(name = "Locations", schema = "entities")
 public class Location extends GeoPointStorage implements IModel<Long> {
 
     public static final Location empty = new Location();

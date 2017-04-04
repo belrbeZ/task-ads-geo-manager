@@ -1,5 +1,6 @@
 package com.keeper.controllers.userpages;
 
+
 import com.keeper.dto.UserDto;
 import com.keeper.managers.ItemNotFoundException;
 import com.keeper.managers.impl.UserDtoDaoManager;
@@ -44,7 +45,7 @@ public class UserController extends AbstractController {
     protected static final String REQUEST_MAPPING_LIST = "/";
     
 //    @Resource
-//    @Autowired //final
+    @Autowired //final
     private UserDtoDaoManager userDtoDaoManager;
 
 //    @Resource

@@ -298,6 +298,7 @@
     </modules>
 
     <packaging>pom</packaging>
+    <!--<packaging>war</packaging>-->
 
     <!--<build>-->
         <!--<pluginManagement>-->
@@ -372,20 +373,20 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash;<dependentWarExcludes>WEB-INF/web.xml,**/**.class</dependentWarExcludes>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<webResources>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<resource>&ndash;&gt;-->
-                            <!--&lt;!&ndash;&lt;!&ndash;  change if necessary &ndash;&gt;&ndash;&gt;-->
-                            <!--&lt;!&ndash;<directory>src/main/webapp/WEB-INF</directory>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<filtering>true</filtering>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<targetPath>WEB-INF</targetPath>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</resource>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</webResources>&ndash;&gt;-->
-                <!--</configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <!--<dependentWarExcludes>WEB-INF/web.xml,**/**.class</dependentWarExcludes>-->
+                    <!--<webResources>-->
+                        <!--<resource>-->
+                            <!--&lt;!&ndash;  change if necessary &ndash;&gt;-->
+                            <!--<directory>src/main/webapp/WEB-INF</directory>-->
+                            <!--<filtering>true</filtering>-->
+                            <!--<targetPath>WEB-INF</targetPath>-->
+                        <!--</resource>-->
+                    <!--</webResources>-->
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
