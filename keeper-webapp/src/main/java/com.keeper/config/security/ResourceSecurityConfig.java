@@ -1,4 +1,4 @@
-package com.keeper.config;
+package com.keeper.config.security;
 
 /*
  * Created by GoodforGod on 19.03.2017.

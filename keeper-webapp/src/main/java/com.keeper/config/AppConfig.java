@@ -7,6 +7,9 @@ package com.keeper.config;
  *
  */
 
+import com.keeper.config.security.AuthMethodSecurityConfig;
+import com.keeper.config.security.AuthServiceConfig;
+import com.keeper.config.security.ResourceSecurityConfig;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -26,7 +29,7 @@ import javax.annotation.Resource;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.keeper")
 @PropertySource(value = { "classpath:messages.properties" })
-@Import({AuthMethodSecurityConfig.class, AuthServiceConfig.class, ResourceSecurityConfig.class})
+//@Import({AuthMethodSecurityConfig.class, AuthServiceConfig.class, ResourceSecurityConfig.class})
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     private static final String MESSAGESOURCE_BASENAME = "messages";
