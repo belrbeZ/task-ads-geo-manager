@@ -1,6 +1,7 @@
 package com.keeper.config.setup;
 
 import com.keeper.config.AppConfig;
+import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -11,33 +12,28 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @author AlexVasil
  *
  */
-//@SpringBootApplication
-public class AppInitializer{// extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-//    public static void main(String[] args) {
-//        SpringApplication.run(KeeperAppBootInit.class, args);
-//    }
-//
-//    @Override
-//    protected Class<?>[] getRootConfigClasses() {
-//        return new Class[] { AppConfig.class };
-//    }
-//
-//    @Bean
-//    public CharacterEncodingFilter characterEncodingFilter() {
-//        CharacterEncodingFilter filter = new CharacterEncodingFilter();
-//        filter.setEncoding("UTF-8");
-//        filter.setForceEncoding(true);
-//        return filter;
-//    }
-//
-//    @Override
-//    protected Class<?>[] getServletConfigClasses() {
-//        return null;
-//    }
-//
-//    @Override
-//    protected String[] getServletMappings() {
-//        return new String[] { "/" };
-//    }
+    @Override
+    protected Class<?>[] getRootConfigClasses() {
+        return new Class[] { AppConfig.class };
+    }
+
+    @Bean
+    public CharacterEncodingFilter characterEncodingFilter() {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        return filter;
+    }
+
+    @Override
+    protected Class<?>[] getServletConfigClasses() {
+        return null;
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[] { "/" };
+    }
 }

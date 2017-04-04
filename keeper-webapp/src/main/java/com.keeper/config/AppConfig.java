@@ -35,7 +35,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Resource
     private Environment environment;
 
-
     /**
      * Configure ViewResolvers to deliver preferred views.
      */
