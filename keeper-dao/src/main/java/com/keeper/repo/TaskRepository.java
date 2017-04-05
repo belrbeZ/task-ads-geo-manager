@@ -8,6 +8,7 @@ package com.keeper.repo;
  */
 
 import com.keeper.entity.Task;
+import com.keeper.util.RepositoryResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -19,14 +20,14 @@ import java.util.Set;
 /**
  * Spring Data JPA Repository for Tasks
  */
-//@Repository
-//@Qualifier(value = "taskRepository")
-public interface TaskRepository{//} extends JpaRepository<Task, Long> {//, QueryDslPredicateExecutor<Task> {
-    List<Task> findAllByTags(Set<String> tags);
+@Repository
+@Qualifier(value = RepositoryResolver.QUALIFIER_TASK)
+public interface TaskRepository extends JpaRepository<Task, Long> {
+    List<Task> findAllByTags(@Param("tagId") List<Long> tagsId);
 
     List<Task> findAllByTopicStarterId(@Param("userId") Long userId);
 
     List<Task> findAllByTheme(@Param("theme") String theme);
 
-    List<Task> findByTopicStarterId(@Param("ownerId") Long ownerId);
+    List<Task> findByTopicStarterId(@Param("userId") Long userId);
 }

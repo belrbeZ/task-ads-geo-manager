@@ -17,22 +17,22 @@ import java.util.List;
  */
 public interface IUserService {
 
-    boolean isExists(String email, String phone);
+    boolean isExist(String email, String phone);
 
     /**
      * Creates a new user.
      * @param user   The information of the created user.
      * @return  The created user.
      */
-    User addUser(User user);
+    User add(User user);
 
     /**
      * Finds user by id.
      * @param id    The id of the wanted user.
      * @return  The found user. If no user is found, this method returns null.
      */
-    User getUser(Long id);
-    User getUser(String email, String phone);
+    User get(Long id);
+    User get(String email, String phone);
 
     List<User> getAllUsers();
 
@@ -41,14 +41,14 @@ public interface IUserService {
      * @param user   The information of the updated user.
      * @return  The updated user.
      */
-    User updateUser(User user);
+    User update(User user);
 
     /**
      * Deletes a user.
      * @param user  The deleting user.
      * @return  The deleted user.
      */
-    User removeUser(User user);
-    void removeUser(Long id);
-    void removeUser(String email, String phone);
+    User remove(User user);
+    void remove(Long id);
+    void remove(String email, String phone);
 }

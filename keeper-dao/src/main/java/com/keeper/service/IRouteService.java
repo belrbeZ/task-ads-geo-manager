@@ -12,13 +12,13 @@ import java.util.List;
  *
  */
 public interface IRouteService {
-    List<Route> addRoutes(Long ownerId, List<Route> routes);
+    List<Route> add(Long userId, List<Route> routes);
 
-    List<Route> getRoutes(Long ownerId, List<Long> routeIds);
+    List<Route> get(Long userId, List<Long> routeIds);
 
-    List<Route> getAllRoutes();
+    List<Route> getAll();
 
-    List<Route> updateRoute(Long ownerId, List<Long> routeIds);
+    List<Route> update(Long userId, List<Long> routeIds);
 
-    void removeRoutes(Long ownerId, List<Long> routeIds);
+    void remove(Long userId, List<Long> routeIds);
 }

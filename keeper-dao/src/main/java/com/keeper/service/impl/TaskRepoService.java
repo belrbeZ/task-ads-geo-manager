@@ -32,47 +32,47 @@ public class TaskRepoService implements ITaskService {
 //    private TaskRepository repository;
 
     @Override
-    public Task addTask(Task task) {
+    public Task add(Task task) {
         return null;
     }
 
     @Override
-    public Task getTask(Long id) {
+    public Task get(Long id) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(User user) {
+    public List<Task> get(String theme) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(String theme) {
+    public List<Task> get(Set<String> tags) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(Set<String> tags) {
+    public List<Task> getUserTask(Long userId) {
         return null;
     }
 
     @Override
-    public List<Task> getAllTasks() {
+    public List<Task> getUserTask(String email, String phone) {
         return null;
     }
 
     @Override
-    public Task updateTask(Task task) {
+    public List<Task> getAll() {
         return null;
     }
 
     @Override
-    public void removeTask(Long id) {
-
+    public Task update(Task task) {
+        return null;
     }
 
     @Override
-    public Task removeTask(Task task) {
-        return null;
+    public void remove(Long id) {
+
     }
 }

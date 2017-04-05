@@ -3,7 +3,10 @@ package com.keeper.managers.impl;
 import com.keeper.entity.dto.TaskDTO;
 import com.keeper.entity.Task;
 import com.keeper.entity.User;
-import com.keeper.managers.ITaskManager;
+import com.keeper.managers.ITaskDtoManager;
+import com.keeper.service.impl.TaskRepoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -15,11 +18,11 @@ import java.util.Set;
  *
  */
 
-//@Service
-public class TaskManager implements ITaskManager<Task> {
+@Service
+public class TaskDtoDaoManager implements ITaskDtoManager {
 
-//    @Autowired
-//    private TaskRepoService repoService;
+    @Autowired
+    private TaskRepoService repoService;
 
     //<editor-fold desc="Dao&Dto">
 

@@ -2,7 +2,10 @@ package com.keeper.managers.impl;
 
 import com.keeper.entity.dto.RouteDTO;
 import com.keeper.entity.Route;
-import com.keeper.managers.IRouteManager;
+import com.keeper.managers.IRouteDtoManager;
+import com.keeper.service.impl.RouteRepoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,11 +16,11 @@ import java.util.List;
  *
  */
 
-//@Service
-public class RouteManager implements IRouteManager<Route> {
+@Service
+public class RouteDtoDaoManager implements IRouteDtoManager {
 
-//    @Autowired
-//    private RouteRepoService repoService;
+    @Autowired
+    private RouteRepoService repoService;
 
     //<editor-fold desc="Dao&Dto">
 
