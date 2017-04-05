@@ -8,6 +8,7 @@ package com.keeper.repo;
  */
 
 import com.keeper.entity.Route;
+import com.keeper.util.RepositoryResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Repository;
  * Default Comment
  */
 @Repository
-@Qualifier(value = "routeRepository")
-public interface RouteRepository extends JpaRepository<Route, Long>{// , QueryDslPredicateExecutor<Task>
+@Qualifier(value = RepositoryResolver.QUALIFIER_ROUTE)
+public interface RouteRepository extends JpaRepository<Route, Long>{
+
 }

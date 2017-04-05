@@ -24,7 +24,7 @@ public class GeoPointRepoService implements IGeoPointService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
     @Autowired
-    private GeoPointRepository geoPointRepository;
+    private GeoPointRepository repository;
 
     @Override
     public List<GeoPoint> addGeoPoints(Long ownerId, List<GeoPoint> geoPoints) {

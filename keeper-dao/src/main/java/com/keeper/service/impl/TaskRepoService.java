@@ -42,17 +42,22 @@ public class TaskRepoService implements ITaskService {
     }
 
     @Override
-    public List<Task> getTask(User user) {
-        return null;
-    }
-
-    @Override
     public List<Task> getTask(String theme) {
         return null;
     }
 
     @Override
     public List<Task> getTask(Set<String> tags) {
+        return null;
+    }
+
+    @Override
+    public List<Task> getUserTask(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<Task> getUserTask(String email, String phone) {
         return null;
     }
 

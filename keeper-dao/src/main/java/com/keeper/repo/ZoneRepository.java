@@ -8,6 +8,7 @@ package com.keeper.repo;
  */
 
 import com.keeper.entity.Zone;
+import com.keeper.util.RepositoryResolver;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Repository;
  * Default Comment
  */
 @Repository
-@Qualifier(value = "zoneRepository")
+@Qualifier(value = RepositoryResolver.QUALIFIER_ZONE)
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
-    Zone findByOwnerId(@Param("ownerId") Long ownerId);
+    Zone findByUserId(@Param("userId") Long userId);
 }

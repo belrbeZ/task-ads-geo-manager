@@ -17,9 +17,11 @@ public interface ITaskService {
     Task addTask(Task task);
 
     Task getTask(Long id);
-    List<Task> getTask(User user);
     List<Task> getTask(String theme);
     List<Task> getTask(Set<String> tags);
+
+    List<Task> getUserTask(Long userId);
+    List<Task> getUserTask(String email, String phone);
 
     List<Task> getAllTasks();
 
