@@ -13,7 +13,7 @@ import java.util.List;
  *
  */
 
-public interface IGeoPointDtoManager<T> extends IModelDtoManager<T, GeoPointDTO>  {
+public interface IGeoPointDtoManager extends IModelDtoManager<GeoPoint, GeoPointDTO>  {
     List<GeoPointDTO> addGeoPoints(Long ownerId, List<GeoPointDTO> geoPoints);
 
     List<GeoPointDTO> getGeoPoints(Long ownerId, List<Long> geoPointsIds);

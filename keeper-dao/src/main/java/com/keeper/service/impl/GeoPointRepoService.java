@@ -28,7 +28,7 @@ public class GeoPointRepoService implements IGeoPointService {
 
     @Override
     public List<GeoPoint> addGeoPoints(Long ownerId, List<GeoPoint> geoPoints) {
-        return null;
+        return repository.save(geoPoints);
     }
 
     @Override

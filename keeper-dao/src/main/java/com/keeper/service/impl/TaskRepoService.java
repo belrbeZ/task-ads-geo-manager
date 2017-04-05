@@ -32,22 +32,22 @@ public class TaskRepoService implements ITaskService {
     private TaskRepository repository;
 
     @Override
-    public Task addTask(Task task) {
+    public Task add(Task task) {
         return null;
     }
 
     @Override
-    public Task getTask(Long id) {
+    public Task get(Long id) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(String theme) {
+    public List<Task> get(String theme) {
         return null;
     }
 
     @Override
-    public List<Task> getTask(Set<String> tags) {
+    public List<Task> get(Set<String> tags) {
         return null;
     }
 
@@ -62,22 +62,17 @@ public class TaskRepoService implements ITaskService {
     }
 
     @Override
-    public List<Task> getAllTasks() {
+    public List<Task> getAll() {
         return null;
     }
 
     @Override
-    public Task updateTask(Task task) {
+    public Task update(Task task) {
         return null;
     }
 
     @Override
-    public void removeTask(Long id) {
+    public void remove(Long id) {
 
-    }
-
-    @Override
-    public Task removeTask(Task task) {
-        return null;
     }
 }

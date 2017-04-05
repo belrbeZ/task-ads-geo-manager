@@ -10,13 +10,11 @@ import com.keeper.entity.Zone;
  * Default Comment
  */
 public interface IZoneService {
-    Zone addRoutes(Long ownerId, Zone zone);
+    Zone add(Zone zone);
 
-    Zone getRoutes(Long ownerId, Long zoneId);
+    Zone get(Long userId);
 
-    Zone getAllRoutes();
+    Zone update(Zone zone);
 
-    Zone updateRoute(Long ownerId, Long zoneId);
-
-    void removeRoutes(Long ownerId, Long zoneId);
+    void remove(Long userId);
 }

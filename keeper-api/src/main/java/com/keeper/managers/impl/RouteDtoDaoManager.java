@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Service
-public class RouteDtoDaoManager implements IRouteDtoManager<Route> {
+public class RouteDtoDaoManager implements IRouteDtoManager {
 
     @Autowired
     private RouteRepoService repoService;

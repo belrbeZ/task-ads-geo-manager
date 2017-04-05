@@ -26,27 +26,27 @@ public class RouteRepoService implements IRouteService {
     private RouteRepository repository;
 
     @Override
-    public List<Route> addRoutes(Long ownerId, List<Route> routes) {
+    public List<Route> add(Long ownerId, List<Route> routes) {
         return null;
     }
 
     @Override
-    public List<Route> getRoutes(Long ownerId, List<Long> routeIds) {
+    public List<Route> get(Long ownerId, List<Long> routeIds) {
         return null;
     }
 
     @Override
-    public List<Route> getAllRoutes() {
+    public List<Route> getAll() {
         return null;
     }
 
     @Override
-    public List<Route> updateRoute(Long ownerId, List<Long> routeIds) {
+    public List<Route> update(Long ownerId, List<Long> routeIds) {
         return null;
     }
 
     @Override
-    public void removeRoutes(Long ownerId, List<Long> routeIds) {
+    public void remove(Long ownerId, List<Long> routeIds) {
 
     }
 }

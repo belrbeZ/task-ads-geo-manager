@@ -19,7 +19,7 @@ import java.util.Set;
  */
 
 @Service
-public class TaskDtoDaoManager implements ITaskDtoManager<Task> {
+public class TaskDtoDaoManager implements ITaskDtoManager {
 
     @Autowired
     private TaskRepoService repoService;

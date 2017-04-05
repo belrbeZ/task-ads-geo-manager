@@ -22,27 +22,22 @@ public class ZoneRepoService implements IZoneService {
     private ZoneRepository repository;
 
     @Override
-    public Zone addRoutes(Long userId, Zone zone) {
+    public Zone add(Zone zone) {
         return null;
     }
 
     @Override
-    public Zone getRoutes(Long userId, Long zoneId) {
+    public Zone get(Long userId) {
         return null;
     }
 
     @Override
-    public Zone getAllRoutes() {
+    public Zone update(Zone zone) {
         return null;
     }
 
     @Override
-    public Zone updateRoute(Long userId, Long zoneId) {
-        return null;
-    }
-
-    @Override
-    public void removeRoutes(Long userId, Long zoneId) {
+    public void remove(Long userId) {
 
     }
 }

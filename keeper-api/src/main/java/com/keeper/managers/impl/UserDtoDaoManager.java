@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Service
-public class UserDtoDaoManager implements IUserDtoManager<User> {
+public class UserDtoDaoManager implements IUserDtoManager {
 
     @Autowired
     private UserRepoService repoService;

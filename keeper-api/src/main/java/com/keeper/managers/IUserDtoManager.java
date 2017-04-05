@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Default Comment
  */
-public interface IUserDtoManager<T> extends IModelDtoManager<T, UserDTO> {
+public interface IUserDtoManager extends IModelDtoManager<User, UserDTO> {
     boolean isExists(String email, String phone);
 
     UserDTO addUser(UserDTO user);

@@ -12,7 +12,7 @@ import com.keeper.service.ITaskService;
 import java.util.List;
 import java.util.Set;
 
-public interface ITaskDtoManager<T> extends IModelDtoManager<T, TaskDTO> {
+public interface ITaskDtoManager extends IModelDtoManager<Task, TaskDTO> {
     TaskDTO addTask(Task TaskDTO);
 
     TaskDTO getTask(Long id);

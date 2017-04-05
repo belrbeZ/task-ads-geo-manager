@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 @Service
-public class GeoPointDtoDaoManager implements IGeoPointDtoManager<GeoPoint> {
+public class GeoPointDtoDaoManager implements IGeoPointDtoManager {
 
     @Autowired
     private GeoPointRepoService repoService;

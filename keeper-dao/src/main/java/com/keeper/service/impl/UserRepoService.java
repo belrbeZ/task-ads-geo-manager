@@ -33,22 +33,22 @@ public class UserRepoService implements IUserService {
     private UserRepository repository;
 
     @Override
-    public boolean isExists(String email, String phone) {
+    public boolean isExist(String email, String phone) {
         return false;
     }
 
     @Override
-    public User addUser(User user) {
+    public User add(User user) {
         return null;
     }
 
     @Override
-    public User getUser(Long id) {
+    public User get(Long id) {
         return null;
     }
 
     @Override
-    public User getUser(String email, String phone) {
+    public User get(String email, String phone) {
         return null;
     }
 
@@ -58,22 +58,22 @@ public class UserRepoService implements IUserService {
     }
 
     @Override
-    public User updateUser(User user) {
+    public User update(User user) {
         return null;
     }
 
     @Override
-    public User removeUser(User user) {
+    public User remove(User user) {
         return null;
     }
 
     @Override
-    public void removeUser(Long id) {
+    public void remove(Long id) {
 
     }
 
     @Override
-    public void removeUser(String email, String phone) {
+    public void remove(String email, String phone) {
 
     }
 

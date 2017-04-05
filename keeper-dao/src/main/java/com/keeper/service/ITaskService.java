@@ -14,19 +14,18 @@ import java.util.List;
 import java.util.Set;
 
 public interface ITaskService {
-    Task addTask(Task task);
+    Task add(Task task);
 
-    Task getTask(Long id);
-    List<Task> getTask(String theme);
-    List<Task> getTask(Set<String> tags);
+    Task get(Long id);
+    List<Task> get(String theme);
+    List<Task> get(Set<String> tags);
 
     List<Task> getUserTask(Long userId);
     List<Task> getUserTask(String email, String phone);
 
-    List<Task> getAllTasks();
+    List<Task> getAll();
 
-    Task updateTask(Task task);
+    Task update(Task task);
 
-    void removeTask(Long id);
-    Task removeTask(Task task);
+    void remove(Long id);
 }

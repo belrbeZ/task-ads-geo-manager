@@ -16,5 +16,7 @@ public class RepositoryResolver {
     public static final String QUALIFIER_TASK       = "taskRepository";
     public static final String QUALIFIER_USER       = "userRepository";
     public static final String QUALIFIER_ZONE       = "zoneRepository";
+    public static final String QUALIFIER_PARMANAGER = "participantRepository";
+    public static final String QUALIFIER_GEOMANAGER = "geoManagerRepository";
 
 }

@@ -58,7 +58,7 @@ public class TestingWebController {
 //        if (result.hasErrors())
 //            return ViewResolver.WEB_REGISTER;
 //
-//        userRepoService.addUser(user);
+//        userRepoService.add(user);
 //
 //        model.addAttribute("msg", "User "
 //                + user.getEmail()
