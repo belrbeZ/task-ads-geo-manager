@@ -6,21 +6,20 @@ package com.keeper.managers.impl;
 
 import com.keeper.entity.Zone;
 import com.keeper.entity.dto.ZoneDTO;
-import com.keeper.managers.IZoneDtoManager;
-import com.keeper.service.impl.ZoneRepoService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.keeper.managers.IZoneManager;
 
 import java.util.List;
 
 /**
  * Default Comment
  */
-public class ZoneDtoDaoManager implements IZoneDtoManager {
+public class ZoneManager implements IZoneManager {
 
-    @Autowired
-    private ZoneRepoService repoService;
+//    @Autowired
+//    private ZoneRepoService repoService;
 
     //<editor-fold desc="Parse">
+
     @Override
     public Zone parseDtoToDao(ZoneDTO dtoMode) {
         return null;
@@ -32,15 +31,15 @@ public class ZoneDtoDaoManager implements IZoneDtoManager {
     }
 
     @Override
-    public List parseDtoToDao(List dtoModelList) {
+    public List<Zone> parseDtoToDao(List<ZoneDTO> dtoModelList) {
         return null;
     }
 
     @Override
-    public List parseDaoToDto(List daoModelList) {
+    public List<ZoneDTO> parseDaoToDto(List<Zone> daoModelList) {
         return null;
     }
-    //</editor-fold>
+
 
     //<editor-fold desc="Operations">
 

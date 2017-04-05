@@ -36,7 +36,7 @@ public class UserTest {
     @Column(name = "isNotified")                            private Boolean isNotified = false;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
-    @Column(name = "timeZone")                              private TimeZone timeZone = TimeZone.getDefault();
+//    @Column(name = "timeZone")                              private TimeZone timeZone = TimeZone.getDefault();
 
     private UserTest() { }
 
@@ -49,9 +49,9 @@ public class UserTest {
         this.about = about;
     }
 
-    public UserTest(UserType type, String name, String email, String phone, String password, String about, TimeZone timeZone){
-        this(type, name, email, phone, password, about);
-    }
+//    public UserTest(UserType type, String name, String email, String phone, String password, String about){//}, TimeZone timeZone){
+//        this(type, name, email, phone, password, about);
+//    }
 
     //<editor-fold desc="GetterAndSetter">
 
@@ -139,13 +139,13 @@ public class UserTest {
         this.muteEnd = muteEnd;
     }
 
-    public TimeZone getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(TimeZone timeZone) {
-        this.timeZone = timeZone;
-    }
+//    public TimeZone getTimeZone() {
+//        return timeZone;
+//    }
+//
+//    public void setTimeZone(TimeZone timeZone) {
+//        this.timeZone = timeZone;
+//    }
 
     //</editor-fold>
 

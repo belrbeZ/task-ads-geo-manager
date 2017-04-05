@@ -12,7 +12,7 @@ import java.util.List;
  * @author Alexandr Vasiliev
  *
  */
-public interface IRouteDtoManager extends IModelDtoManager<Route, RouteDTO> {
+public interface IRouteManager extends IModelManager<Route, RouteDTO> {
     List<RouteDTO> addRoutes(Long ownerId, List<RouteDTO> routes);
 
     List<RouteDTO> getRoutes(Long ownerId, List<Long> routeIds);

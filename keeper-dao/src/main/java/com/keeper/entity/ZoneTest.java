@@ -28,7 +28,7 @@ public class ZoneTest {
     @Column(name = "city")                                      private String city;
     @Column(name = "country", nullable = false)                 private String country;
     @Column(name = "registerDate", nullable = false)            private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
-    @Column(name = "timeZone", nullable = false)                private TimeZone timeZone = TimeZone.getDefault();
+//    @Column(name = "timeZone", nullable = false)                private TimeZone timeZone = TimeZone.getDefault();
 
     private ZoneTest(){ }
 
@@ -38,10 +38,10 @@ public class ZoneTest {
         this.country = country;
     }
 
-    public ZoneTest(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
+    public ZoneTest(Long userId, String city, String country, Timestamp registerDate){//}, TimeZone timeZone) {
         this(userId, city, country);
         this.registerDate = registerDate;
-        this.timeZone = timeZone;
+//        this.timeZone = timeZone;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -74,12 +74,12 @@ public class ZoneTest {
         this.registerDate = registerDate;
     }
 
-    public TimeZone getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(TimeZone timeZone) {
-        this.timeZone = timeZone;
-    }
+//    public TimeZone getTimeZone() {
+//        return timeZone;
+//    }
+//
+//    public void setTimeZone(TimeZone timeZone) {
+//        this.timeZone = timeZone;
+//    }
     //</editor-fold>
 }

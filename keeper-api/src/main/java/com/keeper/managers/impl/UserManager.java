@@ -2,7 +2,7 @@ package com.keeper.managers.impl;
 
 import com.keeper.entity.dto.UserDTO;
 import com.keeper.entity.User;
-import com.keeper.managers.IUserDtoManager;
+import com.keeper.managers.IUserManager;
 import com.keeper.service.impl.UserRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +16,11 @@ import java.util.List;
  *
  */
 
-@Service
-public class UserDtoDaoManager implements IUserDtoManager {
+//@Service
+public class UserManager implements IUserManager {
 
-    @Autowired
-    private UserRepoService repoService;
+//    @Autowired
+//    private UserRepoService repoService;
 
     //<editor-fold desc="Dao&Dto">
 

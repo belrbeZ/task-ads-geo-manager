@@ -25,7 +25,7 @@ public class DatabaseResolver {
 
 
     // TEST
-    public static final String TEST_SCHEMA      = "test_schema";//"test";
+    public static final String TEST_SCHEMA      = "test";//"test";
     public static final String TEST_TABLE_USERS         = "test_user";
     public static final String TEST_TABLE_ZONES         = "test_zones";
 }

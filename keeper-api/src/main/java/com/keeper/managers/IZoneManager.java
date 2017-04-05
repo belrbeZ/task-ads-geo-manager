@@ -11,7 +11,7 @@ import com.keeper.entity.dto.ZoneDTO;
 /**
  * Default Comment
  */
-public interface IZoneDtoManager extends IModelDtoManager<Zone, ZoneDTO> {
+public interface IZoneManager extends IModelManager<Zone, ZoneDTO> {
     ZoneDTO addRoutes(Long ownerId, ZoneDTO zone);
 
     ZoneDTO getRoutes(Long ownerId, ZoneDTO zoneId);
