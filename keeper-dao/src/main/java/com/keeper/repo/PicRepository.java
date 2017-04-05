@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = "picRepository")
-public interface PicRepository extends JpaRepository<Picture, Long> {
+//@Repository
+//@Qualifier(value = "picRepository")
+public interface PicRepository{//} extends JpaRepository<Picture, Long> {
 }

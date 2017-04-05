@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = "routeRepository")
-public interface RouteRepository extends JpaRepository<Route, Long>{// , QueryDslPredicateExecutor<Task>
+//@Repository
+//@Qualifier(value = "routeRepository")
+public interface RouteRepository{//} extends JpaRepository<Route, Long>{// , QueryDslPredicateExecutor<Task>
 }

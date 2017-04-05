@@ -2,8 +2,7 @@ package com.keeper.controllers.userpages;
 
 
 import com.keeper.entity.dto.UserDTO;
-import com.keeper.managers.ItemNotFoundException;
-import com.keeper.managers.impl.UserDtoDaoManager;
+import com.keeper.managers.impl.UserTestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class UserController extends AbstractController {
     
 //    @Resource
     @Autowired //final
-    private UserDtoDaoManager userDtoDaoManager;
+    private UserTestManager userTestDtoDaoManager;
 
 //    @Resource
 //    private GeoPointDtoDaoManager geoPointDtoDaoManager;
@@ -70,7 +69,7 @@ public class UserController extends AbstractController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         LOGGER.debug("Deleting user with id: " + id);
 
-        userDtoDaoManager.removeUser(id);
+        userTestDtoDaoManager.removeUser(id);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_DELETED, id);
 
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -106,7 +105,7 @@ public class UserController extends AbstractController {
             return USER_ADD_FORM_VIEW;
         }
                 
-        UserDTO user = userDtoDaoManager.addUser(created);
+        UserDTO user = userTestDtoDaoManager.addUser(created);
 
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_CREATED, user.getName());
 
@@ -124,7 +123,7 @@ public class UserController extends AbstractController {
     public String showEditUserForm(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
         LOGGER.debug("Rendering edit user form for user with id: " + id);
         
-        UserDTO user = userDtoDaoManager.getUser(id);
+        UserDTO user = userTestDtoDaoManager.getUser(id);
         if (user == null) {
             LOGGER.debug("No user found with id: " + id);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_USER_WAS_NOT_FOUND);
@@ -152,7 +151,7 @@ public class UserController extends AbstractController {
             return USER_EDIT_FORM_VIEW;
         }
         
-        UserDTO user = userDtoDaoManager.updateUser(updated);
+        UserDTO user = userTestDtoDaoManager.updateUser(updated);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_EDITED, user.getName());
 
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -168,7 +167,7 @@ public class UserController extends AbstractController {
     public String showList(Model model) {
         LOGGER.debug("Rendering user list page");
 
-        List<UserDTO> users = userDtoDaoManager.getAllUsers();
+        List<UserDTO> users = userTestDtoDaoManager.getAllUsers();
         model.addAttribute(MODEL_ATTRIBUTE_USERS, users);
 
         return USER_LIST_VIEW;
@@ -178,15 +177,15 @@ public class UserController extends AbstractController {
     public void test() {
         LOGGER.debug("Rendering user list page");
 
-        //userDtoDaoManager.test();
+        //userTestDtoDaoManager.test();
 
     }
    
     /**
      * This setter method should only be used by unit tests
-     * @param userDtoDaoManager
+     * @param userTestDtoDaoManager
      */
-    protected void setUserService(UserDtoDaoManager userDtoDaoManager) {
-        this.userDtoDaoManager = userDtoDaoManager;
+    protected void setUserService(UserTestManager userTestDtoDaoManager) {
+        this.userTestDtoDaoManager = userTestDtoDaoManager;
     }
 }

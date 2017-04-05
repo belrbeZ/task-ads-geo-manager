@@ -28,8 +28,8 @@ public class TaskRepoService implements ITaskService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    @Autowired
-    private TaskRepository repository;
+//    @Autowired
+//    private TaskRepository repository;
 
     @Override
     public Task addTask(Task task) {

@@ -21,8 +21,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Route Location implementation
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_ROUTES, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_ROUTES, schema = DatabaseResolver.SCHEMA)
 public class Route {
 
     public static final Route empty = new Route();

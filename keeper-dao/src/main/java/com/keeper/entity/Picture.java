@@ -20,8 +20,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Picture model
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_PICS, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_PICS, schema = DatabaseResolver.SCHEMA)
 public class Picture {
 
     public static final Picture empty = new Picture();

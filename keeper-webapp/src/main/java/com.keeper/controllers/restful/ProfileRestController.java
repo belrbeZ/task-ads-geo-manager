@@ -5,6 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.util.ApiResolver;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Control Profile Rest End points
  */
-@RestController
+//@Controller
 public class ProfileRestController {
 
     private final String restEndpoint = ApiResolver.API + ApiResolver.REST_PROFILE;

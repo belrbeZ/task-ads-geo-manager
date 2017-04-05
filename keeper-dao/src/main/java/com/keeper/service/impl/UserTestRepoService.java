@@ -1,78 +1,69 @@
 package com.keeper.service.impl;
 
-/*
- * Created by GoodforGod on 19.03.2017.
- *
- * Updated by AlexVasil on 22.03.2017.
- *
- * Updated by AlexVasil on 26.03.2017.
- *
- */
-
 import com.keeper.entity.User;
+import com.keeper.entity.UserTest;
 import com.keeper.repo.UserRepository;
+import com.keeper.repo.UserTestRepository;
 import com.keeper.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
- * Repository to work with User
+ * Created by Alexandr Vasiliev on 05.04.2017.
+ *
+ * @author Alexandr Vasiliev
  */
 
-//@Service(value = "userService")
-//@Repository
-public class UserRepoService implements IUserService {
-
+@Service
+public class UserTestRepoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-//    @Autowired
-//    private UserRepository repository;
+    private EntityManager entityManager;
 
-    @Override
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Autowired
+    private UserTestRepository userTestRepository;
+
     public boolean isExists(String email, String phone) {
         return false;
     }
 
-    @Override
-    public User addUser(User user) {
+    public User addUser(UserTest user) {
         return null;
     }
 
-    @Override
     public User getUser(Long id) {
         return null;
     }
 
-    @Override
     public User getUser(String email, String phone) {
         return null;
     }
 
-    @Override
     public List<User> getAllUsers() {
         return null;
     }
 
-    @Override
-    public User updateUser(User user) {
+    public User updateUser(UserTest user) {
         return null;
     }
 
-    @Override
-    public User removeUser(User user) {
+    public User removeUser(UserTest user) {
         return null;
     }
 
-    @Override
-    public void removeUser(Long id) {
+    public void removeUser(Long id) {}
 
-    }
-
-    @Override
     public void removeUser(String email, String phone) {
 
     }

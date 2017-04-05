@@ -254,6 +254,9 @@
                 <version>${dom4j-version}</version>
             </dependency>
 
+
+            <!--SWGGER-->
+
             <!--LOGGING-->
             <dependency>
                 <groupId>org.slf4j</groupId>

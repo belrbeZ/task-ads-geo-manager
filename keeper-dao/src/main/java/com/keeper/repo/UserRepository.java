@@ -16,9 +16,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA Repository for User
  */
-@Repository
-@Qualifier(value = "userRepository")
-public interface UserRepository extends JpaRepository<User, Long>{//, QueryDslPredicateExecutor<User>
+//@Repository
+//@Qualifier(value = "userRepository")
+public interface UserRepository {//extends JpaRepository<User, Long>{//, QueryDslPredicateExecutor<User>
     User findByEmail(@Param("email") String email);
     User findByPhone(@Param("phone") String phone);
 

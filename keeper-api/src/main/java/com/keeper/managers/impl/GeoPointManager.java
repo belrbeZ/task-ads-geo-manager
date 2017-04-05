@@ -2,10 +2,7 @@ package com.keeper.managers.impl;
 
 import com.keeper.entity.dto.GeoPointDTO;
 import com.keeper.entity.GeoPoint;
-import com.keeper.managers.IGeoPointDtoManager;
-import com.keeper.service.impl.GeoPointRepoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.keeper.managers.IGeoPointManager;
 
 import java.util.List;
 
@@ -16,11 +13,11 @@ import java.util.List;
  *
  */
 
-@Service
-public class GeoPointDtoDaoManager implements IGeoPointDtoManager<GeoPoint> {
+//@Service
+public class GeoPointManager implements IGeoPointManager<GeoPoint> {
 
-    @Autowired
-    private GeoPointRepoService repoService;
+//    @Autowired
+//    private GeoPointRepoService repoService;
 
     //<editor-fold desc="Dao&Dto">
 

@@ -22,8 +22,8 @@ public class RouteRepoService implements IRouteService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    @Autowired
-    private RouteRepository repository;
+//    @Autowired
+//    private RouteRepository repository;
 
     @Override
     public List<Route> addRoutes(Long ownerId, List<Route> routes) {

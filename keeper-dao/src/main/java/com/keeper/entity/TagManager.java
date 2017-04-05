@@ -13,8 +13,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Default Comment
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA)
 public class TagManager {
 
     @Id

@@ -14,8 +14,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Default Comment
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA)
 public class GeoManager {
 
     @Id

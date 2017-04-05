@@ -16,8 +16,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * User Current Time Zone and Location
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_ZONES, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_ZONES, schema = DatabaseResolver.SCHEMA)
 public class Zone {
 
     public static Zone empty = new Zone();

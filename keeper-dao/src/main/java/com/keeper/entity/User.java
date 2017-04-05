@@ -23,8 +23,8 @@ import static javax.persistence.GenerationType.IDENTITY;
  */
 
 
-@Entity
-@Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
 public class User {
 
     public static final User empty = new User();

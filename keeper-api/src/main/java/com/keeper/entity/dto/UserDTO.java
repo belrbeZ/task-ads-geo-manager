@@ -12,6 +12,8 @@ import java.util.TimeZone;
  * @author Alexandr Vasiliev
  *
  */
+
+
 public class UserDTO {
     public static final UserDTO empty = new UserDTO();
 

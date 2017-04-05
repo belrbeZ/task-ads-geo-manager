@@ -1,8 +1,6 @@
 package com.keeper.managers;
 
-import com.keeper.entity.Route;
 import com.keeper.entity.dto.RouteDTO;
-import com.keeper.service.IRouteService;
 
 import java.util.List;
 
@@ -12,7 +10,7 @@ import java.util.List;
  * @author Alexandr Vasiliev
  *
  */
-public interface IRouteDtoManager<T> extends IModelDtoManager<T, RouteDTO> {
+public interface IRouteManager<T> extends IModelManager<T, RouteDTO> {
     List<RouteDTO> addRoutes(Long ownerId, List<RouteDTO> routes);
 
     List<RouteDTO> getRoutes(Long ownerId, List<Long> routeIds);

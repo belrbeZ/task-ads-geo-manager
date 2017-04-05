@@ -14,8 +14,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Default Comment
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_TAGS, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_TAGS, schema = DatabaseResolver.SCHEMA)
 public class Tag {
 
     public static final Tag empty = new Tag();

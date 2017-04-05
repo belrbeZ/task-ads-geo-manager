@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = "geoPointRepository")
-public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> {//, QueryDslPredicateExecutor<GeoPoint>
+//@Repository
+//@Qualifier(value = "geoPointRepository")
+public interface GeoPointRepository{// extends JpaRepository<GeoPoint, Long> {//, QueryDslPredicateExecutor<GeoPoint>
 
 }

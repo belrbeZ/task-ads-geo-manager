@@ -4,16 +4,14 @@ package com.keeper.managers;
  * Created by Alexandr Vasiliev on 30.03.2017.
  */
 
-import com.keeper.entity.User;
 import com.keeper.entity.dto.UserDTO;
-import com.keeper.service.IUserService;
 
 import java.util.List;
 
 /**
  * Default Comment
  */
-public interface IUserDtoManager<T> extends IModelDtoManager<T, UserDTO> {
+public interface IUserManager<T> extends IModelManager<T, UserDTO> {
     boolean isExists(String email, String phone);
 
     UserDTO addUser(UserDTO user);

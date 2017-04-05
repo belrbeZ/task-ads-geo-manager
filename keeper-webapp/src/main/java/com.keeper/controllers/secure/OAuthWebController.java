@@ -7,10 +7,8 @@ package com.keeper.controllers.secure;
  *
  */
 
-import com.keeper.managers.impl.UserDtoDaoManager;
 import com.keeper.util.ViewResolver;
 import com.keeper.util.WebMappingResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class OAuthWebController {
 
-    @Autowired
-    private UserDtoDaoManager userDtoDaoManager;
+//    @Autowired
+//    private UserDtoDaoManager userDtoDaoManager;
 
     @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
     public String registerPage(Model model) {

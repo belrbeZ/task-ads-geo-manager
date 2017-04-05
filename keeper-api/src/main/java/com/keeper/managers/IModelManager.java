@@ -8,7 +8,7 @@ import java.util.List;
  * @author Alexandr Vasiliev
  *
  */
-public interface IModelDtoManager<TDao, TDto> {
+public interface IModelManager<TDao, TDto> {
     TDao parseDtoToDao(TDto dtoMode);
 
     TDto parseDaoToDto(TDao daoModel);

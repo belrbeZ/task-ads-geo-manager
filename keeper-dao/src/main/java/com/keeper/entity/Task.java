@@ -20,8 +20,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 /**
  * Task model implementation
  */
-@Entity
-@Table(name = DatabaseResolver.TABLE_TASKS, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_TASKS, schema = DatabaseResolver.SCHEMA)
 public class Task {
 
     public static final Task empty = new Task();

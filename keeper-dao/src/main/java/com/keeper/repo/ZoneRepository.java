@@ -16,8 +16,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = "zoneRepository")
-public interface ZoneRepository extends JpaRepository<Zone, Long> {
+//@Repository
+//@Qualifier(value = "zoneRepository")
+public interface ZoneRepository{//} extends JpaRepository<Zone, Long> {
     Zone findByOwnerId(@Param("ownerId") Long ownerId);
 }
