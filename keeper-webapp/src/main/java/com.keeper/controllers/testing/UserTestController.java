@@ -1,4 +1,4 @@
-package com.keeper.controllers.userpages;
+package com.keeper.controllers.testing;
 
 
 import com.keeper.entity.dto.UserTestDTO;
@@ -23,7 +23,7 @@ import java.util.List;
 @SessionAttributes("user")
 public class UserTestController extends AbstractController {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserTestController.class);
+/*    private static final Logger LOGGER = LoggerFactory.getLogger(UserTestController.class);
     
     protected static final String ERROR_MESSAGE_KEY_DELETED_USER_WAS_NOT_FOUND = "error.message.deleted.not.found";
     protected static final String ERROR_MESSAGE_KEY_EDITED_USER_WAS_NOT_FOUND = "error.message.edited.not.found";
@@ -63,12 +63,12 @@ public class UserTestController extends AbstractController {
 //    private TaskDtoDaoManager taskDtoDaoManager;
 
 
-    /**
+    *//**
      * Processes delete user requests.
      * @param id    The id of the deleted user.
      * @param attributes
      * @return
-     */
+     *//*
     @RequestMapping(value = "/user/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         LOGGER.debug("Deleting user with id: " + id);
@@ -80,11 +80,11 @@ public class UserTestController extends AbstractController {
     }
 
     
-    /**
+    *//**
      * Processes create user requests.
      * @param model
      * @return  The name of the create user form view.
-     */
+     *//*
     @RequestMapping(value = "/user/create", method = RequestMethod.GET) 
     public String showCreateUserForm(Model model) {
         LOGGER.debug("Rendering create user form");
@@ -94,13 +94,13 @@ public class UserTestController extends AbstractController {
         return USER_ADD_FORM_VIEW;
     }
 
-    /**
+    *//**
      * Processes the submissions of create user form.
      * @param created   The information of the created users.
      * @param bindingResult
      * @param attributes
      * @return
-     */
+     *//*
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
     public String submitCreateUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserTestDTO created, BindingResult bindingResult, RedirectAttributes attributes) {
         LOGGER.debug("Create user form was submitted with information: " + created);
@@ -116,13 +116,13 @@ public class UserTestController extends AbstractController {
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
     }
 
-    /**
+    *//**
      * Processes edit user requests.
      * @param id    The id of the edited user.
      * @param model
      * @param attributes
      * @return  The name of the edit user form view.
-     */
+     *//*
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.GET)
     public String showEditUserForm(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
         LOGGER.debug("Rendering edit user form for user with id: " + id);
@@ -139,13 +139,13 @@ public class UserTestController extends AbstractController {
         return USER_EDIT_FORM_VIEW;
     }
 
-    /**
+    *//**
      * Processes the submissions of edit user form.
      * @param updated   The information of the edited user.
      * @param bindingResult
      * @param attributes
      * @return
-     */
+     *//*
     @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
     public String submitEditUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserTestDTO updated, BindingResult bindingResult, RedirectAttributes attributes) {
         LOGGER.debug("Edit user form was submitted with information: " + updated);
@@ -162,11 +162,11 @@ public class UserTestController extends AbstractController {
     }
     
 
-    /**
+    *//**
      * Processes requests to home page which lists all available users.
      * @param model
      * @return  The name of the user list view.
-     */
+     *//*
     @RequestMapping(value = REQUEST_MAPPING_LIST, method = RequestMethod.GET)
     public String showList(Model model) {
         LOGGER.debug("Rendering user list page");
@@ -185,11 +185,11 @@ public class UserTestController extends AbstractController {
 
     }
    
-    /**
+    *//**
      * This setter method should only be used by unit tests
      * @param userTestManager
-     */
+     *//*
     protected void setUserService(UserTestManager userTestManager) {
         this.userTestManager = userTestManager;
-    }
+    }*/
 }

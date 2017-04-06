@@ -5,7 +5,8 @@ package com.keeper.util;
  */
 
 /**
- * Default Comment
+ * Helps to compress Images to store them in Database using smaller amount bytes
+ * Uses LZ4
  */
 public class Compressor {
 

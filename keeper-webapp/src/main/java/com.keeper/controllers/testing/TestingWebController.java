@@ -1,4 +1,4 @@
-package com.keeper.controllers.userpages;
+package com.keeper.controllers.testing;
 
 /*
  * Created by @GoodforGod on 28.03.2017.

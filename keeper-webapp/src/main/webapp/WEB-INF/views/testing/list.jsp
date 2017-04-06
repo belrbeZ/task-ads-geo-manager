@@ -16,6 +16,6 @@
         <div class="errorblock"><c:out value="${errorMessage}"/></div>
     </c:if>
 </div>
-<jsp:include page="userList.jsp"/>
+    <%-- <jsp:include page="userList.jsp"/> --%>
 </body>
 </html>
