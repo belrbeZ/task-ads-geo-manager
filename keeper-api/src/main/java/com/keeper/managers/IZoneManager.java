@@ -4,8 +4,7 @@ package com.keeper.managers;
  * Created by @GoodforGod on 5.04.2017.
  */
 
-import com.keeper.entity.Zone;
-import com.keeper.entity.dto.UserDTO;
+import com.keeper.entity.dao.Zone;
 import com.keeper.entity.dto.ZoneDTO;
 
 /**

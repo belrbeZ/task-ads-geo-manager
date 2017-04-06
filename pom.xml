@@ -3,11 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <parent>
+<!--    <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>${spring-boot-parent-version}</version>
-    </parent>
+    </parent>-->
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.keeper</groupId>
@@ -15,15 +15,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <parent-groupId>com.keeper</parent-groupId>
-        <parent-artifactId>keeper</parent-artifactId>
-        <parent-version>1.0-SNAPSHOT</parent-version>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdk-version}</maven.compiler.source>
         <maven.compiler.target>${jdk-version}</maven.compiler.target>
-
-        <gson-version>2.8.0</gson-version>
 
         <!-- JDK -->
         <jdk-version>1.8</jdk-version>
@@ -31,25 +25,19 @@
         <jsp-api-version>2.3.1</jsp-api-version>
         <jstl-version>1.2</jstl-version>
 
-        <!-- Hibernate -->
-        <hibernate-version>5.2.9.Final</hibernate-version>
-        <javassist-version>3.12.1.GA</javassist-version>
-        <hibernate-validator-version>5.4.1.Final</hibernate-validator-version>
-
-        <dom4j-version>1.6.1</dom4j-version>
-
         <!-- Common -->
         <junit-version>3.8.1</junit-version>
         <jodatime-version>2.9.6</jodatime-version>
-        <jackson-version>2.8.7</jackson-version>
-
-
+        <gson-version>2.8.0</gson-version>
+        <swagger-version>2.2.2</swagger-version>
         <c3p0-version>0.9.5.2</c3p0-version>
+        <junit-version>3.8.1</junit-version>
+
         <!-- Spring -->
-        <spring-data-version>1.11.1.RELEASE</spring-data-version>
         <spring-context-version>4.3.7.RELEASE</spring-context-version>
-        <spring-web-mvc-vesrion>4.3.7.RELEASE</spring-web-mvc-vesrion>
+        <spring-mvc-vesrion>4.3.7.RELEASE</spring-mvc-vesrion>
         <spring-web-vesrion>4.3.7.RELEASE</spring-web-vesrion>
+        <spring-data-version>1.11.1.RELEASE</spring-data-version>
 
         <!-- Spring Secure -->
         <spring-secure-version>4.2.2.RELEASE</spring-secure-version>
@@ -59,28 +47,14 @@
         <spring-boot-version>1.5.2.RELEASE</spring-boot-version>
         <spring-boot-parent-version>1.5.2.RELEASE</spring-boot-parent-version>
 
-
-        <spring-tx-version>4.3.7.RELEASE</spring-tx-version>
         <!-- JDBC -->
         <postgresql-jdbc-version>9.4-1200-jdbc4</postgresql-jdbc-version>
 
         <!-- Loggers -->
         <log4j-version>1.2.17</log4j-version>
         <slf4j-version>1.7.5</slf4j-version>
-
-        <!--JUnit-->
-        <junit-version>3.8.1</junit-version>
-
-        <!-- Sonar -->
-        <sonar-maven-plugin.version>2.5</sonar-maven-plugin.version>
-        <sonar.language>java</sonar.language>
-        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-
-        <!-- Plugin -->
-        <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
-        <jacoco-maven-plugin.version>0.7.3.201502191951</jacoco-maven-plugin.version>
+        <slf4j-log4j-version>1.7.25</slf4j-log4j-version>
+        <commons-dbcp-version>1.4</commons-dbcp-version>
     </properties>
 
     <dependencyManagement>
@@ -134,18 +108,13 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
-                <artifactId>spring-tx</artifactId>
-                <version>${spring-tx-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring-web-vesrion}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
-                <version>${spring-web-mvc-vesrion}</version>
+                <version>${spring-mvc-vesrion}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -154,7 +123,7 @@
             </dependency>
 
             <!-- Spring Secure -->
-            <dependency>
+<!--            <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-web</artifactId>
                 <version>${spring-secure-version}</version>
@@ -173,7 +142,7 @@
                 <groupId>org.springframework.security.oauth</groupId>
                 <artifactId>spring-security-oauth2</artifactId>
                 <version>${spring-secure-oauth-version}</version>
-            </dependency>
+            </dependency>-->
 
             <!-- Spring Boot -->
             <dependency>
@@ -186,11 +155,6 @@
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
-            <!--<dependency>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-starter-data-rest</artifactId>-->
-                <!--<version>${spring-boot-version}</version>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
@@ -198,22 +162,7 @@
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-security</artifactId>
-                <version>${spring-boot-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-actuator</artifactId>
-                <version>${spring-boot-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
 
@@ -224,181 +173,37 @@
                 <version>${postgresql-jdbc-version}</version>
             </dependency>
 
-            <!-- Hibernate -->
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-c3p0</artifactId>
-                <version>${hibernate-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javassist</groupId>
-                <artifactId>javassist</artifactId>
-                <version>${javassist-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-validator</artifactId>
-                <version>${hibernate-validator-version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>dom4j</groupId>
-                <artifactId>dom4j</artifactId>
-                <version>${dom4j-version}</version>
-            </dependency>
-
-
-            <!--SWGGER-->
-
             <!--LOGGING-->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
-                <version>1.7.25</version>
+                <version>${slf4j-log4j-version}</version>
             </dependency>
-
-            <!--WAR-->
             <dependency>
-                <groupId>${parent-groupId}</groupId>
-                <artifactId>${parent-artifactId}-service-impl</artifactId>
-                <version>${parent-version}</version>
-                <type>war</type>
-                <scope>runtime</scope>
+                <groupId>commons-dbcp</groupId>
+                <artifactId>commons-dbcp</artifactId>
+                <version>${commons-dbcp-version}</version>
             </dependency>
 
-            <!--SWAGGER2-->
-            <!--<dependency>-->
-                <!--<groupId>io.springfox</groupId>-->
-                <!--<artifactId>springfox-swagger-ui</artifactId>-->
-                <!--<version>2.2.2</version>-->
-            <!--</dependency>-->
-            <!--<dependency>-->
-                <!--<groupId>io.springfox</groupId>-->
-                <!--<artifactId>springfox-swagger2</artifactId>-->
-                <!--<version>2.2.2</version>-->
-            <!--</dependency>-->
-
+            <!-- SWAGGER2 -->
+<!--            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger-version}</version>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
     <modules>
-        <module>keeper-dao</module>
         <module>keeper-webapp</module>
         <module>keeper-api</module>
     </modules>
 
     <packaging>pom</packaging>
-    <!--<packaging>war</packaging>-->
-
-    <!--<build>-->
-        <!--<pluginManagement>-->
-            <!--<plugins>-->
-                <!--<plugin>-->
-                    <!--<groupId>org.apache.maven.plugins</groupId>-->
-                    <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                    <!--<version>${maven-surefire-plugin.version}</version>-->
-                <!--</plugin>-->
-            <!--</plugins>-->
-        <!--</pluginManagement>-->
-
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.jacoco</groupId>-->
-                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
-                <!--<version>${jacoco-maven-plugin.version}</version>-->
-                <!--<configuration>-->
-                    <!--<destFile>${project.basedir}/../target/jacoco.exec</destFile>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--<goal>prepare-agent</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>sonar-maven-plugin</artifactId>-->
-                <!--<version>${sonar-maven-plugin.version}</version>-->
-            <!--</plugin>-->
-
-        <!--</plugins>-->
-    <!--</build>-->
-
-    <!--First version. If all modules are jar.-->
-    <!--<build>-->
-        <!--<finalName>keeper-webapp</finalName>-->
-
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-war-plugin</artifactId>-->
-                <!--<version>${maven-war-plugin-version}</version>-->
-
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</build>-->
-
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <tagBase>
-                        svn://svn.int.company.at/stmlf-repository/prototype/bbsng/tags
-                    </tagBase>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${jdk-version}</source>
-                    <target>${jdk-version}</target>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <!--<dependentWarExcludes>WEB-INF/web.xml,**/**.class</dependentWarExcludes>-->
-                    <!--<webResources>-->
-                        <!--<resource>-->
-                            <!--&lt;!&ndash;  change if necessary &ndash;&gt;-->
-                            <!--<directory>src/main/webapp/WEB-INF</directory>-->
-                            <!--<filtering>true</filtering>-->
-                            <!--<targetPath>WEB-INF</targetPath>-->
-                        <!--</resource>-->
-                    <!--</webResources>-->
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-
-
-    <!--<build>-->
-        <!--<finalName>keeper-core-webapp</finalName>-->
-
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</build>-->
 
 </project>

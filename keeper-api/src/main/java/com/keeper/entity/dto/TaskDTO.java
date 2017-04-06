@@ -1,14 +1,7 @@
 package com.keeper.entity.dto;
 
-import com.keeper.entity.Task;
 import com.keeper.entity.states.TaskState;
 import com.keeper.entity.states.TaskType;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Created by Alexandr Vasiliev on 29.03.2017.

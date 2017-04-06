@@ -1,12 +1,9 @@
 package com.keeper.managers.impl;
 
+import com.keeper.entity.dao.Task;
+import com.keeper.entity.dao.User;
 import com.keeper.entity.dto.TaskDTO;
-import com.keeper.entity.Task;
-import com.keeper.entity.User;
 import com.keeper.managers.ITaskManager;
-import com.keeper.service.impl.TaskRepoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
@@ -25,29 +22,6 @@ public class TaskManager implements ITaskManager<Task> {
 //    private TaskRepoService repoService;
 
     //<editor-fold desc="Dao&Dto">
-
-    @Override
-    public Task parseDtoToDao(TaskDTO dtoMode) {
-        return null;
-    }
-
-    @Override
-    public TaskDTO parseDaoToDto(Task daoModel) {
-        return null;
-    }
-
-    @Override
-    public List<Task> parseDtoToDao(List<TaskDTO> dtoModelList) {
-        return null;
-    }
-
-    @Override
-    public List<TaskDTO> parseDaoToDto(List<Task> daoModelList) {
-        return null;
-    }
-
-
-    //<editor-fold desc="Operations">
 
     @Override
     public TaskDTO addTask(Task TaskDTO) {

@@ -7,8 +7,8 @@ package com.keeper.controllers.secure;
  *
  */
 
-import com.keeper.util.ViewResolver;
-import com.keeper.util.WebMappingResolver;
+import com.keeper.util.web.ViewResolver;
+import com.keeper.util.web.WebMappingResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

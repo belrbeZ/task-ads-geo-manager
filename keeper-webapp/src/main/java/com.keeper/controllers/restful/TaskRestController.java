@@ -4,12 +4,10 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.ApiResolver;
-import org.springframework.stereotype.Controller;
+import com.keeper.util.web.ApiResolver;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Control Tasks Rest End points

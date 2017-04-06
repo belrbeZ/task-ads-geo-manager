@@ -1,11 +1,8 @@
 package com.keeper.managers.impl;
 
+import com.keeper.entity.dao.Route;
 import com.keeper.entity.dto.RouteDTO;
-import com.keeper.entity.Route;
 import com.keeper.managers.IRouteManager;
-import com.keeper.service.impl.RouteRepoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,29 +18,6 @@ public class RouteManager implements IRouteManager {
 
 //    @Autowired
 //    private RouteRepoService repoService;
-
-    //<editor-fold desc="Dao&Dto">
-
-    @Override
-    public Route parseDtoToDao(RouteDTO dtoMode) {
-                                               return null;
-                                                           }
-
-    @Override
-    public RouteDTO parseDaoToDto(Route daoModel) {
-                                                return null;
-                                                            }
-
-    @Override
-    public List<RouteDTO> parseDaoToDto(List<Route> daoModelList) {
-        return null;
-    }
-
-    @Override
-    public List<Route> parseDtoToDao(List<RouteDTO> dtoModelList) {
-                                                                return null;
-                                                                                            }
-    //</editor-fold>
 
     //<editor-fold desc="Operations">
 

@@ -1,11 +1,8 @@
 package com.keeper.managers.impl;
 
+import com.keeper.entity.dao.User;
 import com.keeper.entity.dto.UserDTO;
-import com.keeper.entity.User;
 import com.keeper.managers.IUserManager;
-import com.keeper.service.impl.UserRepoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,29 +18,6 @@ public class UserManager implements IUserManager {
 
 //    @Autowired
 //    private UserRepoService repoService;
-
-    //<editor-fold desc="Dao&Dto">
-
-    @Override
-    public User parseDtoToDao(UserDTO dtoMode) {
-        return null;
-    }
-
-    @Override
-    public UserDTO parseDaoToDto(User daoModel) {
-        return null;
-    }
-
-    @Override
-    public List<User> parseDtoToDao(List<UserDTO> dtoModelList) {
-        return null;
-    }
-
-    @Override
-    public List<UserDTO> parseDaoToDto(List<User> daoModelList) {
-        return null;
-    }
-    //</editor-fold>
 
     //<editor-fold desc="Operations">
 

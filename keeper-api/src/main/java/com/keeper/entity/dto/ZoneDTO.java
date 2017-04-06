@@ -4,16 +4,9 @@ package com.keeper.entity.dto;
  * Created by Alexandr Vasiliev on 30.03.2017.
  */
 
-import com.keeper.entity.Zone;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * User Current Time Zone and Location

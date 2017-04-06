@@ -4,21 +4,12 @@ package com.keeper.config.security;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.SecureResolver;
-import com.keeper.util.WebMappingResolver;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
-
 /**
  * Spring Security Config File
  */
 //@Configuration
 //@EnableResourceServer
-public class ResourceSecurityConfig extends ResourceServerConfigurerAdapter{
+public class ResourceSecurityConfig { //extends ResourceServerConfigurerAdapter{
 //
 //    private final String ROLE_CLIENT  = "hasRole('" + SecureResolver.ROLE_CLIENT + "')" ;
 //    private final String ROLE_ADMIN = SecureResolver.ROLE_ADMIN;
