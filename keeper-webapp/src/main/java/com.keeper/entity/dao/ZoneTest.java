@@ -5,12 +5,13 @@ package com.keeper.entity.dao;
  */
 
 import com.keeper.util.dao.DatabaseResolver;
+import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 /**
  * Default Comment
@@ -21,25 +22,22 @@ public class ZoneTest {
 
     public static ZoneTest empty = new ZoneTest();
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "userId", unique = true, nullable = false)   private Long userId;
     @Column(name = "city")                                      private String city;
     @Column(name = "country", nullable = false)                 private String country;
-    @Column(name = "registerDate", nullable = false)            private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
+    @Column(name = "registerDate", nullable = false)            private Timestamp registerDate;
 
-    private ZoneTest(){ }
+    private ZoneTest() { }
 
-    public ZoneTest(Long userId, String city, String country) {
+    public ZoneTest(Long userId, String city, String country) throws NullAttributeException {
+
+        if(userId == null)
+            throw new NullAttributeException("Nullable", "USER_ID");
+
         this.userId = userId;
         this.city = city;
         this.country = country;
-    }
-
-    public ZoneTest(Long userId, String city, String country, Timestamp registerDate){//}, TimeZone timeZone) {
-        this(userId, city, country);
-        this.registerDate = registerDate;
-//        this.timeZone = timeZone;
+        this.registerDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -68,16 +66,5 @@ public class ZoneTest {
         return registerDate;
     }
 
-    public void setRegisterDate(Timestamp registerDate) {
-        this.registerDate = registerDate;
-    }
-
-//    public TimeZone getTimeZone() {
-//        return timeZone;
-//    }
-//
-//    public void setTimeZone(TimeZone timeZone) {
-//        this.timeZone = timeZone;
-//    }
     //</editor-fold>
 }

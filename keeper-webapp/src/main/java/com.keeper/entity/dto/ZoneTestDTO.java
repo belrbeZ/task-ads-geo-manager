@@ -5,8 +5,6 @@ package com.keeper.entity.dto;
  */
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.TimeZone;
 
 /**
  * Default Comment
@@ -17,21 +15,15 @@ public class ZoneTestDTO {
     private Long userId;
     private String city;
     private String country;
-    private Timestamp registerDate = Timestamp.valueOf(LocalDateTime.now());
-    private TimeZone timeZone = TimeZone.getDefault();
+    private Timestamp registerDate;
 
-    private ZoneTestDTO(){ }
+    private ZoneTestDTO() { }
 
-    public ZoneTestDTO(Long userId, String city, String country) {
+    public ZoneTestDTO(Long userId, String city, String country, Timestamp timestamp) {
         this.userId = userId;
         this.city = city;
         this.country = country;
-    }
-
-    public ZoneTestDTO(Long userId, String city, String country, Timestamp registerDate, TimeZone timeZone) {
-        this(userId, city, country);
-        this.registerDate = registerDate;
-        this.timeZone = timeZone;
+        this.registerDate = timestamp;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -60,16 +52,5 @@ public class ZoneTestDTO {
         return registerDate;
     }
 
-    public void setRegisterDate(Timestamp registerDate) {
-        this.registerDate = registerDate;
-    }
-
-    public TimeZone getTimeZone() {
-        return timeZone;
-    }
-
-    public void setTimeZone(TimeZone timeZone) {
-        this.timeZone = timeZone;
-    }
     //</editor-fold>
 }
