@@ -1,7 +1,7 @@
 package com.keeper.config.setup;
 
 /*
- * Created by @GoodforGod on 29.03.2017.
+ * Created by @Alex Vasil on 06.04.2017.
  */
 
 import com.keeper.config.SwaggerConfig;
@@ -14,8 +14,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * Default Comment
+ * MODULE VERSION
+ * NO ERRORS
  */
+
+
 @SpringBootApplication
 @ComponentScan("com.keeper")
 //@EnableScheduling
