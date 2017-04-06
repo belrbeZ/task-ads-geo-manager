@@ -26,7 +26,7 @@ public class TestingWebController {
 //    /**
 //     * This method will list all existing users.
 //     */
-//    @RequestMapping(value = WebMappingResolver.TEST_USERS, method = RequestMethod.GET)
+//    @RequestMapping(value = WebmapResolver.TEST_USERS, method = RequestMethod.GET)
 //    public String listUsers(ModelMap model) {
 //
 //        List<User> users = userRepoService.getAllUsers();
@@ -37,7 +37,7 @@ public class TestingWebController {
 //    /**
 //     * This method will provide the medium to add a new user.
 //     */
-//    @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
+//    @RequestMapping(value = WebmapResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
 //    public String newUser(ModelMap model) {
 //        //TEST
 //        User user = new User(UserType.USER, "name", "email", "phone", "password", "about", new Zone(222L, "city", "country"));
@@ -50,7 +50,7 @@ public class TestingWebController {
 //     * This method will be called on form submission, handling POST request for
 //     * saving user in database. It also validates the user input
 //     */
-//    @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER, method = RequestMethod.POST)
+//    @RequestMapping(value = WebmapResolver.WEB_PAGE_REGISTER, method = RequestMethod.POST)
 //    public String saveUser(@Valid User user,
 //                           BindingResult result,
 //                           ModelMap model) {

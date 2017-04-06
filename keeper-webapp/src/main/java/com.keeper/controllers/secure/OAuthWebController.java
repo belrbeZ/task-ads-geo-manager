@@ -8,7 +8,7 @@ package com.keeper.controllers.secure;
  */
 
 import com.keeper.util.web.ViewResolver;
-import com.keeper.util.web.WebMappingResolver;
+import com.keeper.util.web.WebmapResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,14 +23,14 @@ public class OAuthWebController {
 //    @Autowired
 //    private UserDtoDaoManager userDtoDaoManager;
 
-    @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
+    @RequestMapping(value = WebmapResolver.WEB_PAGE_REGISTER, method = RequestMethod.GET)
     public String registerPage(Model model) {
 
 
         return ViewResolver.WEB_REGISTER;
     }
 
-    @RequestMapping(value = WebMappingResolver.WEB_PAGE_REGISTER,
+    @RequestMapping(value = WebmapResolver.WEB_PAGE_REGISTER,
                     method = RequestMethod.POST)
     public String registerPost(Model model) {
 
@@ -38,7 +38,7 @@ public class OAuthWebController {
         return ViewResolver.WEB_REGISTER;
     }
 
-    @RequestMapping(value = WebMappingResolver.WEB_OAUTH,
+    @RequestMapping(value = WebmapResolver.WEB_OAUTH,
                     method = RequestMethod.GET)
     public String oauthPage(Model model) {
 
@@ -46,7 +46,7 @@ public class OAuthWebController {
         return ViewResolver.WEB_OAUTH;
     }
 
-    @RequestMapping(value = WebMappingResolver.WEB_OAUTH,
+    @RequestMapping(value = WebmapResolver.WEB_OAUTH,
                     method = RequestMethod.POST)
     public String oauthPost(Model model) {
 
@@ -54,7 +54,7 @@ public class OAuthWebController {
         return ViewResolver.WEB_OAUTH;
     }
 
-    @RequestMapping(value = WebMappingResolver.WEB_OAUTH + WebMappingResolver.WEB_TOKEN,
+    @RequestMapping(value = WebmapResolver.WEB_OAUTH + WebmapResolver.WEB_TOKEN,
                     method = RequestMethod.GET)
     public String oauthToken(Model model) {
 

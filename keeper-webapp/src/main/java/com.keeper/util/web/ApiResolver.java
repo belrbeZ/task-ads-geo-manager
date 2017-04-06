@@ -16,7 +16,10 @@ public class ApiResolver {
     public static final String PRODUCES_CHARSET = "charset=UTF-8;";
 
     public static final String REST_PROFILE = "/profile";
-    public static final String REST_USERS   = "/users";
-    public static final String REST_TASKS   = "/tasks";
-    public static final String REST_LOCATION = "/locations";
+    public static final String REST_TASK    = "/task";
+    public static final String REST_ZONE    = "/zone";
+    public static final String REST_ROUTE   = "/route";
+    public static final String REST_POINT   = "/point";
+
+    public static final String TEST_REST = "/test";
 }

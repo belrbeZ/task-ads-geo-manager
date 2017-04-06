@@ -1,4 +1,4 @@
-package com.keeper.config;
+package com.keeper;
 
 /*
  * Created by @GoodforGod on 29.03.2017.
@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * Default Comment
+ * Main Application Spring Boot Starter
  */
 @SpringBootApplication
 @ComponentScan("com.keeper")
@@ -20,5 +20,4 @@ public class AppBootstarter {
     public static void main(String[] args) {
         SpringApplication.run(AppBootstarter.class, args);
     }
-
 }

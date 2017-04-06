@@ -17,7 +17,7 @@ public class ResourceSecurityConfig { //extends ResourceServerConfigurerAdapter{
 //    private final String PATH_AUTH  = SecureResolver.PATH_AUTH + "/**";
 //    private final String PATH_ADMIN = SecureResolver.PATH_ADMIN + "/**";
 //
-//    private final String ResourceId = WebMappingResolver.WEB_OAUTH;
+//    private final String ResourceId = WebmapResolver.WEB_OAUTH;
 //
 //    @Override
 //    public void configure(ResourceServerSecurityConfigurer resource) {

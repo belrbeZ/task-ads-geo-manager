@@ -7,7 +7,7 @@ package com.keeper.util.web;
 /**
  * Stores all paths for Controllers and Rest End Points
  */
-public class WebMappingResolver {
+public class WebmapResolver {
     public static final String WEB_SECURE   = "/secure";
     public static final String WEB_OAUTH    = "/oauth";
     public static final String WEB_TOKEN    = "/token";
