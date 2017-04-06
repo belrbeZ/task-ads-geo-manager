@@ -6,8 +6,11 @@ package com.keeper.controllers.testing.restful;
 
 import com.keeper.entity.dao.UserTest;
 import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.service.impl.UserTestRepoService;
+import com.keeper.util.Converter;
 import com.keeper.util.web.ApiResolver;
 import com.keeper.util.web.WebmapResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,23 +31,29 @@ public class UserTestRestController {
             + ApiResolver.TEST_REST
             + ApiResolver.REST_PROFILE;
 
+    @Autowired
+    private UserTestRepoService repoService;
+
     @RequestMapping(value = path, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    String get(@PathVariable("id") String userId) {
-        return null;
+    String get(@PathVariable("id") Long userId) {
+        return Converter.convertToJson(repoService.get(userId));
     }
 
     @RequestMapping(value = path, method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     String update(@RequestBody UserTestDTO model) {
+        //
         return null;
     }
 
     @RequestMapping(value = path, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     String create(@RequestBody UserTest model) {
+        repoService.add(model);
         return null;
     }
 
     @RequestMapping(value = path, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    String delete(@PathVariable("id") String userId) {
+    String delete(@PathVariable("id") Long userId) {
+        repoService.remove(userId);
         return null;
     }
 }
