@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Qualifier(value = "userTestRepository")
-public interface UserTestRepository extends JpaRepository<UserTest, Long> {//, QueryDslPredicateExecutor<User>
+public interface UserTestRepository extends JpaRepository<UserTest, Long> {
     UserTest findByEmail(@Param("email") String email);
     UserTest findByPhone(@Param("phone") String phone);
 

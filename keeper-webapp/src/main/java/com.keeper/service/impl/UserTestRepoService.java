@@ -6,11 +6,8 @@ import com.keeper.service.IUserTestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 
 /**
  * Created by Alexandr Vasiliev on 05.04.2017.
@@ -19,54 +16,36 @@ import java.util.List;
  */
 
 @Service
-public class UserTestRepoService implements IUserTestService {
+public class UserTestRepoService extends ModelRepoService<UserTest>  implements IUserTestService {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(UserTestRepoService.class);
 
+    private final UserTestRepository repository;
+
     @Autowired
-    private UserTestRepository repository;
-
-    @Override
-    public boolean isExists(Long id) {
-        return false;
-    }
-
-    @Override
-    public UserTest add(UserTest model) {
-        return null;
-    }
-
-    @Override
-    public UserTest get(Long id) {
-        return null;
+    public UserTestRepoService(UserTestRepository repository) {
+        super(repository);
+        this.repository = repository;
     }
 
     @Override
     public boolean isExists(String email, String phone) {
-        return false;
-    }
-
-    @Override
-    public List<UserTest> getAll() {
-        return null;
-    }
-
-    @Override
-    public UserTest update(UserTest model) {
-        return null;
+        return get(email, phone) != null;
     }
 
     @Override
     public UserTest get(String email, String phone) {
-        return null;
-    }
-
-    @Override
-    public void remove(Long id) {
-
+        if(email != null && !email.isEmpty())
+            return repository.findByEmail(email);
+        else
+            return repository.findByPhone(phone);
     }
 
     @Override
     public void remove(String email, String phone) {
-
+        if(email != null && !email.isEmpty())
+            repository.deleteByEmail(email);
+        else
+            repository.deleteByPhone(phone);
     }
 }
