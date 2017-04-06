@@ -27,9 +27,9 @@ public class UserTest {
     @Column(name = "state")                                 private UserState state = UserState.AWAIT_VERIFICATION;
     @Column(name = "type")                                  private UserType type;
     @Column(name = "name", nullable = false)                private String name;
-    @Column(name = "email")                                 private String email;
+    @Column(name = "email", nullable = false)               private String email;
     @Column(name = "phone")                                 private String phone;
-    @Column(name = "password")                              private String password;
+    @Column(name = "password", nullable = false)            private String password;
     @Column(name = "about")                                 private String about;
     @Column(name = "isNotified")                            private Boolean isNotified = false;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;

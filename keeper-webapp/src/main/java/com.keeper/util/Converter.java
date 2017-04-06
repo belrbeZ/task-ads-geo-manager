@@ -1,4 +1,4 @@
-package com.keeper.util.common;
+package com.keeper.util;
 
 /*
  * Created by GoodforGod on 19.03.2017.
