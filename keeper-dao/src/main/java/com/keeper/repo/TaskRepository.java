@@ -20,9 +20,9 @@ import java.util.Set;
 /**
  * Spring Data JPA Repository for Tasks
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_TASK)
-public interface TaskRepository extends JpaRepository<Task, Long> {
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_TASK)
+public interface TaskRepository {//extends JpaRepository<Task, Long> {
     List<Task> findAllByTags(@Param("tagId") List<Long> tagsId);
 
     List<Task> findAllByTopicStarterId(@Param("userId") Long userId);

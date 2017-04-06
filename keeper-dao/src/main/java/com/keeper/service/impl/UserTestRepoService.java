@@ -24,12 +24,8 @@ import java.util.List;
 public class UserTestRepoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-    private EntityManager entityManager;
-
     @PersistenceContext
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private EntityManager em;
 
     @Autowired
     private UserTestRepository userTestRepository;

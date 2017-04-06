@@ -4,41 +4,42 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 5.04.2017.
  */
 
-import com.keeper.entity.Zone;
-import com.keeper.repo.ZoneRepository;
-import com.keeper.service.IZoneService;
+import com.keeper.entity.ZoneTest;
+import com.keeper.repo.ZoneTestRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 /**
  * Default Comment
  */
-//@Service
-public class ZoneRepoService implements IZoneService {
+@Service
+public class ZoneTestRepoService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
-//    @Autowired
-//    private ZoneRepository repository;
+    @PersistenceContext
+    private EntityManager em;
 
-    @Override
-    public Zone add(Zone zone) {
+    @Autowired
+    private ZoneTestRepository repository;
+
+    public ZoneTest add(ZoneTest zone) {
         return null;
     }
 
-    @Override
-    public Zone get(Long userId) {
+    public ZoneTest get(Long userId) {
         return null;
     }
 
-    @Override
-    public Zone update(Zone zone) {
+    public ZoneTest update(ZoneTest zone) {
         return null;
     }
 
-    @Override
     public void remove(Long userId) {
 
     }

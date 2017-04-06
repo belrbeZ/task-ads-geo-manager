@@ -24,7 +24,6 @@ import java.util.List;
  */
 
 //@Service(value = "userService")
-//@Repository
 public class UserRepoService implements IUserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);

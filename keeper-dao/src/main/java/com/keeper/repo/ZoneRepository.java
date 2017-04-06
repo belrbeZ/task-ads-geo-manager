@@ -17,8 +17,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_ZONE)
-public interface ZoneRepository extends JpaRepository<Zone, Long> {
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_ZONE)
+public interface ZoneRepository{// extends JpaRepository<Zone, Long> {
     Zone findByUserId(@Param("userId") Long userId);
 }

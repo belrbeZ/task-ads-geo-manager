@@ -18,7 +18,7 @@ import java.util.List;
  * @author AlexVasil
  *
  */
-@Service(value = "geoPointService")
+//@Service(value = "geoPointService")
 public class GeoPointRepoService implements IGeoPointService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);

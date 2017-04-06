@@ -16,8 +16,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_ROUTE)
-public interface RouteRepository extends JpaRepository<Route, Long>{
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_ROUTE)
+public interface RouteRepository {//extends JpaRepository<Route, Long>{
 
 }

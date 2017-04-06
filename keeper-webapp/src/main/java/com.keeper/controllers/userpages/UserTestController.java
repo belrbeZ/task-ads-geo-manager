@@ -1,8 +1,9 @@
 package com.keeper.controllers.userpages;
 
 
-import com.keeper.entity.dto.UserDTO;
+import com.keeper.entity.dto.UserTestDTO;
 import com.keeper.managers.impl.UserTestManager;
+import com.keeper.managers.impl.ZoneTestManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,9 @@ import java.util.List;
  */
 @Controller
 @SessionAttributes("user")
-public class UserController extends AbstractController {
+public class UserTestController extends AbstractController {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserTestController.class);
     
     protected static final String ERROR_MESSAGE_KEY_DELETED_USER_WAS_NOT_FOUND = "error.message.deleted.not.found";
     protected static final String ERROR_MESSAGE_KEY_EDITED_USER_WAS_NOT_FOUND = "error.message.edited.not.found";
@@ -44,7 +45,10 @@ public class UserController extends AbstractController {
     
 //    @Resource
     @Autowired //final
-    private UserTestManager userTestDtoDaoManager;
+    private UserTestManager userTestManager;
+
+    @Autowired //final
+    private ZoneTestManager zoneTestManager;
 
 //    @Resource
 //    private GeoPointDtoDaoManager geoPointDtoDaoManager;
@@ -69,7 +73,7 @@ public class UserController extends AbstractController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes attributes) {
         LOGGER.debug("Deleting user with id: " + id);
 
-        userTestDtoDaoManager.removeUser(id);
+        userTestManager.removeUser(id);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_DELETED, id);
 
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -85,7 +89,7 @@ public class UserController extends AbstractController {
     public String showCreateUserForm(Model model) {
         LOGGER.debug("Rendering create user form");
         
-        model.addAttribute(MODEL_ATTIRUTE_USER, UserDTO.empty);
+        model.addAttribute(MODEL_ATTIRUTE_USER, UserTestDTO.empty);
 
         return USER_ADD_FORM_VIEW;
     }
@@ -98,14 +102,14 @@ public class UserController extends AbstractController {
      * @return
      */
     @RequestMapping(value = "/user/create", method = RequestMethod.POST)
-    public String submitCreateUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserDTO created, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String submitCreateUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserTestDTO created, BindingResult bindingResult, RedirectAttributes attributes) {
         LOGGER.debug("Create user form was submitted with information: " + created);
 
         if (bindingResult.hasErrors()) {
             return USER_ADD_FORM_VIEW;
         }
                 
-        UserDTO user = userTestDtoDaoManager.addUser(created);
+        UserTestDTO user = userTestManager.addUser(created);
 
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_CREATED, user.getName());
 
@@ -123,7 +127,7 @@ public class UserController extends AbstractController {
     public String showEditUserForm(@PathVariable("id") Long id, Model model, RedirectAttributes attributes) {
         LOGGER.debug("Rendering edit user form for user with id: " + id);
         
-        UserDTO user = userTestDtoDaoManager.getUser(id);
+        UserTestDTO user = userTestManager.getUser(id);
         if (user == null) {
             LOGGER.debug("No user found with id: " + id);
             addErrorMessage(attributes, ERROR_MESSAGE_KEY_EDITED_USER_WAS_NOT_FOUND);
@@ -143,7 +147,7 @@ public class UserController extends AbstractController {
      * @return
      */
     @RequestMapping(value = "/user/edit", method = RequestMethod.POST)
-    public String submitEditUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserDTO updated, BindingResult bindingResult, RedirectAttributes attributes) {
+    public String submitEditUserForm(@Valid @ModelAttribute(MODEL_ATTIRUTE_USER) UserTestDTO updated, BindingResult bindingResult, RedirectAttributes attributes) {
         LOGGER.debug("Edit user form was submitted with information: " + updated);
         
         if (bindingResult.hasErrors()) {
@@ -151,7 +155,7 @@ public class UserController extends AbstractController {
             return USER_EDIT_FORM_VIEW;
         }
         
-        UserDTO user = userTestDtoDaoManager.updateUser(updated);
+        UserTestDTO user = userTestManager.updateUser(updated);
         addFeedbackMessage(attributes, FEEDBACK_MESSAGE_KEY_USER_EDITED, user.getName());
 
         return createRedirectViewPath(REQUEST_MAPPING_LIST);
@@ -167,7 +171,7 @@ public class UserController extends AbstractController {
     public String showList(Model model) {
         LOGGER.debug("Rendering user list page");
 
-        List<UserDTO> users = userTestDtoDaoManager.getAllUsers();
+        List<UserTestDTO> users = userTestManager.getAllUsers();
         model.addAttribute(MODEL_ATTRIBUTE_USERS, users);
 
         return USER_LIST_VIEW;
@@ -177,15 +181,15 @@ public class UserController extends AbstractController {
     public void test() {
         LOGGER.debug("Rendering user list page");
 
-        //userTestDtoDaoManager.test();
+        //userTestManager.test();
 
     }
    
     /**
      * This setter method should only be used by unit tests
-     * @param userTestDtoDaoManager
+     * @param userTestManager
      */
-    protected void setUserService(UserTestManager userTestDtoDaoManager) {
-        this.userTestDtoDaoManager = userTestDtoDaoManager;
+    protected void setUserService(UserTestManager userTestManager) {
+        this.userTestManager = userTestManager;
     }
 }

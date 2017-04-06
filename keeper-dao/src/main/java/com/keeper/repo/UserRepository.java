@@ -17,9 +17,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data JPA Repository for User
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_USER)
-public interface UserRepository extends JpaRepository<User, Long> {
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_USER)
+public interface UserRepository {//extends JpaRepository<User, Long> {
     User findByEmail(@Param("email") String email);
     User findByPhone(@Param("phone") String phone);
 

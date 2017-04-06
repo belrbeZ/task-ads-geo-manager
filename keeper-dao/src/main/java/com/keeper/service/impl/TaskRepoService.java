@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Repository Service to work with Tasks
  */
-@Service(value = "taskService")
+//@Service(value = "taskService")
 public class TaskRepoService implements ITaskService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);

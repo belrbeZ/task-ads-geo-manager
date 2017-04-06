@@ -17,7 +17,7 @@ import java.util.List;
  * @author AlexVasil
  *
  */
-@Service(value = "routeService")
+//@Service(value = "routeService")
 public class RouteRepoService implements IRouteService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);

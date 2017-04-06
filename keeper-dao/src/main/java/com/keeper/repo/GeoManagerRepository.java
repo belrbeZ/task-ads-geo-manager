@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_GEOMANAGER)
-public interface GeoManagerRepository extends JpaRepository<GeoManager, Long> {
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_GEOMANAGER)
+public interface GeoManagerRepository{//} extends JpaRepository<GeoManager, Long> {
 
 }

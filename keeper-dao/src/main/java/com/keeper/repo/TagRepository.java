@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_TAG)
-public interface TagRepository extends JpaRepository<Tag, Long> {
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_TAG)
+public interface TagRepository {//extends JpaRepository<Tag, Long> {
 
 }

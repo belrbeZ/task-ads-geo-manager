@@ -2,7 +2,7 @@ package com.keeper.managers.impl;
 
 import com.keeper.entity.UserTest;
 import com.keeper.entity.UserTest;
-import com.keeper.entity.dto.UserDTO;
+import com.keeper.entity.dto.UserTestDTO;
 import com.keeper.service.impl.UserRepoService;
 import com.keeper.service.impl.UserTestRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +23,19 @@ public class UserTestManager {
 
     //<editor-fold desc="Dao&Dto">
 
-    public UserTest parseDtoToDao(UserDTO dtoMode) {
+    public UserTest parseDtoToDao(UserTestDTO dtoMode) {
         return null;
     }
 
-    public UserDTO parseDaoToDto(UserTest daoModel) {
+    public UserTestDTO parseDaoToDto(UserTest daoModel) {
         return null;
     }
 
-    public List<UserTest> parseDtoToDao(List<UserDTO> dtoModelList) {
+    public List<UserTest> parseDtoToDao(List<UserTestDTO> dtoModelList) {
         return null;
     }
 
-    public List<UserDTO> parseDaoToDto(List<UserTest> daoModelList) {
+    public List<UserTestDTO> parseDaoToDto(List<UserTest> daoModelList) {
         return null;
     }
     //</editor-fold>
@@ -46,27 +46,27 @@ public class UserTestManager {
         return false;
     }
 
-    public UserDTO addUser(UserDTO user) {
+    public UserTestDTO addUser(UserTestDTO user) {
         return null;
     }
 
-    public UserDTO getUser(Long id) {
+    public UserTestDTO getUser(Long id) {
         return null;
     }
 
-    public UserDTO getUser(String email, String phone) {
+    public UserTestDTO getUser(String email, String phone) {
         return null;
     }
 
-    public List<UserDTO> getAllUsers() {
+    public List<UserTestDTO> getAllUsers() {
         return null;
     }
 
-    public UserDTO updateUser(UserDTO user) {
+    public UserTestDTO updateUser(UserTestDTO user) {
         return null;
     }
 
-    public UserDTO removeUser(UserDTO user) {
+    public UserTestDTO removeUser(UserTestDTO user) {
         return null;
     }
 

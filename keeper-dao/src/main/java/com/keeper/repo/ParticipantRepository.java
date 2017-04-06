@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 /**
  * Default Comment
  */
-@Repository
-@Qualifier(value = RepositoryResolver.QUALIFIER_PARMANAGER)
-public interface ParticipantRepository extends JpaRepository<ParticipantManager, Long> {
+//@Repository
+//@Qualifier(value = RepositoryResolver.QUALIFIER_PARMANAGER)
+public interface ParticipantRepository {//extends JpaRepository<ParticipantManager, Long> {
 
 }

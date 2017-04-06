@@ -7,12 +7,14 @@ package com.keeper.managers.impl;
 import com.keeper.entity.Zone;
 import com.keeper.entity.dto.ZoneDTO;
 import com.keeper.managers.IZoneManager;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Default Comment
  */
+//@Service
 public class ZoneManager implements IZoneManager {
 
 //    @Autowired
