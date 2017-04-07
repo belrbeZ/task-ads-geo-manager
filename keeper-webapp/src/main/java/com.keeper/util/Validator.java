@@ -32,6 +32,14 @@ public class Validator {
     private static final Integer SALT_PASS = 17;
     private static final Integer SALT_MAIL = 13;
 
+    public static boolean isEmailValid(String email) {
+        return email != null && email.length() >= 3 && email.indexOf('@') != 0;
+    }
+
+    public static boolean isPhoneValid(String phone) {
+        return false;
+    }
+
     public static String generateHashcode(String value, HashType type) {
 
         if(value == null || value.isEmpty())

@@ -18,11 +18,10 @@ public class UserTestDTO {
     private Long        id;
     private UserType    type;
     private String      name;
-    private String      email;
-    private String      phone;
+    private String      maskEmail;
+    private String      maskPhone;
     private String      about;
     private Boolean     isNotified;
-    private Timestamp   muteStart;
     private Timestamp   muteEnd;
 
     private UserTestDTO() { }
@@ -30,15 +29,15 @@ public class UserTestDTO {
     public UserTestDTO(Long id,
                         UserType type,
                         String name,
-                        String email,
-                        String phone,
+                        String maskEmail,
+                        String maskPhone,
                         String about) {
 
         this.id         = id;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = email;
-        this.phone      = phone;
+        this.maskEmail = maskEmail;
+        this.maskPhone = maskPhone;
         this.about      = about;
         this.isNotified = false;
     }
@@ -65,20 +64,20 @@ public class UserTestDTO {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMaskEmail() {
+        return maskEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMaskEmail(String maskEmail) {
+        this.maskEmail = maskEmail;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getMaskPhone() {
+        return maskPhone;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setMaskPhone(String maskPhone) {
+        this.maskPhone = maskPhone;
     }
 
     public String getAbout() {
@@ -97,14 +96,6 @@ public class UserTestDTO {
         isNotified = notified;
     }
 
-    public Timestamp getMuteStart() {
-        return muteStart;
-    }
-
-    public void setMuteStart(Timestamp muteStart) {
-        this.muteStart = muteStart;
-    }
-
     public Timestamp getMuteEnd() {
         return muteEnd;
     }
@@ -121,11 +112,11 @@ public class UserTestDTO {
 
         UserTestDTO userTest = (UserTestDTO) o;
 
-        return email.equals(userTest.email);
+        return maskEmail.equals(userTest.maskEmail);
     }
 
     @Override
     public int hashCode() {
-        return email.hashCode();
+        return maskEmail.hashCode();
     }
 }

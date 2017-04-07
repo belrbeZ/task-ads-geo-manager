@@ -1,23 +1,21 @@
 package com.keeper.config;
 
 //import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.commons.dbcp.BasicDataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 import java.util.Properties;
 //import java.util.logging.Logger;
 
@@ -184,7 +182,7 @@ public class JpaSpringDataConfig {
 //        return entityManagerFactory;
 //    }
 //
-    @Bean(destroyMethod = "close")
+    /*@Bean(destroyMethod = "close")
     @Primary
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
@@ -201,5 +199,5 @@ public class JpaSpringDataConfig {
         dataSource.setValidationQuery("SELECT version()");
 
         return dataSource;
-    }
+    }*/
 }

@@ -61,9 +61,9 @@ public class TestingWebController {
 //        userRepoService.add(user);
 //
 //        model.addAttribute("msg", "User "
-//                + user.getEmail()
+//                + user.getMaskEmail()
 //                + " "
-//                + user.getEmail()
+//                + user.getMaskEmail()
 //                + " registered successfully");
 //
 //        return ViewResolver.WEB_MAIN;

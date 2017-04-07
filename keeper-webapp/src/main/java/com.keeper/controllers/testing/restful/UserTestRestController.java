@@ -13,15 +13,12 @@ import com.keeper.util.web.WebmapResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Default Comment
  */
-@Controller
+@RestController
 public class UserTestRestController {
 
     public static final MediaType type = MediaType.APPLICATION_JSON;
@@ -35,12 +32,12 @@ public class UserTestRestController {
     private UserTestRepoService repoService;
 
     @RequestMapping(value = path, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    String get(@PathVariable("id") Long userId) {
+    String get(@RequestParam(value = "id") Long userId) {
         return Converter.convertToJson(repoService.get(userId));
     }
 
     @RequestMapping(value = path, method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    String update(@RequestBody UserTestDTO model) {
+    String update(@RequestParam(value = "id") Long userId) {
         //
         return null;
     }
@@ -52,7 +49,7 @@ public class UserTestRestController {
     }
 
     @RequestMapping(value = path, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    String delete(@PathVariable("id") Long userId) {
+    String delete(@RequestParam("id") Long userId) {
         repoService.remove(userId);
         return null;
     }

@@ -17,6 +17,7 @@ import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+import static javax.persistence.GenerationType.AUTO;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -26,7 +27,7 @@ public class UserTest {
     public static final UserTest empty = new UserTest();
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = AUTO)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
