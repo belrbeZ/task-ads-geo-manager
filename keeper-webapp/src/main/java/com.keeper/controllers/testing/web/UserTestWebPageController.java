@@ -1,4 +1,4 @@
-package com.keeper.controllers.testing;
+package com.keeper.controllers.testing.web;
 
 /*
  * Created by @GoodforGod on 7.04.2017.

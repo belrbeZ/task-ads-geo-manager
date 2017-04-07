@@ -6,14 +6,21 @@ package com.keeper.controllers.testing.restful;
 
 import com.keeper.entity.dao.UserTest;
 import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.entity.states.UserType;
 import com.keeper.service.impl.UserTestRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.web.ApiResolver;
 import com.keeper.util.web.WebmapResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.sql.Timestamp;
 
 /**
  * Default Comment
@@ -21,36 +28,34 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserTestRestController {
 
-    public static final MediaType type = MediaType.APPLICATION_JSON;
-
-    public static final String path = WebmapResolver.WEB_SECURE
-            + ApiResolver.API
-            + ApiResolver.TEST_REST
-            + ApiResolver.REST_PROFILE;
+    private static final String path = WebmapResolver.WEB_SECURE
+                                        + ApiResolver.API
+                                        + ApiResolver.TEST_REST
+                                        + ApiResolver.REST_PROFILE;
 
     @Autowired
     private UserTestRepoService repoService;
 
     @RequestMapping(value = path, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    String get(@RequestParam(value = "id") Long userId) {
-        return Converter.convertToJson(repoService.get(userId));
+    public ResponseEntity<UserTestDTO> get(@RequestParam(value = "id") Long userId) {
+        return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = path, method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    String update(@RequestParam(value = "id") Long userId) {
-        //
-        return null;
+    @RequestMapping(value = path, method = RequestMethod.PATCH)
+    public ResponseEntity<String> update(@Valid @RequestBody UserTest model, BindingResult result) {
+        //repoService.update(model);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = path, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    String create(@RequestBody UserTest model) {
+    @RequestMapping(value = path, method = RequestMethod.POST)
+    public ResponseEntity<String> create(@Valid @RequestBody UserTest model, BindingResult result) {
         repoService.add(model);
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = path, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    String delete(@RequestParam("id") Long userId) {
+    @RequestMapping(value = path, method = RequestMethod.DELETE)
+    public ResponseEntity<String> delete(@RequestParam("id") Long userId) {
         repoService.remove(userId);
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

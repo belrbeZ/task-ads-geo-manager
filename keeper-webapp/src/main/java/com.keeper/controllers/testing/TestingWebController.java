@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 /**
  * Used for Testing and Debugging
  */
-@Controller
 public class TestingWebController {
 
 //    private final UserRepoService userRepoService;

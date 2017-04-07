@@ -11,49 +11,49 @@ import com.keeper.util.Converter;
 import com.keeper.util.web.ApiResolver;
 import com.keeper.util.web.WebmapResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Default Comment
  */
-@Controller
+@RestController
 public class ZoneTestRestController {
 
-    public static final MediaType type = MediaType.APPLICATION_JSON;
-
-    public static final String path = WebmapResolver.WEB_SECURE
-            + ApiResolver.API
-            + ApiResolver.TEST_REST
-            + ApiResolver.REST_ZONE;
+    private static final String path = WebmapResolver.WEB_SECURE
+                                        + ApiResolver.API
+                                        + ApiResolver.TEST_REST
+                                        + ApiResolver.REST_ZONE;
 
     @Autowired
     private ZoneTestRepoService repoService;
 
     @RequestMapping(value = path, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    String get(@PathVariable("id") Long userId) {
-        return Converter.convertToJson(repoService.get(userId));
+    public ResponseEntity<ZoneTestDTO> get(@PathVariable("id") Long userId) {
+        return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = path, method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    String update(@RequestBody ZoneTestDTO model) {
-        //
-        return null;
+    @RequestMapping(value = path, method = RequestMethod.PATCH)
+    public ResponseEntity<String> update(@Valid @RequestBody ZoneTest model, BindingResult result) {
+        //repoService.update(model);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = path, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    String create(@RequestBody ZoneTest model) {
+    @RequestMapping(value = path, method = RequestMethod.POST)
+    public ResponseEntity<String> create(@Valid @RequestBody ZoneTest model, BindingResult result) {
         repoService.add(model);
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = path, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    String delete(@PathVariable("id") Long userId) {
+    @RequestMapping(value = path, method = RequestMethod.DELETE)
+    public ResponseEntity<String> delete(@PathVariable("id") Long userId) {
         repoService.remove(userId);
-        return null;
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

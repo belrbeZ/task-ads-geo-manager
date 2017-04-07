@@ -5,6 +5,7 @@ package com.keeper.entity.dto;
  */
 
 import com.keeper.entity.states.UserType;
+import com.keeper.util.Converter;
 
 import java.security.Timestamp;
 
@@ -29,17 +30,18 @@ public class UserTestDTO {
     public UserTestDTO(Long id,
                         UserType type,
                         String name,
-                        String maskEmail,
-                        String maskPhone,
-                        String about) {
+                        String email,
+                        String phone,
+                        String about,
+                        boolean isNotified) {
 
         this.id         = id;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.maskEmail = maskEmail;
-        this.maskPhone = maskPhone;
+        this.maskEmail = Converter.maskEmail(email);
+        this.maskPhone = Converter.maskStr(phone);
         this.about      = about;
-        this.isNotified = false;
+        this.isNotified = isNotified;
     }
 
     //<editor-fold desc="GetterAndSetter">

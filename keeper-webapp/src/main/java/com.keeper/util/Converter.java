@@ -17,8 +17,8 @@ import java.util.Arrays;
  */
 public class Converter
 {
-    public static final String EMPTY_JSON = "";
-    public static final Character MASK_SYMBOL = '*';
+    private static final String EMPTY_JSON = "";
+    private static final Character MASK_SYMBOL = '*';
 
     //<editor-fold desc="Masker">
 
@@ -28,23 +28,23 @@ public class Converter
      * @return masked email
      */
     @Nullable
-    public static String convertToMaskEmail(String email) {
-        return !Validator.isEmailValid(email) ? null : convertToMaskStr(email, email.indexOf('@'));
+    public static String maskEmail(String email) {
+        return !Validator.isEmailValid(email) ? null : maskStr(email, email.indexOf('@'));
     }
 
     @Nullable
-    public static String convertToMaskStr(String str) {
-        return convertToMaskStr(str, 0);
+    public static String maskStr(String str) {
+        return maskStr(str, 0);
     }
 
     @Nullable
-    public static String convertToMaskStr(String str, int desiredSpreadPoint) {
-        return convertToMaskStr(str, desiredSpreadPoint, 0);
+    public static String maskStr(String str, int desiredSpreadPoint) {
+        return maskStr(str, desiredSpreadPoint, 0);
     }
 
     @Nullable
-    public static String convertToMaskStr(String str, int desiredSpreadPoint, int power) {
-        return convertToMaskStr(str, desiredSpreadPoint, power, power);
+    public static String maskStr(String str, int desiredSpreadPoint, int power) {
+        return maskStr(str, desiredSpreadPoint, power, power);
     }
 
     /**
@@ -56,10 +56,10 @@ public class Converter
      * @return masked string
      */
     @Nullable
-    public static String convertToMaskStr(String str,
-                                          int desiredSpreadPoint,
-                                          int desiredPowerLeft,
-                                          int desiredPowerRight) {
+    public static String maskStr(String str,
+                                 int desiredSpreadPoint,
+                                 int desiredPowerLeft,
+                                 int desiredPowerRight) {
 
         StringBuilder maskedString = new StringBuilder(str);
         int length, spreadPoint;
@@ -80,35 +80,55 @@ public class Converter
         }
 
         // In case desiredSpreadPoint is too big or 0
-        if((spreadPoint = desiredSpreadPoint) == 0 || desiredSpreadPoint > str.length())
+        if((spreadPoint = desiredSpreadPoint) == 0 || desiredSpreadPoint > length)
             spreadPoint = length / 2;
 
         // Calculate mask right end position
         int rightBorder = length - spreadPoint;
-        if(desiredPowerRight == 0 || desiredPowerRight > rightBorder)
-            desiredPowerRight = rightBorder / 2 - 1;
+        int powerRight = (desiredPowerRight == 0 || desiredPowerRight > rightBorder)
+                ? rightBorder / 2 - 1
+                : desiredPowerRight;
 
         // Calculate mask left end position
         int leftBoarder = length - rightBorder;
-        if(desiredPowerLeft == 0 || desiredPowerLeft > leftBoarder)
-            desiredPowerLeft = leftBoarder / 2 - 1;
+        int powerLeft = (desiredPowerLeft == 0 || desiredPowerLeft > leftBoarder)
+                ? leftBoarder / 2 - 1
+                : desiredPowerLeft;
 
-        char[] maskRight = new char[desiredPowerRight];
-        char[] maskLeft = new char[desiredPowerLeft];
+        char[] maskRight = new char[powerRight];
+        char[] maskLeft = new char[powerLeft];
 
         Arrays.fill(maskRight, MASK_SYMBOL);
         Arrays.fill(maskLeft, MASK_SYMBOL);
 
-        maskedString.replace(spreadPoint, spreadPoint + desiredPowerRight, Arrays.toString(maskRight));
-        maskedString.replace(spreadPoint - desiredPowerLeft, spreadPoint, Arrays.toString(maskLeft));
-
+        maskedString.replace(spreadPoint, spreadPoint + powerRight, Arrays.toString(maskRight));
+        maskedString.replace(spreadPoint - powerLeft, spreadPoint, Arrays.toString(maskLeft));
 
         return maskedString.toString();
     }
     //</editor-fold>
 
+    //<editor-fold desc="toDTO">
 
-    //<editor-fold desc="Testing">
+    public static UserTestDTO convertToDTO(UserTest model) {
+        return new UserTestDTO(model.getId(),
+                                model.getType(),
+                                model.getName(),
+                                model.getEmail(),
+                                model.getPhone(),
+                                model.getAbout(),
+                                model.getNotified());
+    }
+
+    public static ZoneTestDTO convertToDTO(ZoneTest model) {
+        return new ZoneTestDTO(model.getUserId(),
+                                model.getCity(),
+                                model.getCountry(),
+                                model.getRegisterDate());
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="toJsonTesting">
 
     public static String convertToJson(UserTest model) {
         return null;
@@ -127,7 +147,7 @@ public class Converter
     }
     //</editor-fold>
 
-    //<editor-fold desc="Production">
+    //<editor-fold desc="toJsonProduction">
 
 /*    public static String convertToJson(UserDTO model) {
 

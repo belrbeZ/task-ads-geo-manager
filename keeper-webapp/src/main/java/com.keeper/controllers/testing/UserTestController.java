@@ -19,8 +19,8 @@ import java.util.List;
 /**
  * @author Petri Kainulainen
  */
-@Controller
-@SessionAttributes("user")
+/*@Controller
+@SessionAttributes("user")*/
 public class UserTestController extends AbstractController {
     
 /*    private static final Logger LOGGER = LoggerFactory.getLogger(UserTestController.class);
