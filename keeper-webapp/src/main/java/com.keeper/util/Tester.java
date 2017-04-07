@@ -45,7 +45,7 @@ public class Tester {
         } catch (NullAttributeException e) {
             ModelManager.logSetupError(e);
         }
-        return ZoneTest.empty;
+        return ZoneTest.EMPTY;
     }
 
     public static UserTest testSampleUserDAO() {
@@ -59,6 +59,6 @@ public class Tester {
         } catch (NullAttributeException e) {
             ModelManager.logSetupError(e);
         }
-        return UserTest.empty;
+        return UserTest.EMPTY;
     }
 }

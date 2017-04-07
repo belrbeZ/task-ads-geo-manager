@@ -89,7 +89,7 @@ public class UserTestController extends AbstractController {
     public String showCreateUserForm(Model model) {
         LOGGER.debug("Rendering create user form");
         
-        model.addAttribute(MODEL_ATTIRUTE_USER, UserTestDTO.empty);
+        model.addAttribute(MODEL_ATTIRUTE_USER, UserTestDTO.EMPTY);
 
         return USER_ADD_FORM_VIEW;
     }

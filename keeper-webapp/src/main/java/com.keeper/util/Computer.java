@@ -11,7 +11,7 @@ import com.keeper.entity.dto.MarkDTO;
  */
 public class Computer {
 
-    public static final MarkDTO emptyMark = MarkDTO.empty;
+    public static final MarkDTO emptyMark = MarkDTO.EMPTY;
 
 /*    public static MarkDTO computeRouteMark(List<RouteDTO> routes) {
 

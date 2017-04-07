@@ -16,41 +16,53 @@ import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = DatabaseResolver.TEST_TABLE_USERS, schema = DatabaseResolver.TEST_SCHEMA)
 public class UserTest {
 
-    public static final UserTest empty = new UserTest();
+    public static final UserTest EMPTY = new UserTest();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
-    @Column(name = "name",      nullable = false)           private String name;
-    @Column(name = "email",     nullable = false)           private String email;
-    @Column(name = "maskedEmail", nullable = false)         private String maskedEmail;
+    @Column(name = "name",       nullable = false)          private String name;
+    @Column(name = "email",      nullable = false)          private String email;
+    @Column(name = "maskedEmail",nullable = false)          private String maskedEmail;
     @Column(name = "phone")                                 private String phone;
-    @Column(name = "password",  nullable = false)           private String password;
+    @Column(name = "password",   nullable = false)          private String password;
     @Column(name = "about")                                 private String about;
     @Column(name = "isNotified")                            private Boolean isNotified;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
 
-    private UserTest() { }
+    private UserTest() {
+        this.id         = (long) UserType.EMPTY.getValue();
+        this.state      = UserState.UNKNOWN;
+        this.type       = UserType.EMPTY;
+        this.name       = "";
+        this.email      = "";
+        this.maskedEmail= "";
+        this.phone      = "";
+        this.password   = "";
+        this.about      = "";
+        this.isNotified = false;
+        this.muteStart  = Timestamp.valueOf(LocalDateTime.MIN);
+        this.muteEnd    = Timestamp.valueOf(LocalDateTime.MAX);
+    }
 
-    public UserTest(UserType type,
-                    String name,
-                    String email,
-                    String phone,
-                    String password,
-                    String about) throws NullAttributeException {
+    public UserTest(UserType type, String name, String email,
+                    String phone, String password, String about) throws NullAttributeException {
 
         if(email != null && !email.isEmpty())
             throw new NullAttributeException("Nullable param", "EMAIL");
+
         if(password != null && !password.isEmpty())
             throw new NullAttributeException("Nullable param", "PASSWORD");
+
         if(name != null && !name.isEmpty())
             throw new NullAttributeException("Nullable param", "NAME");
 
@@ -76,7 +88,7 @@ public class UserTest {
         } catch (NullAttributeException e) {
             ModelManager.logConstructError("GEN", e);
         }
-        return empty;
+        return EMPTY;
     }
 
     //<editor-fold desc="GetterAndSetter">

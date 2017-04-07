@@ -11,7 +11,7 @@ package com.keeper.entity.dto;
  */
 public class MarkDTO {
 
-    public static final MarkDTO empty = new MarkDTO();
+    public static final MarkDTO EMPTY = new MarkDTO();
 
     private Double value;
 

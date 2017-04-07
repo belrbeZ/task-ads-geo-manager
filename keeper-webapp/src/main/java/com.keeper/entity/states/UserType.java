@@ -8,10 +8,12 @@ package com.keeper.entity.states;
  * Default Comment
  */
 public enum UserType {
-    USER(0),
-    COMMUNITY(1),
-    ORGANIZATION(2),
-    ENTERPRISE(3);
+    EMPTY(-1),
+    UNKNOWN(0),
+    USER(10),
+    COMMUNITY(20),
+    ORGANIZATION(30),
+    ENTERPRISE(40);
 
     private final int value;
 

@@ -22,7 +22,7 @@ public class Collector {
         return value != null ? new ArrayList<UserTest>() {{ add(value); }} : nullableUserTestList;
     }
 
-    private static final UserTest           nullableUserTest = UserTest.empty;
+    private static final UserTest           nullableUserTest = UserTest.EMPTY;
 
     public static UserTest getFirstUserTest(final List<UserTest> list) {
         return (list == null || list.isEmpty()) ? nullableUserTest : list.get(0);
@@ -64,10 +64,10 @@ public class Collector {
     //</editor-fold>
 
     //<editor-fold desc="getFirst">
-/*    private static final User         nullableUser    = User.empty;
-    private static final Task         nullableTask    = Task.empty;
-    private static final Route        nullableRoute   = Route.empty;
-    private static final GeoPoint nullableCoord   = GeoPoint.empty;
+/*    private static final User         nullableUser    = User.EMPTY;
+    private static final Task         nullableTask    = Task.EMPTY;
+    private static final Route        nullableRoute   = Route.EMPTY;
+    private static final GeoPoint nullableCoord   = GeoPoint.EMPTY;
 
     public static User getFirstUser(List<User> users) {
         return (users == null || users.isEmpty()) ? nullableUser : users.get(0);

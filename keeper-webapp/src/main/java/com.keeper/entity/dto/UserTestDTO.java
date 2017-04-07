@@ -6,6 +6,7 @@ package com.keeper.entity.dto;
 
 import com.keeper.entity.states.UserType;
 import com.keeper.util.Converter;
+import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import java.security.Timestamp;
 
@@ -14,7 +15,7 @@ import java.security.Timestamp;
  */
 public class UserTestDTO {
 
-    public static final UserTestDTO empty = new UserTestDTO();
+    public static final UserTestDTO EMPTY = new UserTestDTO();
 
     private Long        id;
     private UserType    type;
@@ -26,8 +27,8 @@ public class UserTestDTO {
     private Timestamp   muteEnd;
 
     private UserTestDTO() {
-        this.id         = (long) -1;
-        this.type       = UserType.USER;
+        this.id         = (long) UserType.EMPTY.getValue();
+        this.type       = UserType.EMPTY;
         this.name       = "";
         this.maskEmail  = "";
         this.maskPhone  = "";
@@ -35,16 +36,10 @@ public class UserTestDTO {
         this.isNotified = false;
     }
 
-    public UserTestDTO(Long id,
-                        UserType type,
-                        String name,
-                        String maskedEmail,
-                        String phone,
-                        String about,
-                        boolean isNotified) {
-
-        this.id         = id;
-        this.type       = type != null ? type : UserType.USER;
+    public UserTestDTO(Long id, UserType type, String name, String maskedEmail,
+                        String phone, String about, boolean isNotified) {
+        this.id         = (id == null) ? UserType.EMPTY.getValue() : id;
+        this.type       = type != null ? type : UserType.EMPTY;
         this.name       = name;
         this.maskEmail  = maskedEmail;
         this.maskPhone  = Converter.maskStr(phone);
@@ -115,18 +110,19 @@ public class UserTestDTO {
     }
     //</editor-fold>
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserTestDTO userTest = (UserTestDTO) o;
+        UserTestDTO that = (UserTestDTO) o;
 
-        return maskEmail.equals(userTest.maskEmail);
+        return id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return maskEmail.hashCode();
+        return id.hashCode();
     }
 }

@@ -4,26 +4,35 @@ package com.keeper.entity.dto;
  * Created by @GoodforGod on 4.04.2017.
  */
 
+import com.keeper.entity.states.UserType;
+
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * Default Comment
  */
 public class ZoneTestDTO {
-    public static final ZoneTestDTO empty = new ZoneTestDTO();
+
+    public static final ZoneTestDTO EMPTY = new ZoneTestDTO();
 
     private Long userId;
     private String city;
     private String country;
     private Timestamp registerDate;
 
-    private ZoneTestDTO() { }
+    private ZoneTestDTO() {
+        this.userId         = (long) UserType.EMPTY.getValue();
+        this.city           = "";
+        this.country        = "";
+        this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
+    }
 
     public ZoneTestDTO(Long userId, String city, String country, Timestamp timestamp) {
-        this.userId = userId;
-        this.city = city;
-        this.country = country;
-        this.registerDate = timestamp;
+        this.userId         = (userId == null) ? UserType.EMPTY.getValue() : userId;
+        this.city           = city;
+        this.country        = country;
+        this.registerDate   = timestamp;
     }
 
     //<editor-fold desc="GetterAndSetter">

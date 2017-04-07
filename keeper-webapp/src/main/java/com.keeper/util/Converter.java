@@ -107,7 +107,7 @@ public class Converter
 
     public static UserTestDTO convertToDTO(UserTest model) {
         return (model == null)
-                ? UserTestDTO.empty
+                ? UserTestDTO.EMPTY
                 : new UserTestDTO(model.getId(),
                                     model.getType(),
                                     model.getName(),
@@ -119,7 +119,7 @@ public class Converter
 
     public static ZoneTestDTO convertToDTO(ZoneTest model) {
         return (model == null)
-                ? ZoneTestDTO.empty
+                ? ZoneTestDTO.EMPTY
                 : new ZoneTestDTO(model.getUserId(),
                                     model.getCity(),
                                     model.getCountry(),

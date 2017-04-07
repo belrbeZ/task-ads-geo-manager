@@ -4,6 +4,7 @@ package com.keeper.entity.dao;
  * Created by @GoodforGod on 4.04.2017.
  */
 
+import com.keeper.entity.states.UserType;
 import com.keeper.util.dao.DatabaseResolver;
 import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
@@ -21,16 +22,16 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TEST_TABLE_ZONES, schema = DatabaseResolver.TEST_SCHEMA)
 public class ZoneTest {
 
-    public static final ZoneTest empty = new ZoneTest();
+    public static final ZoneTest EMPTY = new ZoneTest();
 
     @Id
     @Column(name = "userId", unique = true, nullable = false)   private Long userId;
     @Column(name = "city")                                      private String city;
-    @Column(name = "country", nullable = false)                 private String country;
-    @Column(name = "registerDate", nullable = false)            private Timestamp registerDate;
+    @Column(name = "country",       nullable = false)           private String country;
+    @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
 
     private ZoneTest() {
-        this.userId         = (long) -1;
+        this.userId         = (long) UserType.EMPTY.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
@@ -41,9 +42,9 @@ public class ZoneTest {
         if(userId == null)
             throw new NullAttributeException("Nullable", "USER_ID");
 
-        this.userId = userId;
-        this.city = city;
-        this.country = country;
+        this.userId     = userId;
+        this.city       = city;
+        this.country    = country;
         this.registerDate = Timestamp.valueOf(LocalDateTime.now());
     }
 
