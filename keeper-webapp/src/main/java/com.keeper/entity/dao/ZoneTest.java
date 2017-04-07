@@ -29,7 +29,12 @@ public class ZoneTest {
     @Column(name = "country", nullable = false)                 private String country;
     @Column(name = "registerdate", nullable = false)            private Timestamp registerDate;
 
-    private ZoneTest() { }
+    private ZoneTest() {
+        this.userId         = (long) -1;
+        this.city           = "";
+        this.country        = "";
+        this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
+    }
 
     public ZoneTest(Long userId, String city, String country) throws NullAttributeException {
 

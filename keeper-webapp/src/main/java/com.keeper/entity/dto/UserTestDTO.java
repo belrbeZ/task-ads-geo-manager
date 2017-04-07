@@ -25,7 +25,15 @@ public class UserTestDTO {
     private Boolean     isNotified;
     private Timestamp   muteEnd;
 
-    private UserTestDTO() { }
+    private UserTestDTO() {
+        this.id         = (long) -1;
+        this.type       = UserType.USER;
+        this.name       = "";
+        this.maskEmail  = "";
+        this.maskPhone  = "";
+        this.about      = "";
+        this.isNotified = false;
+    }
 
     public UserTestDTO(Long id,
                         UserType type,
