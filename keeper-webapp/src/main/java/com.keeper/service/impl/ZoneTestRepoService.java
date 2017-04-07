@@ -29,8 +29,8 @@ public class ZoneTestRepoService extends ModelRepoService<ZoneTest> implements I
 
     @Autowired
     public ZoneTestRepoService(ZoneTestRepository repository) {
-        super(repository);
         this.repository = repository;
+        this.primeRepository = repository;
     }
 
     @Override

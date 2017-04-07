@@ -24,8 +24,8 @@ public class UserTestRepoService extends ModelRepoService<UserTest>  implements 
 
     @Autowired
     public UserTestRepoService(UserTestRepository repository) {
-        super(repository);
         this.repository = repository;
+        this.primeRepository = repository;
     }
 
     @Override

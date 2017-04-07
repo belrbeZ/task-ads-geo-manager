@@ -9,6 +9,7 @@ import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -22,10 +23,11 @@ public class ZoneTest {
 
     public static ZoneTest empty = new ZoneTest();
 
-    @Column(name = "userId", unique = true, nullable = false)   private Long userId;
+    @Id
+    @Column(name = "userid", unique = true, nullable = false)   private Long userId;
     @Column(name = "city")                                      private String city;
     @Column(name = "country", nullable = false)                 private String country;
-    @Column(name = "registerDate", nullable = false)            private Timestamp registerDate;
+    @Column(name = "registerdate", nullable = false)            private Timestamp registerDate;
 
     private ZoneTest() { }
 

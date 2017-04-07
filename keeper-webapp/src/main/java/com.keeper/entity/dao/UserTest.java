@@ -11,7 +11,6 @@ import com.keeper.entity.states.UserState;
 import com.keeper.entity.states.UserType;
 import com.keeper.util.Validator;
 import com.keeper.util.dao.DatabaseResolver;
-import com.sun.istack.internal.Nullable;
 import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import javax.persistence.*;
@@ -26,7 +25,7 @@ public class UserTest {
     public static final UserTest empty = new UserTest();
 
     @Id
-    @GeneratedValue(strategy = AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
@@ -35,9 +34,9 @@ public class UserTest {
     @Column(name = "phone")                                 private String phone;
     @Column(name = "password", nullable = false)            private String password;
     @Column(name = "about")                                 private String about;
-    @Column(name = "isNotified")                            private Boolean isNotified;
-    @Column(name = "startMuteTime")                         private Timestamp muteStart;
-    @Column(name = "endMuteTime")                           private Timestamp muteEnd;
+    @Column(name = "isnotified")                            private Boolean isNotified;
+    @Column(name = "startmutetime")                         private Timestamp muteStart;
+    @Column(name = "endmutetime")                           private Timestamp muteEnd;
 
     private UserTest() { }
 
@@ -65,7 +64,6 @@ public class UserTest {
         this.isNotified = false;
     }
 
-    @Nullable
     public static UserTest gen(UserType type,
                                String name,
                                String email,

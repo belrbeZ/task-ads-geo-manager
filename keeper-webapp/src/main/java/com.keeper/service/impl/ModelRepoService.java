@@ -4,9 +4,7 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.repo.UserTestRepository;
 import com.keeper.service.IModelService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,40 +16,35 @@ import java.util.List;
 @Service
 public class ModelRepoService<T> implements IModelService<T> {
 
-    private final JpaRepository<T, Long> repository;
-
-    @Autowired
-    public ModelRepoService(JpaRepository<T, Long> repository) {
-        this.repository = repository;
-    }
+    protected JpaRepository<T, Long> primeRepository;
 
     @Override
     public boolean isExists(Long id) {
-        return repository.exists(id);
+        return primeRepository.exists(id);
     }
 
     @Override
     public T add(T model) {
-        return repository.save(model);
+        return primeRepository.save(model);
     }
 
     @Override
     public T get(Long id) {
-        return repository.findOne(id);
+        return primeRepository.findOne(id);
     }
 
     @Override
     public List<T> getAll() {
-        return repository.findAll();
+        return primeRepository.findAll();
     }
 
     @Override
     public T update(T model) {
-        return repository.save(model);
+        return primeRepository.save(model);
     }
 
     @Override
     public void remove(Long id) {
-        repository.delete(id);
+        primeRepository.delete(id);
     }
 }

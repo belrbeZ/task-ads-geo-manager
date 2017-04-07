@@ -8,7 +8,6 @@ import com.keeper.entity.dao.UserTest;
 import com.keeper.entity.dao.ZoneTest;
 import com.keeper.entity.dto.UserTestDTO;
 import com.keeper.entity.dto.ZoneTestDTO;
-import com.sun.istack.internal.Nullable;
 
 import java.util.Arrays;
 
@@ -27,22 +26,18 @@ public class Converter
      * @param email email to mask
      * @return masked email
      */
-    @Nullable
     public static String maskEmail(String email) {
         return !Validator.isEmailValid(email) ? null : maskStr(email, email.indexOf('@'));
     }
 
-    @Nullable
     public static String maskStr(String str) {
         return maskStr(str, 0);
     }
 
-    @Nullable
     public static String maskStr(String str, int desiredSpreadPoint) {
         return maskStr(str, desiredSpreadPoint, 0);
     }
 
-    @Nullable
     public static String maskStr(String str, int desiredSpreadPoint, int power) {
         return maskStr(str, desiredSpreadPoint, power, power);
     }
@@ -55,7 +50,6 @@ public class Converter
      * @param desiredPowerRight power to mask right side
      * @return masked string
      */
-    @Nullable
     public static String maskStr(String str,
                                  int desiredSpreadPoint,
                                  int desiredPowerLeft,
