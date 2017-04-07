@@ -9,14 +9,13 @@ package com.keeper.entity.dao;
 import com.keeper.entity.ModelManager;
 import com.keeper.entity.states.UserState;
 import com.keeper.entity.states.UserType;
-import com.keeper.util.Validator;
+import com.keeper.util.*;
+import com.keeper.util.Converter;
 import com.keeper.util.dao.DatabaseResolver;
 import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-
-import static javax.persistence.GenerationType.AUTO;
 
 @Entity
 @Table(name = DatabaseResolver.TEST_TABLE_USERS, schema = DatabaseResolver.TEST_SCHEMA)
@@ -29,14 +28,15 @@ public class UserTest {
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
-    @Column(name = "name", nullable = false)                private String name;
-    @Column(name = "email", nullable = false)               private String email;
+    @Column(name = "name",      nullable = false)           private String name;
+    @Column(name = "email",     nullable = false)           private String email;
+    @Column(name = "maskedEmail", nullable = false)         private String maskedEmail;
     @Column(name = "phone")                                 private String phone;
-    @Column(name = "password", nullable = false)            private String password;
+    @Column(name = "password",  nullable = false)           private String password;
     @Column(name = "about")                                 private String about;
-    @Column(name = "isnotified")                            private Boolean isNotified;
-    @Column(name = "startmutetime")                         private Timestamp muteStart;
-    @Column(name = "endmutetime")                           private Timestamp muteEnd;
+    @Column(name = "isNotified")                            private Boolean isNotified;
+    @Column(name = "startMuteTime")                         private Timestamp muteStart;
+    @Column(name = "endMuteTime")                           private Timestamp muteEnd;
 
     private UserTest() { }
 
@@ -57,9 +57,10 @@ public class UserTest {
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = Validator.generateHashcode(email, Validator.HashType.EMAIL);
+        this.email      = Validator.generateHash(email, Validator.HashType.EMAIL);
+        this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
-        this.password   = Validator.generateHashcode(password, Validator.HashType.PASS);
+        this.password   = Validator.generateHash(password, Validator.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }
@@ -114,6 +115,14 @@ public class UserTest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMaskedEmail() {
+        return maskedEmail;
+    }
+
+    public void setMaskedEmail(String maskedEmail) {
+        this.maskedEmail = maskedEmail;
     }
 
     public String getPhone() {

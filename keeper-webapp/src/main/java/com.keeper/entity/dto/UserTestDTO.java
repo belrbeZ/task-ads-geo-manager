@@ -38,7 +38,7 @@ public class UserTestDTO {
     public UserTestDTO(Long id,
                         UserType type,
                         String name,
-                        String email,
+                        String maskedEmail,
                         String phone,
                         String about,
                         boolean isNotified) {
@@ -46,8 +46,8 @@ public class UserTestDTO {
         this.id         = id;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.maskEmail = Converter.maskEmail(email);
-        this.maskPhone = Converter.maskStr(phone);
+        this.maskEmail  = maskedEmail;
+        this.maskPhone  = Converter.maskStr(phone);
         this.about      = about;
         this.isNotified = isNotified;
     }

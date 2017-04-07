@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * Default Comment
  */
 public class ZoneTestDTO {
-    public static ZoneTestDTO empty = new ZoneTestDTO();
+    public static final ZoneTestDTO empty = new ZoneTestDTO();
 
     private Long userId;
     private String city;

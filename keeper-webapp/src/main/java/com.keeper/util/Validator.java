@@ -13,8 +13,10 @@ import org.mindrot.jbcrypt.BCrypt;
 public class Validator {
 
     public enum HashType {
-        PASS(0),
-        EMAIL(1);
+        // Values are SALT used for hash generation
+        COMMON(11),
+        PASS(17),
+        EMAIL(13);
 
         private final int value;
 
@@ -29,9 +31,6 @@ public class Validator {
 
     private static final String EMPTY_HASH = "";
 
-    private static final Integer SALT_PASS = 17;
-    private static final Integer SALT_MAIL = 13;
-
     public static boolean isEmailValid(String email) {
         return email != null && email.length() >= 3 && email.indexOf('@') != 0;
     }
@@ -40,20 +39,13 @@ public class Validator {
         return false;
     }
 
-    public static String generateHashcode(String value, HashType type) {
-
-        if(value == null || value.isEmpty())
-            return EMPTY_HASH;
-
-        switch (type) {
-            case PASS:  return BCrypt.hashpw(value, BCrypt.gensalt(SALT_PASS));
-            case EMAIL: return BCrypt.hashpw(value, BCrypt.gensalt(SALT_MAIL));
-            default:    return EMPTY_HASH;
-        }
+    public static String generateHash(String value, HashType type) {
+        return (value == null || value.isEmpty())
+                ? EMPTY_HASH
+                : BCrypt.hashpw(value, BCrypt.gensalt(type.getValue()));
     }
 
-    public static boolean validateHashcode(String candidate, String hash) throws NullAttributeException {
-
+    public static boolean validateHash(String candidate, String hash) throws NullAttributeException {
         if(candidate == null || candidate.isEmpty())
             throw new NullAttributeException("Nullable", "CANDIDATE");
 

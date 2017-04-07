@@ -16,8 +16,9 @@ import java.util.Arrays;
  */
 public class Converter
 {
-    private static final String EMPTY_JSON = "";
-    private static final Character MASK_SYMBOL = '*';
+    private static final String     EMPTY_JSON      = "";
+    private static final Character  MASK_SYMBOL     = '*';
+    private static final int        MASK_POWER_INC  = 0;
 
     //<editor-fold desc="Masker">
 
@@ -80,13 +81,13 @@ public class Converter
         // Calculate mask right end position
         int rightBorder = length - spreadPoint;
         int powerRight = (desiredPowerRight == 0 || desiredPowerRight > rightBorder)
-                ? rightBorder / 2 - 1
+                ? rightBorder / 2 - MASK_POWER_INC
                 : desiredPowerRight;
 
         // Calculate mask left end position
         int leftBoarder = length - rightBorder;
         int powerLeft = (desiredPowerLeft == 0 || desiredPowerLeft > leftBoarder)
-                ? leftBoarder / 2 - 1
+                ? leftBoarder / 2 - MASK_POWER_INC
                 : desiredPowerLeft;
 
         char[] maskRight = new char[powerRight];
@@ -95,8 +96,8 @@ public class Converter
         Arrays.fill(maskRight, MASK_SYMBOL);
         Arrays.fill(maskLeft, MASK_SYMBOL);
 
-        maskedString.replace(spreadPoint, spreadPoint + powerRight, Arrays.toString(maskRight));
-        maskedString.replace(spreadPoint - powerLeft, spreadPoint, Arrays.toString(maskLeft));
+        maskedString.replace(spreadPoint, spreadPoint + powerRight, String.valueOf(maskRight));
+        maskedString.replace(spreadPoint - powerLeft, spreadPoint, String.valueOf(maskLeft));
 
         return maskedString.toString();
     }
@@ -105,24 +106,28 @@ public class Converter
     //<editor-fold desc="toDTO">
 
     public static UserTestDTO convertToDTO(UserTest model) {
-        return (model == null) ? UserTestDTO.empty : new UserTestDTO(model.getId(),
-                                                                        model.getType(),
-                                                                        model.getName(),
-                                                                        model.getEmail(),
-                                                                        model.getPhone(),
-                                                                        model.getAbout(),
-                                                                        model.getNotified());
+        return (model == null)
+                ? UserTestDTO.empty
+                : new UserTestDTO(model.getId(),
+                                    model.getType(),
+                                    model.getName(),
+                                    model.getMaskedEmail(),
+                                    model.getPhone(),
+                                    model.getAbout(),
+                                    model.getNotified());
     }
 
     public static ZoneTestDTO convertToDTO(ZoneTest model) {
-        return (model == null) ? ZoneTestDTO.empty : new ZoneTestDTO(model.getUserId(),
-                                                                        model.getCity(),
-                                                                        model.getCountry(),
-                                                                        model.getRegisterDate());
+        return (model == null)
+                ? ZoneTestDTO.empty
+                : new ZoneTestDTO(model.getUserId(),
+                                    model.getCity(),
+                                    model.getCountry(),
+                                    model.getRegisterDate());
     }
     //</editor-fold>
 
-    //<editor-fold desc="toJsonTesting">
+    //<editor-fold desc="toJson">
 
     public static String convertToJson(UserTest model) {
         return null;
@@ -139,9 +144,6 @@ public class Converter
     public static String convertToJson(ZoneTestDTO model) {
         return null;
     }
-    //</editor-fold>
-
-    //<editor-fold desc="toJsonProduction">
 
 /*    public static String convertToJson(UserDTO model) {
 

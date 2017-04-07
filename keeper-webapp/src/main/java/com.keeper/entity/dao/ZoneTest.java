@@ -21,13 +21,13 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TEST_TABLE_ZONES, schema = DatabaseResolver.TEST_SCHEMA)
 public class ZoneTest {
 
-    public static ZoneTest empty = new ZoneTest();
+    public static final ZoneTest empty = new ZoneTest();
 
     @Id
-    @Column(name = "userid", unique = true, nullable = false)   private Long userId;
+    @Column(name = "userId", unique = true, nullable = false)   private Long userId;
     @Column(name = "city")                                      private String city;
     @Column(name = "country", nullable = false)                 private String country;
-    @Column(name = "registerdate", nullable = false)            private Timestamp registerDate;
+    @Column(name = "registerDate", nullable = false)            private Timestamp registerDate;
 
     private ZoneTest() {
         this.userId         = (long) -1;
