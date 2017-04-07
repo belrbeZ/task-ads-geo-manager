@@ -18,7 +18,6 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 import static javax.persistence.GenerationType.AUTO;
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = DatabaseResolver.TEST_TABLE_USERS, schema = DatabaseResolver.TEST_SCHEMA)
@@ -76,10 +75,9 @@ public class UserTest {
         try {
             return new UserTest(type, name, email, phone, password, about);
         } catch (NullAttributeException e) {
-            ModelManager.logConstactionError("GEN", e);
+            ModelManager.logConstructError("GEN", e);
         }
-
-        return null;
+        return empty;
     }
 
     //<editor-fold desc="GetterAndSetter">

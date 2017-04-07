@@ -111,20 +111,20 @@ public class Converter
     //<editor-fold desc="toDTO">
 
     public static UserTestDTO convertToDTO(UserTest model) {
-        return new UserTestDTO(model.getId(),
-                                model.getType(),
-                                model.getName(),
-                                model.getEmail(),
-                                model.getPhone(),
-                                model.getAbout(),
-                                model.getNotified());
+        return (model == null) ? UserTestDTO.empty : new UserTestDTO(model.getId(),
+                                                                        model.getType(),
+                                                                        model.getName(),
+                                                                        model.getEmail(),
+                                                                        model.getPhone(),
+                                                                        model.getAbout(),
+                                                                        model.getNotified());
     }
 
     public static ZoneTestDTO convertToDTO(ZoneTest model) {
-        return new ZoneTestDTO(model.getUserId(),
-                                model.getCity(),
-                                model.getCountry(),
-                                model.getRegisterDate());
+        return (model == null) ? ZoneTestDTO.empty : new ZoneTestDTO(model.getUserId(),
+                                                                        model.getCity(),
+                                                                        model.getCountry(),
+                                                                        model.getRegisterDate());
     }
     //</editor-fold>
 
