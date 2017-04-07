@@ -36,12 +36,11 @@ public class ZoneTestRestController {
     private final ZoneTestRepoService repoService;
 
     // Used for testing, so we won't need to go to DB
-    private final Map<Long, ZoneTest> modelMap;
+    private final Map<Long, ZoneTest> modelMap = new HashMap<>();
 
     @Autowired
     public ZoneTestRestController(ZoneTestRepoService repoService) {
         this.repoService = repoService;
-        this.modelMap = new HashMap<>();
         ZoneTest test = Tester.testSampleZoneDAO();
         this.modelMap.put(test.getUserId(), test);
     }

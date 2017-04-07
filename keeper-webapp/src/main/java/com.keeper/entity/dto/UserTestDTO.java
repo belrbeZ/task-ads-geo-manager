@@ -6,7 +6,6 @@ package com.keeper.entity.dto;
 
 import com.keeper.entity.states.UserType;
 import com.keeper.util.Converter;
-import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import java.security.Timestamp;
 
@@ -15,8 +14,8 @@ import java.security.Timestamp;
  */
 public class UserTestDTO {
 
-    public static final UserTestDTO EMPTY = new UserTestDTO();
-
+    public static final UserTestDTO EMPTY = new UserTestDTO() {{ setType(UserType.EMPTY);
+                                                                 setId((long)UserType.EMPTY.getValue());}};
     private Long        id;
     private UserType    type;
     private String      name;
@@ -27,8 +26,8 @@ public class UserTestDTO {
     private Timestamp   muteEnd;
 
     private UserTestDTO() {
-        this.id         = (long) UserType.EMPTY.getValue();
-        this.type       = UserType.EMPTY;
+        this.id         = (long) UserType.UNKNOWN.getValue();
+        this.type       = UserType.UNKNOWN;
         this.name       = "";
         this.maskEmail  = "";
         this.maskPhone  = "";
@@ -38,13 +37,19 @@ public class UserTestDTO {
 
     public UserTestDTO(Long id, UserType type, String name, String maskedEmail,
                         String phone, String about, boolean isNotified) {
-        this.id         = (id == null) ? UserType.EMPTY.getValue() : id;
-        this.type       = type != null ? type : UserType.EMPTY;
+        this.id         = (id == null) ? UserType.UNKNOWN.getValue() : id;
+        this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
         this.maskEmail  = maskedEmail;
         this.maskPhone  = Converter.maskStr(phone);
         this.about      = about;
         this.isNotified = isNotified;
+    }
+
+    // ONLY FOR TESTING WITH MAP
+    // DELETE IN CASE OF DB OR IN FUTURE
+    public void setId(Long id) {
+        this.id = id;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -109,7 +114,6 @@ public class UserTestDTO {
         this.muteEnd = muteEnd;
     }
     //</editor-fold>
-
 
     @Override
     public boolean equals(Object o) {

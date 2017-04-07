@@ -55,7 +55,7 @@ public class Tester {
                     "superbob@mail.ru",
                     "+77795435",
                     "superBobbyPass",
-                    "My name is Bobby and I'll test the shit out of you!");
+                    "My name is Bobby and I'll test the shit out of you!") {{ setId((long) 1); }};
         } catch (NullAttributeException e) {
             ModelManager.logSetupError(e);
         }

@@ -9,8 +9,8 @@ package com.keeper.entity.dao;
 import com.keeper.entity.ModelManager;
 import com.keeper.entity.states.UserState;
 import com.keeper.entity.states.UserType;
-import com.keeper.util.*;
 import com.keeper.util.Converter;
+import com.keeper.util.Validator;
 import com.keeper.util.dao.DatabaseResolver;
 import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TEST_TABLE_USERS, schema = DatabaseResolver.TEST_SCHEMA)
 public class UserTest {
 
-    public static final UserTest EMPTY = new UserTest();
-
+    public static final UserTest EMPTY = new UserTest() {{ setType(UserType.EMPTY);
+                                                           setId((long)UserType.EMPTY.getValue());}};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
@@ -40,9 +40,9 @@ public class UserTest {
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
 
     private UserTest() {
-        this.id         = (long) UserType.EMPTY.getValue();
+        this.id         = (long) UserType.UNKNOWN.getValue();
         this.state      = UserState.UNKNOWN;
-        this.type       = UserType.EMPTY;
+        this.type       = UserType.UNKNOWN;
         this.name       = "";
         this.email      = "";
         this.maskedEmail= "";
@@ -77,18 +77,20 @@ public class UserTest {
         this.isNotified = false;
     }
 
-    public static UserTest gen(UserType type,
-                               String name,
-                               String email,
-                               String phone,
-                               String password,
-                               String about) {
+    public static UserTest gen(UserType type, String name, String email,
+                               String phone, String password, String about) {
         try {
             return new UserTest(type, name, email, phone, password, about);
         } catch (NullAttributeException e) {
             ModelManager.logConstructError("GEN", e);
         }
         return EMPTY;
+    }
+
+    // ONLY FOR TESTING WITH MAP
+    // DELETE IN CASE OF DB OR IN FUTURE
+    public void setId(Long id) {
+        this.id = id;
     }
 
     //<editor-fold desc="GetterAndSetter">

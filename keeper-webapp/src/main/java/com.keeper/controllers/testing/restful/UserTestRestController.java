@@ -34,14 +34,15 @@ public class UserTestRestController {
                                         + ApiResolver.REST_PROFILE;
 
     // Used for testing, so we won't need to go to DB
-    private final Map<Long, UserTest> modelMap;
+    private final Map<Long, UserTest> modelMap = new HashMap<>();
+
+    private long ID_COUNTED = 1;
 
     private final UserTestRepoService repoService;
 
     @Autowired
     public UserTestRestController(UserTestRepoService repoService) {
         this.repoService = repoService;
-        this.modelMap = new HashMap<>();
         UserTest test = Tester.testSampleUserDAO();
         this.modelMap.put(test.getId(), test);
     }
@@ -65,6 +66,7 @@ public class UserTestRestController {
     public ResponseEntity<String> create(@Valid @RequestBody UserTest model, BindingResult result) {
         // REAL IMPLEMENTATION THAT WORKS WITH DB
         //repoService.add(model);
+        model.setId(ID_COUNTED++);
         modelMap.putIfAbsent(model.getId(), model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
