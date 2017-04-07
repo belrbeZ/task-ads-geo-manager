@@ -6,7 +6,6 @@ package com.keeper.controllers.testing.restful;
 
 import com.keeper.entity.dao.UserTest;
 import com.keeper.entity.dto.UserTestDTO;
-import com.keeper.entity.states.UserType;
 import com.keeper.service.impl.UserTestRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.web.ApiResolver;
@@ -15,15 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.sql.Timestamp;
 
 /**
- * Default Comment
+ * Is testing RestController to work with UserTest model
  */
 @RestController
 public class UserTestRestController {

@@ -67,4 +67,19 @@ public class ZoneTest {
     }
 
     //</editor-fold>
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ZoneTest zoneTest = (ZoneTest) o;
+
+        return userId.equals(zoneTest.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
 }
