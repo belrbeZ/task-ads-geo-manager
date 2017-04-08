@@ -17,6 +17,7 @@ import java.util.Arrays;
 public class Converter
 {
     private static final String     EMPTY_JSON      = "";
+    private static final String     EMPTY_EMAIL     = "";
     private static final Character  MASK_SYMBOL     = '*';
     private static final int        MASK_POWER_INC  = 0;
 
@@ -28,7 +29,19 @@ public class Converter
      * @return masked email
      */
     public static String maskEmail(String email) {
-        return !Validator.isEmailValid(email) ? null : maskStr(email, email.indexOf('@'));
+        int index = Validator.isEmailValidWithIndex(email);
+        return index == Validator.EMAIL_INDEX
+                ? EMPTY_EMAIL
+                : returnSymbolBack(index, maskStr(email, index));
+    }
+
+    /**
+     * @return masked Email with symbol @ on its origin place
+     */
+    private static String returnSymbolBack(int position, String str){
+        char[] charArray = str.toCharArray();
+        charArray[position] = '@';
+        return new String(charArray);
     }
 
     public static String maskStr(String str) {
