@@ -8,7 +8,7 @@ import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * Default Comment
+ * Used to Validate and Generate Hashes (for password as example)
  */
 public class Validator {
 

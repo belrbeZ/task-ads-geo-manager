@@ -14,5 +14,5 @@ public interface IUserTestService { //extends IModelService<UserTest> {
 
     UserTest get(String email, String phone);
 
-    void remove(String email, String phone);
+    UserTest remove(String email, String phone);
 }

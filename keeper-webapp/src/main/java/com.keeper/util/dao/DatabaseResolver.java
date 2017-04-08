@@ -10,7 +10,7 @@ package com.keeper.util.dao;
 public class DatabaseResolver {
 
     public static final String DATABASE         = "keeperdb";
-    public static final String SCHEMA           = "keeper_prod";
+    public static final String SCHEMA           = "production";
 
     public static final String TABLE_USERS              = "users";
     public static final String TABLE_TASKS              = "tasks";
@@ -25,7 +25,7 @@ public class DatabaseResolver {
 
 
     // TEST
-    public static final String TEST_SCHEMA      = "test";//"test";
+    public static final String TEST_SCHEMA      = "test";
     public static final String TEST_TABLE_USERS         = "test_user";
     public static final String TEST_TABLE_ZONES         = "test_zones";
 }

@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by Alexandr Vasiliev on 05.04.2017.
@@ -15,9 +18,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Qualifier(value = "userTestRepository")
 public interface UserTestRepository extends JpaRepository<UserTest, Long> {
-    UserTest findByEmail(@Param("email") String email);
-    UserTest findByPhone(@Param("phone") String phone);
+    UserTest findOneByEmail(@Param("email") String email);
+    UserTest findOneByPhone(@Param("phone") String phone);
 
-    UserTest deleteByEmail(@Param("email") String email);
-    UserTest deleteByPhone(@Param("phone") String phone);
+    boolean existsByEmailOrPhone(@Param("email") String email,
+                                 @Param("phone") String phone);
+
+    @Transactional
+    UserTest removeByEmail(@Param("email") String email);
+
+    @Transactional
+    UserTest removeByPhone(@Param("phone") String phone);
 }

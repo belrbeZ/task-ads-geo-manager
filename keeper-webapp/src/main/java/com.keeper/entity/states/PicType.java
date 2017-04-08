@@ -4,6 +4,8 @@ package com.keeper.entity.states;
  * Created by GoodforGod on 21.03.2017.
  */
 
+import javax.persistence.Embeddable;
+
 /**
  * Default Comment
  */

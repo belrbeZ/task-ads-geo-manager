@@ -14,5 +14,5 @@ public interface IUserService extends IModelService<User> {
 
     User get(String email, String phone);
 
-    void remove(String email, String phone);
+    User remove(String email, String phone);
 }

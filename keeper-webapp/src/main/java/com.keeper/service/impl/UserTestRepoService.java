@@ -6,7 +6,6 @@ import com.keeper.service.IUserTestService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,22 +29,20 @@ public class UserTestRepoService extends ModelRepoService<UserTest>  implements 
 
     @Override
     public boolean isExists(String email, String phone) {
-        return get(email, phone) != null;
+        return repository.existsByEmailOrPhone(email, phone);
     }
 
     @Override
     public UserTest get(String email, String phone) {
-        if(email != null && !email.isEmpty())
-            return repository.findByEmail(email);
-        else
-            return repository.findByPhone(phone);
+        return (email != null && !email.isEmpty())
+                ? repository.findOneByEmail(email)
+                : repository.findOneByPhone(phone);
     }
 
     @Override
-    public void remove(String email, String phone) {
-        if(email != null && !email.isEmpty())
-            repository.deleteByEmail(email);
-        else
-            repository.deleteByPhone(phone);
+    public UserTest remove(String email, String phone) {
+        return (email != null && !email.isEmpty())
+                ? repository.removeByEmail(email)
+                : repository.removeByPhone(phone);
     }
 }

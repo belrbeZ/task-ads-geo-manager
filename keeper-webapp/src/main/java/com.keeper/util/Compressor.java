@@ -10,4 +10,7 @@ package com.keeper.util;
  */
 public class Compressor {
 
+    public static byte[] compressPic() {
+        return null;
+    }
 }
