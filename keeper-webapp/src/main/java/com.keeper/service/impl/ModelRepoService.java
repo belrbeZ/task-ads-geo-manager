@@ -5,8 +5,9 @@ package com.keeper.service.impl;
  */
 
 import com.keeper.service.IModelService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ import java.util.List;
  */
 @Service
 public class ModelRepoService<T> implements IModelService<T> {
+
+    protected final Logger LOGGER = LoggerFactory.getLogger(ModelRepoService.class);
 
     protected JpaRepository<T, Long> primeRepository;
 

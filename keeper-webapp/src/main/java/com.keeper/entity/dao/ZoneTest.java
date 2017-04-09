@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TEST_TABLE_ZONES, schema = DatabaseResolver.TEST_SCHEMA)
 public class ZoneTest {
 
-    public static final ZoneTest EMPTY = new ZoneTest();
+    public static final ZoneTest EMPTY = new ZoneTest() {{ this.userId = (long)UserType.EMPTY.getValue(); }};
 
     @Id
     @Column(name = "userId", unique = true, nullable = false)   private Long userId;
@@ -31,7 +31,7 @@ public class ZoneTest {
     @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
 
     private ZoneTest() {
-        this.userId         = (long) UserType.EMPTY.getValue();
+        this.userId         = (long) UserType.UNKNOWN.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);

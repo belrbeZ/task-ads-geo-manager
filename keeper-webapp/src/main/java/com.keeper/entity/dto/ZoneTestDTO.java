@@ -4,6 +4,7 @@ package com.keeper.entity.dto;
  * Created by @GoodforGod on 4.04.2017.
  */
 
+import com.keeper.entity.dao.ZoneTest;
 import com.keeper.entity.states.UserType;
 
 import java.sql.Timestamp;
@@ -14,18 +15,23 @@ import java.time.LocalDateTime;
  */
 public class ZoneTestDTO {
 
-    public static final ZoneTestDTO EMPTY = new ZoneTestDTO();
+    public static final ZoneTestDTO EMPTY = new ZoneTestDTO((long) UserType.EMPTY.getValue());
 
-    private Long userId;
-    private String city;
-    private String country;
-    private Timestamp registerDate;
+    private final Long  userId;
+    private String      city;
+    private String      country;
+    private Timestamp   registerDate;
 
     private ZoneTestDTO() {
-        this.userId         = (long) UserType.EMPTY.getValue();
+        this.userId         = (long) UserType.UNKNOWN.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
+    }
+
+    private ZoneTestDTO(Long userId) {
+        super();
+        this.userId = userId;
     }
 
     public ZoneTestDTO(Long userId, String city, String country, Timestamp timestamp) {

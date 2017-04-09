@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.testing;
 
 /*
  * Created by @GoodforGod on 6.04.2017.
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Default Comment
  */
-public interface IZoneTestService {// extends IModelService<ZoneTest> {
+public interface IZoneTestService {
     List<ZoneTest> getByCountry(String country);
 
     List<ZoneTest> getByCity(String city);

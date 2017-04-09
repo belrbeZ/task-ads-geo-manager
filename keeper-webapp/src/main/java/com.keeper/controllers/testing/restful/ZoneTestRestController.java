@@ -6,7 +6,7 @@ package com.keeper.controllers.testing.restful;
 
 import com.keeper.entity.dao.ZoneTest;
 import com.keeper.entity.dto.ZoneTestDTO;
-import com.keeper.service.impl.ZoneTestRepoService;
+import com.keeper.service.testing.ZoneTestRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.Tester;
 import com.keeper.util.web.ApiResolver;
@@ -27,8 +27,7 @@ import java.util.Map;
  */
 @RestController
 public class ZoneTestRestController {
-
-    private static final String PATH = WebmapResolver.WEB_SECURE
+    private final String PATH = WebmapResolver.WEB_SECURE
                                         + ApiResolver.API
                                         + ApiResolver.TEST_REST
                                         + ApiResolver.REST_ZONE;

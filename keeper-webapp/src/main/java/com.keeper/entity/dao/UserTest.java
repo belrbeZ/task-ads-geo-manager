@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 public class UserTest {
 
     public static final UserTest EMPTY = new UserTest() {{ setType(UserType.EMPTY);
-                                                           setId((long)UserType.EMPTY.getValue());}};
+                                                           this.id = (long)UserType.EMPTY.getValue();}};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
@@ -87,8 +87,8 @@ public class UserTest {
         return EMPTY;
     }
 
-    // ONLY FOR TESTING WITH MAP
-    // DELETE IN CASE OF DB OR IN FUTURE
+    // JUST FOR TESTING WITH MAP
+    // IN REST CONTROLLER
     public void setId(Long id) {
         this.id = id;
     }

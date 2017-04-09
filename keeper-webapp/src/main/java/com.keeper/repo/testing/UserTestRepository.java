@@ -1,4 +1,4 @@
-package com.keeper.repo;
+package com.keeper.repo.testing;
 
 import com.keeper.entity.dao.UserTest;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,12 +21,9 @@ public interface UserTestRepository extends JpaRepository<UserTest, Long> {
     UserTest findOneByEmail(@Param("email") String email);
     UserTest findOneByPhone(@Param("phone") String phone);
 
-    boolean existsByEmailOrPhone(@Param("email") String email,
-                                 @Param("phone") String phone);
+    boolean existsByEmail(@Param("email") String email);
+    boolean existsByPhone(@Param("phone") String phone);
 
-    @Transactional
-    UserTest removeByEmail(@Param("email") String email);
-
-    @Transactional
-    UserTest removeByPhone(@Param("phone") String phone);
+    @Transactional UserTest removeByEmail(@Param("email") String email);
+    @Transactional UserTest removeByPhone(@Param("phone") String phone);
 }

@@ -1,12 +1,11 @@
-package com.keeper.managers.impl;
+package com.keeper.managers.testing;
 
 /*
  * Created by @GoodforGod on 5.04.2017.
  */
 
 import com.keeper.entity.dto.ZoneTestDTO;
-import com.keeper.managers.IZoneTestManager;
-import com.keeper.service.impl.ZoneTestRepoService;
+import com.keeper.service.testing.ZoneTestRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

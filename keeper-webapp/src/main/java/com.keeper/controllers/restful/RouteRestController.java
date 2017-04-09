@@ -6,19 +6,14 @@ package com.keeper.controllers.restful;
 
 import com.keeper.util.web.ApiResolver;
 import com.keeper.util.web.WebmapResolver;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * Default Comment
  */
-//@Controller
+//@RestController
 public class RouteRestController {
-
-    private final String restEndpoint = WebmapResolver.WEB_SECURE
-            + ApiResolver.API
-            + ApiResolver.API
-            + ApiResolver.REST_TASK;
+    private final String PATH = WebmapResolver.WEB_SECURE
+                                        + ApiResolver.API
+                                        + ApiResolver.REST_TASK;
 
 }

@@ -14,9 +14,9 @@ import java.security.Timestamp;
  */
 public class UserTestDTO {
 
-    public static final UserTestDTO EMPTY = new UserTestDTO() {{ setType(UserType.EMPTY);
-                                                                 setId((long)UserType.EMPTY.getValue());}};
-    private Long        id;
+    public static final UserTestDTO EMPTY = new UserTestDTO((long)UserType.EMPTY.getValue())
+                                                                {{ setType(UserType.EMPTY); }};
+    private final Long  id;
     private UserType    type;
     private String      name;
     private String      maskEmail;
@@ -35,6 +35,11 @@ public class UserTestDTO {
         this.isNotified = false;
     }
 
+    private UserTestDTO(Long id) {
+        super();
+        this.id = id;
+    }
+
     public UserTestDTO(Long id, UserType type, String name, String maskedEmail,
                         String phone, String about, boolean isNotified) {
         this.id         = (id == null) ? UserType.UNKNOWN.getValue() : id;
@@ -44,12 +49,6 @@ public class UserTestDTO {
         this.maskPhone  = Converter.maskStr(phone);
         this.about      = about;
         this.isNotified = isNotified;
-    }
-
-    // ONLY FOR TESTING WITH MAP
-    // DELETE IN CASE OF DB OR IN FUTURE
-    public void setId(Long id) {
-        this.id = id;
     }
 
     //<editor-fold desc="GetterAndSetter">

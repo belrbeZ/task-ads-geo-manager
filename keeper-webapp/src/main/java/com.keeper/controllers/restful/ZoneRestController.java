@@ -1,12 +1,12 @@
 package com.keeper.controllers.restful;
 
 /*
- * Created by GoodforGod on 19.03.2017.
+ * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.entity.dao.User;
-import com.keeper.entity.dto.UserDTO;
-import com.keeper.service.impl.UserRepoService;
+import com.keeper.entity.dao.Zone;
+import com.keeper.entity.dto.ZoneDTO;
+import com.keeper.service.impl.ZoneRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.web.ApiResolver;
 import com.keeper.util.web.WebmapResolver;
@@ -20,40 +20,40 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * Control Profile Rest End points
+ * Default Comment
  */
 @RestController
-public class ProfileRestController {
+public class ZoneRestController {
     private final String PATH = WebmapResolver.WEB_SECURE
                                         + ApiResolver.API
-                                        + ApiResolver.REST_PROFILE;
+                                        + ApiResolver.REST_ZONE;
 
-    private final UserRepoService repoService;
+    private final ZoneRepoService repoService;
 
     @Autowired
-    public ProfileRestController(UserRepoService repoService) {
+    public ZoneRestController(ZoneRepoService repoService) {
         this.repoService = repoService;
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
+    public ResponseEntity<ZoneDTO> get(@PathVariable("id") Long userId) {
         return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid @RequestBody User model, BindingResult result) {
+    public ResponseEntity<String> update(@Valid @RequestBody Zone model, BindingResult result) {
         repoService.update(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody User model, BindingResult result) {
+    public ResponseEntity<String> create(@Valid @RequestBody Zone model, BindingResult result) {
         repoService.add(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@RequestParam("id") Long userId) {
+    public ResponseEntity<String> delete(@PathVariable("id") Long userId) {
         repoService.remove(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

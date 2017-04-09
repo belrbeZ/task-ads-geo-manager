@@ -1,8 +1,8 @@
-package com.keeper.service.impl;
+package com.keeper.service.testing;
 
 import com.keeper.entity.dao.UserTest;
-import com.keeper.repo.UserTestRepository;
-import com.keeper.service.IUserTestService;
+import com.keeper.repo.testing.UserTestRepository;
+import com.keeper.service.impl.ModelRepoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class UserTestRepoService extends ModelRepoService<UserTest>  implements IUserTestService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserTestRepoService.class);
+public class UserTestRepoService extends ModelRepoService<UserTest> implements IUserTestService {
 
     private final UserTestRepository repository;
 
@@ -29,7 +27,9 @@ public class UserTestRepoService extends ModelRepoService<UserTest>  implements 
 
     @Override
     public boolean isExists(String email, String phone) {
-        return repository.existsByEmailOrPhone(email, phone);
+        return (email != null && !email.isEmpty())
+                ? repository.existsByEmail(email)
+                : repository.existsByPhone(phone);
     }
 
     @Override

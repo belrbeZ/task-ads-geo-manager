@@ -6,7 +6,7 @@ package com.keeper.controllers.testing.restful;
 
 import com.keeper.entity.dao.UserTest;
 import com.keeper.entity.dto.UserTestDTO;
-import com.keeper.service.impl.UserTestRepoService;
+import com.keeper.service.testing.UserTestRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.Tester;
 import com.keeper.util.web.ApiResolver;
@@ -27,8 +27,7 @@ import java.util.Map;
  */
 @RestController
 public class UserTestRestController {
-
-    private static final String PATH = WebmapResolver.WEB_SECURE
+    private final String PATH = WebmapResolver.WEB_SECURE
                                         + ApiResolver.API
                                         + ApiResolver.TEST_REST
                                         + ApiResolver.REST_PROFILE;
@@ -66,7 +65,7 @@ public class UserTestRestController {
     public ResponseEntity<String> create(@Valid @RequestBody UserTest model, BindingResult result) {
         // REAL IMPLEMENTATION THAT WORKS WITH DB
         //repoService.add(model);
-        model.setId(ID_COUNTED++);
+        model.setId(++ID_COUNTED);
         modelMap.putIfAbsent(model.getId(), model);
         return new ResponseEntity<>(HttpStatus.OK);
     }

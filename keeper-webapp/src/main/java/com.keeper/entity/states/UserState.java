@@ -8,7 +8,7 @@ package com.keeper.entity.states;
  * Default Comment
  */
 public enum UserState {
-    UNKNOWN(0),
+    UNKNOWN(-1),
     AWAIT_VERIFICATION(1),
     REJECTED(2),
     VERIFIED(10);

@@ -4,9 +4,13 @@ package com.keeper.util;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.entity.dao.User;
 import com.keeper.entity.dao.UserTest;
+import com.keeper.entity.dao.Zone;
 import com.keeper.entity.dao.ZoneTest;
+import com.keeper.entity.dto.UserDTO;
 import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.entity.dto.ZoneDTO;
 import com.keeper.entity.dto.ZoneTestDTO;
 
 import java.util.Arrays;
@@ -30,7 +34,7 @@ public class Converter
      */
     public static String maskEmail(String email) {
         int index = Validator.isEmailValidWithIndex(email);
-        return index == Validator.EMAIL_INDEX
+        return index == Validator.EMAIL_INCORRECT
                 ? EMPTY_EMAIL
                 : returnSymbolBack(index, maskStr(email, index));
     }
@@ -118,6 +122,8 @@ public class Converter
 
     //<editor-fold desc="toDTO">
 
+    //<editor-fold desc="Testing">
+
     public static UserTestDTO convertToDTO(UserTest model) {
         return (model == null)
                 ? UserTestDTO.EMPTY
@@ -138,6 +144,29 @@ public class Converter
                                     model.getCountry(),
                                     model.getRegisterDate());
     }
+    //</editor-fold>
+
+    public static UserDTO convertToDTO(User model) {
+        return (model == null)
+                ? UserDTO.EMPTY
+                : new UserDTO(model.getId(),
+                                model.getType(),
+                                model.getName(),
+                                model.getMaskedEmail(),
+                                model.getPhone(),
+                                model.getAbout(),
+                                model.getNotified());
+    }
+
+    public static ZoneDTO convertToDTO(Zone model) {
+        return (model == null)
+                ? ZoneDTO.EMPTY
+                : new ZoneDTO(model.getUserId(),
+                                model.getCity(),
+                                model.getCountry(),
+                                model.getRegisterDate());
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="toJson">

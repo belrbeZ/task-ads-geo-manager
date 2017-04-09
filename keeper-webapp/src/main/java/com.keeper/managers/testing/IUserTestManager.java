@@ -1,10 +1,11 @@
-package com.keeper.managers;
+package com.keeper.managers.testing;
 
 /*
  * Created by Alexandr Vasiliev on 30.03.2017.
  */
 
 import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.managers.IModelManager;
 
 /**
  * Default Comment

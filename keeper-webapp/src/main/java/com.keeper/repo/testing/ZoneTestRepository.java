@@ -1,4 +1,4 @@
-package com.keeper.repo;
+package com.keeper.repo.testing;
 
 import com.keeper.entity.dao.ZoneTest;
 import org.springframework.beans.factory.annotation.Qualifier;

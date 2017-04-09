@@ -29,16 +29,16 @@ public class Validator {
         }
     }
 
-    public static final int EMAIL_INDEX = -1;
+    static final int EMAIL_INCORRECT = -1;
 
     private static final String EMPTY_HASH = "";
 
     public static boolean isEmailValid(String email) {
-        return email != null && email.length() >= 3 && email.indexOf('@') != 0;
+        return email != null && email.length() >= 3 && email.indexOf('@') != EMAIL_INCORRECT;
     }
 
     public static int isEmailValidWithIndex(String email) {
-        return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INDEX;
+        return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
     }
 
     public static boolean isPhoneValid(String phone) {
