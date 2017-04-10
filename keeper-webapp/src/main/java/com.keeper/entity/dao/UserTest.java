@@ -62,13 +62,13 @@ public class UserTest {
     public UserTest(UserType type, String name, String email,
                     String phone, String password, String about) throws NullAttributeException {
 
-        if(email != null && !email.isEmpty())
+        if(email == null || email.isEmpty())
             throw new NullAttributeException("Nullable param", "EMAIL");
 
-        if(password != null && !password.isEmpty())
+        if(password == null || password.isEmpty())
             throw new NullAttributeException("Nullable param", "PASSWORD");
 
-        if(name != null && !name.isEmpty())
+        if(name == null || name.isEmpty())
             throw new NullAttributeException("Nullable param", "NAME");
 
         this.state      = UserState.AWAIT_VERIFICATION;

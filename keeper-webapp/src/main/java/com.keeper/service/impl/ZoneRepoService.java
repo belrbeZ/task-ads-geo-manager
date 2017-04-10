@@ -10,6 +10,9 @@ import com.keeper.service.IZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,11 +31,15 @@ public class ZoneRepoService extends ModelRepoService<Zone> implements IZoneServ
 
     @Override
     public List<Zone> getByCountry(String country) {
-        return repository.findByCountry(country);
+        return (country != null && !country.isEmpty())
+                ? repository.findByCountry(country)
+                : Collections.emptyList();
     }
 
     @Override
     public List<Zone> getByCity(String city) {
-        return repository.findByCity(city);
+        return (city != null && !city.isEmpty())
+                ? repository.findByCity(city)
+                : Collections.emptyList();
     }
 }

@@ -29,20 +29,20 @@ public class UserTestRepoService extends ModelRepoService<UserTest> implements I
     public boolean isExists(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.existsByEmail(email)
-                : repository.existsByPhone(phone);
+                : (phone != null && !phone.isEmpty()) && repository.existsByPhone(phone);
     }
 
     @Override
     public UserTest get(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.findOneByEmail(email)
-                : repository.findOneByPhone(phone);
+                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone) : UserTest.EMPTY;
     }
 
     @Override
     public UserTest remove(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.removeByEmail(email)
-                : repository.removeByPhone(phone);
+                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone) : UserTest.EMPTY;
     }
 }

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,11 +31,15 @@ public class ZoneTestRepoService extends ModelRepoService<ZoneTest> implements I
 
     @Override
     public List<ZoneTest> getByCountry(String country) {
-        return repository.findByCountry(country);
+        return (country != null && !country.isEmpty())
+                ? repository.findByCountry(country)
+                : Collections.emptyList();
     }
 
     @Override
     public List<ZoneTest> getByCity(String city) {
-        return repository.findByCity(city);
+        return (city != null && !city.isEmpty())
+                ? repository.findByCity(city)
+                : Collections.emptyList();
     }
 }

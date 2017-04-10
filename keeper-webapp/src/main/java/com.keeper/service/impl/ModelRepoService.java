@@ -24,17 +24,17 @@ public class ModelRepoService<T> implements IModelService<T> {
 
     @Override
     public boolean isExists(Long id) {
-        return primeRepository.exists(id);
+        return (id != null) && primeRepository.exists(id);
     }
 
     @Override
     public T add(T model) {
-        return primeRepository.save(model);
+        return (model != null) ? primeRepository.save(model) : null;
     }
 
     @Override
     public T get(Long id) {
-        return primeRepository.findOne(id);
+        return (id != null) ? primeRepository.findOne(id) : null;
     }
 
     @Override
@@ -44,11 +44,12 @@ public class ModelRepoService<T> implements IModelService<T> {
 
     @Override
     public T update(T model) {
-        return primeRepository.save(model);
+        return (model != null) ? primeRepository.save(model) : null;
     }
 
     @Override
     public void remove(Long id) {
-        primeRepository.delete(id);
+        if(id != null)
+            primeRepository.delete(id);
     }
 }

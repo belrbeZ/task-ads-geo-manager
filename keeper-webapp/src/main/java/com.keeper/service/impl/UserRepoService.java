@@ -28,20 +28,20 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     public boolean isExists(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.existsByEmail(email)
-                : repository.existsByPhone(phone);
+                : (phone != null && !phone.isEmpty()) && repository.existsByPhone(phone);
     }
 
     @Override
     public User get(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.findOneByEmail(email)
-                : repository.findOneByPhone(phone);
+                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone) : User.EMPTY;
     }
 
     @Override
     public User remove(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.removeByEmail(email)
-                : repository.removeByPhone(phone);
+                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone) : User.EMPTY;
     }
 }
