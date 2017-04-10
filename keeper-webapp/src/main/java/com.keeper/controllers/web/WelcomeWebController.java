@@ -1,4 +1,4 @@
-package com.keeper.controllers.common;
+package com.keeper.controllers.web;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Default Comment
@@ -17,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class WelcomeWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_PAGE_WELCOME,
-                    method = RequestMethod.GET)
-    public String welcomePage(Model model) {
+    @RequestMapping(value = WebmapResolver.WEB_WELCOME, method = RequestMethod.GET)
+    public ModelAndView welcomeGet(Model model) {
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_WELCOME);
 
-
-        return ViewResolver.WEB_WELCOME;
+        return modelAndView;
     }
 }

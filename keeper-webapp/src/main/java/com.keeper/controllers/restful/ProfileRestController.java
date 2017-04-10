@@ -24,9 +24,7 @@ import javax.validation.Valid;
  */
 @RestController
 public class ProfileRestController {
-    private final String PATH = WebmapResolver.WEB_SECURE
-                                        + ApiResolver.API
-                                        + ApiResolver.REST_PROFILE;
+    private final String PATH = ApiResolver.REST_PROFILE;
 
     private final UserRepoService repoService;
 

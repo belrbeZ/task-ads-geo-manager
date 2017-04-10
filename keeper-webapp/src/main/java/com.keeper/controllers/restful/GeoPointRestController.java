@@ -5,15 +5,12 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.util.web.ApiResolver;
-import com.keeper.util.web.WebmapResolver;
 
 /**
  * Default Comment
  */
 //@RestController
 public class GeoPointRestController {
-    private final String PATH = WebmapResolver.WEB_SECURE
-                                        + ApiResolver.API
-                                        + ApiResolver.REST_TASK;
+    private final String PATH = ApiResolver.REST_GEOPOINT;
 
 }

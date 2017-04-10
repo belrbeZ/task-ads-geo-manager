@@ -10,18 +10,21 @@ package com.keeper.util.web;
 public class WebmapResolver {
     public static final String REDIRECT     = ":redirect";
 
-    public static final String WEB_SECURE   = "/secure";
-    public static final String WEB_OAUTH    = "/oauth";
-    public static final String WEB_TOKEN    = "/token";
+    public static final String SECURED  = "/secure";
+    public static final String TESTING  = "/test";
+    public static final String OAUTH    = "/oauth";
+    public static final String TOKEN    = "/token";
 
     public static final String TEST_PATH    = "/test";
-    public static final String TEST_USER    = "/userTestPage";
-    public static final String TEST_ZONE    = "/zoneTestPage";
+    public static final String TEST_USER    = SECURED + "/userTestPage";
+    public static final String TEST_ZONE    = SECURED + "/zoneTestPage";
 
-    public static final String WEB_PAGE_HOME    = "/home";
-    public static final String WEB_PAGE_LOGIN   = "/login";
-    public static final String WEB_PAGE_LOGOUT  = "/logout";
-    public static final String WEB_PAGE_PROFILE = "/profile";
-    public static final String WEB_PAGE_WELCOME = "/welcome";
-    public static final String WEB_PAGE_REGISTER = "/register";
+    public static final String WEB_ERROR    = "/error";
+    public static final String WEB_DENIED   = "/denied";
+    public static final String WEB_HOME     = SECURED + "/home";
+    public static final String WEB_LOGIN    = "/login";
+    public static final String WEB_LOGOUT   = "/logout";
+    public static final String WEB_PROFILE  = SECURED + "/profile";
+    public static final String WEB_WELCOME  = "/welcome";
+    public static final String WEB_REGISTER = "/register";
 }

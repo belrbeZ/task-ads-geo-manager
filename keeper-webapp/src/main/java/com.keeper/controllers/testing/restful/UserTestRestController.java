@@ -27,10 +27,7 @@ import java.util.Map;
  */
 @RestController
 public class UserTestRestController {
-    private final String PATH = WebmapResolver.WEB_SECURE
-                                        + ApiResolver.API
-                                        + ApiResolver.TEST_REST
-                                        + ApiResolver.REST_PROFILE;
+    private final String PATH = ApiResolver.TEST_REST_PROFILE;
 
     // Used for testing, so we won't need to go to DB
     private final Map<Long, UserTest> modelMap = new HashMap<>();

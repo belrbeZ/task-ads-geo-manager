@@ -12,8 +12,6 @@ import com.keeper.util.web.WebmapResolver;
  */
 //@RestController
 public class RouteRestController {
-    private final String PATH = WebmapResolver.WEB_SECURE
-                                        + ApiResolver.API
-                                        + ApiResolver.REST_TASK;
+    private final String PATH = ApiResolver.REST_ROUTE;
 
 }

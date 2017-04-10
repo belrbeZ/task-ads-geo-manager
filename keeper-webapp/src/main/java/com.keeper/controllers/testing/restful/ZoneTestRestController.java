@@ -27,10 +27,7 @@ import java.util.Map;
  */
 @RestController
 public class ZoneTestRestController {
-    private final String PATH = WebmapResolver.WEB_SECURE
-                                        + ApiResolver.API
-                                        + ApiResolver.TEST_REST
-                                        + ApiResolver.REST_ZONE;
+    private final String PATH = ApiResolver.TEST_REST_ZONE;
 
     private final ZoneTestRepoService repoService;
 

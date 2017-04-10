@@ -24,9 +24,7 @@ import javax.validation.Valid;
  */
 @RestController
 public class ZoneRestController {
-    private final String PATH = WebmapResolver.WEB_SECURE
-                                        + ApiResolver.API
-                                        + ApiResolver.REST_ZONE;
+    private final String PATH = ApiResolver.REST_ZONE;
 
     private final ZoneRepoService repoService;
 

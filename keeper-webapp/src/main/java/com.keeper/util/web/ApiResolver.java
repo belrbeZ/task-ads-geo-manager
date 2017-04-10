@@ -8,18 +8,17 @@ package com.keeper.util.web;
  * Default Comment
  */
 public class ApiResolver {
-    public static final String API          = "/api";
+    public static final String API          = WebmapResolver.SECURED + "/api";
     public static final String API_VERSION  = "/v1.0";
 
-    public static final String PRODUCES_APP_JSON = "application/json;";
-    public static final String PRODUCES_APP_PLAIN = "text/plain;";
-    public static final String PRODUCES_CHARSET = "charset=UTF-8;";
+    public static final String PRODUCES_CHARSET     = "charset=UTF-8;";
 
-    public static final String REST_PROFILE = "/profile";
-    public static final String REST_TASK    = "/task";
-    public static final String REST_ZONE    = "/zone";
-    public static final String REST_ROUTE   = "/route";
-    public static final String REST_POINT   = "/point";
+    public static final String REST_PROFILE = API + "/profile";
+    public static final String REST_TASK    = API + "/task";
+    public static final String REST_ZONE    = API + "/zone";
+    public static final String REST_ROUTE   = API + "/route";
+    public static final String REST_GEOPOINT = API + "/point";
 
-    public static final String TEST_REST = "/test";
+    public static final String TEST_REST_PROFILE = API + "/test" + "/profile";
+    public static final String TEST_REST_ZONE    = API + "/test" + "/zone";
 }
