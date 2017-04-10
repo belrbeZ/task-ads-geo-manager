@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Default Comment
  */
 @Repository
-@Qualifier(value = "userRepository")
+//@Qualifier(value = "userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
     User findOneByEmail(@Param("email") String email);
     User findOneByPhone(@Param("phone") String phone);

@@ -7,6 +7,8 @@ package com.keeper.config;
  *
  */
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -27,7 +30,8 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.keeper.*"})
+@ComponentScan(basePackages = {"com.keeper"})
+//@Import(SwaggerConfig.class)
 public class AppWebConfig extends WebMvcConfigurerAdapter {
 
     /**
@@ -37,20 +41,24 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
+        viewResolver.setContentType("text/html;charset=UTF-8");
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
-        viewResolver.setContentType("text/html;charset=UTF-8");
         registry.viewResolver(viewResolver);
     }
 
-/*    @Bean
-    public UrlBasedViewResolver viewResolver()
-    {
+/*    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }*/
+
+    @Bean
+    public UrlBasedViewResolver viewResolver() {
         UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
         urlBasedViewResolver.setViewClass(TilesView.class);
         urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
         return urlBasedViewResolver;
-    }*/
+    }
 
     /**
      * Configure ResourceHandlers to serve static resources like CSS/Javascript etc...

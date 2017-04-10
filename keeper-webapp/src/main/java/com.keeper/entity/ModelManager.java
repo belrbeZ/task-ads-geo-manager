@@ -14,12 +14,20 @@ public class ModelManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ModelManager.class);
 
+    public static void logConstructorError(String msg) {
+        LOGGER.error(msg);
+    }
+
     public static void logConstructError(Throwable throwable) {
         LOGGER.error(throwable.getMessage(), throwable);
     }
 
     public static void logConstructError(String msg, Throwable throwable) {
         LOGGER.error(msg, throwable);
+    }
+
+    public static void logSetupError(String msg) {
+        LOGGER.error(msg);
     }
 
     public static void logSetupError(Throwable throwable) {

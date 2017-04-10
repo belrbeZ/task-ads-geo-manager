@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Default Comment
+ * Controller to proceed all requests from home page
  */
 @Controller
 public class HomeWebController {
-
-    private final String PATH_HOME = WebmapResolver.SECURED + WebmapResolver.WEB_HOME;
 
     @RequestMapping(value = WebmapResolver.WEB_HOME, method = RequestMethod.GET)
     public ModelAndView homeGet(Model model) {

@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Repository
-@Qualifier(value = "userTestRepository")
+//@Qualifier(value = "userTestRepository")
 public interface UserTestRepository extends JpaRepository<UserTest, Long> {
     UserTest findOneByEmail(@Param("email") String email);
     UserTest findOneByPhone(@Param("phone") String phone);

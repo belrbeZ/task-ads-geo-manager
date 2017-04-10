@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Repository
-@Qualifier(value = "zoneTestRepository")
+//@Qualifier(value = "zoneTestRepository")
 public interface ZoneTestRepository extends JpaRepository<ZoneTest, Long> {
     List<ZoneTest> findByCity(@Param("city") String city);
 

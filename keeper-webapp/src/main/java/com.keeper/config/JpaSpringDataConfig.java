@@ -4,20 +4,15 @@ package com.keeper.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
-import java.util.Properties;
-//import java.util.logging.Logger;
 
 /**
  * Created by AlexVasil on 26.03.2017.
@@ -26,11 +21,11 @@ import java.util.Properties;
  *
  */
 
-/*@Configuration
-@ComponentScan(basePackages = {"com.keeper.entity"})
-@EnableJpaRepositories(basePackages = {"com.keeper.repo"})
-@EnableTransactionManagement
-@PropertySource(value = {"classpath:jdbc.properties"})*/
+@Configuration
+//@EnableTransactionManagement
+@EntityScan(basePackages = "com.keeper.entity.dao")
+@EnableJpaRepositories(basePackages =  {"com.keeper.repo"})
+//@PropertySource(value = {"classpath:jdbc.properties"})
 public class JpaSpringDataConfig {
 
     protected static final String PROPERTY_NAME_DATABASE_DRIVER = "jdbc.driverClassName";
@@ -53,7 +48,7 @@ public class JpaSpringDataConfig {
 
 
     /* FIRST WORKING VERSION *//*
-    @Bean(destroyMethod = "close")
+/*    @Bean(destroyMethod = "close")
     public ComboPooledDataSource myDataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
@@ -65,7 +60,7 @@ public class JpaSpringDataConfig {
         return dataSource;
     }*/
 
-    @Bean(destroyMethod = "close")
+/*    @Bean(destroyMethod = "close")
     public EntityManagerFactory myEmf(@Qualifier("dataSource") DataSource dataSource) {
 //        logger.info("Loading Entity Manager...");
 
@@ -85,17 +80,17 @@ public class JpaSpringDataConfig {
         factoryBean.afterPropertiesSet();
 
         return factoryBean.getObject();
-    }
+    }*/
 
 
-    @Bean
+/*    @Bean
     public JpaTransactionManager txManager(EntityManagerFactory entityManagerFactory) {
 //        logger.info("Loading Transaction Manager...");
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
-    }
+    }*/
 
 /*    @Bean
     @Primary
@@ -182,7 +177,7 @@ public class JpaSpringDataConfig {
 //        return entityManagerFactory;
 //    }
 //
-    /*@Bean(destroyMethod = "close")
+/*    @Bean(destroyMethod = "close")
     @Primary
     public DataSource dataSource() {
         BasicDataSource dataSource = new BasicDataSource();
