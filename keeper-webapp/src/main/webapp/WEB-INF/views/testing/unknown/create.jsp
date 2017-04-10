@@ -22,7 +22,7 @@
                 <form:errors path="lastName" cssClass="error" element="div"/>
             </div>
             <div>
-                <input type="submit" value="<spring:message code="user.create.page.submit.label"/>"/>
+                <input type="submit" msg="<spring:message code="user.create.page.submit.label"/>"/>
             </div>
         </form:form>
     </div>

@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8" content="text/html">
 
-    <title>Title</title>
+    <title>Welcome</title>
 </head>
 <body>
 

@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Default Comment
  */
 @Controller
-public class MainWebController {
+public class HomeWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_PAGE_MAIN,
+    @RequestMapping(value = WebmapResolver.WEB_PAGE_HOME,
                     method = RequestMethod.GET)
     public String mainPage(Model model) {
 
@@ -25,7 +25,7 @@ public class MainWebController {
         return ViewResolver.WEB_MAIN;
     }
 
-    @RequestMapping(value = WebmapResolver.WEB_PAGE_MAIN,
+    @RequestMapping(value = WebmapResolver.WEB_PAGE_HOME,
                     method = RequestMethod.POST)
     public String mainPageUpdateGeoPoint(Model model) {
 

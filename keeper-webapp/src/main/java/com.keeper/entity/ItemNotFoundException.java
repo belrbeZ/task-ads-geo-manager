@@ -1,4 +1,4 @@
-package com.keeper.managers;
+package com.keeper.entity;
 
 /**
  * This exception is thrown if the wanted person is not found.

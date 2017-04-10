@@ -9,12 +9,12 @@
 <body>
 <jsp:include page="navigation.jsp"/>
 <div class="messages">
-    <c:if test="${feedbackMessage != null}">
-        <div class="messageblock"><c:out value="${feedbackMessage}"/></div>
+<%--    <c:if test="${feedbackMessage != null}">
+        <div class="messageblock"><c:out msg="${feedbackMessage}"/></div>
     </c:if>
     <c:if test="${errorMessage != null}">
-        <div class="errorblock"><c:out value="${errorMessage}"/></div>
-    </c:if>
+        <div class="errorblock"><c:out msg="${errorMessage}"/></div>
+    </c:if>--%>
 </div>
     <%-- <jsp:include page="userList.jsp"/> --%>
 </body>

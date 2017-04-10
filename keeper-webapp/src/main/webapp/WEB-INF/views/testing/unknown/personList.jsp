@@ -12,14 +12,14 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${users}" var="user">
+     <%--   <c:forEach items="${users}" var="user">
             <tr>
-                <td><c:out value="${user.lastName}"/></td>
-                <td><c:out value="${user.firstName}"/></td>
-                <td><a href="/user/edit/<c:out value="${user.id}"/>"><spring:message code="user.edit.link.label"/></a></td>
-                <td><a href="/user/delete/<c:out value="${user.id}"/>"><spring:message code="user.delete.link.label"/></a></td>
+                <td><c:out msg="${user.lastName}"/></td>
+                <td><c:out msg="${user.firstName}"/></td>
+                <td><a href="/user/edit/<c:out msg="${user.id}"/>"><spring:message code="user.edit.link.label"/></a></td>
+                <td><a href="/user/delete/<c:out msg="${user.id}"/>"><spring:message code="user.delete.link.label"/></a></td>
             </tr>
-        </c:forEach>
+        </c:forEach>--%>
         </tbody>
     </table>
 </c:if>

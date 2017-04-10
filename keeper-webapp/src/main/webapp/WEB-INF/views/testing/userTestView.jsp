@@ -1,14 +1,14 @@
 <%--
   By User: @GoodforGod
-  Date: 28.03.2017
-  Time: 11:15
+  On Date: 10.04.2017
+  On Time: 09:02
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="UTF-8" content="text/html">
+    <meta charset="UTF-8">
 
-    <title>Title</title>
+    <title>User Test</title>
 </head>
 <body>
 
