@@ -10,6 +10,9 @@ import java.util.List;
  * Default Comment
  */
 public interface IModelService<T> {
+
+    T getEmpty();
+
     boolean isExists(Long id);
 
     T add(T model);

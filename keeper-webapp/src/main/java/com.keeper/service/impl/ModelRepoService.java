@@ -23,18 +23,24 @@ public class ModelRepoService<T> implements IModelService<T> {
     protected JpaRepository<T, Long> primeRepository;
 
     @Override
+    public T getEmpty() {
+        return null;
+    }
+
+    @Override
     public boolean isExists(Long id) {
         return (id != null) && primeRepository.exists(id);
     }
 
+    // Ask what to return, exception or empty/null in case of NULL
     @Override
     public T add(T model) {
-        return (model != null) ? primeRepository.save(model) : null;
+        return  (model != null) ? primeRepository.save(model) : getEmpty();
     }
 
     @Override
     public T get(Long id) {
-        return (id != null) ? primeRepository.findOne(id) : null;
+        return (id != null) ? primeRepository.findOne(id) : getEmpty();
     }
 
     @Override
@@ -42,9 +48,10 @@ public class ModelRepoService<T> implements IModelService<T> {
         return primeRepository.findAll();
     }
 
+    // Ask what to return, exception or empty/null in case of NULL
     @Override
     public T update(T model) {
-        return (model != null) ? primeRepository.save(model) : null;
+        return (model != null) ? primeRepository.save(model) : getEmpty();
     }
 
     @Override

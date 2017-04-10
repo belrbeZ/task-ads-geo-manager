@@ -30,6 +30,11 @@ public class ZoneTestRepoService extends ModelRepoService<ZoneTest> implements I
     }
 
     @Override
+    public ZoneTest getEmpty() {
+        return ZoneTest.EMPTY;
+    }
+
+    @Override
     public List<ZoneTest> getByCountry(String country) {
         return (country != null && !country.isEmpty())
                 ? repository.findByCountry(country)

@@ -25,6 +25,11 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     }
 
     @Override
+    public User getEmpty() {
+        return User.EMPTY;
+    }
+
+    @Override
     public boolean isExists(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.existsByEmail(email)
@@ -35,13 +40,13 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     public User get(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.findOneByEmail(email)
-                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone) : User.EMPTY;
+                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone) : getEmpty();
     }
 
     @Override
     public User remove(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.removeByEmail(email)
-                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone) : User.EMPTY;
+                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone) : getEmpty();
     }
 }

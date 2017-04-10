@@ -30,6 +30,11 @@ public class ZoneRepoService extends ModelRepoService<Zone> implements IZoneServ
     }
 
     @Override
+    public Zone getEmpty() {
+        return Zone.EMPTY;
+    }
+
+    @Override
     public List<Zone> getByCountry(String country) {
         return (country != null && !country.isEmpty())
                 ? repository.findByCountry(country)
