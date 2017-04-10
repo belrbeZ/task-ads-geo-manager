@@ -22,7 +22,7 @@ public class HomeWebController {
 
     @RequestMapping(value = WebmapResolver.WEB_HOME, method = RequestMethod.GET)
     public ModelAndView homeGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_HOME);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_HOME);
 
         return modelAndView;
     }

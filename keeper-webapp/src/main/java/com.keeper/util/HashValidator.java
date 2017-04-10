@@ -10,7 +10,7 @@ import org.mindrot.jbcrypt.BCrypt;
 /**
  * Used to Validate and Generate Hashes (for password as example)
  */
-public class Validator {
+public class HashValidator {
 
     public enum HashType {
         // Values are SALT used for hash generation

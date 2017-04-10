@@ -20,14 +20,14 @@ public class ProfileWebController {
 
     @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.GET)
     public ModelAndView profileGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_PROFILE);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_PROFILE);
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.POST)
     public ModelAndView profileUpdate(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_PROFILE);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_PROFILE);
 
         return modelAndView;
     }

@@ -20,7 +20,7 @@ public class WelcomeWebController {
 
     @RequestMapping(value = WebmapResolver.WEB_WELCOME, method = RequestMethod.GET)
     public ModelAndView welcomeGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_WELCOME);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_WELCOME);
 
         return modelAndView;
     }

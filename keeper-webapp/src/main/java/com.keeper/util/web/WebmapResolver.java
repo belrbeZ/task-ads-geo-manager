@@ -16,8 +16,8 @@ public class WebmapResolver {
     public static final String TOKEN    = "/token";
 
     public static final String TEST_PATH    = "/test";
-    public static final String TEST_USER    = SECURED + "/userTestPage";
-    public static final String TEST_ZONE    = SECURED + "/zoneTestPage";
+    public static final String TEST_USER    = SECURED + TEST_PATH + "/user";
+    public static final String TEST_ZONE    = SECURED + TEST_PATH + "/zone";
 
     public static final String WEB_ERROR    = "/error";
     public static final String WEB_DENIED   = "/denied";

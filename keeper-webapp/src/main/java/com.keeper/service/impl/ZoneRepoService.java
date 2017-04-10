@@ -8,12 +8,14 @@ import com.keeper.entity.dao.Zone;
 import com.keeper.repo.ZoneRepository;
 import com.keeper.service.IZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Default Comment
  */
+@Service
 public class ZoneRepoService extends ModelRepoService<Zone> implements IZoneService {
 
     private final ZoneRepository repository;

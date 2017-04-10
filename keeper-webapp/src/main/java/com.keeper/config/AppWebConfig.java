@@ -27,15 +27,8 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.keeper")
-@PropertySource(value = { "classpath:messages.properties" })
+@ComponentScan(basePackages = {"com.keeper.*"})
 public class AppWebConfig extends WebMvcConfigurerAdapter {
-
-    private static final String MESSAGESOURCE_BASENAME = "messages";
-    private static final boolean MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE = true;
-
-    @Resource
-    private Environment environment;
 
     /**
      * Configure ViewResolvers to deliver preferred views.
@@ -50,42 +43,21 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
         registry.viewResolver(viewResolver);
     }
 
-    @Bean
+/*    @Bean
     public UrlBasedViewResolver viewResolver()
     {
         UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
         urlBasedViewResolver.setViewClass(TilesView.class);
         urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
         return urlBasedViewResolver;
-    }
+    }*/
 
     /**
-     * Configure ResourceHandlers to serve static resources like CSS/ Javascript etc...
+     * Configure ResourceHandlers to serve static resources like CSS/Javascript etc...
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
-
-    /**
-     * Configure MessageSource to lookup any validation/error message in internationalized property files
-     */
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename(MESSAGESOURCE_BASENAME);
-        messageSource.setUseCodeAsDefaultMessage(MESSAGESOURCE_USE_CODE_AS_DEFAULT_MESSAGE);
-
-        return messageSource;
-    }
-
-    /**Optional. It's only required when handling '.' in @PathVariables which otherwise ignore everything after last '.' in @PathVaidables argument.
-     * It's a known bug in Spring [https://jira.spring.io/browse/SPR-6164], still present in Spring 4.1.7.
-     * This is a workaround for this issue.
-     */
-    @Override
-    public void configurePathMatch(PathMatchConfigurer matcher) {
-        matcher.setUseRegisteredSuffixPatternMatch(true);
     }
 }
 

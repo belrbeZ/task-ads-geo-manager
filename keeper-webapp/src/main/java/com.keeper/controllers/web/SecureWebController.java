@@ -23,35 +23,35 @@ public class SecureWebController {
 
     @RequestMapping(value = WebmapResolver.WEB_REGISTER, method = RequestMethod.GET)
     public ModelAndView registerGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_REGISTER);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_REGISTER);
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebmapResolver.WEB_REGISTER, method = RequestMethod.POST)
     public ModelAndView registerPost(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_REGISTER);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_REGISTER);
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebmapResolver.WEB_LOGIN, method = RequestMethod.GET)
     public ModelAndView loginGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_LOGIN);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGIN);
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebmapResolver.WEB_LOGIN, method = RequestMethod.POST)
     public ModelAndView loginPost(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_LOGIN);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGIN);
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebmapResolver.WEB_LOGOUT, method = RequestMethod.POST)
     public ModelAndView logoutGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_LOGIN);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGIN);
 
         return modelAndView;
     }

@@ -33,8 +33,8 @@ public class Converter
      * @return masked email
      */
     public static String maskEmail(String email) {
-        int index = Validator.isEmailValidWithIndex(email);
-        return index == Validator.EMAIL_INCORRECT
+        int index = HashValidator.isEmailValidWithIndex(email);
+        return index == HashValidator.EMAIL_INCORRECT
                 ? EMPTY_EMAIL
                 : returnSymbolBack(index, maskStr(email, index));
     }

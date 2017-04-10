@@ -18,16 +18,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ZoneTestWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.GET)
+    @RequestMapping(value = WebmapResolver.TEST_ZONE, method = RequestMethod.GET)
     public ModelAndView zoneTestGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.TEST_WEB_ZONE);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.TEST_PAGE_ZONE);
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.POST)
+    @RequestMapping(value = WebmapResolver.TEST_ZONE, method = RequestMethod.POST)
     public ModelAndView zoneTestPost(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.TEST_WEB_ZONE);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.TEST_PAGE_ZONE);
 
         return modelAndView;
     }

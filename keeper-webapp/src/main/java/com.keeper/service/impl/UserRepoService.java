@@ -8,10 +8,12 @@ import com.keeper.entity.dao.User;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Default Comment
  */
+@Service
 public class UserRepoService extends ModelRepoService<User> implements IUserService {
 
     private final UserRepository repository;

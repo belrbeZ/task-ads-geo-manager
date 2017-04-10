@@ -10,15 +10,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Main Application Spring Boot Starter
  */
 @SpringBootApplication
 @EnableAutoConfiguration
-@ComponentScan("com.keeper")
+@EnableWebMvc
+@ComponentScan("com.keeper.*")
 @EntityScan(basePackages = "com.keeper.entity.dao")
-@EnableJpaRepositories(basePackages = "com.keeper.repo")
+@EnableJpaRepositories(basePackages =  {"com.keeper.repo", "com.keeper.repo.*"})
 //@Import(SwaggerConfig.class)
 public class AppBootstarter {
     public static void main(String[] args) {

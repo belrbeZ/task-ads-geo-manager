@@ -18,16 +18,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CommonWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.GET)
+    @RequestMapping(value = WebmapResolver.WEB_ERROR, method = RequestMethod.GET)
     public ModelAndView errorGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_ERROR);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_ERROR);
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.GET)
+    @RequestMapping(value = WebmapResolver.WEB_DENIED, method = RequestMethod.GET)
     public ModelAndView deniedGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.WEB_DENIED);
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_DENIED);
 
         return modelAndView;
     }

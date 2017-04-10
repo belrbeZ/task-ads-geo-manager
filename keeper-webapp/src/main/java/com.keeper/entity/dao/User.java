@@ -8,7 +8,7 @@ import com.keeper.entity.ModelManager;
 import com.keeper.entity.states.UserState;
 import com.keeper.entity.states.UserType;
 import com.keeper.util.Converter;
-import com.keeper.util.Validator;
+import com.keeper.util.HashValidator;
 import com.keeper.util.dao.DatabaseResolver;
 import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
@@ -23,8 +23,8 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
 public class User {
 
-    public static final User EMPTY = new User() {{ setType(UserType.EMPTY);
-                                                   this.id = (long)UserType.EMPTY.getValue();}};
+    public static final User EMPTY = new User((long)UserType.EMPTY.getValue())
+                                                {{ setType(UserType.EMPTY); }};
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
@@ -55,6 +55,11 @@ public class User {
         this.muteEnd    = Timestamp.valueOf(LocalDateTime.MAX);
     }
 
+    private User(Long id) {
+        super();
+        this.id = id;
+    }
+
     public User(UserType type, String name, String email,
                 String phone, String password, String about) throws NullAttributeException {
 
@@ -70,10 +75,10 @@ public class User {
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = Validator.generateHash(email, Validator.HashType.EMAIL);
+        this.email      = HashValidator.generateHash(email, HashValidator.HashType.EMAIL);
         this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
-        this.password   = Validator.generateHash(password, Validator.HashType.PASS);
+        this.password   = HashValidator.generateHash(password, HashValidator.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }

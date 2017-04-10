@@ -8,15 +8,17 @@ package com.keeper.util.web;
  * Default Comment
  */
 public class ViewResolver {
-    public static final String WEB_REGISTER = "register";
-    public static final String WEB_LOGIN    = "login";
-    public static final String WEB_WELCOME  = "welcome";
-    public static final String WEB_INFO     = "info";
-    public static final String WEB_HOME     = "home";
-    public static final String WEB_PROFILE  = "profile";
-    public static final String WEB_ERROR    = "error";
-    public static final String WEB_DENIED   = "denied";
+    public static final String PAGE_REGISTER = "register";
+    public static final String PAGE_LOGIN   = "login";
+    public static final String PAGE_WELCOME = "welcome";
+    public static final String PAGE_INFO    = "info";
+    public static final String PAGE_HOME    = "home";
+    public static final String PAGE_PROFILE = "profile";
+    public static final String PAGE_ERROR   = "error";
+    public static final String PAGE_DENIED  = "denied";
 
-    public static final String TEST_WEB_USER = "userTestPage";
-    public static final String TEST_WEB_ZONE = "zoneTestPage";
+    public static final String TEST_PACKAGE = "test/";
+
+    public static final String TEST_PAGE_USER = TEST_PACKAGE + "tuser";
+    public static final String TEST_PAGE_ZONE = TEST_PACKAGE + "tzone";
 }
