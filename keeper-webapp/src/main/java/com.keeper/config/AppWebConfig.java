@@ -47,10 +47,10 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
         registry.viewResolver(viewResolver);
     }
 
-/*    @Override
+    @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
-    }*/
+    }
 
     @Bean
     public UrlBasedViewResolver viewResolver() {
