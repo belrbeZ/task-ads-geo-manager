@@ -8,6 +8,12 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>${spring-boot-parent-version}</version>
     </parent>-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.2.RELEASE</version>
+    </parent>
+
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.keeper</groupId>
@@ -119,6 +125,7 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet-api-version}</version>
+                <!--<scope>provided</scope>-->
             </dependency>
             <dependency>
                 <groupId>javax.servlet.jsp</groupId>
@@ -129,25 +136,28 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>${jstl-version}</version>
+                <!--<scope>provided</scope>-->
             </dependency>
+
 
 
             <!-- Spring -->
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-jpa</artifactId>
-                <version>${spring-data-version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.data</groupId>-->
+                <!--<artifactId>spring-data-jpa</artifactId>-->
+                <!--<version>${spring-data-version}</version>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring-mvc-vesrion}</version>
             </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-context</artifactId>
-                <version>${spring-context-version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.springframework</groupId>-->
+                <!--<artifactId>spring-context</artifactId>-->
+                <!--<version>${spring-context-version}</version>-->
+            <!--</dependency>-->
+
 
 
             <!-- Spring Secure -->
@@ -176,6 +186,11 @@
             <!-- Spring Boot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-autoconfigure</artifactId>
+                <version>${spring-boot-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
@@ -184,17 +199,31 @@
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-tomcat</artifactId>
+                <version>${spring-boot-version}</version>
+                <!--<scope>provided</scope>-->
+            </dependency>
+
              <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-autoconfigure</artifactId>-->
+                <!--<version>${spring-boot-version}</version>-->
+            <!--</dependency>-->
+
             <!-- <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-jdbc</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>-->
-
 
             <!-- Drivers -->
             <dependency>
@@ -202,12 +231,28 @@
                 <artifactId>postgresql</artifactId>
                 <version>${postgresql-jdbc-version}</version>
             </dependency>
-<!--            <dependency>
+            <dependency>
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-jasper</artifactId>
                 <version>${tomcat-embed-version}</version>
                 <scope>provided</scope>
-            </dependency>-->
+            </dependency>
+            <dependency>
+                <groupId>org.apache.taglibs</groupId>
+                <artifactId>taglibs-standard-impl</artifactId>
+                <version>1.2.5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>1.0.0.GA</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>4.2.0.Final</version>
+            </dependency>
 
 
             <!--LOGGING-->
@@ -216,11 +261,14 @@
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j-log4j-version}</version>
             </dependency>
-<!--        <dependency>
+
+            <!--Basic DataSource-->
+            <dependency>
                 <groupId>commons-dbcp</groupId>
                 <artifactId>commons-dbcp</artifactId>
-                <version>${commons-dbcp-version}</version>
-            </dependency>-->
+                <version>1.4</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
