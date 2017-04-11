@@ -7,6 +7,7 @@ package com.keeper.config;
  *
  */
 
+import com.sun.javafx.collections.MappingChange;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.MessageSource;
@@ -17,6 +18,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -35,6 +38,20 @@ import javax.annotation.Resource;
 public class AppWebConfig extends WebMvcConfigurerAdapter {
 
     /**
+     * Configure ResourceHandlers to serve static resources like CSS/Javascript etc...
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+    }
+
+    @Override
+    public void configureDefaultServletHandling(
+            DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+
+    /**
      * Configure ViewResolvers to deliver preferred views.
      */
     @Override
@@ -47,26 +64,59 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
         registry.viewResolver(viewResolver);
     }
 
-    @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        configurer.enable();
+//    @Bean(name = "multipartResolver")
+//    public CommonsMultipartResolver getMultipartResolver() {
+//        return new CommonsMultipartResolver();
+//    }
+
+//    @Override
+//    public void configureViewResolvers(ViewResolverRegistry registry) {
+//        registry.viewResolver(viewResolver());
+//        registry.viewResolver(setupViewResolver());
+////        registry.viewResolver(tilesViewResolver());
+//    }
+
+
+
+//    @Bean
+//    public MultipleViewResolver viewResolver() {
+//        MappingChange.Map<String, ViewResolver> viewsResolvers = new HashMap<String, ViewResolver>();
+//        viewsResolvers.put(MultipleViewResolver.ViewType.JSP.getKey(), jspViewResolver());
+//        viewsResolvers.put(MultipleViewResolver.ViewType.TILES.getKey(), tilesViewResolver());
+//
+//        MultipleViewResolver viewResolver = new MultipleViewResolver();
+//        viewResolver.setViewsResolvers(viewsResolvers);
+//        viewResolver.setOrder(1);
+//        return viewResolver;
+//    }
+
+    @Bean
+    public ViewResolver getViewResolver(){
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
+        return resolver;
     }
 
     @Bean
-    public UrlBasedViewResolver viewResolver() {
-        UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
-        urlBasedViewResolver.setViewClass(TilesView.class);
-        urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
-        return urlBasedViewResolver;
+    public InternalResourceViewResolver setupViewResolver() {
+        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+        resolver.setPrefix("/WEB-INF/views/");
+        resolver.setSuffix(".jsp");
+        resolver.setViewClass(JstlView.class);
+
+        return resolver;
     }
 
-    /**
-     * Configure ResourceHandlers to serve static resources like CSS/Javascript etc...
-     */
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
-    }
+//    @Bean
+//    public UrlBasedViewResolver viewResolver() {
+//        UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
+//        urlBasedViewResolver.setViewClass(TilesView.class);
+//        urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
+//        return urlBasedViewResolver;
+//    }
+
 }
 
 

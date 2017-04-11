@@ -1,6 +1,8 @@
 package com.keeper.config;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  * @author AlexVasil
  *
  */
+@Configuration
+@ComponentScan(basePackages = {"com.keeper"})
 public class AppServletConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
