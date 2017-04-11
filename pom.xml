@@ -1,25 +1,152 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <!--<parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>${spring-boot-parent-version}</version>
-    </parent>-->
+    <!--<parent>-->
+    <!--<artifactId>keeper</artifactId>-->
+    <!--<groupId>com.keeper</groupId>-->
+    <!--<version>1.0-SNAPSHOT</version>-->
+    <!--</parent>-->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.2.RELEASE</version>
     </parent>
 
-
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.keeper</groupId>
-    <artifactId>keeper</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>keeper-webapp-standalone</artifactId>
+    <name>Keeper App STANDALONE Maven Webapp</name>
+    <url>http://maven.apache.org</url>
 
+    <!--<properties>-->
+    <!--<maven.compiler.source>${jdk-version}</maven.compiler.source>-->
+    <!--<maven.compiler.target>${jdk-version}</maven.compiler.target>-->
+    <!--</properties>-->
+
+    <!--<dependencies>-->
+    <!--&lt;!&ndash; Common &ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>junit</groupId>-->
+    <!--<artifactId>junit</artifactId>-->
+    <!--<scope>test</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>com.google.code.gson</groupId>-->
+    <!--<artifactId>gson</artifactId>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash;Swagger&ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>io.springfox</groupId>-->
+    <!--<artifactId>springfox-swagger-ui</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>io.springfox</groupId>-->
+    <!--<artifactId>springfox-swagger2</artifactId>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash; Encruption &ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>net.jpountz.lz4</groupId>-->
+    <!--<artifactId>lz4</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.mindrot</groupId>-->
+    <!--<artifactId>jbcrypt</artifactId>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash; Servlet And Jsp &ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>javax.servlet</groupId>-->
+    <!--<artifactId>javax.servlet-api</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>javax.servlet.jsp</groupId>-->
+    <!--<artifactId>javax.servlet.jsp-api</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>javax.servlet</groupId>-->
+    <!--<artifactId>jstl</artifactId>-->
+    <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
+    <!--</dependency>-->
+
+
+
+
+    <!--&lt;!&ndash; Spring &ndash;&gt;-->
+    <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+    <!--&lt;!&ndash;<groupId>org.springframework.data</groupId>&ndash;&gt;-->
+    <!--&lt;!&ndash;<artifactId>spring-data-jpa</artifactId>&ndash;&gt;-->
+    <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework</groupId>-->
+    <!--<artifactId>spring-webmvc</artifactId>-->
+    <!--</dependency>-->
+    <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+    <!--&lt;!&ndash;<groupId>org.springframework</groupId>&ndash;&gt;-->
+    <!--&lt;!&ndash;<artifactId>spring-context</artifactId>&ndash;&gt;-->
+    <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash; Spring Boot &ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-autoconfigure</artifactId>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-data-jpa</artifactId>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-web</artifactId>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+    <!--<groupId>org.springframework.boot</groupId>-->
+    <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+    <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+    <!--<groupId>org.apache.tomcat.embed</groupId>-->
+    <!--<artifactId>tomcat-embed-jasper</artifactId>-->
+    <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.apache.taglibs</groupId>-->
+    <!--<artifactId>taglibs-standard-impl</artifactId>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash; Driver &ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>org.postgresql</groupId>-->
+    <!--<artifactId>postgresql</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>javax.validation</groupId>-->
+    <!--<artifactId>validation-api</artifactId>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+    <!--<groupId>org.hibernate</groupId>-->
+    <!--<artifactId>hibernate-validator</artifactId>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash;LOGGING&ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>org.slf4j</groupId>-->
+    <!--<artifactId>slf4j-log4j12</artifactId>-->
+    <!--</dependency>-->
+
+    <!--&lt;!&ndash;Basic DataSource&ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>commons-dbcp</groupId>-->
+    <!--<artifactId>commons-dbcp</artifactId>-->
+    <!--</dependency>-->
+
+
+    <!--&lt;!&ndash;</dependencies>-->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>${jdk-version}</maven.compiler.source>
@@ -68,7 +195,7 @@
         <commons-dbcp-version>1.4</commons-dbcp-version>
     </properties>
 
-    <dependencyManagement>
+    <!--<dependencyManagement>-->
         <dependencies>
 
             <!-- Common -->
@@ -77,11 +204,11 @@
                 <artifactId>junit</artifactId>
                 <version>${junit-version}</version>
             </dependency>
-<!--            <dependency>
-                <groupId>joda-time</groupId>
-                <artifactId>joda-time</artifactId>
-                <version>${jodatime-version}</version>
-            </dependency>-->
+            <!--            <dependency>
+                            <groupId>joda-time</groupId>
+                            <artifactId>joda-time</artifactId>
+                            <version>${jodatime-version}</version>
+                        </dependency>-->
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
@@ -143,9 +270,9 @@
 
             <!-- Spring -->
             <!--<dependency>-->
-                <!--<groupId>org.springframework.data</groupId>-->
-                <!--<artifactId>spring-data-jpa</artifactId>-->
-                <!--<version>${spring-data-version}</version>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-jpa</artifactId>-->
+            <!--<version>${spring-data-version}</version>-->
             <!--</dependency>-->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -153,34 +280,34 @@
                 <version>${spring-mvc-vesrion}</version>
             </dependency>
             <!--<dependency>-->
-                <!--<groupId>org.springframework</groupId>-->
-                <!--<artifactId>spring-context</artifactId>-->
-                <!--<version>${spring-context-version}</version>-->
+            <!--<groupId>org.springframework</groupId>-->
+            <!--<artifactId>spring-context</artifactId>-->
+            <!--<version>${spring-context-version}</version>-->
             <!--</dependency>-->
 
 
 
             <!-- Spring Secure -->
-<!--            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-web</artifactId>
-                <version>${spring-secure-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-core</artifactId>
-                <version>${spring-secure-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-config</artifactId>
-                <version>${spring-secure-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security.oauth</groupId>
-                <artifactId>spring-security-oauth2</artifactId>
-                <version>${spring-secure-oauth-version}</version>
-            </dependency>-->
+            <!--            <dependency>
+                            <groupId>org.springframework.security</groupId>
+                            <artifactId>spring-security-web</artifactId>
+                            <version>${spring-secure-version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework.security</groupId>
+                            <artifactId>spring-security-core</artifactId>
+                            <version>${spring-secure-version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework.security</groupId>
+                            <artifactId>spring-security-config</artifactId>
+                            <version>${spring-secure-version}</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>org.springframework.security.oauth</groupId>
+                            <artifactId>spring-security-oauth2</artifactId>
+                            <version>${spring-secure-oauth-version}</version>
+                        </dependency>-->
 
 
             <!-- Spring Boot -->
@@ -207,16 +334,16 @@
                 <!--<scope>provided</scope>-->
             </dependency>
 
-             <dependency>
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
                 <version>${spring-boot-version}</version>
             </dependency>
 
             <!--<dependency>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-autoconfigure</artifactId>-->
-                <!--<version>${spring-boot-version}</version>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-autoconfigure</artifactId>-->
+            <!--<version>${spring-boot-version}</version>-->
             <!--</dependency>-->
 
             <!-- <dependency>
@@ -271,13 +398,47 @@
 
 
         </dependencies>
-    </dependencyManagement>
+    <!--</dependencyManagement>-->
 
-    <modules>
-        <module>keeper-webapp</module>
-        <module>keeper-api</module>
-    </modules>
 
-    <packaging>pom</packaging>
+    <packaging>war</packaging>
+
+    <build>
+        <finalName>keeper-webapp-standalone</finalName>
+
+        <defaultGoal>install</defaultGoal>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <!--<configuration>-->
+                <!--<webResources>-->
+                <!--<resource>-->
+                <!--&lt;!&ndash; this is relative to the pom.xml directory &ndash;&gt;-->
+                <!--<directory>src/main/resources</directory>-->
+                <!--<directory>src/main/webapp/resources</directory>-->
+                <!--</resource>-->
+                <!--</webResources>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>repackage</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
