@@ -13,7 +13,6 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *
  */
 @Configuration
-@ComponentScan(basePackages = {"com.keeper"})
 public class AppServletConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override

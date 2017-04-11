@@ -34,7 +34,6 @@ import javax.annotation.Resource;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = {"com.keeper"})
-//@Import(SwaggerConfig.class)
 public class AppWebConfig extends WebMvcConfigurerAdapter {
 
     /**
@@ -58,7 +57,7 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
     public void configureViewResolvers(ViewResolverRegistry registry) {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setViewClass(JstlView.class);
-//        viewResolver.setContentType("text/html;charset=UTF-8");
+        viewResolver.setContentType("text/html;charset=UTF-8");
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         registry.viewResolver(viewResolver);

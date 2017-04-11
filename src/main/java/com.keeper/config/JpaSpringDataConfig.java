@@ -2,30 +2,18 @@ package com.keeper.config;
 
 //import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import org.apache.commons.dbcp.BasicDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.orm.jpa.vendor.OpenJpaDialect;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.beans.PropertyVetoException;
 import java.util.Properties;
 
 /**
@@ -280,22 +268,22 @@ public class JpaSpringDataConfig {
 //        return entityManagerFactory;
 //    }
 //
-    @Bean(destroyMethod = "close")
-    @Primary
-    public DataSource dataSource() {
-        BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty(PROPERTY_NAME_DB_DRIVER_CLASS));
-        dataSource.setUrl(environment.getRequiredProperty(PROPERTY_NAME_DB_URL));
-        dataSource.setUsername(environment.getRequiredProperty(PROPERTY_NAME_DB_USER));
-        dataSource.setPassword(environment.getRequiredProperty(PROPERTY_NAME_DB_PASSWORD));
-        dataSource.setTestOnBorrow(true);
-        dataSource.setTestOnReturn(true);
-        dataSource.setTestWhileIdle(true);
-        dataSource.setTimeBetweenEvictionRunsMillis(1800000);
-        dataSource.setNumTestsPerEvictionRun(3);
-        dataSource.setMinEvictableIdleTimeMillis(1800000);
-        dataSource.setValidationQuery("SELECT version()");
-
-        return dataSource;
-    }
+//    @Bean(destroyMethod = "close")
+//    @Primary
+//    public DataSource dataSource() {
+//        BasicDataSource dataSource = new BasicDataSource();
+//        dataSource.setDriverClassName(environment.getRequiredProperty(PROPERTY_NAME_DB_DRIVER_CLASS));
+//        dataSource.setUrl(environment.getRequiredProperty(PROPERTY_NAME_DB_URL));
+//        dataSource.setUsername(environment.getRequiredProperty(PROPERTY_NAME_DB_USER));
+//        dataSource.setPassword(environment.getRequiredProperty(PROPERTY_NAME_DB_PASSWORD));
+//        dataSource.setTestOnBorrow(true);
+//        dataSource.setTestOnReturn(true);
+//        dataSource.setTestWhileIdle(true);
+//        dataSource.setTimeBetweenEvictionRunsMillis(1800000);
+//        dataSource.setNumTestsPerEvictionRun(3);
+//        dataSource.setMinEvictableIdleTimeMillis(1800000);
+//        dataSource.setValidationQuery("SELECT version()");
+//
+//        return dataSource;
+//    }
 }
