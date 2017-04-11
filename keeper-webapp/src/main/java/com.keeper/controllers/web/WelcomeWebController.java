@@ -18,6 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class WelcomeWebController {
 
+    @RequestMapping("/index")
+    public String home(Model model) {
+        model.addAttribute("message", "HowToDoInJava Reader !!");
+        return "index";
+    }
+
     @RequestMapping(value = WebmapResolver.WEB_WELCOME, method = RequestMethod.GET)
     public ModelAndView welcomeGet(Model model) {
         ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_WELCOME);

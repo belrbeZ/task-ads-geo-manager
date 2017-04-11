@@ -19,6 +19,11 @@ public class UserTestManager implements IUserTestManager {
     private UserTestRepoService userTestRepoService;
 
     @Override
+    public UserTestDTO getEmpty() {
+        return null;
+    }
+
+    @Override
     public boolean isExists(Long id) {
         return false;
     }

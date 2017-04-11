@@ -4,20 +4,25 @@ package com.keeper;
  * Created by @GoodforGod on 28.03.2017.
  */
 
+import com.keeper.service.impl.UserRepoService;
 import junit.framework.TestCase;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Default Comment
  */
-public class TestOAuthWebController extends TestCase {
-
+public class TestOAuthWebController{//} extends TestCase {
+//
 //    @Autowired
-//    static UserDtoDaoManager userDtoDaoManager;
-
-
-    public void testApp() {
+//    static UserRepoService userRepoService;
+//
+//    public void setUp() throws Exception {
+//        super.setUp();
+//        userRepoService = new UserRepoService(User);
+//    }
+//
+//    public void testApp() {
 //        System.out.println("TestOAuthWebController");
-//        UserDtoDaoManager userDtoDaoManager = new UserDtoDaoManager();
-//        userDtoDaoManager.test();
-    }
+//        System.out.println(userRepoService.get(1L).getEmail());
+//    }
 }

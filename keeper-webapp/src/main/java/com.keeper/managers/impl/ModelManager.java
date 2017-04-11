@@ -19,6 +19,11 @@ public class ModelManager<T> implements IModelManager<T> {
     }
 
     @Override
+    public T getEmpty() {
+        return null;
+    }
+
+    @Override
     public T add(T model) {
         return null;
     }

@@ -21,6 +21,11 @@ public class ZoneTestManager implements IZoneTestManager {
     private ZoneTestRepoService repoService;
 
     @Override
+    public ZoneTestDTO getEmpty() {
+        return null;
+    }
+
+    @Override
     public boolean isExists(Long id) {
         return false;
     }
