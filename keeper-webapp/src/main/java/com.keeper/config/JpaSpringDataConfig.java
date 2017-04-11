@@ -35,11 +35,11 @@ import java.util.Properties;
  *
  */
 
-@Configuration
-@EnableTransactionManagement
-@EntityScan(basePackages = "com.keeper.entity.dao")
-@EnableJpaRepositories(basePackages =  {"com.keeper.repo"})
-@PropertySource(value = {"classpath:jdbc.properties"})
+//@Configuration
+//@EnableTransactionManagement
+//@EntityScan(basePackages = "com.keeper.entity.dao")
+//@EnableJpaRepositories(basePackages =  {"com.keeper.repo"})
+//@PropertySource(value = {"classpath:jdbc.properties"})
 public class JpaSpringDataConfig {
     private static final String PROPERTY_NAME_DB_DRIVER_CLASS = "db.driverClassName";
     private static final String PROPERTY_NAME_DB_PASSWORD = "db.password";

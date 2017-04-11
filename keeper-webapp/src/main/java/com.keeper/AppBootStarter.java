@@ -6,6 +6,7 @@ package com.keeper;
 
 import com.keeper.config.AppServletConfig;
 import com.keeper.config.AppWebConfig;
+import com.keeper.config.JpaSpringDataConfig;
 import com.keeper.config.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -23,7 +24,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages = "com.keeper")
 @EnableAutoConfiguration
 @EnableScheduling
-@Import({AppServletConfig.class, AppServletConfig.class, SwaggerConfig.class})//
+@Import({AppServletConfig.class, SwaggerConfig.class})//, JpaSpringDataConfig.class
 
 public class AppBootStarter extends SpringBootServletInitializer {
     public static void main(String[] args) {
