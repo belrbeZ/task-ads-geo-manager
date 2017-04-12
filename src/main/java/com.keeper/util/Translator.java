@@ -50,25 +50,25 @@ public class Translator {
         return (model == null)
                 ? UserDTO.EMPTY
                 : new UserDTO(model.getId(),
-                model.getType(),
-                model.getState(),
-                model.getName(),
-                model.getMaskedEmail(),
-                model.getPhone(),
-                model.getPassword(),
-                model.getAbout(),
-                model.getNotified(),
-                model.getMuteStart().toLocalDateTime(),
-                model.getMuteEnd().toLocalDateTime());
+                            model.getType(),
+                            model.getState(),
+                            model.getName(),
+                            model.getEmail(),
+                            model.getPhone(),
+                            model.getPassword(),
+                            model.getAbout(),
+                            model.getNotified(),
+                            model.getMuteStart().toLocalDateTime(),
+                            model.getMuteEnd().toLocalDateTime());
     }
 
     public static ZoneDTO convertToDTO(Zone model) {
         return (model == null)
                 ? ZoneDTO.EMPTY
                 : new ZoneDTO(model.getUserId(),
-                model.getCity(),
-                model.getCountry(),
-                model.getRegisterDate());
+                            model.getCity(),
+                            model.getCountry(),
+                            model.getRegisterDate());
     }
 
     //</editor-fold>
@@ -79,14 +79,14 @@ public class Translator {
         return (model == null)
                 ? User.EMPTY
                 : new User(model.getType(),
-                model.getName(),
-                model.getEmail(),
-                model.getPhone(),
-                model.getPassword(),
-                model.getAbout(),
-                model.getNotified(),
-                model.getMuteStart(),
-                model.getMuteEnd());
+                            model.getName(),
+                            model.getEmail(),
+                            model.getPhone(),
+                            model.getPassword(),
+                            model.getAbout(),
+                            model.getNotified(),
+                            model.getMuteStart(),
+                            model.getMuteEnd());
     }
     //</editor-fold>
 }

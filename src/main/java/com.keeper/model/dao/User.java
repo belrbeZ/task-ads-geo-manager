@@ -33,7 +33,7 @@ public class User {
     @Column(name = "name",       nullable = false)          private String name;
     @NotNull
     @Column(name = "email",      nullable = false)          private String email;
-    @Column(name = "maskedEmail",nullable = false)          private String maskedEmail;
+    //@Column(name = "maskedEmail",nullable = false)          private String maskedEmail;
     @Column(name = "phone")                                 private String phone;
     @NotNull
     @Column(name = "password",   nullable = false)          private String password;
@@ -48,7 +48,7 @@ public class User {
         this.type       = UserType.UNKNOWN;
         this.name       = "";
         this.email      = "";
-        this.maskedEmail= "";
+        //this.maskedEmail= "";
         this.phone      = "";
         this.password   = "";
         this.about      = "";
@@ -79,8 +79,8 @@ public class User {
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
-        this.maskedEmail= Converter.maskEmail(email);
+        this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
+        //this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
         this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
@@ -89,8 +89,8 @@ public class User {
 
     public User(UserType type, String name, String email,
                 String phone, String password, String about,
-                boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) throws NullPointerException {
-
+                boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) throws NullPointerException
+    {
         this(type, name, email, phone, password, about);
         this.isNotified = isNotified;
         this.muteStart  = Timestamp.valueOf(muteStart);
@@ -143,14 +143,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getMaskedEmail() {
-        return maskedEmail;
-    }
-
-    public void setMaskedEmail(String maskedEmail) {
-        this.maskedEmail = maskedEmail;
     }
 
     public String getPhone() {
