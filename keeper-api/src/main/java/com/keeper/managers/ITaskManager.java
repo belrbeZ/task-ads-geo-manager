@@ -4,9 +4,9 @@ package com.keeper.managers;
  * Created by Alexandr Vasiliev on 30.03.2017.
  */
 
-import com.keeper.entity.dao.Task;
-import com.keeper.entity.dao.User;
-import com.keeper.entity.dto.TaskDTO;
+import com.keeper.model.dao.Task;
+import com.keeper.model.dao.User;
+import com.keeper.model.dto.TaskDTO;
 
 import java.util.List;
 import java.util.Set;

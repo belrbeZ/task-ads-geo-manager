@@ -4,7 +4,7 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 5.04.2017.
  */
 
-import com.keeper.entity.dao.Zone;
+import com.keeper.model.dao.Zone;
 import com.keeper.service.IZoneService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

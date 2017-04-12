@@ -7,7 +7,7 @@ package com.keeper.repo;
  *
  */
 
-import com.keeper.entity.dao.User;
+import com.keeper.model.dao.User;
 import org.springframework.data.repository.query.Param;
 
 /**

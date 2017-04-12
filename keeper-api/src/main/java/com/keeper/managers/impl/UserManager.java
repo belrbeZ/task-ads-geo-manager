@@ -1,7 +1,6 @@
 package com.keeper.managers.impl;
 
-import com.keeper.entity.dao.User;
-import com.keeper.entity.dto.UserDTO;
+import com.keeper.model.dto.UserDTO;
 import com.keeper.managers.IUserManager;
 
 import java.util.List;

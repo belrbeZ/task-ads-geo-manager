@@ -1,6 +1,6 @@
 package com.keeper.managers;
 
-import com.keeper.entity.dto.GeoPointDTO;
+import com.keeper.model.dto.GeoPointDTO;
 
 import java.util.List;
 

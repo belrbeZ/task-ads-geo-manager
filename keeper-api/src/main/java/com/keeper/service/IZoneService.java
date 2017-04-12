@@ -5,7 +5,7 @@ package com.keeper.service;
  */
 
 
-import com.keeper.entity.dao.Zone;
+import com.keeper.model.dao.Zone;
 
 /**
  * Default Comment

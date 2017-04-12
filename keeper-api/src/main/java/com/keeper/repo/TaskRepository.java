@@ -7,7 +7,7 @@ package com.keeper.repo;
  *
  */
 
-import com.keeper.entity.dao.Task;
+import com.keeper.model.dao.Task;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;

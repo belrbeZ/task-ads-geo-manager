@@ -1,7 +1,6 @@
 package com.keeper.managers.impl;
 
-import com.keeper.entity.dao.Route;
-import com.keeper.entity.dto.RouteDTO;
+import com.keeper.model.dto.RouteDTO;
 import com.keeper.managers.IRouteManager;
 
 import java.util.List;

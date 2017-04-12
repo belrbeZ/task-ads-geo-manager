@@ -1,6 +1,6 @@
 package com.keeper.service;
 
-import com.keeper.entity.dao.GeoPoint;
+import com.keeper.model.dao.GeoPoint;
 
 import java.util.List;
 

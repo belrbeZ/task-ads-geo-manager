@@ -4,14 +4,12 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.entity.dao.Zone;
+import com.keeper.model.dao.Zone;
 import com.keeper.repo.ZoneRepository;
 import com.keeper.service.IZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

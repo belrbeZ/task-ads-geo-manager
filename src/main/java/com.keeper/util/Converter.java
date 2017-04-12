@@ -4,14 +4,14 @@ package com.keeper.util;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.entity.dao.User;
-import com.keeper.entity.dao.UserTest;
-import com.keeper.entity.dao.Zone;
-import com.keeper.entity.dao.ZoneTest;
-import com.keeper.entity.dto.UserDTO;
-import com.keeper.entity.dto.UserTestDTO;
-import com.keeper.entity.dto.ZoneDTO;
-import com.keeper.entity.dto.ZoneTestDTO;
+import com.keeper.model.dao.User;
+import com.keeper.model.dao.UserTest;
+import com.keeper.model.dao.Zone;
+import com.keeper.model.dao.ZoneTest;
+import com.keeper.model.dto.UserDTO;
+import com.keeper.model.dto.UserTestDTO;
+import com.keeper.model.dto.ZoneDTO;
+import com.keeper.model.dto.ZoneTestDTO;
 
 import java.util.Arrays;
 

@@ -4,7 +4,7 @@ package com.keeper.util;
  * Created by GoodforGod on 20.03.2017.
  */
 
-import com.keeper.entity.dto.MarkDTO;
+import com.keeper.model.dto.MarkDTO;
 
 /**
  * Computes Marks for Hot Coords and Routes

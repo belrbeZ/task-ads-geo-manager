@@ -7,7 +7,7 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.entity.dao.Task;
+import com.keeper.model.dao.Task;
 import com.keeper.service.ITaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

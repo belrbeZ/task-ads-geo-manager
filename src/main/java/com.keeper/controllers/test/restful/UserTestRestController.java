@@ -4,8 +4,8 @@ package com.keeper.controllers.test.restful;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.entity.dao.UserTest;
-import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.model.dao.UserTest;
+import com.keeper.model.dto.UserTestDTO;
 import com.keeper.service.test.UserTestRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.Tester;

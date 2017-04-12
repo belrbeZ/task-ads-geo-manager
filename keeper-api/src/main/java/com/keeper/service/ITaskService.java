@@ -7,7 +7,7 @@ package com.keeper.service;
  *
  */
 
-import com.keeper.entity.dao.Task;
+import com.keeper.model.dao.Task;
 
 import java.util.List;
 import java.util.Set;

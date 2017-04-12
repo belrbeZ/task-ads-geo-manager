@@ -1,7 +1,7 @@
 package com.keeper.managers.impl;
 
-import com.keeper.entity.dao.GeoPoint;
-import com.keeper.entity.dto.GeoPointDTO;
+import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.managers.IGeoPointManager;
 
 import java.util.List;

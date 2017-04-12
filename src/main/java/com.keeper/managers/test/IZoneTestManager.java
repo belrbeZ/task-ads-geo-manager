@@ -4,7 +4,7 @@ package com.keeper.managers.test;
  * Created by @GoodforGod on 5.04.2017.
  */
 
-import com.keeper.entity.dto.ZoneTestDTO;
+import com.keeper.model.dto.ZoneTestDTO;
 import com.keeper.managers.IModelManager;
 
 /**

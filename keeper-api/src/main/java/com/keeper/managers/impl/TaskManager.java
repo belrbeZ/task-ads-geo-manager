@@ -1,8 +1,8 @@
 package com.keeper.managers.impl;
 
-import com.keeper.entity.dao.Task;
-import com.keeper.entity.dao.User;
-import com.keeper.entity.dto.TaskDTO;
+import com.keeper.model.dao.Task;
+import com.keeper.model.dao.User;
+import com.keeper.model.dto.TaskDTO;
 import com.keeper.managers.ITaskManager;
 
 import java.util.List;

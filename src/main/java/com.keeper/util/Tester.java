@@ -4,12 +4,12 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.entity.ModelManager;
-import com.keeper.entity.dao.UserTest;
-import com.keeper.entity.dao.ZoneTest;
-import com.keeper.entity.dto.UserTestDTO;
-import com.keeper.entity.dto.ZoneTestDTO;
-import com.keeper.entity.types.UserType;
+import com.keeper.model.ModelManager;
+import com.keeper.model.dao.UserTest;
+import com.keeper.model.dao.ZoneTest;
+import com.keeper.model.dto.UserTestDTO;
+import com.keeper.model.dto.ZoneTestDTO;
+import com.keeper.model.types.UserType;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

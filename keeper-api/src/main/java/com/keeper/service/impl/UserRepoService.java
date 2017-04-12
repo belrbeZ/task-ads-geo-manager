@@ -9,7 +9,7 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.entity.dao.User;
+import com.keeper.model.dao.User;
 import com.keeper.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -4,12 +4,11 @@ package com.keeper.controllers.restful;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.entity.dao.Zone;
-import com.keeper.entity.dto.ZoneDTO;
+import com.keeper.model.dao.Zone;
+import com.keeper.model.dto.ZoneDTO;
 import com.keeper.service.impl.ZoneRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.web.ApiResolver;
-import com.keeper.util.web.WebmapResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

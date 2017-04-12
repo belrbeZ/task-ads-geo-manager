@@ -4,7 +4,7 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.entity.dao.User;
+import com.keeper.model.dao.User;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;

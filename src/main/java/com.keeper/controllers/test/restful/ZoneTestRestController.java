@@ -4,8 +4,8 @@ package com.keeper.controllers.test.restful;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.entity.dao.ZoneTest;
-import com.keeper.entity.dto.ZoneTestDTO;
+import com.keeper.model.dao.ZoneTest;
+import com.keeper.model.dto.ZoneTestDTO;
 import com.keeper.service.test.ZoneTestRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.Tester;

@@ -1,6 +1,6 @@
 package com.keeper.service.test;
 
-import com.keeper.entity.dao.UserTest;
+import com.keeper.model.dao.UserTest;
 import com.keeper.repo.test.UserTestRepository;
 import com.keeper.service.impl.ModelRepoService;
 import org.springframework.beans.factory.annotation.Autowired;

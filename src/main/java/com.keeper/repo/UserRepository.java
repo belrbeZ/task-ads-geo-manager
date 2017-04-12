@@ -4,8 +4,7 @@ package com.keeper.repo;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.entity.dao.User;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.keeper.model.dao.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

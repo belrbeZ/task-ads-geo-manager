@@ -1,6 +1,6 @@
 package com.keeper.managers.test;
 
-import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.model.dto.UserTestDTO;
 import com.keeper.service.test.UserTestRepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

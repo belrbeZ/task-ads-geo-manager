@@ -8,7 +8,7 @@ package com.keeper.service;
  */
 
 
-import com.keeper.entity.dao.User;
+import com.keeper.model.dao.User;
 
 import java.util.List;
 

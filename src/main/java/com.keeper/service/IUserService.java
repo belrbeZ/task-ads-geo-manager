@@ -4,7 +4,7 @@ package com.keeper.service;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.entity.dao.User;
+import com.keeper.model.dao.User;
 
 /**
  * Default Comment

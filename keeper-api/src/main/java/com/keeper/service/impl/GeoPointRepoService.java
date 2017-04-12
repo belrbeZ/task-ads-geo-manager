@@ -1,6 +1,6 @@
 package com.keeper.service.impl;
 
-import com.keeper.entity.dao.GeoPoint;
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.service.IGeoPointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

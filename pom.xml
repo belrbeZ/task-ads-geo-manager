@@ -23,15 +23,10 @@
 
         <!-- JDK -->
         <jdk-version>1.8</jdk-version>
-        <!--<servlet-api-version>3.1.0</servlet-api-version>-->
-        <!--<jsp-api-version>2.3.1</jsp-api-version>-->
-        <!--<jstl-version>1.2</jstl-version>-->
-        <!--<taglib-standard-version>1.2.5</taglib-standard-version>-->
 
         <!-- Common -->
         <junit-version>4.12</junit-version>
         <swagger-version>2.2.2</swagger-version>
-        <junit-version>3.8.1</junit-version>
 
         <!-- Encryption -->
         <jbcrypt-version>0.4</jbcrypt-version>
@@ -39,7 +34,6 @@
 
         <!-- Spring -->
         <spring-mvc-vesrion>4.3.7.RELEASE</spring-mvc-vesrion>
-        <!--<spring-web-vesrion>4.3.7.RELEASE</spring-web-vesrion>-->
         <spring-data-version>1.11.1.RELEASE</spring-data-version>
 
         <!-- Spring Secure -->
@@ -47,18 +41,14 @@
         <spring-secure-oauth-version>2.1.0.RELEASE</spring-secure-oauth-version>
 
         <!-- Spring Boot -->
-        <!--<spring-boot-version>1.5.2.RELEASE</spring-boot-version>-->
         <spring-boot-parent-version>1.5.2.RELEASE</spring-boot-parent-version>
 
         <!-- Drivers -->
         <postgresql-jdbc-version>9.4-1200-jdbc4</postgresql-jdbc-version>
-        <tomcat-embed-version>9.0.0.M19</tomcat-embed-version>
 
         <!-- Loggers -->
-        <!--<log4j-version>1.2.17</log4j-version>-->
         <slf4j-version>1.7.5</slf4j-version>
         <slf4j-log4j-version>1.7.25</slf4j-log4j-version>
-        <!--<commons-dbcp-version>1.4</commons-dbcp-version>-->
     </properties>
 
     <dependencies>
@@ -68,12 +58,16 @@
             <artifactId>junit</artifactId>
             <version>${junit-version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.mchange</groupId>-->
-            <!--<artifactId>c3p0</artifactId>-->
-            <!--<version>${c3p0-version}</version>-->
-        <!--</dependency>-->
-
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${valid-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hiber-valid-version}</version>
+        </dependency>
 
         <!-- Swagger 2 -->
         <dependency>
@@ -101,39 +95,6 @@
         </dependency>
 
 
-        <!-- Servlet And Jsp -->
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>javax.servlet-api</artifactId>-->
-            <!--<version>${servlet-api-version}</version>-->
-            <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet.jsp</groupId>-->
-            <!--<artifactId>javax.servlet.jsp-api</artifactId>-->
-            <!--<version>${jsp-api-version}</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>jstl</artifactId>-->
-            <!--<version>${jstl-version}</version>-->
-            <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
-        <!--</dependency>-->
-
-
-        <!-- Spring -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-jpa</artifactId>-->
-            <!--<version>${spring-data-version}</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <!--<version>${spring-mvc-vesrion}</version>-->
-        </dependency>
-
-
         <!-- Spring Secure -->
         <!-- <dependency>
             <groupId>org.springframework.security</groupId>
@@ -157,34 +118,27 @@
         </dependency>-->
 
 
-        <!-- Spring Boot -->
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <!--<version>${spring-boot-version}</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!--<version>${spring-boot-version}</version>-->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <!--<version>${spring-boot-version}</version>-->
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
-            <!--&lt;!&ndash;<version>${spring-boot-version}</version>&ndash;&gt;-->
-            <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
-            <!--&lt;!&ndash; ESSENTIAL!!! FOR JSP &ndash;&gt;-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter</artifactId>-->
-            <!--<version>${spring-boot-version}</version>-->
-        <!--</dependency>-->
 
 
         <!-- Drivers -->
@@ -192,30 +146,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql-jdbc-version}</version>
-        </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.tomcat.embed</groupId>-->
-            <!--<artifactId>tomcat-embed-jasper</artifactId>-->
-            <!--&lt;!&ndash;<version>${tomcat-embed-version}</version>&ndash;&gt;-->
-            <!--&lt;!&ndash;<scope>provided</scope>&ndash;&gt;-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.apache.taglibs</groupId>-->
-            <!--<artifactId>taglibs-standard-impl</artifactId>-->
-            <!--<version>${taglib-standard-version}</version>-->
-        <!--</dependency>-->
-
-
-        <!-- Validtors -->
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>${valid-version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hiber-valid-version}</version>
         </dependency>
 
 
@@ -225,32 +155,14 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-log4j-version}</version>
         </dependency>
-        <!--Basic DataSource-->
-        <!--<dependency>-->
-            <!--<groupId>commons-dbcp</groupId>-->
-            <!--<artifactId>commons-dbcp</artifactId>-->
-            <!--<version>1.4</version>-->
-        <!--</dependency>-->
     </dependencies>
 
-    <!--<packaging>war</packaging>-->
-
     <build>
-        <!--<finalName>keeper-webapp-standalone</finalName>-->
-        <!--<defaultGoal>install</defaultGoal>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-surefire-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<useSystemClassLoader>false</useSystemClassLoader>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
         </plugins>
     </build>
 

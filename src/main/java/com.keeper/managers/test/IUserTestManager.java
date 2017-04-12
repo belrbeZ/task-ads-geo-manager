@@ -4,7 +4,7 @@ package com.keeper.managers.test;
  * Created by Alexandr Vasiliev on 30.03.2017.
  */
 
-import com.keeper.entity.dto.UserTestDTO;
+import com.keeper.model.dto.UserTestDTO;
 import com.keeper.managers.IModelManager;
 
 /**
