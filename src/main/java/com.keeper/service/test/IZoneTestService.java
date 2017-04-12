@@ -4,7 +4,7 @@ package com.keeper.service.test;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.model.dao.ZoneTest;
+import com.keeper.model.test.ZoneTest;
 
 import java.util.List;
 

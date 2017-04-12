@@ -4,7 +4,7 @@ package com.keeper.service.test;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.model.dao.UserTest;
+import com.keeper.model.test.UserTest;
 
 /**
  * Default Comment

@@ -8,7 +8,6 @@ import com.keeper.model.states.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -22,24 +21,26 @@ public class UserDTO {
     private UserState   state;
     private UserType    type;
     private String      name;
-    private String      maskEmail;
-    private String      maskPhone;
+    private String      email;
+    private String      phone;
+    private String      password;
     private String      about;
     private Boolean     isNotified;
-    private long        muteStart;
-    private long        muteEnd;
+    private LocalDateTime muteStart;
+    private LocalDateTime muteEnd;
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();
         this.state      = UserState.UNKNOWN;
         this.type       = UserType.UNKNOWN;
         this.name       = "";
-        this.maskEmail  = "";
-        this.maskPhone  = "";
+        this.email      = "";
+        this.phone      = "";
+        this.password   = "";
         this.about      = "";
         this.isNotified = false;
-        this.muteStart  = System.currentTimeMillis();
-        this.muteEnd    = this.muteStart + 1;
+        this.muteStart  = LocalDateTime.MIN;
+        this.muteEnd    = LocalDateTime.MAX;
     }
 
     private UserDTO(Long id, UserType type) {
@@ -48,14 +49,16 @@ public class UserDTO {
         this.id = id;
     }
 
-    public UserDTO(Long id, UserType type, UserState state, String name, String email,
-                       String phone, String about, boolean isNotified, long muteStart, long muteEnd) {
-        this.id         = (id != null) ? id : UserType.UNKNOWN.getValue();
-        this.state      = state != null ? state : UserState.UNKNOWN;
-        this.type       = type != null ? type : UserType.UNKNOWN;
+    public UserDTO(Long id, UserType type, UserState state, String name,
+                   String email, String phone, String about, String password,
+                   boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) {
+        this.id         = id;
+        this.state      = state;
+        this.type       = type;
         this.name       = name;
-        this.maskEmail  = Converter.maskEmail(email);
-        this.maskPhone  = Converter.maskStr(phone);
+        this.email      = Converter.maskEmail(email);
+        this.phone      = Converter.maskStr(phone);
+        this.password   = password;
         this.about      = about;
         this.isNotified = isNotified;
         this.muteStart  = muteStart;
@@ -80,12 +83,16 @@ public class UserDTO {
         return name;
     }
 
-    public String getMaskEmail() {
-        return maskEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public String getMaskPhone() {
-        return maskPhone;
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getAbout() {
@@ -96,11 +103,11 @@ public class UserDTO {
         return isNotified;
     }
 
-    public long getMuteStart() {
+    public LocalDateTime getMuteStart() {
         return muteStart;
     }
 
-    public long getMuteEnd() {
+    public LocalDateTime getMuteEnd() {
         return muteEnd;
     }
     //</editor-fold>

@@ -5,10 +5,11 @@ package com.keeper.util;
  */
 
 import com.keeper.model.ModelManager;
-import com.keeper.model.dao.UserTest;
-import com.keeper.model.dao.ZoneTest;
-import com.keeper.model.dto.UserTestDTO;
-import com.keeper.model.dto.ZoneTestDTO;
+import com.keeper.model.test.UserTest;
+import com.keeper.model.test.ZoneTest;
+import com.keeper.model.test.UserTestDTO;
+import com.keeper.model.test.ZoneTestDTO;
+import com.keeper.model.states.UserState;
 import com.keeper.model.types.UserType;
 
 import java.sql.Timestamp;
@@ -22,11 +23,14 @@ public class Tester {
     public static UserTestDTO testSampleUserDTO() {
         return new UserTestDTO((long) 1,
                 UserType.USER,
+                UserState.VERIFIED,
                 "Bobby",
                 "superbob@mail.ru",
                 "+77795435",
                 "My name is Bobby and I'll test the shit out of you!",
-                false);
+                false,
+                LocalDateTime.MIN,
+                LocalDateTime.MAX);
     }
 
     public static ZoneTestDTO testSampleZoneDTO() {

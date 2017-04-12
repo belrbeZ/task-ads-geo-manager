@@ -14,19 +14,15 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>${jdk-version}</maven.compiler.source>
-        <maven.compiler.target>${jdk-version}</maven.compiler.target>
-
-        <!-- Valid -->
-        <valid-version>1.0.0.GA</valid-version>
-        <hiber-valid-version>4.2.0.Final</hiber-valid-version>
-
-        <!-- JDK -->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <jdk-version>1.8</jdk-version>
 
         <!-- Common -->
         <junit-version>4.12</junit-version>
         <swagger-version>2.2.2</swagger-version>
+        <valid-version>1.0.0.GA</valid-version>
+        <hiber-valid-version>4.2.0.Final</hiber-valid-version>
 
         <!-- Encryption -->
         <jbcrypt-version>0.4</jbcrypt-version>

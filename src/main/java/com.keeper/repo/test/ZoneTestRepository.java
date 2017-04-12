@@ -1,6 +1,6 @@
 package com.keeper.repo.test;
 
-import com.keeper.model.dao.ZoneTest;
+import com.keeper.model.test.ZoneTest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

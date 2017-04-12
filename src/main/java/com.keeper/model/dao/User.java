@@ -8,10 +8,11 @@ import com.keeper.model.ModelManager;
 import com.keeper.model.states.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
-import com.keeper.util.HashValidator;
+import com.keeper.util.Hasher;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -22,17 +23,19 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
 public class User {
 
-    public static final User EMPTY = new User((long)UserType.EMPTY.getValue())
-                                                {{ setType(UserType.EMPTY); }};
+    public static final User EMPTY = new User((long)UserType.EMPTY.getValue(), UserType.EMPTY);
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
+    @NotNull
     @Column(name = "name",       nullable = false)          private String name;
+    @NotNull
     @Column(name = "email",      nullable = false)          private String email;
     @Column(name = "maskedEmail",nullable = false)          private String maskedEmail;
     @Column(name = "phone")                                 private String phone;
+    @NotNull
     @Column(name = "password",   nullable = false)          private String password;
     @Column(name = "about")                                 private String about;
     @Column(name = "isNotified")                            private Boolean isNotified;
@@ -54,9 +57,10 @@ public class User {
         this.muteEnd    = Timestamp.valueOf(LocalDateTime.MAX);
     }
 
-    private User(Long id) {
+    private User(Long id, UserType type) {
         super();
         this.id = id;
+        this.type = type;
     }
 
     public User(UserType type, String name, String email,
@@ -71,15 +75,26 @@ public class User {
         if(name == null || name.isEmpty())
             throw new NullPointerException("NAME");
 
+        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = HashValidator.generateHash(email, HashValidator.HashType.EMAIL);
+        this.email      = Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
         this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
-        this.password   = HashValidator.generateHash(password, HashValidator.HashType.PASS);
+        this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
+    }
+
+    public User(UserType type, String name, String email,
+                String phone, String password, String about,
+                boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) throws NullPointerException {
+
+        this(type, name, email, phone, password, about);
+        this.isNotified = isNotified;
+        this.muteStart  = Timestamp.valueOf(muteStart);
+        this.muteEnd    = Timestamp.valueOf(muteEnd);
     }
 
     public static User gen(UserType type, String name, String email,
@@ -192,13 +207,13 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User userTest = (User) o;
+        User user = (User) o;
 
-        return email.equals(userTest.email);
+        return id.equals(user.id);
     }
 
     @Override
     public int hashCode() {
-        return email.hashCode();
+        return id.hashCode();
     }
 }

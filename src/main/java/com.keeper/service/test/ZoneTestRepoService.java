@@ -4,7 +4,7 @@ package com.keeper.service.test;
  * Created by @GoodforGod on 5.04.2017.
  */
 
-import com.keeper.model.dao.ZoneTest;
+import com.keeper.model.test.ZoneTest;
 import com.keeper.repo.test.ZoneTestRepository;
 import com.keeper.service.impl.ModelRepoService;
 import org.springframework.beans.factory.annotation.Autowired;

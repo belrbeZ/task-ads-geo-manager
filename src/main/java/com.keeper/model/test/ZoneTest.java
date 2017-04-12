@@ -1,4 +1,4 @@
-package com.keeper.model.dao;
+package com.keeper.model.test;
 
 /*
  * Created by @GoodforGod on 4.04.2017.

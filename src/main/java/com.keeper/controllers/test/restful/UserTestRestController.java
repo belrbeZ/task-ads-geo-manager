@@ -4,11 +4,11 @@ package com.keeper.controllers.test.restful;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.model.dao.UserTest;
-import com.keeper.model.dto.UserTestDTO;
+import com.keeper.model.test.UserTest;
+import com.keeper.model.test.UserTestDTO;
 import com.keeper.service.test.UserTestRepoService;
-import com.keeper.util.Converter;
 import com.keeper.util.Tester;
+import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,7 +46,7 @@ public class UserTestRestController {
     public ResponseEntity<UserTestDTO> get(@RequestParam(value = "id") Long userId) {
         // REAL IMPLEMENTATION THAT WORKS WITH DB
         //return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
-        return new ResponseEntity<>(Converter.convertToDTO(modelMap.get(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(modelMap.get(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)

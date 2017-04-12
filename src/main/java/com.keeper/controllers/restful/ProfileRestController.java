@@ -8,6 +8,7 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.service.impl.UserRepoService;
 import com.keeper.util.Converter;
+import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,18 +35,18 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
-        return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid @RequestBody User model, BindingResult result) {
-        repoService.update(model);
+    public ResponseEntity<String> update(@Valid @RequestBody UserDTO model, BindingResult result) {
+        repoService.update(Translator.convertToDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody User model, BindingResult result) {
-        repoService.add(model);
+    public ResponseEntity<String> create(@Valid @RequestBody UserDTO model, BindingResult result) {
+        repoService.add(Translator.convertToDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

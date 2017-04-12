@@ -4,15 +4,6 @@ package com.keeper.util;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.model.dao.User;
-import com.keeper.model.dao.UserTest;
-import com.keeper.model.dao.Zone;
-import com.keeper.model.dao.ZoneTest;
-import com.keeper.model.dto.UserDTO;
-import com.keeper.model.dto.UserTestDTO;
-import com.keeper.model.dto.ZoneDTO;
-import com.keeper.model.dto.ZoneTestDTO;
-
 import java.util.Arrays;
 
 /**
@@ -20,7 +11,6 @@ import java.util.Arrays;
  */
 public class Converter
 {
-    private static final String     EMPTY_JSON      = "";
     private static final String     EMPTY_EMAIL     = "";
     private static final Character  MASK_SYMBOL     = '*';
     private static final int        MASK_POWER_INC  = 0;
@@ -33,8 +23,8 @@ public class Converter
      * @return masked email
      */
     public static String maskEmail(String email) {
-        int index = HashValidator.isEmailValidWithIndex(email);
-        return index == HashValidator.EMAIL_INCORRECT
+        int index = Hasher.isEmailValidAndGetIndex(email);
+        return index == Hasher.EMAIL_INCORRECT
                 ? EMPTY_EMAIL
                 : returnSymbolBack(index, maskStr(email, index));
     }
@@ -118,97 +108,5 @@ public class Converter
 
         return maskedString.toString();
     }
-    //</editor-fold>
-
-    //<editor-fold desc="toDTO">
-
-    //<editor-fold desc="Testing">
-
-    public static UserTestDTO convertToDTO(UserTest model) {
-        return (model == null)
-                ? UserTestDTO.EMPTY
-                : new UserTestDTO(model.getId(),
-                                    model.getType(),
-                                    model.getName(),
-                                    model.getMaskedEmail(),
-                                    model.getPhone(),
-                                    model.getAbout(),
-                                    model.getNotified());
-    }
-
-    public static ZoneTestDTO convertToDTO(ZoneTest model) {
-        return (model == null)
-                ? ZoneTestDTO.EMPTY
-                : new ZoneTestDTO(model.getUserId(),
-                                    model.getCity(),
-                                    model.getCountry(),
-                                    model.getRegisterDate());
-    }
-    //</editor-fold>
-
-    public static UserDTO convertToDTO(User model) {
-        return (model == null)
-                ? UserDTO.EMPTY
-                : new UserDTO(model.getId(),
-                                model.getType(),
-                                model.getName(),
-                                model.getMaskedEmail(),
-                                model.getPhone(),
-                                model.getAbout(),
-                                model.getNotified());
-    }
-
-    public static ZoneDTO convertToDTO(Zone model) {
-        return (model == null)
-                ? ZoneDTO.EMPTY
-                : new ZoneDTO(model.getUserId(),
-                                model.getCity(),
-                                model.getCountry(),
-                                model.getRegisterDate());
-    }
-
-    //</editor-fold>
-
-    //<editor-fold desc="toJson">
-
-    public static String convertToJson(UserTest model) {
-        return null;
-    }
-
-    public static String convertToJson(UserTestDTO model) {
-        return null;
-    }
-
-    public static String convertToJson(ZoneTest model) {
-        return null;
-    }
-
-    public static String convertToJson(ZoneTestDTO model) {
-        return null;
-    }
-
-/*    public static String convertToJson(UserDTO model) {
-
-        return EMPTY_JSON;
-    }
-
-    public static String convertToJson(ZoneDTO model) {
-        return EMPTY_JSON;
-    }
-
-    public static String converToJson(TaskDTO task) {
-
-        return EMPTY_JSON;
-    }
-
-    public static String convertToJson(RouteDTO route) {
-
-        return EMPTY_JSON;
-    }
-
-    public static String convertToJson(GeoPointDTO coord) {
-
-        return EMPTY_JSON;
-    }*/
     //</editor-fold>
 }

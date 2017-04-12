@@ -8,6 +8,7 @@ import com.keeper.model.dao.Zone;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.service.impl.ZoneRepoService;
 import com.keeper.util.Converter;
+import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class ZoneRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ZoneDTO> get(@PathVariable("id") Long userId) {
-        return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)

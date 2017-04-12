@@ -1,4 +1,4 @@
-package com.keeper.model.dao;
+package com.keeper.model.test;
 
 /**
  * Created by Alexandr Vasiliev on 04.04.2017.
@@ -10,7 +10,7 @@ import com.keeper.model.ModelManager;
 import com.keeper.model.states.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
-import com.keeper.util.HashValidator;
+import com.keeper.util.Hasher;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
@@ -73,10 +73,10 @@ public class UserTest {
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = HashValidator.generateHash(email, HashValidator.HashType.EMAIL);
+        this.email      = Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
         this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
-        this.password   = HashValidator.generateHash(password, HashValidator.HashType.PASS);
+        this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }

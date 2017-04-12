@@ -5,11 +5,15 @@ package com.keeper.util;
  */
 
 import org.mindrot.jbcrypt.BCrypt;
+import net.jpountz.xxhash.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Used to Validate and Generate Hashes (for password as example)
  */
-public class HashValidator {
+public class Hasher {
 
     public enum HashType {
         // Values are SALT used for hash generation
@@ -28,15 +32,19 @@ public class HashValidator {
         }
     }
 
-    static final int EMAIL_INCORRECT = -1;
+    public static final int EMAIL_INCORRECT = -1;
 
     private static final String EMPTY_HASH = "";
+
+    private static final XXHashFactory hashFactory = XXHashFactory.fastestInstance();
+    private static final long SEED = 0x57a1cc61;
+    private static final String ENCODING = "UTF-8";
 
     public static boolean isEmailValid(String email) {
         return email != null && email.length() >= 3 && email.indexOf('@') != EMAIL_INCORRECT;
     }
 
-    public static int isEmailValidWithIndex(String email) {
+    public static int isEmailValidAndGetIndex(String email) {
         return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
     }
 
@@ -44,13 +52,22 @@ public class HashValidator {
         return false;
     }
 
-    public static String generateHash(String value, HashType type) {
+    public static Long generateHashSimple(String value, HashType type) {
+        try {
+            byte[] data = value.getBytes(ENCODING);
+            return hashFactory.hash64().hash(data, 0, data.length, SEED);
+        } catch (UnsupportedEncodingException e) {
+            return 0L;
+        }
+    }
+
+    public static String generateHashCrypto(String value, HashType type) {
         return (value == null || value.isEmpty())
                 ? EMPTY_HASH
                 : BCrypt.hashpw(value, BCrypt.gensalt(type.getValue()));
     }
 
-    public static boolean validateHash(String candidate, String hash) throws NullPointerException {
+    public static boolean validateHashCrypto(String candidate, String hash) throws NullPointerException {
         if(candidate == null || candidate.isEmpty())
             throw new NullPointerException("CANDIDATE");
 
