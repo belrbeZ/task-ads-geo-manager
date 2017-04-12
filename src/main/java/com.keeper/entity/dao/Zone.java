@@ -4,9 +4,8 @@ package com.keeper.entity.dao;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.entity.states.UserType;
+import com.keeper.entity.types.UserType;
 import com.keeper.util.dao.DatabaseResolver;
-import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,10 +41,10 @@ public class Zone {
         this.userId = id;
     }
 
-    public Zone(Long userId, String city, String country) throws NullAttributeException {
+    public Zone(Long userId, String city, String country) throws NullPointerException {
 
         if(userId == null)
-            throw new NullAttributeException("Nullable", "USER_ID");
+            throw new NullPointerException("USER_ID");
 
         this.userId     = userId;
         this.city       = city;

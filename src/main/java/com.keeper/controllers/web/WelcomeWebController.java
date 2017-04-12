@@ -32,7 +32,7 @@ public class WelcomeWebController {
                     produces = MediaType.TEXT_HTML_VALUE)
     public ModelAndView welcomeGet(Model model) {
         ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_WELCOME);
-
+        modelAndView.addObject("msg", "Message from Welcome Controller");
         return modelAndView;
     }
 }

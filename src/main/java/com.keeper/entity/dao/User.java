@@ -6,11 +6,10 @@ package com.keeper.entity.dao;
 
 import com.keeper.entity.ModelManager;
 import com.keeper.entity.states.UserState;
-import com.keeper.entity.states.UserType;
+import com.keeper.entity.types.UserType;
 import com.keeper.util.Converter;
 import com.keeper.util.HashValidator;
 import com.keeper.util.dao.DatabaseResolver;
-import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -61,16 +60,16 @@ public class User {
     }
 
     public User(UserType type, String name, String email,
-                String phone, String password, String about) throws NullAttributeException {
+                String phone, String password, String about) throws NullPointerException {
 
         if(email == null || email.isEmpty())
-            throw new NullAttributeException("Nullable param", "EMAIL");
+            throw new NullPointerException("EMAIL");
 
         if(password == null || password.isEmpty())
-            throw new NullAttributeException("Nullable param", "PASSWORD");
+            throw new NullPointerException("PASSWORD");
 
         if(name == null || name.isEmpty())
-            throw new NullAttributeException("Nullable param", "NAME");
+            throw new NullPointerException("NAME");
 
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
@@ -87,7 +86,7 @@ public class User {
                            String phone, String password, String about) {
         try {
             return new User(type, name, email, phone, password, about);
-        } catch (NullAttributeException e) {
+        } catch (NullPointerException e) {
             ModelManager.logConstructError("GEN", e);
         }
         return EMPTY;

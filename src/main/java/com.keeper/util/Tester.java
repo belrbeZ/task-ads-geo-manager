@@ -9,8 +9,7 @@ import com.keeper.entity.dao.UserTest;
 import com.keeper.entity.dao.ZoneTest;
 import com.keeper.entity.dto.UserTestDTO;
 import com.keeper.entity.dto.ZoneTestDTO;
-import com.keeper.entity.states.UserType;
-import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
+import com.keeper.entity.types.UserType;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -42,7 +41,7 @@ public class Tester {
             return new ZoneTest((long) 1,
                     "Saint-Petersburg",
                     "Mother Russia");
-        } catch (NullAttributeException e) {
+        } catch (NullPointerException e) {
             ModelManager.logSetupError(e);
         }
         return ZoneTest.EMPTY;
@@ -56,7 +55,7 @@ public class Tester {
                     "+77795435",
                     "superBobbyPass",
                     "My name is Bobby and I'll test the shit out of you!") {{ setId((long) 1); }};
-        } catch (NullAttributeException e) {
+        } catch (NullPointerException e) {
             ModelManager.logSetupError(e);
         }
         return UserTest.EMPTY;

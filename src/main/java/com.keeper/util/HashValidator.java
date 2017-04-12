@@ -4,7 +4,6 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import org.apache.taglibs.standard.tag.common.core.NullAttributeException;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -51,12 +50,12 @@ public class HashValidator {
                 : BCrypt.hashpw(value, BCrypt.gensalt(type.getValue()));
     }
 
-    public static boolean validateHash(String candidate, String hash) throws NullAttributeException {
+    public static boolean validateHash(String candidate, String hash) throws NullPointerException {
         if(candidate == null || candidate.isEmpty())
-            throw new NullAttributeException("Nullable", "CANDIDATE");
+            throw new NullPointerException("CANDIDATE");
 
         if(hash == null || hash.isEmpty())
-            throw new NullAttributeException("Nullable", "HASH");
+            throw new NullPointerException("HASH");
 
         return BCrypt.checkpw(candidate, hash);
     }

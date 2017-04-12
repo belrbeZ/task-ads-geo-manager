@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>User Test</title>
+</head>
+<body>
+
+    <div>
+        <h1>User Test</h1>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>NAME</th>
+            <th>CITY</th>
+            <th>COUNTRY</th>
+        </tr>
+        <tr th:each="user,iterationStatus  : ${users}">
+            <!--<td th:text="${iterationStatus.count}">1</td>-->
+            <td th:text="${user.id}">001</td>
+            <td th:text="${user.name}">Name</td>
+            <td th:text="${user.email}">City</td>
+            <td th:text="${user.phone}">Country</td>
+        </tr>
+    </table>
+
+</body>
+</html>

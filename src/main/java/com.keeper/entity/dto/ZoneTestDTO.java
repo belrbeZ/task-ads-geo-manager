@@ -4,8 +4,7 @@ package com.keeper.entity.dto;
  * Created by @GoodforGod on 4.04.2017.
  */
 
-import com.keeper.entity.dao.ZoneTest;
-import com.keeper.entity.states.UserType;
+import com.keeper.entity.types.UserType;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

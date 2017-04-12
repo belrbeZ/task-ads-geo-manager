@@ -4,7 +4,7 @@ package com.keeper.entity.dto;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.entity.states.UserType;
+import com.keeper.entity.types.UserType;
 import com.keeper.util.Converter;
 
 import java.sql.Timestamp;
@@ -22,7 +22,7 @@ public class UserDTO {
     private String      maskPhone;
     private String      about;
     private Boolean     isNotified;
-    private Timestamp muteEnd;
+    private Timestamp   muteEnd;
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();

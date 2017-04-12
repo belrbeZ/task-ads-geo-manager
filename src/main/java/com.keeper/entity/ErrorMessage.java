@@ -4,7 +4,7 @@ package com.keeper.entity;
  * Created by @GoodforGod on 10.04.2017.
  */
 
-import com.keeper.entity.states.ErrorType;
+import com.keeper.entity.types.ErrorType;
 
 /**
  * Default Comment

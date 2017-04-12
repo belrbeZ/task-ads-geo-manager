@@ -19,6 +19,6 @@ public class ViewResolver {
 
     public static final String TEST_PACKAGE = "test/";
 
-    public static final String TEST_PAGE_USER = TEST_PACKAGE + "tuser";
-    public static final String TEST_PAGE_ZONE = TEST_PACKAGE + "tzone";
+    public static final String TEST_PAGE_USER = TEST_PACKAGE + "usertest";
+    public static final String TEST_PAGE_ZONE = TEST_PACKAGE + "zonetest";
 }

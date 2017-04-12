@@ -33,7 +33,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.keeper"})
+//@ComponentScan(basePackages = {"com.keeper"})
 public class AppWebConfig extends WebMvcConfigurerAdapter {
 
     /**
@@ -45,8 +45,7 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
     }
 
     @Override
-    public void configureDefaultServletHandling(
-            DefaultServletHandlerConfigurer configurer) {
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();
     }
 
@@ -62,60 +61,6 @@ public class AppWebConfig extends WebMvcConfigurerAdapter {
         viewResolver.setSuffix(".jsp");
         registry.viewResolver(viewResolver);
     }
-
-//    @Bean(name = "multipartResolver")
-//    public CommonsMultipartResolver getMultipartResolver() {
-//        return new CommonsMultipartResolver();
-//    }
-
-//    @Override
-//    public void configureViewResolvers(ViewResolverRegistry registry) {
-//        registry.viewResolver(viewResolver());
-//        registry.viewResolver(setupViewResolver());
-////        registry.viewResolver(tilesViewResolver());
-//    }
-
-
-
-//    @Bean
-//    public MultipleViewResolver viewResolver() {
-//        MappingChange.Map<String, ViewResolver> viewsResolvers = new HashMap<String, ViewResolver>();
-//        viewsResolvers.put(MultipleViewResolver.ViewType.JSP.getKey(), jspViewResolver());
-//        viewsResolvers.put(MultipleViewResolver.ViewType.TILES.getKey(), tilesViewResolver());
-//
-//        MultipleViewResolver viewResolver = new MultipleViewResolver();
-//        viewResolver.setViewsResolvers(viewsResolvers);
-//        viewResolver.setOrder(1);
-//        return viewResolver;
-//    }
-
-//    @Bean
-//    public ViewResolver getViewResolver(){
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/views/");
-//        resolver.setSuffix(".jsp");
-//        resolver.setViewClass(JstlView.class);
-//        return resolver;
-//    }
-//
-//    @Bean
-//    public InternalResourceViewResolver setupViewResolver() {
-//        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-//        resolver.setPrefix("/WEB-INF/views/");
-//        resolver.setSuffix(".jsp");
-//        resolver.setViewClass(JstlView.class);
-//
-//        return resolver;
-//    }
-
-//    @Bean
-//    public UrlBasedViewResolver viewResolver() {
-//        UrlBasedViewResolver urlBasedViewResolver = new UrlBasedViewResolver();
-//        urlBasedViewResolver.setViewClass(TilesView.class);
-//        urlBasedViewResolver.setContentType("text/html;charset=UTF-8");
-//        return urlBasedViewResolver;
-//    }
-
 }
 
 
