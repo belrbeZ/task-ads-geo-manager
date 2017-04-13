@@ -1,0 +1,7 @@
+#spring:
+#    thymeleaf:
+#      mode: HTML5
+#      # Allow Thymeleaf templates to be reloaded at dev time
+#      cache: false
+#      prefix: src/main/resources/templates/
+
