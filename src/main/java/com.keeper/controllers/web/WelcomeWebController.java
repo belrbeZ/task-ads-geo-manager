@@ -13,19 +13,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.awt.*;
-
 /**
  * Default Comment
  */
 @Controller
 public class WelcomeWebController {
 
-    @RequestMapping("/index")
-    public String home(Model model) {
-        model.addAttribute("message", "HowToDoInJava Reader !!");
-        return "index";
-    }
+//    @RequestMapping("/index")
+//    public String home(Model model) {
+//        model.addAttribute("message", "HowToDoInJava Reader !!");
+//        return "index";
+//    }
 
     @RequestMapping(value = WebmapResolver.WEB_WELCOME,
                     method = RequestMethod.GET,

@@ -4,10 +4,8 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.service.impl.UserRepoService;
-import com.keeper.util.Converter;
 import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;

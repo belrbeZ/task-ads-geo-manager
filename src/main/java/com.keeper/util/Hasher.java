@@ -7,7 +7,6 @@ package com.keeper.util;
 import org.mindrot.jbcrypt.BCrypt;
 import net.jpountz.xxhash.*;
 
-import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -76,4 +75,5 @@ public class Hasher {
 
         return BCrypt.checkpw(candidate, hash);
     }
+
 }

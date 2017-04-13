@@ -5,7 +5,6 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.util.web.ApiResolver;
-import com.keeper.util.web.WebmapResolver;
 
 /**
  * Control Tasks Rest End points

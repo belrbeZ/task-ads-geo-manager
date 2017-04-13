@@ -7,7 +7,6 @@ package com.keeper.model.dao;
 import com.keeper.model.ModelManager;
 import com.keeper.model.states.UserState;
 import com.keeper.model.types.UserType;
-import com.keeper.util.Converter;
 import com.keeper.util.Hasher;
 import com.keeper.util.dao.DatabaseResolver;
 
