@@ -24,13 +24,13 @@ public class Zone {
     public static final Zone EMPTY = new Zone((long)UserType.EMPTY.getValue());
 
     @Id
-    @Column(name = "userId", unique = true, nullable = false)   private Long userId;
+    @Column(name = "profileId", unique = true, nullable = false)   private Long profileId;
     @Column(name = "city")                                      private String city;
     @Column(name = "country",       nullable = false)           private String country;
     @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
 
     private Zone() {
-        this.userId         = (long) UserType.UNKNOWN.getValue();
+        this.profileId         = (long) UserType.UNKNOWN.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
@@ -38,15 +38,15 @@ public class Zone {
 
     private Zone(Long id) {
         super();
-        this.userId = id;
+        this.profileId = id;
     }
 
-    public Zone(Long userId, String city, String country) throws NullPointerException {
+    public Zone(Long profileId, String city, String country) throws NullPointerException {
 
-        if(userId == null)
+        if(profileId == null)
             throw new NullPointerException("USER_ID");
 
-        this.userId     = userId;
+        this.profileId     = profileId;
         this.city       = city;
         this.country    = country;
         this.registerDate = Timestamp.valueOf(LocalDateTime.now());
@@ -54,8 +54,8 @@ public class Zone {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Long getUserId() {
-        return userId;
+    public Long getProfileId() {
+        return profileId;
     }
 
     public String getCity() {
@@ -87,11 +87,11 @@ public class Zone {
 
         Zone zoneTest = (Zone) o;
 
-        return userId.equals(zoneTest.userId);
+        return profileId.equals(zoneTest.profileId);
     }
 
     @Override
     public int hashCode() {
-        return userId.hashCode();
+        return profileId.hashCode();
     }
 }

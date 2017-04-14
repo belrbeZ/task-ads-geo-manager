@@ -40,6 +40,9 @@ public class User {
     @Column(name = "isNotified")                            private Boolean isNotified;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
+//    @OneToOne
+//    @JoinColumn(name = "profileId")
+//    private Zone zone;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -191,6 +194,15 @@ public class User {
     public void setMuteEnd(Timestamp muteEnd) {
         this.muteEnd = muteEnd;
     }
+
+//    public Zone getZone() {
+//        return zone;
+//    }
+//
+//    public void setZone(Zone zone) {
+//        this.zone = zone;
+//    }
+
     //</editor-fold>
 
     @Override
