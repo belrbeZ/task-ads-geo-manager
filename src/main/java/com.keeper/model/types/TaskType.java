@@ -8,9 +8,10 @@ package com.keeper.model.types;
  * Default Comment
  */
 public enum TaskType {
-    COMMON(0),
-    CALL(1),
-    ADVERTISE(2);
+    EMPTY(0),
+    COMMON(1),
+    CALL(2),
+    ADVERTISE(3);
 
     private final int value;
 
