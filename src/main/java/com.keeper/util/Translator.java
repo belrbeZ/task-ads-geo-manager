@@ -4,7 +4,11 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
+import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.GeoPointDTO;
+import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.test.UserTest;
 import com.keeper.model.dao.Zone;
 import com.keeper.model.test.ZoneTest;
@@ -18,6 +22,53 @@ import com.keeper.model.test.ZoneTestDTO;
  */
 public class Translator {
     //<editor-fold desc="toDTO">
+
+    public static Task convertToDAO(TaskDTO model) {
+        return (model == null)
+                ? Task.EMPTY
+                : new Task(
+                model.getTopicStarterId(),
+                model.getType(),
+                model.getState(),
+                model.getTheme(),
+                model.getDescr());
+//                ,
+//                convertToDAO(model.getgeoPointDTO()));
+    }
+
+    public static GeoPoint convertToDAO(GeoPointDTO model) {
+        return (model == null)
+                ? GeoPoint.EMPTY
+                : new GeoPoint(
+                model.getLatitude(),
+                model.getLongitude(),
+                model.getRadius(),
+                model.getInfo());
+    }
+
+    public static TaskDTO convertToDTO(Task model) {
+        return (model == null)
+                ? TaskDTO.EMPTY
+                : new TaskDTO(
+                        model.getTopicStarterId(),
+                        model.getType(),
+                        model.getState(),
+                        model.getTheme(),
+                        model.getDescr());
+//                ,
+//                        convertToDTO(model.getGeoPoint()));
+    }
+
+    public static GeoPointDTO convertToDTO(GeoPoint model) {
+        return (model == null)
+                ? GeoPointDTO.EMPTY
+                : new GeoPointDTO(
+                        model.getId(),
+                        model.getLatitude(),
+                        model.getLongitude(),
+                        model.getRadius(),
+                        model.getInfo());
+    }
 
     //<editor-fold desc="Testing">
 
@@ -65,7 +116,7 @@ public class Translator {
     public static ZoneDTO convertToDTO(Zone model) {
         return (model == null)
                 ? ZoneDTO.EMPTY
-                : new ZoneDTO(model.getUserId(),
+                : new ZoneDTO(model.getProfileId(),
                             model.getCity(),
                             model.getCountry(),
                             model.getRegisterDate());

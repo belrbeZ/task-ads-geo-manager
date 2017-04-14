@@ -16,25 +16,25 @@ public class ZoneDTO {
 
     public static final ZoneDTO EMPTY = new ZoneDTO((long) UserType.EMPTY.getValue());
 
-    private final Long  userId;
+    private final Long  profileId;
     private String      city;
     private String      country;
     private Timestamp   registerDate;
 
     private ZoneDTO() {
-        this.userId         = (long) UserType.UNKNOWN.getValue();
+        this.profileId         = (long) UserType.UNKNOWN.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
     }
 
-    private ZoneDTO(Long userId) {
+    private ZoneDTO(Long profileId) {
         super();
-        this.userId = userId;
+        this.profileId = profileId;
     }
 
-    public ZoneDTO(Long userId, String city, String country, Timestamp timestamp) {
-        this.userId         = (userId == null) ? UserType.EMPTY.getValue() : userId;
+    public ZoneDTO(Long profileId, String city, String country, Timestamp timestamp) {
+        this.profileId         = (profileId == null) ? UserType.EMPTY.getValue() : profileId;
         this.city           = city;
         this.country        = country;
         this.registerDate   = timestamp;
@@ -42,8 +42,8 @@ public class ZoneDTO {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Long getUserId() {
-        return userId;
+    public Long getprofileId() {
+        return profileId;
     }
 
     public String getCity() {
@@ -75,11 +75,11 @@ public class ZoneDTO {
 
         ZoneDTO that = (ZoneDTO) o;
 
-        return userId.equals(that.userId);
+        return profileId.equals(that.profileId);
     }
 
     @Override
     public int hashCode() {
-        return userId.hashCode();
+        return profileId.hashCode();
     }
 }
