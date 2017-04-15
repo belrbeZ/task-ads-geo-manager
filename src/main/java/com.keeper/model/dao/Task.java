@@ -32,7 +32,8 @@ public class Task {
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
-//    @Column(name = "participants")                                  private Integer[] participants;
+    @Column(name = "participants")                                  private List<Long> participants;
+//    @Column(name = "followersId")                                  private List<Long> followersId;
 
 //    @OneToOne(fetch = FetchType.LAZY)
 ////    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
@@ -45,6 +46,12 @@ public class Task {
 //    @OneToOne
 //    @JoinColumn(name = "pictureId")
 //    private Picture picture;
+
+//    @ManyToMany (mappedBy="task")
+//@PrimaryKeyJoinColumns({@PrimaryKeyJoinColumn(),
+//        @PrimaryKeyJoinColumn()})
+//    List<User> participants
+
 
     private Task() {}
 
