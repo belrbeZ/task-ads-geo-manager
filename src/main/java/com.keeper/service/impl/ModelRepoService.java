@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,6 +26,10 @@ public class ModelRepoService<T> implements IModelService<T> {
     @Override
     public T getEmpty() {
         return null;
+    }
+
+    public List<T> getEmptyList() {
+        return Collections.emptyList();
     }
 
     @Override

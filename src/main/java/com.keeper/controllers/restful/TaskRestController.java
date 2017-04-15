@@ -17,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +36,7 @@ public class TaskRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> get(@PathVariable("id") Long userId) {
-
-        List<TaskDTO> ret = new ArrayList<TaskDTO>();
-        repoService.getUserByIdTask(userId).forEach(a->{ret.add(Translator.convertToDTO(a));});
-        return new ResponseEntity<List<TaskDTO>>(ret, HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
@@ -57,7 +53,7 @@ public class TaskRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@PathVariable("id") Long userId) {
-        repoService.removeByTopicStarterId(userId);
+        repoService.removeByUserId(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

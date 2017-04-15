@@ -14,11 +14,11 @@ import java.util.Set;
 
 public interface ITaskService {
 
-    List<Task> get(String theme);
-//    List<Task> get(Set<Long> tags);//???
-    List<Task> getUserTask(String email, String phone);
-    List<Task> getUserByIdTask(Long userId);
+    List<Task> getByTheme(String theme);
+    List<Task> getByTags(Set<Long> tags);
+    List<Task> getByEmailOrPhone(String email, String phone);
+    List<Task> getByUserId(Long userId);
 
-    Task removeByTopicStarterId(Long topicStarterId);
+    Task removeByUserId(Long topicStarterId);
 
 }

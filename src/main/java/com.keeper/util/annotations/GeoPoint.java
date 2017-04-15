@@ -9,7 +9,6 @@ import com.keeper.util.annotations.impl.GeoPointValidator;
 import javax.validation.Constraint;
 import java.lang.annotation.*;
 
-
 /**
  * Default Comment
  */

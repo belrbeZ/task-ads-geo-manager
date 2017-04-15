@@ -17,34 +17,14 @@ import com.keeper.model.test.UserTestDTO;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.model.test.ZoneTestDTO;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Translate and full fill DTO object to DAO object and revert
  */
 public class Translator {
     //<editor-fold desc="toDTO">
-
-    public static Task convertToDAO(TaskDTO model) {
-        return (model == null)
-                ? Task.EMPTY
-                : new Task(
-                model.getTopicStarterId(),
-                model.getType(),
-                model.getState(),
-                model.getTheme(),
-                model.getDescr());
-//                ,
-//                convertToDAO(model.getgeoPointDTO()));
-    }
-
-    public static GeoPoint convertToDAO(GeoPointDTO model) {
-        return (model == null)
-                ? GeoPoint.EMPTY
-                : new GeoPoint(
-                model.getLatitude(),
-                model.getLongitude(),
-                model.getRadius(),
-                model.getInfo());
-    }
 
     public static TaskDTO convertToDTO(Task model) {
         return (model == null)
@@ -55,8 +35,6 @@ public class Translator {
                         model.getState(),
                         model.getTheme(),
                         model.getDescr());
-//                ,
-//                        convertToDTO(model.getGeoPoint()));
     }
 
     public static GeoPointDTO convertToDTO(GeoPoint model) {
@@ -69,6 +47,42 @@ public class Translator {
                         model.getRadius(),
                         model.getInfo());
     }
+
+    public static UserDTO convertToDTO(User model) {
+        return (model == null)
+                ? UserDTO.EMPTY
+                : new UserDTO(model.getId(),
+                            model.getType(),
+                            model.getState(),
+                            model.getName(),
+                            model.getEmail(),
+                            model.getPhone(),
+                            model.getPassword(),
+                            model.getAbout(),
+                            model.getNotified(),
+                            model.getMuteStart().toLocalDateTime(),
+                            model.getMuteEnd().toLocalDateTime());
+    }
+
+    public static ZoneDTO convertToDTO(Zone model) {
+        return (model == null)
+                ? ZoneDTO.EMPTY
+                : new ZoneDTO(model.getProfileId(),
+                            model.getCity(),
+                            model.getCountry(),
+                            model.getRegisterDate());
+    }
+
+    //<editor-fold desc="Lists">
+
+    public static List<TaskDTO> convertTasksToDTO(List<Task> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
+
+    public static List<GeoPointDTO> convertGeoToDTO(List<GeoPoint> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
+    //</editor-fold>
 
     //<editor-fold desc="Testing">
 
@@ -97,31 +111,6 @@ public class Translator {
     }
     //</editor-fold>
 
-    public static UserDTO convertToDTO(User model) {
-        return (model == null)
-                ? UserDTO.EMPTY
-                : new UserDTO(model.getId(),
-                            model.getType(),
-                            model.getState(),
-                            model.getName(),
-                            model.getEmail(),
-                            model.getPhone(),
-                            model.getPassword(),
-                            model.getAbout(),
-                            model.getNotified(),
-                            model.getMuteStart().toLocalDateTime(),
-                            model.getMuteEnd().toLocalDateTime());
-    }
-
-    public static ZoneDTO convertToDTO(Zone model) {
-        return (model == null)
-                ? ZoneDTO.EMPTY
-                : new ZoneDTO(model.getProfileId(),
-                            model.getCity(),
-                            model.getCountry(),
-                            model.getRegisterDate());
-    }
-
     //</editor-fold>
 
     //<editor-fold desc="toDAO">
@@ -138,6 +127,27 @@ public class Translator {
                             model.getNotified(),
                             model.getMuteStart(),
                             model.getMuteEnd());
+    }
+
+    public static Task convertToDAO(TaskDTO model) {
+        return (model == null)
+                ? Task.EMPTY
+                : new Task(
+                model.getTopicStarterId(),
+                model.getType(),
+                model.getState(),
+                model.getTheme(),
+                model.getDescr());
+    }
+
+    public static GeoPoint convertToDAO(GeoPointDTO model) {
+        return (model == null)
+                ? GeoPoint.EMPTY
+                : new GeoPoint(
+                model.getLatitude(),
+                model.getLongitude(),
+                model.getRadius(),
+                model.getInfo());
     }
     //</editor-fold>
 }

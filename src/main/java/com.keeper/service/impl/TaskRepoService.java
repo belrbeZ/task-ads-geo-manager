@@ -7,29 +7,23 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.model.dao.Tag;
 import com.keeper.model.dao.Task;
 import com.keeper.repo.TaskRepository;
-import com.keeper.repo.UserRepository;
 import com.keeper.service.ITaskService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.TableGenerator;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 /**
  * Repository Service to work with Tasks
  */
-@Service//(value = "taskService")
+@Service
 public class TaskRepoService extends ModelRepoService<Task> implements ITaskService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
 
     private final TaskRepository repository;
 
@@ -40,30 +34,47 @@ public class TaskRepoService extends ModelRepoService<Task> implements ITaskServ
     }
 
     @Override
-    public List<Task> get(String theme) {
-        return (theme!=null&&!theme.isEmpty()?repository.findAllByTheme(theme):null);
-    }
-
-//    @Override
-//    public List<Task> get(Set<Long> tags) {
-//        return (!tags.isEmpty() ? repository.findAllByTags(tags) : null);//???
-//    }
-
-    @Override
-    public List<Task> getUserTask(String email, String phone) {
-        return null;
-//                (email != null && !email.isEmpty())
-//                ? repository.findAllByEmail(email)
-//                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmpty();
+    public Task getEmpty() {
+        return Task.EMPTY;
     }
 
     @Override
-    public List<Task> getUserByIdTask(Long userId) {
-        return (userId!=null && userId>0) ? repository.findByTopicStarterId(userId) : null;
+    public List<Task> getEmptyList() {
+        return new ArrayList<Task>() {{ add(getEmpty()); }};
     }
 
     @Override
-    public Task removeByTopicStarterId(Long topicStarterId) {
-        return (topicStarterId!=null && topicStarterId.compareTo(0L)>0) ? repository.removeByTopicStarterId(topicStarterId) : null;
+    public List<Task> getByTheme(String theme) {
+        return (theme != null && !theme.isEmpty())
+                ? repository.findAllByTheme(theme)
+                : getEmptyList();
+    }
+
+    @Override
+    public List<Task> getByTags(Set<Long> tags) {
+        return (tags != null && !tags.isEmpty())
+                ? repository.findAllByTags(tags)
+                : getEmptyList();
+    }
+
+    @Override
+    public List<Task> getByEmailOrPhone(String email, String phone) {
+        return (email != null && !email.isEmpty())
+                ? repository.findAllByEmail(email)
+                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmptyList();
+    }
+
+    @Override
+    public List<Task> getByUserId(Long userId) {
+        return (userId != null && userId > 0L)
+                ? repository.findAllByTopicStarterId(userId)
+                : getEmptyList();
+    }
+
+    @Override
+    public Task removeByUserId(Long topicStarterId) {
+        return (topicStarterId != null && topicStarterId > 0L)
+                ? repository.removeByTopicStarterId(topicStarterId)
+                : getEmpty();
     }
 }

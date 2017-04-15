@@ -20,15 +20,16 @@ import java.util.Set;
  * Spring Data JPA Repository for Tasks
  */
 @Repository
-//@Qualifier(value = RepositoryResolver.QUALIFIER_TASK)
 public interface TaskRepository extends JpaRepository<Task, Long> {
-//    List<Task> findAllByTags(@Param("tagId") Set<Long> tagsId);//?
+    List<Task> findAllByTags(@Param("tagId") Set<Long> tagsId);
 
     List<Task> findAllByTopicStarterId(@Param("userId") Long userId);
 
-    List<Task> findAllByTheme(@Param("theme") String theme);
+    List<Task> findAllByEmail(@Param("email") String email);
 
-    List<Task> findByTopicStarterId(@Param("userId") Long userId);
+    List<Task> findAllByPhone(@Param("phone") String email);
+
+    List<Task> findAllByTheme(@Param("theme") String theme);
 
     @Transactional Task removeByTopicStarterId(@Param("topicStarterId") Long topicStarterId);
 }

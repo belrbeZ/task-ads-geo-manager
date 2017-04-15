@@ -15,10 +15,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 //@EnableAsync //Unnecessary! for hot swapping, disable cache for template, enable live reload
-//@ComponentScan(basePackages = "com.keeper")
-//@EnableAutoConfiguration
-//@EnableScheduling
-//@Import({AppServletConfig.class, SwaggerConfig.class})//, JpaSpringDataConfig.class
 public class AppBootStarter extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
