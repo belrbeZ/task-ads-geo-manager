@@ -26,7 +26,7 @@ public class Converter
      */
     public static String maskEmail(@Email String email) {
         int index = email.indexOf('@');
-        return index == Hasher.EMAIL_INCORRECT
+        return index == Validator.EMAIL_INCORRECT
                 ? EMPTY_EMAIL
                 : returnSymbolBack(index, maskStr(email, index));
     }
