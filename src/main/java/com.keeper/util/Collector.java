@@ -34,7 +34,7 @@ public class Collector {
 /*    private static final List<String>       nullableStringList  = null;
     private static final List<Route>        nullableRouteList   = null;
     private static final List<Long>         nullableIdList      = null;
-    private static final List<GeoPoint>     nullableCoordList   = null;
+    private static final List<GeoCoordinate>     nullableCoordList   = null;
     private static final List<User>         nullableUserList    = null;
     private static final List<Task>         nullableTaskList    = null;
 
@@ -46,8 +46,8 @@ public class Collector {
         return value != null ? new ArrayList<String>() {{add(value);}} : nullableStringList;
     }
 
-    public static List<GeoPoint> makeCoordList(final GeoPoint value) {
-        return value != null ? new ArrayList<GeoPoint>() {{ add(value);}} : nullableCoordList;
+    public static List<GeoCoordinate> makeCoordList(final GeoCoordinate value) {
+        return value != null ? new ArrayList<GeoCoordinate>() {{ add(value);}} : nullableCoordList;
     }
 
     public static List<Route> makeRouteList(final Route value) {
@@ -67,13 +67,13 @@ public class Collector {
 /*    private static final User         nullableUser    = User.EMPTY;
     private static final Task         nullableTask    = Task.EMPTY;
     private static final Route        nullableRoute   = Route.EMPTY;
-    private static final GeoPoint nullableCoord   = GeoPoint.EMPTY;
+    private static final GeoCoordinate nullableCoord   = GeoCoordinate.EMPTY;
 
     public static User getFirstUser(List<User> users) {
         return (users == null || users.isEmpty()) ? nullableUser : users.get(0);
     }
 
-    public static GeoPoint getFirstCoordinate(List<GeoPoint> geoPoints) {
+    public static GeoCoordinate getFirstCoordinate(List<GeoCoordinate> geoPoints) {
         return (geoPoints == null || geoPoints.isEmpty()) ? nullableCoord : geoPoints.get(0);
     }
 

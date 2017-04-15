@@ -10,11 +10,9 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.Task;
 import com.keeper.repo.TaskRepository;
 import com.keeper.service.ITaskService;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

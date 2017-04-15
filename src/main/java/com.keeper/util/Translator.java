@@ -4,6 +4,7 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
@@ -17,6 +18,7 @@ import com.keeper.model.test.UserTestDTO;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.model.test.ZoneTestDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,6 +84,20 @@ public class Translator {
     public static List<GeoPointDTO> convertGeoToDTO(List<GeoPoint> models) {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
+
+    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(List<String> latitude,
+                                                                List<String> longtitude) {
+        if(latitude == null || longtitude == null || latitude.size() != longtitude.size())
+            return null;
+
+        List<SimpleGeoPoint> geoPoints = new ArrayList<>();
+
+        for(int i = 0; i < latitude.size(); i ++)
+            geoPoints.add(new SimpleGeoPoint(latitude.get(i), longtitude.get(i)));
+
+        return geoPoints;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="Testing">

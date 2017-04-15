@@ -25,7 +25,7 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)       private Long id;
+    @Column(name = "id", unique = true, nullable = false)           private Long id;
     @Column(name = "topicstarterId", nullable = false)              private Long topicStarterId;
     @Column(name = "picture")                                       private String picture;//???
     @Column(name = "type")                                          private TaskType type;
@@ -38,7 +38,7 @@ public class Task {
 //    @OneToOne(fetch = FetchType.LAZY)
 ////    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
 //    @PrimaryKeyJoinColumn//(name = "geopoint_id")
-//    private GeoPoint geoPoint;
+//    private GeoCoordinate geoPoint;
 //
 //    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="task")
 //    private List<Tag> tags;
@@ -52,7 +52,6 @@ public class Task {
 //        @PrimaryKeyJoinColumn()})
 //    List<User> participants
 
-
     private Task() {}
 
     private Task(Long id, TaskType type) {
@@ -61,7 +60,6 @@ public class Task {
         this.type = type;
     }
 
-
     public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
         this.type = type;
@@ -69,7 +67,8 @@ public class Task {
         this.theme = theme;
         this.descr = descr;
     }
-//    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, GeoPoint geoPoint) {
+
+//    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, GeoCoordinate geoPoint) {
 //        this.topicStarterId = topicStarterId;
 //        this.type = type;
 //        this.state = state;
@@ -77,6 +76,7 @@ public class Task {
 //        this.descr = descr;
 //        this.geoPoint = geoPoint;
 //    }
+
     //<editor-fold desc="GetterAndSetter">
 
     public Long getId() {
@@ -119,11 +119,11 @@ public class Task {
         this.descr = descr;
     }
 
-//    public GeoPoint getGeoPoint() {
+//    public GeoCoordinate getGeoPoint() {
 //        return geoPoint;
 //    }
 //
-//    public void setGeoPoint(GeoPoint geoPoint) {
+//    public void setGeoPoint(GeoCoordinate geoPoint) {
 //        this.geoPoint = geoPoint;
 //    }
 

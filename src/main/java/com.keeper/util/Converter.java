@@ -4,6 +4,8 @@ package com.keeper.util;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import org.hibernate.validator.constraints.Email;
+
 import java.util.Arrays;
 
 /**
@@ -22,8 +24,8 @@ public class Converter
      * @param email email to mask
      * @return masked email
      */
-    public static String maskEmail(String email) {
-        int index = Hasher.isEmailValidAndGetIndex(email);
+    public static String maskEmail(@Email String email) {
+        int index = email.indexOf('@');
         return index == Hasher.EMAIL_INCORRECT
                 ? EMPTY_EMAIL
                 : returnSymbolBack(index, maskStr(email, index));
@@ -108,5 +110,6 @@ public class Converter
 
         return maskedString.toString();
     }
+
     //</editor-fold>
 }

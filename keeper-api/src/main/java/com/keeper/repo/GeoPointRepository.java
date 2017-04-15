@@ -12,6 +12,6 @@ package com.keeper.repo;
  */
 //@Repository
 //@Qualifier(value = RepositoryResolver.QUALIFIER_GEOPOINT)
-public interface GeoPointRepository{//} extends JpaRepository<GeoPoint, Long> {
+public interface GeoPointRepository{//} extends JpaRepository<GeoCoordinate, Long> {
 
 }

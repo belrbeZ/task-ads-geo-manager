@@ -21,6 +21,7 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long taskId;
     @Column(name = "value")                                 private String value;
+    @Column(name = "counter")                               private Long counter;
 
 //    @ManyToOne(fetch=FetchType.LAZY)
 //    @JoinColumn(name="task_id")
@@ -45,6 +46,22 @@ public class Tag {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Long getCounter() {
+        return counter;
+    }
+
+    public void setCounter(Long counter) {
+        this.counter = counter;
+    }
+
+    public void incCounter() {
+        counter++;
+    }
+
+    public void decCounter() {
+        counter--;
     }
     //</editor-fold>
 

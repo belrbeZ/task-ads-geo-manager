@@ -31,25 +31,13 @@ public class Hasher {
         }
     }
 
-    public static final int EMAIL_INCORRECT = -1;
+    //<editor-fold desc="Hashes">
 
     private static final String EMPTY_HASH = "";
 
     private static final XXHashFactory hashFactory = XXHashFactory.fastestInstance();
     private static final long SEED = 0x57a1cc61;
     private static final String ENCODING = "UTF-8";
-
-    public static boolean isEmailValid(String email) {
-        return email != null && email.length() >= 3 && email.indexOf('@') != EMAIL_INCORRECT;
-    }
-
-    public static int isEmailValidAndGetIndex(String email) {
-        return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
-    }
-
-    public static boolean isPhoneValid(String phone) {
-        return false;
-    }
 
     public static Long generateHashSimple(String value, HashType type) {
         try {
@@ -75,5 +63,5 @@ public class Hasher {
 
         return BCrypt.checkpw(candidate, hash);
     }
-
+    //</editor-fold>
 }

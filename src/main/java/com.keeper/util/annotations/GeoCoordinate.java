@@ -4,7 +4,7 @@ package com.keeper.util.annotations;
  * Created by @GoodforGod on 10.04.2017.
  */
 
-import com.keeper.util.annotations.impl.PhoneValidator;
+import com.keeper.util.annotations.impl.GeoCoordinateValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -15,11 +15,11 @@ import java.lang.annotation.*;
  */
 
 @Documented
-@Constraint(validatedBy = PhoneValidator.class)
+@Constraint(validatedBy = GeoCoordinateValidator.class)
 @Target({ElementType.ANNOTATION_TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Phone {
-    String message() default "{Phone}";
+public @interface GeoCoordinate {
+    String message() default "{GeoCoordinate}";
 
     Class<?>[] groups() default {};
 

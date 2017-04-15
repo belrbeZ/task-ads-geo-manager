@@ -32,7 +32,6 @@ public class User {
     @Column(name = "name",       nullable = false)          private String name;
     @NotNull
     @Column(name = "email",      nullable = false)          private String email;
-    //@Column(name = "maskedEmail",nullable = false)          private String maskedEmail;
     @Column(name = "phone")                                 private String phone;
     @NotNull
     @Column(name = "password",   nullable = false)          private String password;
@@ -40,9 +39,6 @@ public class User {
     @Column(name = "isNotified")                            private Boolean isNotified;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
-//    @OneToOne
-//    @JoinColumn(name = "profileId")
-//    private Zone zone;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -50,7 +46,6 @@ public class User {
         this.type       = UserType.UNKNOWN;
         this.name       = "";
         this.email      = "";
-        //this.maskedEmail= "";
         this.phone      = "";
         this.password   = "";
         this.about      = "";
@@ -82,7 +77,6 @@ public class User {
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
-        //this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
         this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;

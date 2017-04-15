@@ -24,10 +24,10 @@ public class Zone {
     public static final Zone EMPTY = new Zone((long)UserType.EMPTY.getValue());
 
     @Id
-    @Column(name = "profileId", unique = true, nullable = false)   private Long profileId;
-    @Column(name = "city")                                      private String city;
-    @Column(name = "country",       nullable = false)           private String country;
-    @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
+    @Column(name = "profileId", unique = true, nullable = false)    private Long profileId;
+    @Column(name = "city")                                          private String city;
+    @Column(name = "country",       nullable = false)               private String country;
+    @Column(name = "registerDate",  nullable = false)               private Timestamp registerDate;
 
     private Zone() {
         this.profileId         = (long) UserType.UNKNOWN.getValue();
