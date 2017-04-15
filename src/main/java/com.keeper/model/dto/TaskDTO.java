@@ -18,7 +18,8 @@ public class TaskDTO {
     private TaskState state = TaskState.HIDEN;
     private String theme;
     private String descr;
-//    private GeoPointDTO geoPointDTO;
+//    private List<String> tags;
+    //    private GeoPointDTO geoPointDTO;
 
     private TaskDTO() {}
 

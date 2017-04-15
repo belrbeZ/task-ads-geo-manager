@@ -30,6 +30,10 @@ public class Route {
     @Column(name = "type", nullable = false)                private RouteType type;
     @Column(name = "info")                                  private String info;
 
+//    List<String> latitude;
+//    List<String> longtitude;
+
+
     private Route() {}
 
     public Route(RouteType type, String info){
