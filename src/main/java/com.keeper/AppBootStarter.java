@@ -25,5 +25,4 @@ public class AppBootStarter extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(AppBootStarter.class);
     }
-
 }

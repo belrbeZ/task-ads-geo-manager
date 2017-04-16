@@ -7,7 +7,7 @@ package com.keeper.model.dao;
  *
  */
 
-import com.keeper.model.states.TaskState;
+import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import com.keeper.util.dao.DatabaseResolver;
 

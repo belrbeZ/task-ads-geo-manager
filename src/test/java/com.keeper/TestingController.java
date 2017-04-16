@@ -1,6 +1,6 @@
 package com.keeper;
 
-import com.keeper.service.test.UserTestRepoService;
+import com.keeper.test.service.impl.UserTestRepoService;
 import junit.framework.TestCase;
 import org.springframework.beans.factory.annotation.Autowired;
 

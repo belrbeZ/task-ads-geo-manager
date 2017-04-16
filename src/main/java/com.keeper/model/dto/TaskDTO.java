@@ -1,6 +1,6 @@
 package com.keeper.model.dto;
 
-import com.keeper.model.states.TaskState;
+import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 
 /**

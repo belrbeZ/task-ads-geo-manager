@@ -10,13 +10,13 @@ import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.model.test.UserTest;
+import com.keeper.test.model.dao.UserTest;
 import com.keeper.model.dao.Zone;
-import com.keeper.model.test.ZoneTest;
+import com.keeper.test.model.dao.ZoneTest;
 import com.keeper.model.dto.UserDTO;
-import com.keeper.model.test.UserTestDTO;
+import com.keeper.test.model.dto.UserTestDTO;
 import com.keeper.model.dto.ZoneDTO;
-import com.keeper.model.test.ZoneTestDTO;
+import com.keeper.test.model.dto.ZoneTestDTO;
 
 import java.util.ArrayList;
 import java.util.List;

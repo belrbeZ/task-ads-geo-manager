@@ -4,7 +4,7 @@ package com.keeper.util;
  * Created by GoodforGod on 20.03.2017.
  */
 
-import com.keeper.model.test.UserTest;
+import com.keeper.test.model.dao.UserTest;
 
 import java.util.ArrayList;
 import java.util.List;

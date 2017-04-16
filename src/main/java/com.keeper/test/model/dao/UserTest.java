@@ -1,51 +1,50 @@
-package com.keeper.model.dao;
+package com.keeper.test.model.dao;
 
-/*
- * Created by @GoodforGod on 6.04.2017.
+/**
+ * Created by Alexandr Vasiliev on 04.04.2017.
+ *
+ * @author Alexandr Vasiliev
  */
 
 import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
+import com.keeper.util.Converter;
 import com.keeper.util.Hasher;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-/**
- * Default Comment
- */
 @Entity
-@Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
-public class User {
+@Table(name = DatabaseResolver.TEST_TABLE_USERS, schema = DatabaseResolver.TEST_SCHEMA)
+public class UserTest {
 
-    public static final User EMPTY = new User((long)UserType.EMPTY.getValue(), UserType.EMPTY);
-
+    public static final UserTest EMPTY = new UserTest((long)UserType.EMPTY.getValue())
+                                                        {{ setType(UserType.EMPTY); }};
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
-    @NotNull
     @Column(name = "name",       nullable = false)          private String name;
-    @NotNull
     @Column(name = "email",      nullable = false)          private String email;
+    @Column(name = "maskedEmail",nullable = false)          private String maskedEmail;
     @Column(name = "phone")                                 private String phone;
-    @NotNull
     @Column(name = "password",   nullable = false)          private String password;
     @Column(name = "about")                                 private String about;
     @Column(name = "isNotified")                            private Boolean isNotified;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
 
-    private User() {
+    private UserTest() {
         this.id         = (long) UserType.UNKNOWN.getValue();
         this.state      = UserState.UNKNOWN;
         this.type       = UserType.UNKNOWN;
         this.name       = "";
         this.email      = "";
+        this.maskedEmail= "";
         this.phone      = "";
         this.password   = "";
         this.about      = "";
@@ -54,14 +53,13 @@ public class User {
         this.muteEnd    = Timestamp.valueOf(LocalDateTime.MAX);
     }
 
-    private User(Long id, UserType type) {
+    private UserTest(Long id) {
         super();
         this.id = id;
-        this.type = type;
     }
 
-    public User(UserType type, String name, String email,
-                String phone, String password, String about) throws NullPointerException {
+    public UserTest(UserType type, String name, String email,
+                    String phone, String password, String about) throws NullPointerException {
 
         if(email == null || email.isEmpty())
             throw new NullPointerException("EMAIL");
@@ -72,35 +70,31 @@ public class User {
         if(name == null || name.isEmpty())
             throw new NullPointerException("NAME");
 
-        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
         this.name       = name;
-        this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
+        this.email      = Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
+        this.maskedEmail= Converter.maskEmail(email);
         this.phone      = phone;
         this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }
 
-    public User(UserType type, String name, String email,
-                String phone, String password, String about,
-                boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) throws NullPointerException
-    {
-        this(type, name, email, phone, password, about);
-        this.isNotified = isNotified;
-        this.muteStart  = Timestamp.valueOf(muteStart);
-        this.muteEnd    = Timestamp.valueOf(muteEnd);
-    }
-
-    public static User gen(UserType type, String name, String email,
-                           String phone, String password, String about) {
+    public static UserTest gen(UserType type, String name, String email,
+                               String phone, String password, String about) {
         try {
-            return new User(type, name, email, phone, password, about);
+            return new UserTest(type, name, email, phone, password, about);
         } catch (NullPointerException e) {
             ModelLoggerManager.logConstructError("GEN", e);
         }
         return EMPTY;
+    }
+
+    // JUST FOR TESTING WITH MAP
+    // IN REST CONTROLLER
+    public void setId(Long id) {
+        this.id = id;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -139,6 +133,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getMaskedEmail() {
+        return maskedEmail;
+    }
+
+    public void setMaskedEmail(String maskedEmail) {
+        this.maskedEmail = maskedEmail;
     }
 
     public String getPhone() {
@@ -188,15 +190,6 @@ public class User {
     public void setMuteEnd(Timestamp muteEnd) {
         this.muteEnd = muteEnd;
     }
-
-//    public Zone getZone() {
-//        return zone;
-//    }
-//
-//    public void setZone(Zone zone) {
-//        this.zone = zone;
-//    }
-
     //</editor-fold>
 
     @Override
@@ -204,13 +197,13 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        UserTest userTest = (UserTest) o;
 
-        return id.equals(user.id);
+        return email.equals(userTest.email);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return email.hashCode();
     }
 }

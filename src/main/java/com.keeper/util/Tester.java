@@ -4,12 +4,12 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.model.ModelManager;
-import com.keeper.model.test.UserTest;
-import com.keeper.model.test.ZoneTest;
-import com.keeper.model.test.UserTestDTO;
-import com.keeper.model.test.ZoneTestDTO;
-import com.keeper.model.states.UserState;
+import com.keeper.model.ModelLoggerManager;
+import com.keeper.test.model.dao.UserTest;
+import com.keeper.test.model.dao.ZoneTest;
+import com.keeper.test.model.dto.UserTestDTO;
+import com.keeper.test.model.dto.ZoneTestDTO;
+import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 
 import java.sql.Timestamp;
@@ -46,7 +46,7 @@ public class Tester {
                     "Saint-Petersburg",
                     "Mother Russia");
         } catch (NullPointerException e) {
-            ModelManager.logSetupError(e);
+            ModelLoggerManager.logSetupError(e);
         }
         return ZoneTest.EMPTY;
     }
@@ -60,7 +60,7 @@ public class Tester {
                     "superBobbyPass",
                     "My name is Bobby and I'll test the shit out of you!") {{ setId((long) 1); }};
         } catch (NullPointerException e) {
-            ModelManager.logSetupError(e);
+            ModelLoggerManager.logSetupError(e);
         }
         return UserTest.EMPTY;
     }
