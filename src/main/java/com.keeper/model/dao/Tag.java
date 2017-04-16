@@ -12,6 +12,7 @@ import javax.persistence.*;
  * Default Comment
  */
 @Entity
+@Embeddable
 @Table(name = DatabaseResolver.TABLE_TAGS, schema = DatabaseResolver.SCHEMA)
 public class Tag {
 

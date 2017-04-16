@@ -9,6 +9,7 @@ import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Hasher;
 import com.keeper.util.dao.DatabaseResolver;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,12 +29,9 @@ public class User {
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "state")                                 private UserState state;
     @Column(name = "type")                                  private UserType type;
-    @NotNull
     @Column(name = "name",       nullable = false)          private String name;
-    @NotNull
     @Column(name = "email",      nullable = false)          private String email;
     @Column(name = "phone")                                 private String phone;
-    @NotNull
     @Column(name = "password",   nullable = false)          private String password;
     @Column(name = "about")                                 private String about;
     @Column(name = "isNotified")                            private Boolean isNotified;
@@ -60,18 +58,9 @@ public class User {
         this.type = type;
     }
 
-    public User(UserType type, String name, String email,
-                String phone, String password, String about) throws NullPointerException {
-
-        if(email == null || email.isEmpty())
-            throw new NullPointerException("EMAIL");
-
-        if(password == null || password.isEmpty())
-            throw new NullPointerException("PASSWORD");
-
-        if(name == null || name.isEmpty())
-            throw new NullPointerException("NAME");
-
+    public User(UserType type, @NotEmpty String name,
+                @NotEmpty String email, String phone,
+                @NotEmpty String password, String about) {
         this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.USER;
@@ -83,24 +72,15 @@ public class User {
         this.isNotified = false;
     }
 
-    public User(UserType type, String name, String email,
-                String phone, String password, String about,
-                boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) throws NullPointerException
+    public User(UserType type, @NotEmpty String name,
+                @NotEmpty String email, String phone,
+                @NotEmpty String password, String about, boolean isNotified,
+                @NotNull LocalDateTime muteStart, @NotNull LocalDateTime muteEnd)
     {
         this(type, name, email, phone, password, about);
         this.isNotified = isNotified;
         this.muteStart  = Timestamp.valueOf(muteStart);
         this.muteEnd    = Timestamp.valueOf(muteEnd);
-    }
-
-    public static User gen(UserType type, String name, String email,
-                           String phone, String password, String about) {
-        try {
-            return new User(type, name, email, phone, password, about);
-        } catch (NullPointerException e) {
-            ModelLoggerManager.logConstructError("GEN", e);
-        }
-        return EMPTY;
     }
 
     //<editor-fold desc="GetterAndSetter">

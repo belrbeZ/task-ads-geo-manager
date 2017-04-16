@@ -12,6 +12,7 @@ import com.keeper.model.types.TaskType;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -26,13 +27,26 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "topicstarterId", nullable = false)              private Long topicStarterId;
-    @Column(name = "picture")                                       private String picture;//???
+    @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
+    @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
+    @Column(name = "topicStarterId", nullable = false)              private Long topicStarterId;
     @Column(name = "type")                                          private TaskType type;
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
-    @Column(name = "participants")                                  private List<Long> participants;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PICMANAGER)
+    private String pic;
+
+    @Embedded
+    private List<Comment> comments;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PARTICINATMAANGER, cascade = CascadeType.ALL)
+    private List<Long> participants;
+
+    @Embedded
+    private List<Tag> tags;
+
 //    @Column(name = "followersId")                                  private List<Long> followersId;
 
 //    @OneToOne(fetch = FetchType.LAZY)
@@ -52,7 +66,9 @@ public class Task {
 //        @PrimaryKeyJoinColumn()})
 //    List<User> participants
 
-    private Task() {}
+    private Task() {
+
+    }
 
     private Task(Long id, TaskType type) {
         super();
@@ -67,15 +83,6 @@ public class Task {
         this.theme = theme;
         this.descr = descr;
     }
-
-//    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, GeoCoordinate geoPoint) {
-//        this.topicStarterId = topicStarterId;
-//        this.type = type;
-//        this.state = state;
-//        this.theme = theme;
-//        this.descr = descr;
-//        this.geoPoint = geoPoint;
-//    }
 
     //<editor-fold desc="GetterAndSetter">
 
@@ -118,30 +125,5 @@ public class Task {
     public void setDescr(String descr) {
         this.descr = descr;
     }
-
-//    public GeoCoordinate getGeoPoint() {
-//        return geoPoint;
-//    }
-//
-//    public void setGeoPoint(GeoCoordinate geoPoint) {
-//        this.geoPoint = geoPoint;
-//    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-//    public Integer[] getParticipants() {
-//        return participants;
-//    }
-
-//    public void setParticipants(Integer[] participants) {
-//        this.participants = participants;
-//    }
-
     //</editor-fold>
 }

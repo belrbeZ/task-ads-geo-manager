@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-@Table(name = DatabaseResolver.TABLE_TAGS, schema = DatabaseResolver.SCHEMA)
+@Embeddable
+@Table(name = DatabaseResolver.TABLE_COMMENTS, schema = DatabaseResolver.SCHEMA)
 public class Comment {
 
     @Id
@@ -73,20 +74,16 @@ public class Comment {
         this.longtitude = geoPoint.getLongtitude();
     }
 
+    public SimpleGeoPoint getGeoPoint() {
+        return new SimpleGeoPoint(longtitude, latitude);
+    }
+
     public void setMessage(String message) {
         this.message = message;
     }
 
     public String getMessage() {
         return message;
-    }
-
-    public String getLongtitude() {
-        return longtitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
     }
     //</editor-fold>
 }
