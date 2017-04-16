@@ -32,4 +32,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findAllByTheme(@Param("theme") String theme);
 
     @Transactional Task removeByTopicStarterId(@Param("topicStarterId") Long topicStarterId);
+
+
+
 }

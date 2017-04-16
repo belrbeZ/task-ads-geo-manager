@@ -9,6 +9,9 @@ import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Hasher;
 import com.keeper.util.dao.DatabaseResolver;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -39,29 +42,65 @@ public class User {
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
     //Join on useirId column in Zone.class
-    @PrimaryKeyJoinColumn
+//    @PrimaryKeyJoinColumns({
+            @PrimaryKeyJoinColumn(name = "userId", referencedColumnName = "id")
+//    ,
+//            @PrimaryKeyJoinColumn()
+//    })
     private Zone zone;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
     //Join on column userId in Pictures table
-    @PrimaryKeyJoinColumn
+    @JoinColumn(name="userId", referencedColumnName="id")
     private Picture pic;
 
     //Routes must get only if we need it
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PARTICINATMAANGER, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
     //Join on userId in Routes table
+    @JoinColumn(name="userId", referencedColumnName="id")
     private List<Route> routes;
 
     //GeoPo must get only if we need it
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_GEOMANAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
+    @JoinTable(
+            name = DatabaseResolver.TABLE_GEOMANAGER
+            , joinColumns = {
+            @JoinColumn(name = "userId", referencedColumnName="id")
+    }
+            , inverseJoinColumns={
+            @JoinColumn(name = "geopointId", referencedColumnName="id")
+    }
+    )
     //Join on GeoManger userId -> geoPointsId
     private List<GeoPoint> geoPoints;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    //@Join by participantManager userId - TaskId
-//    private List<Task> tasksParticipanted;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@Join by participantManager userId - TaskId
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
+    @JoinTable(
+            name = DatabaseResolver.TABLE_PARTICINATMAANGER
+            , joinColumns = {
+            @JoinColumn(name = "userId", referencedColumnName="id")
+    }
+            , inverseJoinColumns={
+            @JoinColumn(name = "taskId", referencedColumnName="id")
+    }
+    )
+    private List<Task> participantedTasks;
+
+    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
+    //Join on column userId in Comment.class
+    @JoinColumn(name = "userId", referencedColumnName="id")
+    private List<Comment> comments;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();

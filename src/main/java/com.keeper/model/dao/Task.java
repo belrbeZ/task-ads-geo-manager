@@ -10,6 +10,9 @@ package com.keeper.model.dao;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import com.keeper.util.dao.DatabaseResolver;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -35,52 +38,59 @@ public class Task {
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
 
-    @OneToMany(fetch = FetchType.LAZY)
-//    @PrimaryKeyJoinColumn
+    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
 //    Join by taskId in userId
-    private Picture pic;
+    @JoinColumn(name="userId", referencedColumnName="id")
+    private List<Picture> pictures;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
 //    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
-    @PrimaryKeyJoinColumn//(name = "geopoint_id")
-    private GeoPoint geoPoint;
+    @JoinTable(
+            name = DatabaseResolver.TABLE_GEOMANAGER
+            , joinColumns = {
+            @JoinColumn(name = "taskId", referencedColumnName="id")
+    }
+            , inverseJoinColumns={
+            @JoinColumn(name = "geopointId", referencedColumnName="id")
+    }
+    )
+    private GeoPoint originGeoPoint;
 
-    @ManyToMany (mappedBy="task")
-    //Join by taskId and TagId in tagManager table
-    @PrimaryKeyJoinColumns({
-            @PrimaryKeyJoinColumn(),
-            @PrimaryKeyJoinColumn()
-    })
-    private List<Tag> tags;
+//    @ManyToMany (mappedBy="task")
+//    //Join by taskId and TagId in tagManager table
+//
+//    private List<Tag> tags;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PARTICINATMAANGER, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
     //Join by userId in comment table
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
     private List<Comment> comments;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //@Join by topicStarteId in User table
+    @JoinColumn(name = "id", referencedColumnName = "topicStarterId")
     private User topicStarter;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
+        @BatchSize(size = 10)
     //@Join by participant manager usersId and taskId here
+    @JoinTable(
+            name = DatabaseResolver.TABLE_PARTICINATMAANGER
+            , joinColumns = {
+            @JoinColumn(name = "taskId")
+    }
+            , inverseJoinColumns={
+            @JoinColumn(name = "userId")
+    }
+    )
     private List<User> participants;
-
-//    @Embedded
-//    private List<Comment> comments;
-//
-//    @Embedded
-//    private List<Tag> tags;
-
-//    @Column(name = "followersId")                                  private List<Long> followersId;
-
-//
-//    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="task")
-//    private List<Tag> tags;
-
-//    @OneToOne
-//    @JoinColumn(name = "pictureId")
-//    private Picture picture;
-
 
     private Task() {
 

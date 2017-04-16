@@ -39,6 +39,7 @@ public class Comment {
 //
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //Join on userId here to User
+    @JoinColumn(name="id", referencedColumnName="userId")
     private User user;
 
     private Comment() { }

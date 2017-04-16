@@ -35,7 +35,7 @@ public class Picture {
 //    @OneToOne(fetch = FetchType.LAZY)
 //    @PrimaryKeyJoinColumn
 //    private User User;
-//
+
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @PrimaryKeyJoinColumn
 //    private Task task;
@@ -52,9 +52,15 @@ public class Picture {
         this.userId = userId;
         this.taskId = taskId;
         this.pic = pic;
+        this.info = "";
     }
 
-
+    public Picture(Long userId, Long taskId, String pic, String info) {
+        this.userId = userId;
+        this.taskId = taskId;
+        this.pic = pic;
+        this.info = info;
+    }
 
     //<editor-fold desc="GetterAndSetter">
 

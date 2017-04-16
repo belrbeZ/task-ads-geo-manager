@@ -26,7 +26,6 @@ public class DatabaseResolver {
     public static final String TABLE_GEOMANAGER         = "geoManager";
     public static final String TABLE_PARTICINATMAANGER  = "participantManager";
     public static final String TABLE_TAGMANAGER         = "tagManager";
-//    public static final String TABLE_PICMANAGER         = "picManager";
 
 
 
