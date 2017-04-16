@@ -29,13 +29,13 @@ public class Route {
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "type", nullable = false)                private RouteType type;
     @Column(name = "info")                                  private String info;
-    @Column(name = "latitudes")                              private List<BigDecimal> latitudes;
-    @Column(name = "longtitudes")                            private List<BigDecimal> longtitudes;
+    @Column(name = "latitudes")                             private List<BigDecimal> latitudes;
+    @Column(name = "longtitudes")                           private List<BigDecimal> longtitudes;
 
-    //Routes must get only if we need it
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //Join on userId in Routes table
-    private User user;
+//    //Routes must get only if we need it
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    //Join on userId in Routes table
+//    private User user;
 
     private Route() {
         this.type = RouteType.COMMON;

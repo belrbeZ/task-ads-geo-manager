@@ -28,13 +28,13 @@ public class Picture {
     @Column(name = "pic", nullable = false)                 private String pic;
     @Column(name = "info", nullable = false)                private String info;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
-    private User User;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
-    private Task task;
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @PrimaryKeyJoinColumn
+//    private User User;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @PrimaryKeyJoinColumn
+//    private Task task;
 
     private Picture() {}
 

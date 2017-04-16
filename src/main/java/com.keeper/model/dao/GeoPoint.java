@@ -29,14 +29,14 @@ public class GeoPoint {
     @Column(name = "radius")                                        private Integer radius;
     @Column(name = "info")                                          private String info;
 
-    @OneToOne(fetch = FetchType.LAZY)
-//    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
-    @PrimaryKeyJoinColumn//(name = "geopoint_id")
-    private Task task;
-
-    //GeoPo must get only if we need it     mappedBy = DatabaseResolver.TABLE_GEOMANAGER,
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private User user;
+//    @OneToOne(fetch = FetchType.LAZY)
+////    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
+//    @PrimaryKeyJoinColumn//(name = "geopoint_id")
+//    private Task task;
+//
+//    //GeoPo must get only if we need it     mappedBy = DatabaseResolver.TABLE_GEOMANAGER,
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private User user;
 
     //    The MapsId annotation ask Hibernate to copy the identifier from another associated entity
 //    @MapsId

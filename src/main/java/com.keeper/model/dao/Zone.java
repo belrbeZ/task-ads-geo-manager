@@ -26,11 +26,6 @@ public class Zone {
     @Column(name = "country",       nullable = false)               private String country;
     @Column(name = "registerDate",  nullable = false)               private Timestamp registerDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
-    //join on userId in zone id with userId in user table
-    private Zone zone;
-
     private Zone() {
         this.profileId         = (long) UserType.UNKNOWN.getValue();
         this.city           = "";

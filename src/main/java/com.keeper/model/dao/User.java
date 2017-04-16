@@ -59,17 +59,9 @@ public class User {
     //Join on GeoManger userId -> geoPointsId
     private List<GeoPoint> geoPoints;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@Join by topicStarteId
-    private List<Task> tasksStarted;
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@Join by participantManager userId - TaskId
-    private List<Task> tasksParticipanted;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //Join on column userId in Comment.class
-    private List<Comment> comments;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    //@Join by participantManager userId - TaskId
+//    private List<Task> tasksParticipanted;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();

@@ -33,10 +33,10 @@ public class Comment {
     @Column(name = "longtitude")                            private BigDecimal longtitude;
     @Column(name = "latitude")                              private BigDecimal latitude;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //Join on taskId here to Task
-    private Task task;
-
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    //Join on taskId here to Task
+//    private Task task;
+//
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //Join on userId here to User
     private User user;

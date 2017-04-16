@@ -25,9 +25,9 @@ public class Tag {
     @Column(name = "value")                                 private String value;
     @Column(name = "counter")                               private Long counter;
 
-    @ManyToMany(fetch=FetchType.LAZY)
-    @JoinColumn(name="task_id")//from here to TagManager
-    private List<Task> tasks;
+//    @ManyToMany(fetch=FetchType.LAZY)
+//    @JoinColumn(name="task_id")//from here to TagManager
+//    private List<Task> tasks;
 
     private Tag() { }
 

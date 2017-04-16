@@ -51,7 +51,7 @@ public class Task {
             @PrimaryKeyJoinColumn(),
             @PrimaryKeyJoinColumn()
     })
-    List<Tag> tags;
+    private List<Tag> tags;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PARTICINATMAANGER, cascade = CascadeType.ALL)
     //Join by userId in comment table
