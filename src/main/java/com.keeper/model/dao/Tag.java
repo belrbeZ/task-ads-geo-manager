@@ -29,7 +29,11 @@ public class Tag {
 //    @JoinColumn(name="task_id")//from here to TagManager
 //    private List<Task> tasks;
 
-    private Tag() { }
+    private Tag() {
+        this.taskId = -1L;
+        this.value = "";
+        this.counter = 0L;
+    }
 
     public Tag(Long taskId, String value) {
         this.taskId = taskId;

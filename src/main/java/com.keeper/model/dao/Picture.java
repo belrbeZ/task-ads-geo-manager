@@ -8,6 +8,10 @@ package com.keeper.model.dao;
  */
 
 
+import com.keeper.model.types.PicType;
+import com.keeper.model.types.TaskType;
+import com.keeper.model.types.UserType;
+
 import javax.persistence.*;
 
 
@@ -36,7 +40,13 @@ public class Picture {
 //    @PrimaryKeyJoinColumn
 //    private Task task;
 
-    private Picture() {}
+    private Picture() {
+        this.id = (long)PicType.EMPTY.getValue();
+        this.userId = (long)UserType.EMPTY.getValue();
+        this.taskId = (long) TaskType.EMPTY.getValue();
+        this.pic = "";
+        this.info = "";
+    }
 
     public Picture(Long userId, Long taskId, String pic) {
         this.userId = userId;

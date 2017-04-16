@@ -8,6 +8,7 @@ package com.keeper.model.types;
  * Default Comment
  */
 public enum PicType {
+    EMPTY(-1),
     TASK(0),
     USER(1);
 
