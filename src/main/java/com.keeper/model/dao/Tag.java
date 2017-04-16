@@ -7,6 +7,7 @@ package com.keeper.model.dao;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Default Comment
@@ -24,9 +25,9 @@ public class Tag {
     @Column(name = "value")                                 private String value;
     @Column(name = "counter")                               private Long counter;
 
-//    @ManyToOne(fetch=FetchType.LAZY)
-//    @JoinColumn(name="task_id")
-//    private Task task;
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinColumn(name="task_id")//from here to TagManager
+    private List<Task> tasks;
 
     private Tag() { }
 

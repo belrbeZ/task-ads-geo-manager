@@ -7,10 +7,7 @@ package com.keeper.model.dao;
 import com.keeper.model.types.UserType;
 import com.keeper.util.dao.DatabaseResolver;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -28,6 +25,11 @@ public class Zone {
     @Column(name = "city")                                          private String city;
     @Column(name = "country",       nullable = false)               private String country;
     @Column(name = "registerDate",  nullable = false)               private Timestamp registerDate;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    //join on userId in zone id with userId in user table
+    private Zone zone;
 
     private Zone() {
         this.profileId         = (long) UserType.UNKNOWN.getValue();

@@ -12,6 +12,7 @@ import com.keeper.model.types.RouteType;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -28,18 +29,23 @@ public class Route {
     @Column(name = "id", unique = true, nullable = false)   private Long id;
     @Column(name = "type", nullable = false)                private RouteType type;
     @Column(name = "info")                                  private String info;
-    @Column(name = "latitude")                              private List<String> latitude;
-    @Column(name = "longtitude")                            private List<String> longtitude;
+    @Column(name = "latitudes")                              private List<BigDecimal> latitudes;
+    @Column(name = "longtitudes")                            private List<BigDecimal> longtitudes;
+
+    //Routes must get only if we need it
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //Join on userId in Routes table
+    private User user;
 
     private Route() {
         this.type = RouteType.COMMON;
     }
 
-    public Route(RouteType type, String info, List<String> latitude, List<String> longtitude){
+    public Route(RouteType type, String info, List<BigDecimal> latitudes, List<BigDecimal> longtitudes){
         this.type = type;
         this.info = info;
-        this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.latitudes = latitudes;
+        this.longtitudes = longtitudes;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -60,25 +66,25 @@ public class Route {
         this.info = info;
     }
 
-    public List<String> getLatitude() {
-        return latitude;
+    public List<BigDecimal> getLatitudes() {
+        return latitudes;
     }
 
-    public void setLatitude(List<String> latitude) {
-        this.latitude = latitude;
+    public void setLatitudes(List<BigDecimal> latitudes) {
+        this.latitudes = latitudes;
     }
 
-    public List<String> getLongtitude() {
-        return longtitude;
+    public List<BigDecimal> getLongtitudes() {
+        return longtitudes;
     }
 
-    public void setLongtitude(List<String> longtitude) {
-        this.longtitude = longtitude;
+    public void setLongtitudes(List<BigDecimal> longtitudes) {
+        this.longtitudes = longtitudes;
     }
 
     public void addGeoPoint(SimpleGeoPoint geoPoint) {
-        latitude.add(geoPoint.getLatitude());
-        longtitude.add(geoPoint.getLongtitude());
+        latitudes.add(geoPoint.getLatitude());
+        longtitudes.add(geoPoint.getLongtitude());
     }
 
     //</editor-fold>

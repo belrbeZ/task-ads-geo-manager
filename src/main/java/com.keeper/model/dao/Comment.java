@@ -8,8 +8,10 @@ import com.keeper.model.SimpleGeoPoint;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Default Comment
@@ -28,8 +30,16 @@ public class Comment {
     @Column(name = "createDate",    nullable = false)       private Timestamp createDate;
     @Column(name = "lastModifyDate")                        private Timestamp lastModifyDate;
     @Column(name = "message",       nullable = false)       private String message;
-    @Column(name = "longtitude")                            private String longtitude;
-    @Column(name = "latitude")                              private String latitude;
+    @Column(name = "longtitude")                            private BigDecimal longtitude;
+    @Column(name = "latitude")                              private BigDecimal latitude;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //Join on taskId here to Task
+    private Task task;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //Join on userId here to User
+    private User user;
 
     private Comment() { }
 

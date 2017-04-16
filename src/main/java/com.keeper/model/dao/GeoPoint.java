@@ -12,6 +12,8 @@ package com.keeper.model.dao;
 import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = DatabaseResolver.TABLE_GEOPOINTS, schema = DatabaseResolver.SCHEMA)
@@ -22,10 +24,19 @@ public class GeoPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "latitude")                                      private String latitude;
-    @Column(name = "longitude")                                     private String longitude;
+    @Column(name = "latitude")                                      private BigDecimal latitude;
+    @Column(name = "longitude")                                     private BigDecimal longitude;
     @Column(name = "radius")                                        private Integer radius;
     @Column(name = "info")                                          private String info;
+
+    @OneToOne(fetch = FetchType.LAZY)
+//    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
+    @PrimaryKeyJoinColumn//(name = "geopoint_id")
+    private Task task;
+
+    //GeoPo must get only if we need it     mappedBy = DatabaseResolver.TABLE_GEOMANAGER,
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User user;
 
     //    The MapsId annotation ask Hibernate to copy the identifier from another associated entity
 //    @MapsId
@@ -35,13 +46,13 @@ public class GeoPoint {
 
     private GeoPoint() {}
 
-    public GeoPoint(String latitude, String longitude, Integer radius) {
+    public GeoPoint(BigDecimal latitude, BigDecimal longitude, Integer radius) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.radius = radius;
     }
 
-    public GeoPoint(String latitude, String longitude, Integer radius, String info) {
+    public GeoPoint(BigDecimal latitude, BigDecimal longitude, Integer radius, String info) {
         this(latitude, longitude, radius);
         this.info = info;
     }
@@ -52,11 +63,11 @@ public class GeoPoint {
         return id;
     }
 
-    public String getLatitude() {
+    public BigDecimal getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public BigDecimal getLongitude() {
         return longitude;
     }
 

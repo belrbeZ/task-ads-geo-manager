@@ -35,24 +35,44 @@ public class Task {
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PICMANAGER)
-    private String pic;
+    @OneToMany(fetch = FetchType.LAZY)
+//    @PrimaryKeyJoinColumn
+//    Join by taskId in userId
+    private Picture pic;
 
-    @Embedded
-    private List<Comment> comments;
+    @OneToOne(fetch = FetchType.LAZY)
+//    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
+    @PrimaryKeyJoinColumn//(name = "geopoint_id")
+    private GeoPoint geoPoint;
+
+    @ManyToMany (mappedBy="task")
+    //Join by taskId and TagId in tagManager table
+    @PrimaryKeyJoinColumns({
+            @PrimaryKeyJoinColumn(),
+            @PrimaryKeyJoinColumn()
+    })
+    List<Tag> tags;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PARTICINATMAANGER, cascade = CascadeType.ALL)
-    private List<Long> participants;
+    //Join by userId in comment table
+    private List<Comment> comments;
 
-    @Embedded
-    private List<Tag> tags;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@Join by topicStarteId in User table
+    private User topicStarter;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@Join by participant manager usersId and taskId here
+    private List<User> participants;
+
+//    @Embedded
+//    private List<Comment> comments;
+//
+//    @Embedded
+//    private List<Tag> tags;
 
 //    @Column(name = "followersId")                                  private List<Long> followersId;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-////    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
-//    @PrimaryKeyJoinColumn//(name = "geopoint_id")
-//    private GeoCoordinate geoPoint;
 //
 //    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="task")
 //    private List<Tag> tags;
@@ -61,10 +81,6 @@ public class Task {
 //    @JoinColumn(name = "pictureId")
 //    private Picture picture;
 
-//    @ManyToMany (mappedBy="task")
-//@PrimaryKeyJoinColumns({@PrimaryKeyJoinColumn(),
-//        @PrimaryKeyJoinColumn()})
-//    List<User> participants
 
     private Task() {
 

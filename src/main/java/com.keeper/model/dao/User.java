@@ -15,6 +15,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Default Comment
@@ -37,6 +38,38 @@ public class User {
     @Column(name = "isNotified")                            private Boolean isNotified;
     @Column(name = "startMuteTime")                         private Timestamp muteStart;
     @Column(name = "endMuteTime")                           private Timestamp muteEnd;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    //Join on useirId column in Zone.class
+    @PrimaryKeyJoinColumn
+    private Zone zone;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    //Join on column userId in Pictures table
+    @PrimaryKeyJoinColumn
+    private Picture pic;
+
+    //Routes must get only if we need it
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_PARTICINATMAANGER, cascade = CascadeType.ALL)
+    //Join on userId in Routes table
+    private List<Route> routes;
+
+    //GeoPo must get only if we need it
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = DatabaseResolver.TABLE_GEOMANAGER, cascade = CascadeType.ALL)
+    //Join on GeoManger userId -> geoPointsId
+    private List<GeoPoint> geoPoints;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@Join by topicStarteId
+    private List<Task> tasksStarted;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //@Join by participantManager userId - TaskId
+    private List<Task> tasksParticipanted;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //Join on column userId in Comment.class
+    private List<Comment> comments;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
