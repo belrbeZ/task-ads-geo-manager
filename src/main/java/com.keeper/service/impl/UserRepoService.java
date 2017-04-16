@@ -37,6 +37,11 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     }
 
     @Override
+    public boolean isUserLoginDataValid(String email, String phone, String password) {
+        return (get(email, phone).getPassword().equals(password));
+    }
+
+    @Override
     public User get(String email, String phone) {
         return (email != null && !email.isEmpty())
                 ? repository.findOneByEmail(email)

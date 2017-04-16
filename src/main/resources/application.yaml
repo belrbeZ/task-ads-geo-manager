@@ -1,7 +1,37 @@
-#spring:
-#    thymeleaf:
-#      mode: HTML5
-#      # Allow Thymeleaf templates to be reloaded at dev time
-#      cache: false
-#      prefix: src/main/resources/templates/
+server:
+    port: 19001
 
+
+spring:
+  thymeleaf:
+    prefix: src/main/resources/templates/
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    dbcp2:
+      driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://137.74.114.219:19009/keeperdb
+    username: postgres
+    password: myRea11ySecRett0Pass
+    platform: postgres
+logging:
+  level: error
+
+---
+
+spring:
+    profiles: dev
+    thymeleaf:
+      cache: false
+server:
+    port: 19001
+
+---
+
+spring:
+    profiles: prod
+server:
+    port: 19001

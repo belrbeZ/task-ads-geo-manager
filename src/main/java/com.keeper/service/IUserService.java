@@ -12,6 +12,8 @@ import com.keeper.model.dao.User;
 public interface IUserService extends IModelService<User> {
     boolean isExists(String email, String phone);
 
+    boolean isUserLoginDataValid(String email, String phone, String password);
+
     User get(String email, String phone);
 
     User remove(String email, String phone);
