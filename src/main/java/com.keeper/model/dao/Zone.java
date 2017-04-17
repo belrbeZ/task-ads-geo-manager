@@ -21,13 +21,13 @@ public class Zone {
     public static final Zone EMPTY = new Zone((long)UserType.EMPTY.getValue());
 
     @Id
-    @Column(name = "profileId", unique = true, nullable = false)    private Long profileId;
-    @Column(name = "city")                                          private String city;
-    @Column(name = "country",       nullable = false)               private String country;
-    @Column(name = "registerDate",  nullable = false)               private Timestamp registerDate;
+    @Column(name = "userId", unique = true, nullable = false)   private Long profileId;
+    @Column(name = "city")                                      private String city;
+    @Column(name = "country",       nullable = false)           private String country;
+    @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
 
     private Zone() {
-        this.profileId         = (long) UserType.UNKNOWN.getValue();
+        this.profileId      = (long) UserType.UNKNOWN.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
@@ -43,7 +43,7 @@ public class Zone {
         if(profileId == null)
             throw new NullPointerException("USER_ID");
 
-        this.profileId     = profileId;
+        this.profileId  = profileId;
         this.city       = city;
         this.country    = country;
         this.registerDate = Timestamp.valueOf(LocalDateTime.now());

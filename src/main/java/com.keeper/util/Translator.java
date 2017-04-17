@@ -44,8 +44,8 @@ public class Translator {
                 ? GeoPointDTO.EMPTY
                 : new GeoPointDTO(
                         model.getId(),
-                        model.getLatitude(),
-                        model.getLongitude(),
+                        model.getLatitude().toString(),
+                        model.getLongitude().toString(),
                         model.getRadius(),
                         model.getInfo());
     }
@@ -62,8 +62,13 @@ public class Translator {
                             model.getPassword(),
                             model.getAbout(),
                             model.getNotified(),
-                            model.getMuteStart().toLocalDateTime(),
-                            model.getMuteEnd().toLocalDateTime());
+                            (model.getMuteStart() != null)
+                                    ? model.getMuteStart().toLocalDateTime()
+                                    : null,
+                            (model.getMuteEnd() != null)
+                                    ? model.getMuteEnd().toLocalDateTime()
+                                    : null,
+                            model.getPic());
     }
 
     public static ZoneDTO convertToDTO(Zone model) {

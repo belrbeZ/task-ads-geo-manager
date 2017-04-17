@@ -13,20 +13,20 @@ import java.math.BigDecimal;
  */
 public class SimpleGeoPoint {
 
-    private BigDecimal longtitude;
-    private BigDecimal latitude;
+    private String longtitude;
+    private String latitude;
 
-    public SimpleGeoPoint(@GeoCoordinate BigDecimal longtitude,
-                          @GeoCoordinate BigDecimal latitude) {
+    public SimpleGeoPoint(@GeoCoordinate String longtitude,
+                          @GeoCoordinate String latitude) {
         this.longtitude = longtitude;
         this.latitude = latitude;
     }
 
-    public BigDecimal getLongtitude() {
+    public String getLongtitude() {
         return longtitude;
     }
 
-    public BigDecimal getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 }

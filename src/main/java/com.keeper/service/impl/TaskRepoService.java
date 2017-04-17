@@ -21,7 +21,7 @@ import java.util.Set;
  * Repository Service to work with Tasks
  */
 @Service
-public class TaskRepoService extends  ModelRepoService<Task> implements ITaskService {
+public class TaskRepoService extends ModelRepoService<Task> implements ITaskService {
 
     private final TaskRepository repository;
 
@@ -48,19 +48,19 @@ public class TaskRepoService extends  ModelRepoService<Task> implements ITaskSer
                 : getEmptyList();
     }
 
-    @Override
-    public List<Task> getByTags(Set<Long> tags) {
-        return (tags != null && !tags.isEmpty())
-                ? repository.findAllByTags(tags)
-                : getEmptyList();
-    }
+//    @Override
+//    public List<Task> getByTags(Set<Long> tags) {
+//        return (tags != null && !tags.isEmpty())
+//                ? repository.findAllByTags(tags)
+//                : getEmptyList();
+//    }
 
-    @Override
-    public List<Task> getByEmailOrPhone(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.findAllByEmail(email)
-                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmptyList();
-    }
+//    @Override
+//    public List<Task> getByEmailOrPhone(String email, String phone) {
+//        return (email != null && !email.isEmpty())
+//                ? repository.findAllByEmail(email)
+//                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmptyList();
+//    }
 
     @Override
     public List<Task> getByUserId(Long userId) {

@@ -1,9 +1,9 @@
 server:
-    port: 19001
+    port: 8080
 
 spring:
-  thymeleaf:
-    prefix: src/main/resources/templates/
+#  thymeleaf:
+#    prefix: src/main/resources/templates/
 
   jpa:
     database: postgresql
@@ -29,7 +29,7 @@ spring:
       cache: false
 
 server:
-    port: 19001
+    port: 8080
 
 ---
 
@@ -37,4 +37,4 @@ spring:
     profiles: prod
 
 server:
-    port: 19001
+    port: 8080

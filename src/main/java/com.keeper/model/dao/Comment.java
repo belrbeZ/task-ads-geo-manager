@@ -18,9 +18,10 @@ import java.util.List;
  */
 
 @Entity
-@Embeddable
 @Table(name = DatabaseResolver.TABLE_COMMENTS, schema = DatabaseResolver.SCHEMA)
 public class Comment {
+
+    public static final Comment EMPTY = new Comment();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,28 +31,32 @@ public class Comment {
     @Column(name = "createDate",    nullable = false)       private Timestamp createDate;
     @Column(name = "lastModifyDate")                        private Timestamp lastModifyDate;
     @Column(name = "message",       nullable = false)       private String message;
-    @Column(name = "longtitude")                            private BigDecimal longtitude;
-    @Column(name = "latitude")                              private BigDecimal latitude;
+    @Column(name = "longtitude")                            private Double longtitude;
+    @Column(name = "latitude")                              private Double latitude;
 
 //    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    //Join on taskId here to Task
-//    private Task task;
-//
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //Join on userId here to User
-    @JoinColumn(name="id", referencedColumnName="userId")
-    private User user;
+//    @JoinColumn(name="id", referencedColumnName="id")
+//    private User user;
 
-    private Comment() { }
+    private Comment() {
+        this.id = 0L;
+        this.taskId = 0L;
+        this.userId = 0L;
+        this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
+        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MAX);
+        this.message = "";
+        this.longtitude = 0.;
+        this.latitude = 0.;
+    }
 
     public Comment(Long taskId, Long userId, LocalDateTime createDate,
                    String message, SimpleGeoPoint geoPoint) {
-        this.taskId = taskId;
-        this.userId = userId;
+        this.taskId     = taskId;
+        this.userId     = userId;
         this.createDate = Timestamp.valueOf(createDate);
-        this.message = message;
-        this.longtitude = geoPoint.getLongtitude();
-        this.latitude = geoPoint.getLatitude();
+        this.message    = message;
+        this.longtitude = new Double(geoPoint.getLongtitude());
+        this.latitude   = new Double(geoPoint.getLatitude());
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -81,12 +86,12 @@ public class Comment {
     }
 
     public void setGeoPoint(SimpleGeoPoint geoPoint) {
-        this.latitude = geoPoint.getLatitude();
-        this.longtitude = geoPoint.getLongtitude();
+        this.latitude = new Double(geoPoint.getLatitude());
+        this.longtitude = new Double(geoPoint.getLongtitude());
     }
 
     public SimpleGeoPoint getGeoPoint() {
-        return new SimpleGeoPoint(longtitude, latitude);
+        return new SimpleGeoPoint(longtitude.toString(), latitude.toString());
     }
 
     public void setMessage(String message) {
@@ -95,6 +100,22 @@ public class Comment {
 
     public String getMessage() {
         return message;
+    }
+
+    public Double getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(Double longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
     //</editor-fold>
 }
