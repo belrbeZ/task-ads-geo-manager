@@ -23,7 +23,7 @@ import javax.persistence.*;
 @Table(name = DatabaseResolver.TABLE_PICS, schema = DatabaseResolver.SCHEMA)
 public class Picture {
 
-    public static final Picture empty = new Picture();
+    public static final Picture EMPTY = new Picture();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +32,6 @@ public class Picture {
     @Column(name = "taskId")                                private Long taskId;
     @Column(name = "pic", nullable = false)                 private String pic;
     @Column(name = "info", nullable = false)                private String info;
-
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @PrimaryKeyJoinColumn
-//    private User User;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @PrimaryKeyJoinColumn
-//    private Task task;
 
     private Picture() {
         this.id = (long)PicType.EMPTY.getValue();
@@ -83,10 +75,6 @@ public class Picture {
 
     public void setPic(String pic) {
         this.pic = pic;
-    }
-
-    public static Picture getEmpty() {
-        return empty;
     }
 
     public String getInfo() {

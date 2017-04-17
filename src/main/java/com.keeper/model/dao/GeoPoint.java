@@ -13,6 +13,7 @@ import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 @Entity
@@ -24,35 +25,26 @@ public class GeoPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "latitude")                                      private BigDecimal latitude;
-    @Column(name = "longitude")                                     private BigDecimal longitude;
+    @Column(name = "latitude")                                      private Double latitude;
+    @Column(name = "longitude")                                     private Double longitude;
     @Column(name = "radius")                                        private Integer radius;
     @Column(name = "info")                                          private String info;
 
-//    @OneToOne(fetch = FetchType.LAZY)
-////    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
-//    @PrimaryKeyJoinColumn//(name = "geopoint_id")
-//    private Task task;
-//
-//    //GeoPo must get only if we need it     mappedBy = DatabaseResolver.TABLE_GEOMANAGER,
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    private User user;
+    private GeoPoint() {
+        this.id = 0L;
+        this.latitude = 0.;
+        this.longitude = 0.;
+        this.radius = 0;
+        this.info = "";
+    }
 
-    //    The MapsId annotation ask Hibernate to copy the identifier from another associated entity
-//    @MapsId
-//    @OneToOne(mappedBy = "geopoint", cascade = CascadeType.ALL,
-//            fetch = FetchType.LAZY, optional = false)
-//    private Task task;
-
-    private GeoPoint() {}
-
-    public GeoPoint(BigDecimal latitude, BigDecimal longitude, Integer radius) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public GeoPoint(String latitude, String longitude, Integer radius) {
+        this.latitude = new Double(latitude);
+        this.longitude = new Double(longitude);
         this.radius = radius;
     }
 
-    public GeoPoint(BigDecimal latitude, BigDecimal longitude, Integer radius, String info) {
+    public GeoPoint(String latitude, String longitude, Integer radius, String info) {
         this(latitude, longitude, radius);
         this.info = info;
     }
@@ -63,11 +55,11 @@ public class GeoPoint {
         return id;
     }
 
-    public BigDecimal getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public BigDecimal getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 

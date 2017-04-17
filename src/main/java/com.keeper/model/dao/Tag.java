@@ -13,31 +13,26 @@ import java.util.List;
  * Default Comment
  */
 @Entity
-@Embeddable
 @Table(name = DatabaseResolver.TABLE_TAGS, schema = DatabaseResolver.SCHEMA)
 public class Tag {
 
-    public static final Tag empty = new Tag();
+    public static final Tag EMPTY = new Tag();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long taskId;
-    @Column(name = "tag")                                 private String tag;
-    @Column(name = "counter")                               private Long counter;
-
-//    @ManyToMany(fetch=FetchType.LAZY)
-//    @JoinColumn(name="task_id")//from here to TagManager
-//    private List<Task> tasks;
+    @Column(name = "tag")                                   private String value;
+    @Column(name = "counter")                               private Integer counter;
 
     private Tag() {
         this.taskId = -1L;
-        this.tag = "";
-        this.counter = 0L;
+        this.value = "";
+        this.counter = 0;
     }
 
-    public Tag(Long taskId, String tag) {
+    public Tag(Long taskId, String value) {
         this.taskId = taskId;
-        this.tag = tag;
+        this.value = value;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -46,19 +41,19 @@ public class Tag {
         return taskId;
     }
 
-    public String getTag() {
-        return tag;
+    public String getValue() {
+        return value;
     }
 
-    public void setTag(String tag) {
-        this.tag = tag;
+    public void setValue(String value) {
+        this.value = value;
     }
 
-    public Long getCounter() {
+    public Integer getCounter() {
         return counter;
     }
 
-    public void setCounter(Long counter) {
+    public void setCounter(Integer counter) {
         this.counter = counter;
     }
 
@@ -78,11 +73,11 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        return tag != null ? tag.equals(tag.tag) : tag.tag == null;
+        return value != null ? value.equals(tag.value) : tag.value == null;
     }
 
     @Override
     public int hashCode() {
-        return tag != null ? tag.hashCode() : 0;
+        return value != null ? value.hashCode() : 0;
     }
 }

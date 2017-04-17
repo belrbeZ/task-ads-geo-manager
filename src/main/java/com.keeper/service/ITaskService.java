@@ -15,8 +15,8 @@ import java.util.Set;
 public interface ITaskService {
 
     List<Task> getByTheme(String theme);
-    List<Task> getByTags(Set<Long> tags);
-    List<Task> getByEmailOrPhone(String email, String phone);
+//    List<Task> getByTags(Set<Long> tags);
+//    List<Task> getByEmailOrPhone(String email, String phone);
     List<Task> getByUserId(Long userId);
 
     Task removeByUserId(Long topicStarterId);

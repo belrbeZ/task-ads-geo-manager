@@ -8,6 +8,7 @@ package com.keeper.model.types;
  * Default Comment
  */
 public enum TaskState {
+    UNKNOWN(-1),
     HIDEN(0),
     OKAY(1),
     CLOSED(2),

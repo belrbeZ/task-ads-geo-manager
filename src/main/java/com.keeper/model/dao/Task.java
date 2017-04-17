@@ -16,6 +16,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -30,70 +31,61 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "createDate")                                    private Timestamp createDate;
+    @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
     @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
     @Column(name = "topicStarterId", nullable = false)              private Long topicStarterId;
     @Column(name = "type")                                          private TaskType type;
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
-    @Column(name = "theme", nullable = false)                                         private String theme;
+    @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
 
-    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY)
-    @Fetch(FetchMode.SELECT)
-        @BatchSize(size = 10)
-//    Join by taskId in userId
-    @JoinColumn(name="user_id", referencedColumnName="id")
-    private List<Picture> pictures;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "taskId")
+    private Picture pictures;
 
-    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
-    @Fetch(FetchMode.SELECT)
-        @BatchSize(size = 10)
-//    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
-    @JoinTable(
-            name = DatabaseResolver.TABLE_GEOMANAGER
-            , joinColumns = {
-            @JoinColumn(name = "task_id", referencedColumnName="id")
-    }
-            , inverseJoinColumns={
-            @JoinColumn(name = "geopoint_id", referencedColumnName="id")
-    }
-    )
-    private GeoPoint originGeoPoint;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @PrimaryKeyJoinColumn(name = "topicStarterId", referencedColumnName = "id")
+//    private User topicStarter;
 
-//    @ManyToMany (mappedBy="task")
-//    //Join by taskId and TagId in tagManager table
-//
-//    private List<Tag> tags;
-
-    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
-        @BatchSize(size = 10)
-    //Join by userId in comment table
-    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name = "taskId", referencedColumnName = "id")
     private List<Comment> comments;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@Join by topicStarteId in User table
-    @JoinColumn(name = "id", referencedColumnName = "topicStarterId")
-    private User topicStarter;
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+//    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+//    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER,
+//               joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
+//               inverseJoinColumns= @JoinColumn(name = "geopointId", referencedColumnName="id") )
+//    private GeoPoint originGeoPoint;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @Fetch(FetchMode.SELECT)
-        @BatchSize(size = 10)
-    //@Join by participant manager usersId and taskId here
-    @JoinTable(
-            name = DatabaseResolver.TABLE_PARTICINATMAANGER
-            , joinColumns = {
-            @JoinColumn(name = "task_id")
-    }
-            , inverseJoinColumns={
-            @JoinColumn(name = "user_id")
-    }
-    )
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER,
+            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
+    private List<Tag> tags;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER,
+               joinColumns = @JoinColumn(name = "taskId", referencedColumnName = "id"),
+               inverseJoinColumns= @JoinColumn(name = "userId", referencedColumnName = "id"))
     private List<User> participants;
 
     private Task() {
-
+        this.id = 0L;
+        this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
+        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MIN);
+        this.topicStarterId = 0L;
+        this.type = TaskType.EMPTY;
+        this.state = TaskState.UNKNOWN;
+        this.theme = "";
+        this.descr = "";
     }
 
     private Task(Long id, TaskType type) {
@@ -150,6 +142,22 @@ public class Task {
 
     public void setDescr(String descr) {
         this.descr = descr;
+    }
+
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    public Timestamp getLastModifyDate() {
+        return lastModifyDate;
+    }
+
+    public void setLastModifyDate(Timestamp lastModifyDate) {
+        this.lastModifyDate = lastModifyDate;
     }
     //</editor-fold>
 }

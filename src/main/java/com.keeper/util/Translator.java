@@ -5,20 +5,17 @@ package com.keeper.util;
  */
 
 import com.keeper.model.SimpleGeoPoint;
-import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.Task;
-import com.keeper.model.dao.User;
+import com.keeper.model.dao.*;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.test.model.dao.UserTest;
-import com.keeper.model.dao.Zone;
 import com.keeper.test.model.dao.ZoneTest;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.test.model.dto.UserTestDTO;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.test.model.dto.ZoneTestDTO;
 
-import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,8 +42,8 @@ public class Translator {
                 ? GeoPointDTO.EMPTY
                 : new GeoPointDTO(
                         model.getId(),
-                        model.getLatitude(),
-                        model.getLongitude(),
+                        model.getLatitude().toString(),
+                        model.getLongitude().toString(),
                         model.getRadius(),
                         model.getInfo());
     }
@@ -63,14 +60,23 @@ public class Translator {
                             model.getPassword(),
                             model.getAbout(),
                             model.getNotified(),
-                            model.getMuteStart().toLocalDateTime(),
-                            model.getMuteEnd().toLocalDateTime());
+                            (model.getMuteStart() != null)
+                                    ? model.getMuteStart().toLocalDateTime()
+                                    : LocalDateTime.MIN,
+                            (model.getMuteEnd() != null)
+                                    ? model.getMuteEnd().toLocalDateTime()
+                                    : LocalDateTime.MIN,
+                            model.getPic(),
+                            convertToDTO(model.getZone()),
+                            model.getRoutes(),
+                            convertGeoToDTO(model.getGeoPoints()),
+                            model.getComments());
     }
 
     public static ZoneDTO convertToDTO(Zone model) {
         return (model == null)
                 ? ZoneDTO.EMPTY
-                : new ZoneDTO(model.getUserId(),
+                : new ZoneDTO(model.getProfileId(),
                             model.getCity(),
                             model.getCountry(),
                             model.getRegisterDate());
@@ -86,8 +92,8 @@ public class Translator {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
 
-    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(List<BigDecimal> latitude,
-                                                                List<BigDecimal> longtitude) {
+    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(List<String> latitude,
+                                                                List<String> longtitude) {
         if(latitude == null || longtitude == null || latitude.size() != longtitude.size())
             return null;
 

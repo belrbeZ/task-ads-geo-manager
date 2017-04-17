@@ -8,9 +8,9 @@ package com.keeper.model.types;
  * Default Comment
  */
 public enum RouteType {
-//    EMPTY(0),
-    COMMON(0),
-    COMPLEX(1);
+    EMPTY(0),
+    COMMON(1),
+    COMPLEX(2);
 
     private final int value;
 
