@@ -67,8 +67,9 @@ public class Translator {
                                     ? model.getMuteEnd().toLocalDateTime()
                                     : LocalDateTime.MIN,
                             model.getPic(),
-                            model.getZone(),
+                            convertToDTO(model.getZone()),
                             model.getRoutes(),
+                            convertGeoToDTO(model.getGeoPoints()),
                             model.getComments());
     }
 

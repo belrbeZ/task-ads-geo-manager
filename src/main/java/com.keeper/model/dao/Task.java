@@ -39,53 +39,43 @@ public class Task {
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
 
-//    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY)
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-////    Join by taskId in userId
-//    @JoinColumn(name="userId", referencedColumnName="id")
-//    private List<Picture> pictures;
-//
-//    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-////    The PrimaryKeyJoinColumn annotation does say that the primary key of the entity is used as the foreign key value to the associated entity.
-//    @JoinTable(
-//            name = DatabaseResolver.TABLE_GEOMANAGER
-//            , joinColumns = {
-//            @JoinColumn(name = "taskId", referencedColumnName="id")
-//    }
-//            , inverseJoinColumns={
-//            @JoinColumn(name = "geopointId", referencedColumnName="id")
-//    }
-//    )
-//    private GeoPoint originGeoPoint;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "taskId")
+    private Picture pictures;
 
-//    @ManyToMany (mappedBy="task")
-//    //Join by taskId and TagId in tagManager table
-//
-//    private List<Tag> tags;
-
-//    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-//    //Join by userId in comment table
-//    @JoinColumn(name = "task_id", referencedColumnName = "id")
-//    private List<Comment> comments;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    //@Join by topicStarteId in User table
-//    @JoinColumn(name = "id", referencedColumnName = "topicStarterId")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @PrimaryKeyJoinColumn(name = "topicStarterId", referencedColumnName = "id")
 //    private User topicStarter;
-//
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name = "taskId", referencedColumnName = "id")
+    private List<Comment> comments;
+
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
-//    //@Join by participant manager usersId and taskId here
-//    @JoinTable( name = DatabaseResolver.TABLE_PARTICINATMAANGER,
-//                joinColumns = { @JoinColumn(name = "taskId") },
-//                inverseJoinColumns={ @JoinColumn(name = "userId") } )
-//    private List<User> participants;
+//    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+//    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER,
+//               joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
+//               inverseJoinColumns= @JoinColumn(name = "geopointId", referencedColumnName="id") )
+//    private GeoPoint originGeoPoint;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER,
+            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
+    private List<Tag> tags;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER,
+               joinColumns = @JoinColumn(name = "taskId", referencedColumnName = "id"),
+               inverseJoinColumns= @JoinColumn(name = "userId", referencedColumnName = "id"))
+    private List<User> participants;
 
     private Task() {
         this.id = 0L;

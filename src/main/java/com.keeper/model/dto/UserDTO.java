@@ -4,10 +4,7 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.model.dao.Comment;
-import com.keeper.model.dao.Picture;
-import com.keeper.model.dao.Route;
-import com.keeper.model.dao.Zone;
+import com.keeper.model.dao.*;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
@@ -34,9 +31,8 @@ public class UserDTO {
     private LocalDateTime muteStart;
     private LocalDateTime muteEnd;
     private Picture     pic;
-    private List<Route> routes;
-    private List<Comment> comments;
-    private Zone zone;
+    private List<GeoPointDTO> geoPoints;
+    private ZoneDTO zone;
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -77,9 +73,11 @@ public class UserDTO {
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
                    boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd,
-                   Picture pic, Zone zone, List<Route> routes, List<Comment> comments) {
+                   Picture pic, ZoneDTO zone, List<Route> routes, List<GeoPointDTO> geoPoints, List<Comment> comments) {
         this(id, type, state, name, email, phone, about, password, isNotified, muteStart, muteEnd);
         this.pic = pic;
+        this.zone = zone;
+        this.geoPoints = geoPoints;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -136,27 +134,36 @@ public class UserDTO {
         this.pic = pic;
     }
 
-    public List<Route> getRoutes() {
-        return routes;
+//    public List<Route> getRoutes() {
+//        return routes;
+//    }
+//
+//    public void setRoutes(List<Route> routes) {
+//        this.routes = routes;
+//    }
+//
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
+
+
+    public List<GeoPointDTO> getGeoPoints() {
+        return geoPoints;
     }
 
-    public void setRoutes(List<Route> routes) {
-        this.routes = routes;
+    public void setGeoPoints(List<GeoPointDTO> geoPoints) {
+        this.geoPoints = geoPoints;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Zone getZone() {
+    public ZoneDTO getZone() {
         return zone;
     }
 
-    public void setZone(Zone zone) {
+    public void setZone(ZoneDTO zone) {
         this.zone = zone;
     }
     //</editor-fold>

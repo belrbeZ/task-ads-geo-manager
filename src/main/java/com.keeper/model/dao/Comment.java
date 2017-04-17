@@ -34,9 +34,9 @@ public class Comment {
     @Column(name = "longtitude")                            private String longtitude;
     @Column(name = "latitude")                              private String latitude;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name="id", referencedColumnName="id")
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name="userId", referencedColumnName = "id", insertable = false, updatable = false)
+    private User user;
 
     private Comment() {
         this.id = 0L;

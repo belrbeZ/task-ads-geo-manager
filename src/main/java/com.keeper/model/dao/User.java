@@ -45,57 +45,42 @@ public class User {
     @Column(name = "startMuteTime")                             private Timestamp muteStart;
     @Column(name = "endMuteTime")                               private Timestamp muteEnd;
 
-    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
     private Zone zone;
 
-    @OneToOne(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
     private Picture pic;
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//, orphanRemoval=true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="userId", referencedColumnName="id")
     private List<Route> routes;
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId", referencedColumnName="id")
     private List<Comment> comments;
-//
-//    //GeoPo must get only if we need it
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-//    @JoinTable(
-//            name = DatabaseResolver.TABLE_GEOMANAGER
-//            , joinColumns = {
-//            @JoinColumn(name = "userId", referencedColumnName="id")
-//    }
-//            , inverseJoinColumns={
-//            @JoinColumn(name = "geopointId", referencedColumnName="id")
-//    }
-//    )
-//    //Join on GeoManger userId -> geoPointsId
-//    private List<GeoPoint> geoPoints;
-//
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    //@Join by participantManager userId - TaskId
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-//    @JoinTable(
-//            name = DatabaseResolver.TABLE_PARTICINATMAANGER
-//            , joinColumns = {
-//            @JoinColumn(name = "userId", referencedColumnName="id")
-//    }
-//            , inverseJoinColumns={
-//            @JoinColumn(name = "taskId", referencedColumnName="id")
-//    }
-//    )
-//    private List<Task> participantedTasks;
 
+    // THIS TYPE OF SELECT VIA DIRECT JOIN DOES NOT WORK
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER,
+               joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "geopointId", referencedColumnName = "id"))
+    private List<GeoPoint> geoPoints;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER,
+               joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
+    private List<Task> participantedTasks;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -258,6 +243,22 @@ public class User {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public List<GeoPoint> getGeoPoints() {
+        return geoPoints;
+    }
+
+    public void setGeoPoints(List<GeoPoint> geoPoints) {
+        this.geoPoints = geoPoints;
+    }
+
+    public List<Task> getParticipantedTasks() {
+        return participantedTasks;
+    }
+
+    public void setParticipantedTasks(List<Task> participantedTasks) {
+        this.participantedTasks = participantedTasks;
     }
 
     //</editor-fold>
