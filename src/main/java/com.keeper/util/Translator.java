@@ -18,6 +18,7 @@ import com.keeper.test.model.dto.UserTestDTO;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.test.model.dto.ZoneTestDTO;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,7 +70,7 @@ public class Translator {
     public static ZoneDTO convertToDTO(Zone model) {
         return (model == null)
                 ? ZoneDTO.EMPTY
-                : new ZoneDTO(model.getProfileId(),
+                : new ZoneDTO(model.getUserId(),
                             model.getCity(),
                             model.getCountry(),
                             model.getRegisterDate());
@@ -85,8 +86,8 @@ public class Translator {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
 
-    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(List<String> latitude,
-                                                                List<String> longtitude) {
+    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(List<BigDecimal> latitude,
+                                                                List<BigDecimal> longtitude) {
         if(latitude == null || longtitude == null || latitude.size() != longtitude.size())
             return null;
 

@@ -39,7 +39,7 @@ public class Comment {
 //
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     //Join on userId here to User
-    @JoinColumn(name="id", referencedColumnName="userId")
+    @JoinColumn(name="user_id", referencedColumnName="id")
     private User user;
 
     private Comment() { }
@@ -89,12 +89,18 @@ public class Comment {
         return new SimpleGeoPoint(longtitude, latitude);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     public String getMessage() {
         return message;
     }
+
+    public BigDecimal getLongtitude() {
+        return longtitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+
     //</editor-fold>
 }

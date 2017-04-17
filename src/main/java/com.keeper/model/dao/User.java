@@ -45,7 +45,7 @@ public class User {
     @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
     //Join on useirId column in Zone.class
 //    @PrimaryKeyJoinColumns({
-            @PrimaryKeyJoinColumn(name = "userId", referencedColumnName = "id")
+            @PrimaryKeyJoinColumn(name = "user_id", referencedColumnName = "id")
 //    ,
 //            @PrimaryKeyJoinColumn()
 //    })
@@ -53,7 +53,7 @@ public class User {
 
     @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
     //Join on column userId in Pictures table
-    @JoinColumn(name="userId", referencedColumnName="id")
+    @JoinColumn(name="user_id", referencedColumnName="id")
     private Picture pic;
 
     //Routes must get only if we need it
@@ -61,7 +61,7 @@ public class User {
     @Fetch(FetchMode.SELECT)
         @BatchSize(size = 10)
     //Join on userId in Routes table
-    @JoinColumn(name="userId", referencedColumnName="id")
+    @JoinColumn(name="user_id", referencedColumnName="id")
     private List<Route> routes;
 
     //GeoPo must get only if we need it
@@ -71,10 +71,10 @@ public class User {
     @JoinTable(
             name = DatabaseResolver.TABLE_GEOMANAGER
             , joinColumns = {
-            @JoinColumn(name = "userId", referencedColumnName="id")
+            @JoinColumn(name = "user_id", referencedColumnName="id")
     }
             , inverseJoinColumns={
-            @JoinColumn(name = "geopointId", referencedColumnName="id")
+            @JoinColumn(name = "geopoint_id", referencedColumnName="id")
     }
     )
     //Join on GeoManger userId -> geoPointsId
@@ -87,10 +87,10 @@ public class User {
     @JoinTable(
             name = DatabaseResolver.TABLE_PARTICINATMAANGER
             , joinColumns = {
-            @JoinColumn(name = "userId", referencedColumnName="id")
+            @JoinColumn(name = "user_id", referencedColumnName="id")
     }
             , inverseJoinColumns={
-            @JoinColumn(name = "taskId", referencedColumnName="id")
+            @JoinColumn(name = "task_id", referencedColumnName="id")
     }
     )
     private List<Task> participantedTasks;
@@ -99,7 +99,7 @@ public class User {
     @Fetch(FetchMode.SELECT)
         @BatchSize(size = 10)
     //Join on column userId in Comment.class
-    @JoinColumn(name = "userId", referencedColumnName="id")
+    @JoinColumn(name = "user_id", referencedColumnName="id")
     private List<Comment> comments;
 
     private User() {

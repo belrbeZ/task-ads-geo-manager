@@ -87,7 +87,11 @@ public class GeoPoint {
         this.info = info;
     }
 
-//    public Task getTask() {
+    public static GeoPoint getEMPTY() {
+        return EMPTY;
+    }
+
+    //    public Task getTask() {
 //        return task;
 //    }
 //

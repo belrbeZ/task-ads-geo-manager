@@ -19,7 +19,7 @@ public class DatabaseResolver {
     public static final String TABLE_TASKS              = "tasks";
     public static final String TABLE_GEOPOINTS          = "geoPoints";
     public static final String TABLE_ROUTES             = "routes";
-    public static final String TABLE_PICS               = "pics";
+    public static final String TABLE_PICS               = "pictures";
     public static final String TABLE_TAGS               = "tags";
     public static final String TABLE_COMMENTS           = "comments";
     public static final String TABLE_ZONES              = "zones";

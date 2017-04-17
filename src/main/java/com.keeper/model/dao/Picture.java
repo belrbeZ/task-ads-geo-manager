@@ -11,6 +11,7 @@ package com.keeper.model.dao;
 import com.keeper.model.types.PicType;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
+import com.keeper.util.dao.DatabaseResolver;
 
 import javax.persistence.*;
 
@@ -18,8 +19,8 @@ import javax.persistence.*;
 /**
  * Picture model
  */
-//@Entity
-//@Table(name = DatabaseResolver.TABLE_PICS, schema = DatabaseResolver.SCHEMA)
+@Entity
+@Table(name = DatabaseResolver.TABLE_PICS, schema = DatabaseResolver.SCHEMA)
 public class Picture {
 
     public static final Picture empty = new Picture();
@@ -83,5 +84,18 @@ public class Picture {
     public void setPic(String pic) {
         this.pic = pic;
     }
+
+    public static Picture getEmpty() {
+        return empty;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     //</editor-fold>
 }

@@ -21,13 +21,13 @@ public class Zone {
     public static final Zone EMPTY = new Zone((long)UserType.EMPTY.getValue());
 
     @Id
-    @Column(name = "profileId", unique = true, nullable = false)    private Long profileId;
+    @Column(name = "userId", unique = true, nullable = false)    private Long userId;
     @Column(name = "city")                                          private String city;
     @Column(name = "country",       nullable = false)               private String country;
     @Column(name = "registerDate",  nullable = false)               private Timestamp registerDate;
 
     private Zone() {
-        this.profileId         = (long) UserType.UNKNOWN.getValue();
+        this.userId         = (long) UserType.UNKNOWN.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
@@ -35,15 +35,15 @@ public class Zone {
 
     private Zone(Long id) {
         super();
-        this.profileId = id;
+        this.userId = id;
     }
 
-    public Zone(Long profileId, String city, String country) throws NullPointerException {
+    public Zone(Long userId, String city, String country) throws NullPointerException {
 
-        if(profileId == null)
+        if(userId == null)
             throw new NullPointerException("USER_ID");
 
-        this.profileId     = profileId;
+        this.userId     = userId;
         this.city       = city;
         this.country    = country;
         this.registerDate = Timestamp.valueOf(LocalDateTime.now());
@@ -51,8 +51,8 @@ public class Zone {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Long getProfileId() {
-        return profileId;
+    public Long getUserId() {
+        return userId;
     }
 
     public String getCity() {
@@ -75,6 +75,8 @@ public class Zone {
         return registerDate;
     }
 
+    
+    
     //</editor-fold>
 
     @Override
@@ -84,11 +86,11 @@ public class Zone {
 
         Zone zoneTest = (Zone) o;
 
-        return profileId.equals(zoneTest.profileId);
+        return userId.equals(zoneTest.userId);
     }
 
     @Override
     public int hashCode() {
-        return profileId.hashCode();
+        return userId.hashCode();
     }
 }

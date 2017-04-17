@@ -30,19 +30,19 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
+    @Column(name = "createDate")                                    private Timestamp createDate;
     @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
     @Column(name = "topicStarterId", nullable = false)              private Long topicStarterId;
     @Column(name = "type")                                          private TaskType type;
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
-    @Column(name = "theme")                                         private String theme;
+    @Column(name = "theme", nullable = false)                                         private String theme;
     @Column(name = "descr")                                         private String descr;
 
     @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SELECT)
         @BatchSize(size = 10)
 //    Join by taskId in userId
-    @JoinColumn(name="userId", referencedColumnName="id")
+    @JoinColumn(name="user_id", referencedColumnName="id")
     private List<Picture> pictures;
 
     @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
@@ -52,10 +52,10 @@ public class Task {
     @JoinTable(
             name = DatabaseResolver.TABLE_GEOMANAGER
             , joinColumns = {
-            @JoinColumn(name = "taskId", referencedColumnName="id")
+            @JoinColumn(name = "task_id", referencedColumnName="id")
     }
             , inverseJoinColumns={
-            @JoinColumn(name = "geopointId", referencedColumnName="id")
+            @JoinColumn(name = "geopoint_id", referencedColumnName="id")
     }
     )
     private GeoPoint originGeoPoint;
@@ -84,10 +84,10 @@ public class Task {
     @JoinTable(
             name = DatabaseResolver.TABLE_PARTICINATMAANGER
             , joinColumns = {
-            @JoinColumn(name = "taskId")
+            @JoinColumn(name = "task_id")
     }
             , inverseJoinColumns={
-            @JoinColumn(name = "userId")
+            @JoinColumn(name = "user_id")
     }
     )
     private List<User> participants;

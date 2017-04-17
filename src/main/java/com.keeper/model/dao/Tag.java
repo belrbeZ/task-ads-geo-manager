@@ -22,7 +22,7 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long taskId;
-    @Column(name = "value")                                 private String value;
+    @Column(name = "tag")                                 private String tag;
     @Column(name = "counter")                               private Long counter;
 
 //    @ManyToMany(fetch=FetchType.LAZY)
@@ -31,13 +31,13 @@ public class Tag {
 
     private Tag() {
         this.taskId = -1L;
-        this.value = "";
+        this.tag = "";
         this.counter = 0L;
     }
 
-    public Tag(Long taskId, String value) {
+    public Tag(Long taskId, String tag) {
         this.taskId = taskId;
-        this.value = value;
+        this.tag = tag;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -46,12 +46,12 @@ public class Tag {
         return taskId;
     }
 
-    public String getValue() {
-        return value;
+    public String getTag() {
+        return tag;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public Long getCounter() {
@@ -78,11 +78,11 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        return value != null ? value.equals(tag.value) : tag.value == null;
+        return tag != null ? tag.equals(tag.tag) : tag.tag == null;
     }
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        return tag != null ? tag.hashCode() : 0;
     }
 }

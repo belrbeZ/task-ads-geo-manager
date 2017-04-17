@@ -87,5 +87,13 @@ public class Route {
         longtitudes.add(geoPoint.getLongtitude());
     }
 
+    public void setType(RouteType type) {
+        this.type = type;
+    }
+
+    public static Route getEmpty() {
+        return empty;
+    }
+
     //</editor-fold>
 }
