@@ -28,6 +28,7 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
+    @Column(name = "userId", nullable = false)              private Long userId;
     @Column(name = "type", nullable = false)                private RouteType type;
     @Column(name = "info")                                  private String info;
     @Type(type = "com.keeper.util.dao.StringArrayUserType")

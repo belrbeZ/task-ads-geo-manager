@@ -5,19 +5,17 @@ package com.keeper.util;
  */
 
 import com.keeper.model.SimpleGeoPoint;
-import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.Task;
-import com.keeper.model.dao.User;
+import com.keeper.model.dao.*;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.test.model.dao.UserTest;
-import com.keeper.model.dao.Zone;
 import com.keeper.test.model.dao.ZoneTest;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.test.model.dto.UserTestDTO;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.test.model.dto.ZoneTestDTO;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,11 +62,14 @@ public class Translator {
                             model.getNotified(),
                             (model.getMuteStart() != null)
                                     ? model.getMuteStart().toLocalDateTime()
-                                    : null,
+                                    : LocalDateTime.MIN,
                             (model.getMuteEnd() != null)
                                     ? model.getMuteEnd().toLocalDateTime()
-                                    : null,
-                            model.getPic());
+                                    : LocalDateTime.MIN,
+                            model.getPic(),
+                            model.getZone(),
+                            model.getRoutes(),
+                            model.getComments());
     }
 
     public static ZoneDTO convertToDTO(Zone model) {

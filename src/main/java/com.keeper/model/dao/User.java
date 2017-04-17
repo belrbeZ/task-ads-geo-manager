@@ -18,7 +18,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Default Comment
@@ -42,29 +45,25 @@ public class User {
     @Column(name = "startMuteTime")                             private Timestamp muteStart;
     @Column(name = "endMuteTime")                               private Timestamp muteEnd;
 
-//    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
-//    //Join on useirId column in Zone.class
-////    @PrimaryKeyJoinColumns({
-//            @PrimaryKeyJoinColumn(name = "userId", referencedColumnName = "id")
-////    ,
-////            @PrimaryKeyJoinColumn()
-////    })
-//    private Zone zone;
+    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
+    private Zone zone;
 
-//    @OneToOne(orphanRemoval=true, fetch = FetchType.LAZY)
-//    //Join on column userId in Pictures table
-//    @JoinColumn(name="userId", referencedColumnName="id")
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
     private Picture pic;
-//
-//    //Routes must get only if we need it
-//    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY,  cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-//    //Join on userId in Routes table
-//    @JoinColumn(name="userId", referencedColumnName="id")
-//    private List<Route> routes;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//, orphanRemoval=true)
+    @JoinColumn(name="userId", referencedColumnName="id")
+    private List<Route> routes;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)//, orphanRemoval = true)
+    @JoinColumn(name = "userId", referencedColumnName="id")
+    private List<Comment> comments;
 //
 //    //GeoPo must get only if we need it
 //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -97,12 +96,6 @@ public class User {
 //    )
 //    private List<Task> participantedTasks;
 
-//    @OneToMany(orphanRemoval=true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @Fetch(FetchMode.SELECT)
-//        @BatchSize(size = 10)
-//    //Join on column userId in Comment.class
-//    @JoinColumn(name = "userId", referencedColumnName="id")
-//    private List<Comment> comments;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -243,13 +236,29 @@ public class User {
         this.pic = pic;
     }
 
-    //    public Zone getZone() {
-//        return zone;
-//    }
-//
-//    public void setZone(Zone zone) {
-//        this.zone = zone;
-//    }
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public List<Route> getRoutes() {
+        return (routes == null) ? Collections.emptyList() : routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
+    public List<Comment> getComments() {
+        return (comments == null) ? Collections.emptyList() : comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     //</editor-fold>
 

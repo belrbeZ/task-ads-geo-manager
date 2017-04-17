@@ -31,8 +31,8 @@ public class Comment {
     @Column(name = "createDate",    nullable = false)       private Timestamp createDate;
     @Column(name = "lastModifyDate")                        private Timestamp lastModifyDate;
     @Column(name = "message",       nullable = false)       private String message;
-    @Column(name = "longtitude")                            private Double longtitude;
-    @Column(name = "latitude")                              private Double latitude;
+    @Column(name = "longtitude")                            private String longtitude;
+    @Column(name = "latitude")                              private String latitude;
 
 //    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinColumn(name="id", referencedColumnName="id")
@@ -45,8 +45,8 @@ public class Comment {
         this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
         this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MAX);
         this.message = "";
-        this.longtitude = 0.;
-        this.latitude = 0.;
+        this.longtitude = "";
+        this.latitude = "";
     }
 
     public Comment(Long taskId, Long userId, LocalDateTime createDate,
@@ -55,8 +55,8 @@ public class Comment {
         this.userId     = userId;
         this.createDate = Timestamp.valueOf(createDate);
         this.message    = message;
-        this.longtitude = new Double(geoPoint.getLongtitude());
-        this.latitude   = new Double(geoPoint.getLatitude());
+        this.longtitude = geoPoint.getLongtitude();
+        this.latitude   = geoPoint.getLatitude();
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -86,12 +86,12 @@ public class Comment {
     }
 
     public void setGeoPoint(SimpleGeoPoint geoPoint) {
-        this.latitude = new Double(geoPoint.getLatitude());
-        this.longtitude = new Double(geoPoint.getLongtitude());
+        this.latitude = geoPoint.getLatitude();
+        this.longtitude = geoPoint.getLongtitude();
     }
 
     public SimpleGeoPoint getGeoPoint() {
-        return new SimpleGeoPoint(longtitude.toString(), latitude.toString());
+        return new SimpleGeoPoint(longtitude, latitude);
     }
 
     public void setMessage(String message) {
@@ -102,19 +102,19 @@ public class Comment {
         return message;
     }
 
-    public Double getLongtitude() {
+    public String getLongtitude() {
         return longtitude;
     }
 
-    public void setLongtitude(Double longtitude) {
+    public void setLongtitude(String longtitude) {
         this.longtitude = longtitude;
     }
 
-    public Double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
     //</editor-fold>

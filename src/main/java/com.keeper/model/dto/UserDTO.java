@@ -4,12 +4,16 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 6.04.2017.
  */
 
+import com.keeper.model.dao.Comment;
 import com.keeper.model.dao.Picture;
+import com.keeper.model.dao.Route;
+import com.keeper.model.dao.Zone;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Default Comment
@@ -30,6 +34,9 @@ public class UserDTO {
     private LocalDateTime muteStart;
     private LocalDateTime muteEnd;
     private Picture     pic;
+    private List<Route> routes;
+    private List<Comment> comments;
+    private Zone zone;
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -69,7 +76,8 @@ public class UserDTO {
 
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
-                   boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd, Picture pic) {
+                   boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd,
+                   Picture pic, Zone zone, List<Route> routes, List<Comment> comments) {
         this(id, type, state, name, email, phone, about, password, isNotified, muteStart, muteEnd);
         this.pic = pic;
     }
@@ -126,6 +134,30 @@ public class UserDTO {
 
     public void setPic(Picture pic) {
         this.pic = pic;
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
     }
     //</editor-fold>
 
