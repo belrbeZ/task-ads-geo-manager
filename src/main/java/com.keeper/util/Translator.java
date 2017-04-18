@@ -6,13 +6,10 @@ package com.keeper.util;
 
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.*;
-import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.dto.*;
 import com.keeper.test.model.dao.UserTest;
 import com.keeper.test.model.dao.ZoneTest;
-import com.keeper.model.dto.UserDTO;
 import com.keeper.test.model.dto.UserTestDTO;
-import com.keeper.model.dto.ZoneDTO;
 import com.keeper.test.model.dto.ZoneTestDTO;
 
 import java.time.LocalDateTime;
@@ -34,7 +31,11 @@ public class Translator {
                         model.getType(),
                         model.getState(),
                         model.getTheme(),
-                        model.getDescr());
+                        model.getDescr(),
+                convertUsersToDTO(model.getParticipants()),
+                convertCommentsToDTO(model.getComments()),
+                convertTagsToDTO(model.getTags()),
+                convertToDTO(model.getPicture()));
     }
 
     public static GeoPointDTO convertToDTO(GeoPoint model) {
@@ -82,7 +83,56 @@ public class Translator {
                             model.getRegisterDate());
     }
 
+    private static PictureDTO convertToDTO(Picture model) {
+        return (model == null)
+                ? PictureDTO.EMPTY
+                : new PictureDTO(
+                model.getUserId(),
+                model.getTaskId(),
+                model.getPic(),
+                model.getInfo()
+                );
+    }
+
+    private static CommentDTO convertToDTO(Comment model) {
+        return (model == null)
+                ? CommentDTO.EMPTY
+                : new CommentDTO(
+                model.getTaskId(),
+                model.getUserId(),
+                model.getCreateDate(),
+                model.getLastModifyDate(),
+                model.getMessage(),
+                new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
+        );
+    }
+
+    private static TagDTO convertToDTO(Tag model) {
+        return (model == null)
+                ? TagDTO.EMPTY
+                : new TagDTO(
+                model.getTaskId(),
+                model.getValue(),
+                model.getCounter()
+        );
+    }
     //<editor-fold desc="Lists">
+    public static List<PictureDTO> convertPicturessToDTO (List<Picture> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
+
+
+    public static List<CommentDTO> convertCommentsToDTO (List<Comment> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
+
+    public static List<TagDTO> convertTagsToDTO (List<Tag> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
+
+    public static List<UserDTO> convertUsersToDTO (List<User> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
 
     public static List<TaskDTO> convertTasksToDTO(List<Task> models) {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
@@ -172,5 +222,7 @@ public class Translator {
                 model.getRadius(),
                 model.getInfo());
     }
+
+
     //</editor-fold>
 }
