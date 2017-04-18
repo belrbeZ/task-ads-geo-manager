@@ -4,7 +4,7 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.dto.*;
 import com.keeper.service.impl.TaskRepoService;
 import com.keeper.util.Converter;
 import com.keeper.util.Translator;
@@ -32,6 +32,26 @@ public class TaskRestController {
     @Autowired
     public TaskRestController(TaskRepoService repoService) {
         this.repoService = repoService;
+    }
+
+    @RequestMapping(value = PATH+"/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDTO>> getParticipants(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getParticipants(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH+"/tags", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TagDTO>> getTags(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getTags(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH+"/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getComments(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH+"/picture", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PictureDTO> getPictures(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getPicture(), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
