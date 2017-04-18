@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -29,27 +31,22 @@ public class GeoPointRepoService extends ModelRepoService<GeoPoint> implements I
     }
 
     @Override
-    public List<GeoPoint> addGeoPoints(Long ownerId, List<GeoPoint> geoPoints) {
-        return null;
+    public GeoPoint getEmpty() {
+        return GeoPoint.EMPTY;
     }
 
     @Override
-    public List<GeoPoint> getGeoPoints(Long ownerId, List<Long> geoPointsIds) {
-        return null;
+    public List<GeoPoint> getEmptyList() {
+        return Collections.emptyList();
     }
 
     @Override
-    public List<GeoPoint> getAllGeoPoints() {
-        return null;
+    public List<GeoPoint> getByUserId(Long ownerId) {
+        return getEmptyList();
     }
 
     @Override
-    public List<GeoPoint> updateGeoPoints(Long ownerId, List<GeoPoint> geoPoints) {
-        return null;
-    }
-
-    @Override
-    public void removeGeoPoints(Long ownerId, List<Long> geoPointsIds) {
-
+    public List<GeoPoint> updateGeoPoints(List<GeoPoint> geoPoints) {
+        return getEmptyList();
     }
 }

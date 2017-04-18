@@ -25,6 +25,7 @@ import java.util.List;
  */
 @RestController
 public class TaskRestController {
+
     private final String PATH = ApiResolver.REST_TASK;
 
     private final TaskRepoService repoService;
@@ -34,24 +35,19 @@ public class TaskRestController {
         this.repoService = repoService;
     }
 
-    @RequestMapping(value = PATH+"/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getParticipants(@PathVariable("id") Long id) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getParticipants(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"/tags", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TagDTO>> getTags(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getTags(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH+"/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("id") Long id) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getComments(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"/picture", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PictureDTO> getPictures(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getPicture(), HttpStatus.OK);
+    @RequestMapping(value = PATH + "/tags", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TaskDTO>> getTasksByTags(@PathVariable("tags") List<String> tags) {
+        return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByTags(tags)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

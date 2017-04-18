@@ -48,19 +48,19 @@ public class TaskRepoService extends ModelRepoService<Task> implements ITaskServ
                 : getEmptyList();
     }
 
-//    @Override
-//    public List<Task> getByTags(Set<Long> tags) {
-//        return (tags != null && !tags.isEmpty())
-//                ? repository.findAllByTags(tags)
-//                : getEmptyList();
-//    }
+    @Override
+    public List<Task> getByTags(List<String> tags) {
+        return (tags != null && !tags.isEmpty())
+                ? repository.findAllByTags(tags)
+                : getEmptyList();
+    }
 
-//    @Override
-//    public List<Task> getByEmailOrPhone(String email, String phone) {
-//        return (email != null && !email.isEmpty())
-//                ? repository.findAllByEmail(email)
-//                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmptyList();
-//    }
+    @Override
+    public List<Task> getByEmailOrPhone(String email, String phone) {
+        return (email != null && !email.isEmpty())
+                ? repository.findAllByEmail(email)
+                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmptyList();
+    }
 
     @Override
     public List<Task> getByUserId(Long userId) {

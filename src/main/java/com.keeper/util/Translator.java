@@ -21,32 +21,31 @@ import java.util.stream.Collectors;
  * Translate and full fill DTO object to DAO object and revert
  */
 public class Translator {
+
     //<editor-fold desc="toDTO">
 
     public static TaskDTO convertToDTO(Task model) {
         return (model == null)
                 ? TaskDTO.EMPTY
-                : new TaskDTO(
-                        model.getTopicStarterId(),
-                        model.getType(),
-                        model.getState(),
-                        model.getTheme(),
-                        model.getDescr(),
-                convertUsersToDTO(model.getParticipants()),
-                convertCommentsToDTO(model.getComments()),
-                convertTagsToDTO(model.getTags()),
-                convertToDTO(model.getPicture()));
+                : new TaskDTO(model.getTopicStarterId(),
+                            model.getType(),
+                            model.getState(),
+                            model.getTheme(),
+                            model.getDescr(),
+                            convertUsersToDTO(model.getParticipants()),
+                            convertCommentsToDTO(model.getComments()),
+                            convertTagsToDTO(model.getTags()),
+                            convertToDTO(model.getPicture()));
     }
 
     public static GeoPointDTO convertToDTO(GeoPoint model) {
         return (model == null)
                 ? GeoPointDTO.EMPTY
-                : new GeoPointDTO(
-                        model.getId(),
-                        model.getLatitude().toString(),
-                        model.getLongitude().toString(),
-                        model.getRadius(),
-                        model.getInfo());
+                : new GeoPointDTO(model.getId(),
+                                model.getLatitude().toString(),
+                                model.getLongitude().toString(),
+                                model.getRadius(),
+                                model.getInfo());
     }
 
     public static UserDTO convertToDTO(User model) {
@@ -83,44 +82,51 @@ public class Translator {
                             model.getRegisterDate());
     }
 
-    private static PictureDTO convertToDTO(Picture model) {
+    public static PictureDTO convertToDTO(Picture model) {
         return (model == null)
                 ? PictureDTO.EMPTY
-                : new PictureDTO(
-                model.getUserId(),
-                model.getTaskId(),
-                model.getPic(),
-                model.getInfo()
-                );
+                : new PictureDTO(model.getUserId(),
+                                model.getTaskId(),
+                                model.getPic(),
+                                model.getInfo());
     }
 
-    private static CommentDTO convertToDTO(Comment model) {
+    public static CommentDTO convertToDTO(Comment model) {
         return (model == null)
                 ? CommentDTO.EMPTY
-                : new CommentDTO(
-                model.getTaskId(),
-                model.getUserId(),
-                model.getCreateDate(),
-                model.getLastModifyDate(),
-                model.getMessage(),
-                new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
+                : new CommentDTO(model.getTaskId(),
+                                model.getUserId(),
+                                model.getCreateDate(),
+                                model.getLastModifyDate(),
+                                model.getMessage(),
+                                new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
         );
     }
 
-    private static TagDTO convertToDTO(Tag model) {
+    public static RouteDTO convertToDTO(Route model) {
+        return (model == null)
+                ? RouteDTO.EMPTY
+                : new RouteDTO(model.getId(),
+                                model.getUserId(),
+                                model.getType(),
+                                model.getInfo(),
+                                model.getLatitudes(),
+                                model.getLongtitudes());
+    }
+
+    public static TagDTO convertToDTO(Tag model) {
         return (model == null)
                 ? TagDTO.EMPTY
-                : new TagDTO(
-                model.getTaskId(),
-                model.getValue(),
-                model.getCounter()
+                : new TagDTO(model.getTaskId(),
+                            model.getValue(),
+                            model.getCounter()
         );
     }
+
     //<editor-fold desc="Lists">
     public static List<PictureDTO> convertPicturessToDTO (List<Picture> models) {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
-
 
     public static List<CommentDTO> convertCommentsToDTO (List<Comment> models) {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
@@ -142,15 +148,19 @@ public class Translator {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
 
-    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(List<String> latitude,
-                                                                List<String> longtitude) {
-        if(latitude == null || longtitude == null || latitude.size() != longtitude.size())
+    public static List<RouteDTO> convertRoutesToDTO(List<Route> models) {
+        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    }
+
+    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(String[] latitude,
+                                                                String[] longtitude) {
+        if(latitude == null || longtitude == null || latitude.length != longtitude.length)
             return null;
 
         List<SimpleGeoPoint> geoPoints = new ArrayList<>();
 
-        for(int i = 0; i < latitude.size(); i ++)
-            geoPoints.add(new SimpleGeoPoint(latitude.get(i), longtitude.get(i)));
+        for(int i = 0; i < latitude.length; i ++)
+            geoPoints.add(new SimpleGeoPoint(latitude[i], longtitude[i]));
 
         return geoPoints;
     }
@@ -205,24 +215,29 @@ public class Translator {
     public static Task convertToDAO(TaskDTO model) {
         return (model == null)
                 ? Task.EMPTY
-                : new Task(
-                model.getTopicStarterId(),
-                model.getType(),
-                model.getState(),
-                model.getTheme(),
-                model.getDescr());
+                : new Task(model.getTopicStarterId(),
+                            model.getType(),
+                            model.getState(),
+                            model.getTheme(),
+                            model.getDescr());
     }
 
     public static GeoPoint convertToDAO(GeoPointDTO model) {
         return (model == null)
                 ? GeoPoint.EMPTY
-                : new GeoPoint(
-                model.getLatitude(),
-                model.getLongitude(),
-                model.getRadius(),
-                model.getInfo());
+                : new GeoPoint(model.getLatitude(),
+                                model.getLongitude(),
+                                model.getRadius(),
+                                model.getInfo());
     }
 
+    public static Route convertToDAO(RouteDTO model) {
+        return (model == null)
+                ? Route.EMPTY
+                : new Route(model.getType(),
+                            model.getInfo(),
+                            model.getPoints());
+    }
 
     //</editor-fold>
 }

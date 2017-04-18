@@ -21,13 +21,13 @@ import java.util.Set;
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    //List<Task> findAllByTags(@Param("tagId") Set<Long> tagsId);
+    List<Task> findAllByTags(@Param("tagId") List<String> tagsId);
 
     List<Task> findAllByTopicStarterId(@Param("userId") Long userId);
 
-//    List<Task> findAllByEmail(@Param("email") String email);
-//
-//    List<Task> findAllByPhone(@Param("phone") String email);
+    List<Task> findAllByEmail(@Param("email") String email);
+
+    List<Task> findAllByPhone(@Param("phone") String email);
 
     List<Task> findAllByTheme(@Param("theme") String theme);
 

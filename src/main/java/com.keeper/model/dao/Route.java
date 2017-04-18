@@ -87,6 +87,10 @@ public class Route {
         return type;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public String getInfo() {
         return info;
     }
