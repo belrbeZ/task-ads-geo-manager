@@ -41,7 +41,7 @@ public class Task {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "taskId")
-    private Picture pictures;
+    private Picture picture;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @PrimaryKeyJoinColumn(name = "topicStarterId", referencedColumnName = "id")
@@ -159,5 +159,22 @@ public class Task {
     public void setLastModifyDate(Timestamp lastModifyDate) {
         this.lastModifyDate = lastModifyDate;
     }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
     //</editor-fold>
 }

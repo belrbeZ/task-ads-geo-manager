@@ -141,7 +141,7 @@ public class Route {
     }
 
     public static Route getEmpty() {
-        return empty;
+        return EMPTY;
     }
 
     //</editor-fold>
