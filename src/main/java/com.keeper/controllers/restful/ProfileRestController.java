@@ -36,6 +36,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
+
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody UserDTO model, BindingResult result) {
         repoService.update(Translator.convertToDAO(model));

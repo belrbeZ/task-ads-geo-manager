@@ -74,8 +74,8 @@ public class User {
                inverseJoinColumns = @JoinColumn(name = "geopointId", referencedColumnName = "id"))
     private List<GeoPoint> geoPoints;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER,
                joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),

@@ -24,12 +24,12 @@ public class CommonWebController {
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ModelAndView errorGet(final Throwable throwable, final Model model) {
+    public ModelAndView errorGet(final Throwable throwable, /*final*/ Model model) {
         ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_ERROR);
-
+modelAndView.setStatus(HttpStatus.BAD_REQUEST);
         LOGGER.error("Exception during execution of SpringSecurity application", throwable);
         String errorMessage = (throwable != null) ? throwable.getMessage() : "Unknown error";
-        model.addAttribute("err", errorMessage);
+        model.addAttribute("errorMessage", errorMessage);
 
         return modelAndView;
     }

@@ -50,9 +50,14 @@ public class TaskRestController {
         return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByTags(tags)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TaskDTO>> get(@PathVariable("id") Long userId) {
+    @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TaskDTO>> getByUserId(@PathVariable("userId") Long userId) {
         return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDTO> get(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
@@ -67,9 +72,16 @@ public class TaskRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("id") Long userId) {
+    @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteByUserId(@PathVariable("userId") Long userId) {
         repoService.removeByUserId(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+        repoService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
