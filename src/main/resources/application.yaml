@@ -14,10 +14,19 @@ spring:
     username: postgres
     password: myRea11ySecRett0Pass
     platform: postgres
+    tomcat:
+      max-active: 120
+
   resources:
-    static-locations: classpath:/resources/static
+    static-locations: classpath:/resources/static, classpath:/META-INF/resources/
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  redis:
+    pool:
+      max-active: 120
+
+
+
 
 logging:
   level: error
