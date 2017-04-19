@@ -36,12 +36,12 @@ public class TaskRestController {
     }
 
     @RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> getParticipants(@PathVariable("id") Long id) {
+    public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getParticipants(), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("id") Long id) {
+    public ResponseEntity<List<CommentDTO>> getComments(@RequestParam("id") Long id) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getComments(), HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class TaskRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDTO> get(@PathVariable("id") Long id) {
+    public ResponseEntity<TaskDTO> get(@RequestParam("id") Long id) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)), HttpStatus.OK);
     }
 
@@ -73,13 +73,13 @@ public class TaskRestController {
     }
 
     @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteByUserId(@PathVariable("userId") Long userId) {
+    public ResponseEntity<String> deleteByUserId(@RequestParam("userId") Long userId) {
         repoService.removeByUserId(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<String> delete(@RequestParam("id") Long id) {
         repoService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

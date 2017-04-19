@@ -33,7 +33,7 @@ public class ZoneRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ZoneDTO> get(@PathVariable("userId") Long userId) {
+    public ResponseEntity<ZoneDTO> get(@RequestParam("userId") Long userId) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId)), HttpStatus.OK);
     }
 
@@ -50,7 +50,7 @@ public class ZoneRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("userId") Long userId) {
+    public ResponseEntity<String> delete(@RequestParam("userId") Long userId) {
         repoService.remove(userId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

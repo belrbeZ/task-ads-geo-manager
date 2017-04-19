@@ -28,6 +28,7 @@ public class GeoPointRepoService extends ModelRepoService<GeoPoint> implements I
     @Autowired
     public GeoPointRepoService(GeoPointRepository repository) {
         this.repository = repository;
+        this.primeRepository = repository;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class GeoPointRepoService extends ModelRepoService<GeoPoint> implements I
     }
 
     @Override
-    public List<GeoPoint> getByUserId(Long ownerId) {
+    public List<GeoPoint> getByUserId(Long userId) {
         return getEmptyList();
     }
 

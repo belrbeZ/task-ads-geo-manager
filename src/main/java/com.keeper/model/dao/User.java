@@ -18,10 +18,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default Comment
@@ -69,18 +66,18 @@ public class User {
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER,
-               joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "geopointId", referencedColumnName = "id"))
-    private List<GeoPoint> geoPoints;
+    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
+               joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
+               inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
+    private List<GeoPoint> geoPoints = new ArrayList<>();
 
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER,
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
                joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
-    private List<Task> participantedTasks;
+    private List<Task> participantedTasks = new ArrayList<>();
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();

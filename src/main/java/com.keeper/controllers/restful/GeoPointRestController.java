@@ -33,12 +33,12 @@ public class GeoPointRestController {
     }
 
     @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<GeoPointDTO>> getByUserId(@PathVariable("userId") Long userId) {
+    public ResponseEntity<List<GeoPointDTO>> getByUserId(@RequestParam("userId") Long userId) {
         return new ResponseEntity<>(Translator.convertGeoToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeoPointDTO> get(@PathVariable("id") Long id) {
+    public ResponseEntity<GeoPointDTO> get(@RequestParam("id") Long id) {
         return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)), HttpStatus.OK);
     }
 
@@ -55,13 +55,13 @@ public class GeoPointRestController {
     }
 
     @RequestMapping(value = PATH+"/byRouteId", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteByRouteId(@PathVariable("routeId") Long routeId) {
+    public ResponseEntity<String> deleteByRouteId(@RequestParam("routeId") Long routeId) {
         repoService.remove(routeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@PathVariable("id") Long routeId) {
+    public ResponseEntity<String> delete(@RequestParam("id") Long routeId) {
         repoService.remove(routeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
