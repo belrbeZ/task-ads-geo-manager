@@ -69,7 +69,7 @@ public class User {
     @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
                joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
                inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
-    private List<GeoPoint> geoPoints = new ArrayList<>();
+    private List<GeoPoint> geoPoints;
 
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
@@ -77,7 +77,7 @@ public class User {
     @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
                joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
                inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
-    private List<Task> participantedTasks = new ArrayList<>();
+    private List<Task> participantedTasks;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -259,6 +259,34 @@ public class User {
     }
 
     //</editor-fold>
+
+    public int hasGeoPoint( GeoPoint geoPoint ) {
+        return geoPoints.indexOf(geoPoint);
+    }
+
+    public void addGeoPoint( GeoPoint geoPoint ) {
+
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !geoPoints.contains( geoPoint ) ) {
+            geoPoints.add( geoPoint );
+        }
+
+    }
+
+    public void removeGeoPoint( GeoPoint geoPoint ) {
+//        int index;
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
+//        }
+//        return geoPoint.getEMPTY();
+        if ( geoPoints.contains( geoPoint )) {
+            geoPoints.remove( geoPoint );
+        } else {
+            throw new IllegalArgumentException("No such geoPoint associated with this User");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {

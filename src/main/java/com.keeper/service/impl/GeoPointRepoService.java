@@ -41,10 +41,6 @@ public class GeoPointRepoService extends ModelRepoService<GeoPoint> implements I
         return Collections.emptyList();
     }
 
-    @Override
-    public List<GeoPoint> getByUserId(Long userId) {
-        return getEmptyList();
-    }
 
     @Override
     public List<GeoPoint> updateGeoPoints(List<GeoPoint> geoPoints) {

@@ -65,7 +65,7 @@ public class Task {
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER,
+    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
             joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
             inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
     private List<Tag> tags;

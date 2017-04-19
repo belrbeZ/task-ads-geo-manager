@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 public interface IGeoPointService {
-    List<GeoPoint> getByUserId(Long ownerId);
+//    List<GeoPoint> getByUserId(Long ownerId);
 
     List<GeoPoint> updateGeoPoints(List<GeoPoint> geoPoints);
 }
