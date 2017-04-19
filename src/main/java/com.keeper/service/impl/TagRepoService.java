@@ -6,10 +6,12 @@ package com.keeper.service.impl;
 
 import com.keeper.model.dao.Tag;
 import com.keeper.service.ITagService;
+import org.springframework.stereotype.Service;
 
 /**
  * Default Comment
  */
+@Service
 public class TagRepoService extends ModelRepoService<Tag> implements ITagService {
 
 }

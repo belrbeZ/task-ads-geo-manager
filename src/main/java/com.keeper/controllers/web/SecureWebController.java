@@ -51,8 +51,7 @@ public class SecureWebController {
 
     @RequestMapping(value = WebmapResolver.WEB_LOGOUT, method = RequestMethod.POST)
     public ModelAndView logoutGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGIN);
-
+        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGOUT);
         return modelAndView;
     }
 }

@@ -6,21 +6,30 @@ package com.keeper.controllers.web;
 
 import com.keeper.util.web.ViewResolver;
 import com.keeper.util.web.WebmapResolver;
-import org.springframework.stereotype.Controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Default Comment
  */
-@Controller
+@ControllerAdvice
 public class CommonWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_ERROR, method = RequestMethod.GET)
-    public ModelAndView errorGet(Model model) {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
+
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ModelAndView errorGet(final Throwable throwable, final Model model) {
         ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_ERROR);
+
+        LOGGER.error("Exception during execution of SpringSecurity application", throwable);
+        String errorMessage = (throwable != null) ? throwable.getMessage() : "Unknown error";
+        model.addAttribute("err", errorMessage);
 
         return modelAndView;
     }

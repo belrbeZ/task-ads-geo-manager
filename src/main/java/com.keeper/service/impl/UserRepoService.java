@@ -44,14 +44,14 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     @Override
     public User get(String email, String phone) {
         return (email != null && !email.isEmpty())
-                ? repository.findOneByEmail(email)
-                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone) : getEmpty();
+                ? repository.findOneByEmail(email).orElse(getEmpty())
+                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone).orElse(getEmpty()) : getEmpty();
     }
 
     @Override
     public User remove(String email, String phone) {
         return (email != null && !email.isEmpty())
-                ? repository.removeByEmail(email)
-                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone) : getEmpty();
+                ? repository.removeByEmail(email).orElse(getEmpty())
+                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone).orElse(getEmpty()) : getEmpty();
     }
 }

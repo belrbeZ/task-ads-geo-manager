@@ -1,0 +1,133 @@
+.show-table
+{
+    background: white;
+    border-radius:3px;
+    border-collapse: collapse;
+    height: 80px;
+    margin: auto;
+    width: 96%;
+    max-width: 96%;
+    padding:5px;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.1);
+    animation: float 5s infinite;
+}
+
+.show-table th
+{
+    color: #EBEBEB;;
+    background: #2B2C38;
+    border-bottom:4px solid gainsboro;
+    border-right: 1px solid #4E5066;
+    font-size:22px;
+    font-weight: 100;
+    padding:10px;
+    text-align:left;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    vertical-align:middle;
+}
+
+.show-table th:first-child
+{
+    border-top-left-radius:3px;
+}
+
+.show-table th:last-child
+{
+    border-top-right-radius:3px;
+    border-right:none;
+}
+
+.show-table tr
+{
+    border-top: 1px solid #C1C3D1;
+    border-bottom-: 1px solid #C1C3D1;
+    color:#666B85;
+    font-size:16px;
+    font-weight:normal;
+    text-shadow: 0 1px 1px rgba(256, 256, 256, 0.1);
+}
+
+.show-table tr:hover td
+{
+    background: #4E5066;
+    color:#FFFFFF;
+    border-top: 1px solid #22262e;
+    border-bottom: 1px solid #22262e;
+}
+
+.show-table tr:first-child
+{
+    border-top:none;
+}
+
+.show-table tr:last-child
+{
+    border-bottom:none;
+}
+
+.show-table tr:nth-child(odd) td
+{
+    background:#EBEBEB;
+}
+
+.show-table tr:nth-child(odd):hover td
+{
+    background:#4E5066;
+}
+
+.show-table tr:last-child td:first-child
+{
+    border-bottom-left-radius:3px;
+}
+
+.show-table tr:last-child td:last-child
+{
+    border-bottom-right-radius:3px;
+}
+
+.show-table td
+{
+    background:#FFFFFF;
+    padding:12px;
+    text-align:left;
+    vertical-align:middle;
+    font-weight:300;
+    font-size:18px;
+    text-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid #C1C3D1;
+}
+
+.show-table td:last-child
+{
+    border-right: 0px;
+}
+
+.show-table th.text-left
+{
+    text-align: left;
+}
+
+.show-table th.text-center
+{
+    text-align: center;
+}
+
+.show-table th.text-right
+{
+    text-align: right;
+}
+
+.show-table td.text-left
+{
+    text-align: left;
+}
+
+.show-table td.text-center
+{
+    text-align: center;
+}
+
+.show-table td.text-right
+{
+    text-align: right;
+}

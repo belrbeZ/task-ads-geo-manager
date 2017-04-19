@@ -6,10 +6,12 @@ package com.keeper.repo;
 
 import com.keeper.model.dao.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Default Comment
  */
+@Repository
 public interface TagRepository extends JpaRepository<Task, Long> {
 
 }

@@ -7,12 +7,15 @@ package com.keeper.repo;
 import com.keeper.model.dao.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
  */
+@Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
-    List<Route> findAllByEmailUserId(@Param("id") Long userId);
+    Optional<List<Route>> findAllByUserId(@Param("userId") Long userId);
 }

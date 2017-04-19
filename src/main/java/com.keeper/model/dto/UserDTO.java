@@ -19,7 +19,7 @@ public class UserDTO {
 
     public static final UserDTO EMPTY = new UserDTO((long)UserType.EMPTY.getValue(),UserType.EMPTY);
 
-    private final Long  id;
+    private Long  id;
     private UserState   state;
     private UserType    type;
     private String      name;
@@ -52,6 +52,16 @@ public class UserDTO {
         super();
         this.type = type;
         this.id = id;
+    }
+
+    public UserDTO(UserType type, String name, String email, String phone, String password, String about) {
+        this.state      = UserState.AWAIT_VERIFICATION;
+        this.type       = type;
+        this.name       = name;
+        this.email      = email;
+        this.phone      = phone;
+        this.password   = password;
+        this.about      = about;
     }
 
     public UserDTO(Long id, UserType type, UserState state, String name,

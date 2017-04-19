@@ -10,14 +10,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
  * Default Comment
  */
 @Repository
 //@Qualifier(value = "userRepository")
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findOneByEmail(@Param("email") String email);
-    User findOneByPhone(@Param("phone") String phone);
+    Optional<User> findOneByEmail(@Param("email") String email);
+    Optional<User> findOneByPhone(@Param("phone") String phone);
 
     boolean existsByEmail(@Param("email") String email);
     boolean existsByPhone(@Param("phone") String phone);
@@ -25,6 +27,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmailAndPassword(@Param("email") String email, @Param("password") String password);
     boolean existsByPhoneAndPassword(@Param("phone") String phone, @Param("password") String password);
 
-    @Transactional User removeByEmail(@Param("email") String email);
-    @Transactional User removeByPhone(@Param("phone") String phone);
+    @Transactional Optional<User> removeByEmail(@Param("email") String email);
+    @Transactional Optional<User> removeByPhone(@Param("phone") String phone);
 }

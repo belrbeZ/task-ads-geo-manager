@@ -29,21 +29,21 @@ public class ZoneRepoService extends ModelRepoService<Zone> implements IZoneServ
     }
 
     @Override
-    public Zone getEmpty() {
-        return Zone.EMPTY;
+    public List<Zone> getEmptyList() {
+        return Collections.emptyList();
     }
 
     @Override
     public List<Zone> getByCountry(String country) {
         return (country != null && !country.isEmpty())
-                ? repository.findByCountry(country)
+                ? repository.findByCountry(country).orElse(getEmptyList())
                 : Collections.emptyList();
     }
 
     @Override
     public List<Zone> getByCity(String city) {
         return (city != null && !city.isEmpty())
-                ? repository.findByCity(city)
+                ? repository.findByCity(city).orElse(getEmptyList())
                 : Collections.emptyList();
     }
 }

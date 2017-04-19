@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -21,17 +22,17 @@ import java.util.Set;
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    List<Task> findAllByTags(@Param("tagId") List<String> tagsId);
+    Optional<List<Task>> findAllByTags(@Param("tagId") List<String> tagsId);
 
-    List<Task> findAllByTopicStarterId(@Param("userId") Long userId);
+    Optional<List<Task>> findAllByTopicStarterId(@Param("userId") Long userId);
 
-    List<Task> findAllByEmail(@Param("email") String email);
+//    Optional<List<Task>> findAllByEmail(@Param("email") String email);
+//
+//    Optional<List<Task>> findAllByPhone(@Param("phone") String email);
 
-    List<Task> findAllByPhone(@Param("phone") String email);
+    Optional<List<Task>> findAllByTheme(@Param("theme") String theme);
 
-    List<Task> findAllByTheme(@Param("theme") String theme);
-
-    @Transactional Task removeByTopicStarterId(@Param("topicStarterId") Long topicStarterId);
+    @Transactional Optional<Task> removeByTopicStarterId(@Param("topicStarterId") Long topicStarterId);
 
 
 

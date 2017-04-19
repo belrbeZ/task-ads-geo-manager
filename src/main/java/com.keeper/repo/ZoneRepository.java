@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -17,7 +18,7 @@ import java.util.List;
 @Repository
 //@Qualifier(value = "zoneRepository")
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
-    List<Zone> findByCity(@Param("city") String city);
+    Optional<List<Zone>> findByCity(@Param("city") String city);
 
-    List<Zone> findByCountry(@Param("country") String country);
+    Optional<List<Zone>> findByCountry(@Param("country") String country);
 }

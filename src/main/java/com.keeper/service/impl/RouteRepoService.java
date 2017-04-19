@@ -8,12 +8,15 @@ import com.keeper.model.dao.Route;
 import com.keeper.repo.RouteRepository;
 import com.keeper.service.IRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Default Comment
  */
+@Service
 public class RouteRepoService extends ModelRepoService<Route> implements IRouteService {
 
     private final RouteRepository repository;
@@ -25,7 +28,12 @@ public class RouteRepoService extends ModelRepoService<Route> implements IRouteS
     }
 
     @Override
+    public List<Route> getEmptyList() {
+        return Collections.emptyList();
+    }
+
+    @Override
     public List<Route> getAllByUserId(Long userId) {
-        return repository.findAllByEmailUserId(userId);
+        return repository.findAllByUserId(userId).orElse(getEmptyList());
     }
 }

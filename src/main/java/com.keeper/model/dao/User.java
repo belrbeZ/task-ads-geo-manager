@@ -66,8 +66,8 @@ public class User {
     private List<Comment> comments;
 
     // THIS TYPE OF SELECT VIA DIRECT JOIN DOES NOT WORK
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER,
                joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
@@ -102,12 +102,12 @@ public class User {
         this.type = type;
     }
 
-    public User(UserType type, @NotEmpty String name,
-                @NotEmpty String email, String phone,
-                @NotEmpty String password, String about) {
+    public User(UserType type, String name,
+                String email, String phone,
+                String password, String about) {
         this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
         this.state      = UserState.AWAIT_VERIFICATION;
-        this.type       = type != null ? type : UserType.USER;
+        this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
         this.phone      = phone;
@@ -116,10 +116,10 @@ public class User {
         this.isNotified = false;
     }
 
-    public User(UserType type, @NotEmpty String name,
-                @NotEmpty String email, String phone,
-                @NotEmpty String password, String about, boolean isNotified,
-                @NotNull LocalDateTime muteStart, @NotNull LocalDateTime muteEnd)
+    public User(UserType type, String name,
+                String email, String phone,
+                String password, String about, boolean isNotified,
+                LocalDateTime muteStart, LocalDateTime muteEnd)
     {
         this(type, name, email, phone, password, about);
         this.isNotified = isNotified;

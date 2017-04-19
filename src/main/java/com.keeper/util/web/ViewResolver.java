@@ -10,6 +10,7 @@ package com.keeper.util.web;
 public class ViewResolver {
     public static final String PAGE_REGISTER = "register";
     public static final String PAGE_LOGIN   = "login";
+    public static final String PAGE_LOGOUT  = "logout";
     public static final String PAGE_WELCOME = "welcome";
     public static final String PAGE_INFO    = "info";
     public static final String PAGE_HOME    = "home";

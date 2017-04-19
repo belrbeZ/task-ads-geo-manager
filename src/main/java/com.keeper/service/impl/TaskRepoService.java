@@ -44,35 +44,36 @@ public class TaskRepoService extends ModelRepoService<Task> implements ITaskServ
     @Override
     public List<Task> getByTheme(String theme) {
         return (theme != null && !theme.isEmpty())
-                ? repository.findAllByTheme(theme)
+                ? repository.findAllByTheme(theme).orElse(getEmptyList())
                 : getEmptyList();
     }
 
     @Override
     public List<Task> getByTags(List<String> tags) {
         return (tags != null && !tags.isEmpty())
-                ? repository.findAllByTags(tags)
+                ? repository.findAllByTags(tags).orElse(getEmptyList())
                 : getEmptyList();
     }
 
     @Override
     public List<Task> getByEmailOrPhone(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.findAllByEmail(email)
-                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone) : getEmptyList();
+        return getEmptyList();
+//        return (email != null && !email.isEmpty())
+//                ? repository.findAllByEmail(email).orElse(getEmptyList())
+//                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone).orElse(getEmptyList()) : getEmptyList();
     }
 
     @Override
     public List<Task> getByUserId(Long userId) {
         return (userId != null && userId > 0L)
-                ? repository.findAllByTopicStarterId(userId)
+                ? repository.findAllByTopicStarterId(userId).orElse(getEmptyList())
                 : getEmptyList();
     }
 
     @Override
     public Task removeByUserId(Long topicStarterId) {
         return (topicStarterId != null && topicStarterId > 0L)
-                ? repository.removeByTopicStarterId(topicStarterId)
+                ? repository.removeByTopicStarterId(topicStarterId).orElse(getEmpty())
                 : getEmpty();
     }
 }
