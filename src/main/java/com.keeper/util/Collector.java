@@ -70,19 +70,19 @@ public class Collector {
     private static final GeoCoordinate nullableCoord   = GeoCoordinate.EMPTY;
 
     public static User getFirstUser(List<User> users) {
-        return (users == null || users.isEmpty()) ? nullableUser : users.get(0);
+        return (users == null || users.isEmpty()) ? nullableUser : users.getByEmailOrPhone(0);
     }
 
     public static GeoCoordinate getFirstCoordinate(List<GeoCoordinate> geoPoints) {
-        return (geoPoints == null || geoPoints.isEmpty()) ? nullableCoord : geoPoints.get(0);
+        return (geoPoints == null || geoPoints.isEmpty()) ? nullableCoord : geoPoints.getByEmailOrPhone(0);
     }
 
     public static Route getFirstRoute(List<Route> routes) {
-        return (routes == null || routes.isEmpty()) ? nullableRoute : routes.get(0);
+        return (routes == null || routes.isEmpty()) ? nullableRoute : routes.getByEmailOrPhone(0);
     }
 
     public static Task getFirstTask(List<Task> tasks) {
-        return (tasks == null || tasks.isEmpty()) ? nullableTask : tasks.get(0);
+        return (tasks == null || tasks.isEmpty()) ? nullableTask : tasks.getByEmailOrPhone(0);
     }*/
     //</editor-fold>
 }

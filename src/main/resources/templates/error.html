@@ -4,9 +4,10 @@
     <meta charset="UTF-8" content="text/html"/>
     <title>Error</title>
 </head>
-<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
-    <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
-    <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
-    <a href="welcome.html" th:href="@{/welcome.html}">Back to Welcome Page</a>
+<body>
+<!--<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">-->
+    <!--<h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>-->
+    <!--<p th:utext="${err}">Error java.lang.NullPointerException</p>-->
+    <!--<a href="welcome.html" th:href="@{/welcome.html}">Back to Welcome Page</a>-->
 </body>
 </html>

@@ -1,11 +1,11 @@
-package com.keeper.util.annotations.impl;
+package com.keeper.util.validation.impl;
 
 /*
  * Created by @GoodforGod on 12.04.2017.
  */
 
 import com.keeper.util.Validator;
-import com.keeper.util.annotations.Phone;
+import com.keeper.util.validation.Phone;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

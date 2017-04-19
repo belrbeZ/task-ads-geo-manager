@@ -10,6 +10,8 @@ import com.keeper.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * Default Comment
  */
@@ -37,21 +39,24 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     }
 
     @Override
-    public boolean isUserLoginDataValid(String email, String phone, String password) {
-        return (get(email, phone).getPassword().equals(password));
+    public boolean isUserLoginDataValid(String email, String password) {
+        return (getByEmail(email).orElse(getEmpty()).getPassword().equals(password));
     }
 
     @Override
-    public User get(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.findOneByEmail(email).orElse(getEmpty())
-                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone).orElse(getEmpty()) : getEmpty();
+    public Optional<User> getByEmail(String email) {
+        return (email != null && !email.isEmpty()) ? repository.findOneByEmail(email) : null;
     }
 
     @Override
-    public User remove(String email, String phone) {
+    public Optional<User> getByPhone(String phone) {
+        return (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone) : null;
+    }
+
+    @Override
+    public User remove(String email) {
         return (email != null && !email.isEmpty())
-                ? repository.removeByEmail(email).orElse(getEmpty())
-                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone).orElse(getEmpty()) : getEmpty();
+                ? repository.removeByEmail(email).orElse(getEmpty()) : getEmpty();
+//                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone).orElse(getEmpty()) : getEmpty();
     }
 }

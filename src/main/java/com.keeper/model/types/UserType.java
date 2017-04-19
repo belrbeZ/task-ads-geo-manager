@@ -11,6 +11,7 @@ public enum UserType {
     UNKNOWN(-1),
     EMPTY(0),
     USER(10),
+    ADMIN(999),
     COMMUNITY(20),
     ORGANIZATION(30),
     ENTERPRISE(40);

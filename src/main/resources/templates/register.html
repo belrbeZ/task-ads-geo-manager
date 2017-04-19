@@ -3,11 +3,29 @@
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title>Register</title>
+
+    <link href="/static/css/base.css" rel="stylesheet"/>
+    <link href="/static/css/login.css" rel="stylesheet"/>
 </head>
 <body>
-
-<div>
-    <h1>Register</h1>
-</div>
+<form class="login-form" role="form" action="/register" method="post">
+    <div>
+        <label for="email">Name</label>
+        <input type="text" name="name" id="name" required="required"/>
+    </div>
+    <div>
+        <label for="email">Email address</label>
+        <input type="email" name="email" id="email" required="required"/>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required="required"/>
+    </div>
+    <div>
+        <label for="password">Repeat Password</label>
+        <input type="password" name="passwordRepeted" id="passwordRepeted" required="required"/>
+    </div>
+    <button type="submit">Sign in</button>
+</form>
 </body>
 </html>

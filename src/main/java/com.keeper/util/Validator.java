@@ -18,8 +18,6 @@ public class Validator {
         return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
     }
 
-
-
     public static Predicate<String> phoneFilter = (Validator::isPhoneValid);
 
     public static boolean isPhoneValid(String phone) {

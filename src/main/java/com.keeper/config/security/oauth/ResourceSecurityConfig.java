@@ -1,4 +1,4 @@
-package com.keeper.config.security;
+package com.keeper.config.security.oauth;
 
 /*
  * Created by GoodforGod on 19.03.2017.

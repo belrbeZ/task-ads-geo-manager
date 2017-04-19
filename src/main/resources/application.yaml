@@ -6,7 +6,7 @@ spring:
     database: postgresql
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none #validate
   datasource:
     dbcp2:
       driver-class-name: org.postgresql.Driver
@@ -14,8 +14,9 @@ spring:
     username: postgres
     password: myRea11ySecRett0Pass
     platform: postgres
-  resources:
-    static-locations: classpath:/resources/static
+    continue-on-error: true #false
+#  resources:
+#    static-locations: classpath:/resources/static, #/swagger-ui.html
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 

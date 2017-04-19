@@ -6,15 +6,18 @@ package com.keeper.service;
 
 import com.keeper.model.dao.User;
 
+import java.util.Optional;
+
 /**
  * Default Comment
  */
 public interface IUserService extends IModelService<User> {
     boolean isExists(String email, String phone);
 
-    boolean isUserLoginDataValid(String email, String phone, String password);
+    boolean isUserLoginDataValid(String email, String password);
 
-    User get(String email, String phone);
+    Optional<User> getByEmail(String email);
+    Optional<User> getByPhone(String phone);
 
-    User remove(String email, String phone);
+    User remove(String email);
 }

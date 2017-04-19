@@ -4,9 +4,7 @@ package com.keeper.model;
  * Created by @GoodforGod on 16.04.2017.
  */
 
-import com.keeper.util.annotations.GeoCoordinate;
-
-import java.math.BigDecimal;
+import com.keeper.util.validation.GeoCoordinate;
 
 /**
  * Default Comment

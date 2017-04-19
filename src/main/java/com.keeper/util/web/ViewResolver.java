@@ -22,4 +22,8 @@ public class ViewResolver {
 
     public static final String TEST_PAGE_USER = TEST_PACKAGE + "usertest";
     public static final String TEST_PAGE_ZONE = TEST_PACKAGE + "zonetest";
+
+    public static String redirect(String viewName) {
+        return "redirect:/" + viewName;
+    }
 }

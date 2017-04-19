@@ -43,7 +43,7 @@ public class ZoneTestRestController {
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ZoneTestDTO> get(@PathVariable("id") Long userId) {
         // REAL IMPLEMENTATION THAT WORKS WITH DB
-        // return new ResponseEntity<>(Converter.convertToDTO(repoService.get(userId)), HttpStatus.OK);
+        // return new ResponseEntity<>(Converter.convertToDTO(repoService.getByEmailOrPhone(userId)), HttpStatus.OK);
         return new ResponseEntity<>(Translator.convertToDTO(modelMap.get(userId)), HttpStatus.OK);
     }
 

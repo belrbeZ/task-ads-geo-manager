@@ -5,6 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.dto.UserDTO;
+import com.keeper.model.dto.UserFormDTO;
 import com.keeper.service.impl.UserRepoService;
 import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
@@ -43,7 +44,7 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody UserDTO model, BindingResult result) {
+    public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
         repoService.add(Translator.convertToDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }

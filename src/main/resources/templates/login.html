@@ -4,19 +4,27 @@
     <meta charset="UTF-8" content="text/html"/>
     <title>Login</title>
 
-    <link href="/resources/static/css/base.css"/>" rel="stylesheet"/>
-    <link href="/resources/static/css/msg.css"/>" rel="stylesheet"/>
-    <link href="/resources/static/css/bar.css"/>" rel="stylesheet"/>
+    <link href="/static/css/base.css" rel="stylesheet"/>
+    <link href="/static/css/login.css" rel="stylesheet"/>
 </head>
 <body>
     <h1>Login page</h1>
-    <p th:if="${loginError}" class="error">Wrong user or password</p>
-    <form th:action="@{/login.html}" method="post">
-        <label for="username">Username</label>:
-        <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
-        <label for="password">Password</label>:
-        <input type="password" id="password" name="password" /> <br />
-        <input type="submit" value="Log in" />
+    <!--<span th:text="${error?}" class="error"> The email or password you have entered is invalid, try again.</span>-->
+    <form class="login-form" role="form" action="/login" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <div>
+            <label for="email">Email address</label>
+            <input type="email" name="email" id="email" required="required"/>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" required="required"/>
+        </div>
+        <div>
+            <label for="remember-me">Remember me</label>
+            <input type="checkbox" name="remember-me" id="remember-me"/>
+        </div>
+        <button type="submit">Log in</button>
     </form>
 </body>
 </html>

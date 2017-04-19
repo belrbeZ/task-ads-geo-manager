@@ -212,6 +212,17 @@ public class Translator {
                             model.getMuteEnd());
     }
 
+    public static User convertToDAO(UserFormDTO model) {
+        return (model == null)
+                ? User.EMPTY
+                : new User(model.getType(),
+                            model.getName(),
+                            model.getEmail(),
+                            model.getPhone(),
+                            model.getPassword(),
+                            "");
+    }
+
     public static Task convertToDAO(TaskDTO model) {
         return (model == null)
                 ? Task.EMPTY
