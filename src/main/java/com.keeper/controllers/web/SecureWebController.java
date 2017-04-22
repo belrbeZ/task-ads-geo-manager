@@ -8,7 +8,7 @@ package com.keeper.controllers.web;
  */
 
 import com.keeper.model.dto.UserFormDTO;
-import com.keeper.service.impl.UserRepoService;
+import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
@@ -27,10 +27,10 @@ import javax.validation.Valid;
 @Controller
 public class SecureWebController {
 
-    private final UserRepoService userService;
+    private final UserService userService;
 
     @Autowired
-    public SecureWebController(UserRepoService userService) {
+    public SecureWebController(UserService userService) {
         this.userService = userService;
     }
 

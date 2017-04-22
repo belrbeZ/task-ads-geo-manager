@@ -5,7 +5,7 @@ package com.keeper.util.validation;
  */
 
 import com.keeper.model.dto.UserFormDTO;
-import com.keeper.service.impl.UserRepoService;
+import com.keeper.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -18,10 +18,10 @@ import org.springframework.validation.Validator;
 //@Component
 public class UserFormValidator implements Validator {
 
-    private final UserRepoService userService;
+    private final UserService userService;
 
     @Autowired
-    public UserFormValidator(UserRepoService userService) {
+    public UserFormValidator(UserService userService) {
         this.userService = userService;
     }
 

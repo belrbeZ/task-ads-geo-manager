@@ -17,9 +17,13 @@ import java.util.List;
 public interface IUserService extends IModelService<User> {
     boolean isExists(String email, String phone);
 
+    boolean isExistsByEmail(String email);
+
     boolean isUserLoginDataValid(String email, String phone, String password);
 
     User get(String email, String phone);
+
+    User getByEmail(String email);
 
     User remove(String email, String phone);
 

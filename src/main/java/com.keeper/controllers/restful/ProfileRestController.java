@@ -7,7 +7,7 @@ package com.keeper.controllers.restful;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
-import com.keeper.util.web.ApiResolver;
+import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

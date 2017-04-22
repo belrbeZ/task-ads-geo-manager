@@ -56,6 +56,11 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     }
 
     @Override
+    public boolean isExistsByEmail(String email) {
+        return (email != null && !email.isEmpty()) && repository.existsByEmail(email);
+    }
+
+    @Override
     public boolean isUserLoginDataValid(String email, String phone, String password) {
         return (get(email, phone).getPassword().equals(password));
     }
@@ -65,6 +70,13 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return (email != null && !email.isEmpty())
                 ? repository.findOneByEmail(email).orElse(getEmpty())
                 : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone).orElse(getEmpty()) : getEmpty();
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        return (email != null && !email.isEmpty())
+                ? repository.findOneByEmail(email).orElse(getEmpty())
+                : getEmpty();
     }
 
     @Override
@@ -206,5 +218,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         primeRepository.save(user);
         return Translator.convertToDTO(user);
     }
+
+
     /*---END ROUTES---*/
 }
