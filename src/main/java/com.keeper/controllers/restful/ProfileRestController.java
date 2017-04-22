@@ -109,15 +109,16 @@ public class ProfileRestController {
     /*---END GEOPOINTS---*/
 
     /*---ROUTE---*/
-////    In The ROUTE REST CONTROLLER
-//    @RequestMapping(value = PATH + "/route/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<RouteDTO>> getRoutes(@PathVariable("userId") Long userId) {
-////        if (user == null) {
-////            System.out.println("User with id " + id + " not found");
-////            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-////        }
-//        return new ResponseEntity<>(repoService.getRoutes(userId), HttpStatus.OK);
-//    }
+//    In The ROUTE REST CONTROLLER
+    @RequestMapping(value = PATH + "/route/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<RouteDTO>> getRoutes(@PathVariable("userId") Long userId) {
+//        if (user == null) {
+//            System.out.println("User with id " + id + " not found");
+//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+//        }
+
+        return new ResponseEntity<>(repoService.getRoutes(userId), HttpStatus.OK);
+    }
 
     @RequestMapping(value = PATH + "/route", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> addRoute(@RequestParam("userId") Long userId, @Valid @RequestBody  RouteDTO route, BindingResult result) {

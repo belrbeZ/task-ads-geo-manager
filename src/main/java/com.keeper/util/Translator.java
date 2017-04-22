@@ -104,6 +104,7 @@ public class Translator {
     }
 
     public static RouteDTO convertToDTO(Route model) {
+//        System.out.println("convertToDTO(Route model)"+model.getLatitudes()[0]);
         return (model == null)
                 ? RouteDTO.EMPTY
                 : new RouteDTO(model.getId(),
@@ -149,6 +150,7 @@ public class Translator {
     }
 
     public static List<RouteDTO> convertRoutesToDTO(List<Route> models) {
+//        System.out.println("convertRoutesToDTO");
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
 

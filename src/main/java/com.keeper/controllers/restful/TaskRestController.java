@@ -33,15 +33,6 @@ public class TaskRestController {
         this.repoService = repoService;
     }
 
-    @RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getParticipants(), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH + "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CommentDTO>> getComments(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getComments(), HttpStatus.OK);
-    }
 
     @RequestMapping(value = PATH + "/tags", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> getTasksByTags(@PathVariable("tags") List<String> tags) {
@@ -82,6 +73,17 @@ public class TaskRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+
+    @RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getParticipants(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CommentDTO>> getComments(@RequestParam("id") Long id) {
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getComments(), HttpStatus.OK);
+    }
 
 
 }

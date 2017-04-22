@@ -13,7 +13,10 @@ import com.keeper.repo.RouteRepository;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,6 +28,8 @@ import java.util.List;
  */
 @Service
 public class UserService extends ModelRepoService<User> implements IUserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
 
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;
@@ -159,6 +164,15 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
+
+//        System.out.println("User First Route:"+user.getRoutes().get(0).getLongtitudes() [0]+" "+user.getRoutes().get(0).getLatitudes()[0]);
+
+//        LOGGER.debug("User First Route:"+user.getRoutes().get(0).getLongtitudes() [0]+" "+user.getRoutes().get(0).getLatitudes()[0]);
+
+//        List<RouteDTO> routes = Translator.convertRoutesToDTO(user.getRoutes());
+
+//        System.out.println("User First Reversed Route:"+routes.get(0).getPoints().get(0)+" "+routes.get(0).getPoints().get(0));
+
         return Translator.convertRoutesToDTO(user.getRoutes());
     }
 

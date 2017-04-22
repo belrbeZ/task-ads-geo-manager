@@ -38,8 +38,11 @@ public class RouteDTO {
         this.type = type;
         this.info = info;
 
-        for(int i = 0; i > latitudes.length; i++)
+
+        for(int i = 0; i < latitudes.length; i++){
             points.add(new SimpleGeoPoint(longtitudes[i], latitudes[i]));
+//            System.out.println("RouteDTO"+this.getPoints().get(i));
+        }
 
     }
 

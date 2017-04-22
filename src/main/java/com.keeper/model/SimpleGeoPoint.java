@@ -29,4 +29,10 @@ public class SimpleGeoPoint {
     public String getLatitude() {
         return latitude;
     }
+
+    @Override
+    public String toString() {
+        return (new StringBuilder().append("long:").append(String.valueOf(longtitude)).append(" lat:").append(String.valueOf(latitude))).toString();
+    }
+
 }
