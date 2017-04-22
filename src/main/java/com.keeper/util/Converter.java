@@ -64,12 +64,12 @@ public class Converter
                                  int desiredSpreadPoint,
                                  int desiredPowerLeft,
                                  int desiredPowerRight) {
-
-        StringBuilder maskedString = new StringBuilder(str);
         int length, spreadPoint;
 
         if(str == null || (length = str.length()) == 0)
             return null;
+
+        StringBuilder maskedString = new StringBuilder(str);
 
         switch (length) {
             case 1:

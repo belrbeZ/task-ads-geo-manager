@@ -4,7 +4,7 @@ package com.keeper.model;
  * Created by @GoodforGod on 16.04.2017.
  */
 
-import com.keeper.util.validation.GeoCoordinate;
+import com.keeper.util.validation.annotation.GeoCoordinate;
 
 /**
  * Default Comment

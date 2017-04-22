@@ -1,4 +1,4 @@
-package com.keeper.util.validation.impl;
+package com.keeper.util.validation;
 
 /*
  * Created by @GoodforGod on 19.04.2017.
@@ -15,13 +15,13 @@ import org.springframework.validation.Validator;
 /**
  * Default Comment
  */
-@Component
-public class UserCreateFormValidator implements Validator {
+//@Component
+public class UserFormValidator implements Validator {
 
     private final UserRepoService userService;
 
     @Autowired
-    public UserCreateFormValidator(UserRepoService userService) {
+    public UserFormValidator(UserRepoService userService) {
         this.userService = userService;
     }
 
@@ -48,12 +48,12 @@ public class UserCreateFormValidator implements Validator {
         if (form.getPassword().length() < 6 || form.getPassword().length() > 32)
             errors.rejectValue("password", "Password is too short or large");
 
-        if (!form.getPassword().equals(form.getPasswordRepeted()))
-            errors.reject("password.no_match", "Passwords do not match");
+//        if (!form.getPassword().equals(form.getPasswordRepeted()))
+//            errors.reject("password.no_match", "Passwords do not match");
     }
 
     private void validateEmail(Errors errors, UserFormDTO form) {
-        if (userService.isExists(form.getEmail(), form.getPhone()))
+        if(userService.isExistsByEmail(form.getEmail()))
             errors.reject("email.exists", "User with this email already exists");
     }
 }

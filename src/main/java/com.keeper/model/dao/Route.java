@@ -9,11 +9,10 @@ package com.keeper.model.dao;
 
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.RouteType;
-import com.keeper.util.dao.DatabaseResolver;
+import com.keeper.util.resolve.DatabaseResolver;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**

@@ -11,7 +11,7 @@ import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
 import com.keeper.util.Hasher;
-import com.keeper.util.dao.DatabaseResolver;
+import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

@@ -12,12 +12,14 @@ import java.util.Optional;
  * Default Comment
  */
 public interface IUserService extends IModelService<User> {
-    boolean isExists(String email, String phone);
+    boolean isExistsByPhone(String phone);
+    boolean isExistsByEmail(String email);
 
     boolean isUserLoginDataValid(String email, String password);
 
     Optional<User> getByEmail(String email);
     Optional<User> getByPhone(String phone);
 
-    User remove(String email);
+    User removeByEmail(String email);
+    User removeByPhone(String phone);
 }

@@ -32,10 +32,13 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     }
 
     @Override
-    public boolean isExists(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.existsByEmail(email)
-                : (phone != null && !phone.isEmpty()) && repository.existsByPhone(phone);
+    public boolean isExistsByPhone(String phone) {
+        return (phone != null && !phone.isEmpty()) && repository.existsByPhone(phone);
+    }
+
+    @Override
+    public boolean isExistsByEmail(String email) {
+        return (email != null && !email.isEmpty()) && repository.existsByEmail(email);
     }
 
     @Override
@@ -54,9 +57,14 @@ public class UserRepoService extends ModelRepoService<User> implements IUserServ
     }
 
     @Override
-    public User remove(String email) {
+    public User removeByEmail(String email) {
         return (email != null && !email.isEmpty())
                 ? repository.removeByEmail(email).orElse(getEmpty()) : getEmpty();
-//                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone).orElse(getEmpty()) : getEmpty();
+    }
+
+    @Override
+    public User removeByPhone(String phone) {
+        return (phone != null && !phone.isEmpty())
+                ? repository.removeByPhone(phone).orElse(getEmpty()) : getEmpty();
     }
 }

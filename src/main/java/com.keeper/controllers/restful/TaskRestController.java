@@ -6,9 +6,8 @@ package com.keeper.controllers.restful;
 
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.TaskRepoService;
-import com.keeper.util.Converter;
 import com.keeper.util.Translator;
-import com.keeper.util.web.ApiResolver;
+import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

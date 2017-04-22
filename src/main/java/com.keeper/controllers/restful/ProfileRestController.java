@@ -8,7 +8,7 @@ import com.keeper.model.dto.UserDTO;
 import com.keeper.model.dto.UserFormDTO;
 import com.keeper.service.impl.UserRepoService;
 import com.keeper.util.Translator;
-import com.keeper.util.web.ApiResolver;
+import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

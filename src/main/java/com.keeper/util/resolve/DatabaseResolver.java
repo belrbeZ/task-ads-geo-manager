@@ -1,4 +1,4 @@
-package com.keeper.util.dao;
+package com.keeper.util.resolve;
 
 /*
  * Created by @GoodforGod on 4.04.2017.

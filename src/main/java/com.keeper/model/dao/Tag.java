@@ -4,10 +4,9 @@ package com.keeper.model.dao;
  * Created by @GoodforGod on 4.04.2017.
  */
 
-import com.keeper.util.dao.DatabaseResolver;
+import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Default Comment

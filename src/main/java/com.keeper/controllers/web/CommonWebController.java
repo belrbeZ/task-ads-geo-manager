@@ -4,8 +4,8 @@ package com.keeper.controllers.web;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.web.ViewResolver;
-import com.keeper.util.web.WebmapResolver;
+import com.keeper.util.resolve.TemplateResolver;
+import com.keeper.util.resolve.WebResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class CommonWebController {
 
-
-    @RequestMapping(value = WebmapResolver.WEB_DENIED, method = RequestMethod.GET)
+    @RequestMapping(value = WebResolver.DENIED, method = RequestMethod.GET)
     public ModelAndView deniedGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_DENIED);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.DENIED);
 
         return modelAndView;
     }

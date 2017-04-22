@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +39,7 @@ public class ModelRepoService<T> implements IModelService<T> {
     }
 
     // Ask what to return, exception or empty/null in case of NULL
+    @Transactional
     @Override
     public T add(T model) {
         return  (model != null) ? primeRepository.save(model) : getEmpty();
@@ -54,6 +56,7 @@ public class ModelRepoService<T> implements IModelService<T> {
     }
 
     // Ask what to return, exception or empty/null in case of NULL
+    @Transactional
     @Override
     public T update(T model) {
         return (model != null) ? primeRepository.save(model) : getEmpty();

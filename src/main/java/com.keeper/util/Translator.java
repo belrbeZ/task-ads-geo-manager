@@ -7,6 +7,7 @@ package com.keeper.util;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
+import com.keeper.model.types.UserType;
 import com.keeper.test.model.dao.UserTest;
 import com.keeper.test.model.dao.ZoneTest;
 import com.keeper.test.model.dto.UserTestDTO;
@@ -215,10 +216,10 @@ public class Translator {
     public static User convertToDAO(UserFormDTO model) {
         return (model == null)
                 ? User.EMPTY
-                : new User(model.getType(),
+                : new User(UserType.USER,
                             model.getName(),
                             model.getEmail(),
-                            model.getPhone(),
+                            "",
                             model.getPassword(),
                             "");
     }

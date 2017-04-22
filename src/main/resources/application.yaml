@@ -30,6 +30,9 @@ spring:
     thymeleaf:
       cache: false
 
+logging:
+  level: warn
+
 server:
     port: 8080
 

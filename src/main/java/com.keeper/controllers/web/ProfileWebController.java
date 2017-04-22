@@ -4,8 +4,8 @@ package com.keeper.controllers.web;
  * Created by @GoodforGod on 28.03.2017.
  */
 
-import com.keeper.util.web.ViewResolver;
-import com.keeper.util.web.WebmapResolver;
+import com.keeper.util.resolve.TemplateResolver;
+import com.keeper.util.resolve.WebResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,16 +18,16 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ProfileWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.GET)
+    @RequestMapping(value = WebResolver.PROFILE, method = RequestMethod.GET)
     public ModelAndView profileGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_PROFILE);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebmapResolver.WEB_PROFILE, method = RequestMethod.POST)
+    @RequestMapping(value = WebResolver.PROFILE, method = RequestMethod.POST)
     public ModelAndView profileUpdate(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_PROFILE);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
         return modelAndView;
     }

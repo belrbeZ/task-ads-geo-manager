@@ -1,11 +1,11 @@
-package com.keeper.util.validation.impl;
+package com.keeper.util.validation.annotation.impl;
 
 /*
  * Created by @GoodforGod on 16.04.2017.
  */
 
 import com.keeper.util.Validator;
-import com.keeper.util.validation.GeoCoordinateList;
+import com.keeper.util.validation.annotation.GeoCoordinateList;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
