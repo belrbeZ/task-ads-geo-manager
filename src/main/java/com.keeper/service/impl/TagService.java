@@ -17,12 +17,12 @@ import java.util.List;
  * Default Comment
  */
 @Service
-public class TagRepoService extends ModelRepoService<Tag> implements ITagService {
+public class TagService extends ModelRepoService<Tag> implements ITagService {
 
     private final TagRepository repository;
 
     @Autowired
-    public TagRepoService(TagRepository repository) {
+    public TagService(TagRepository repository) {
         this.repository = repository;
 //        this.primeRepository = repository;
     }

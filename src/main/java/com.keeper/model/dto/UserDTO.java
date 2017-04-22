@@ -41,9 +41,10 @@ public class UserDTO {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime muteEnd;
 
-    private Picture     pic;
-    private List<GeoPointDTO> geoPoints;
     private ZoneDTO zone;
+    private PictureDTO     pic;
+    private List<GeoPointDTO> geoPoints;
+    private List<RouteDTO> routes;
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -94,11 +95,12 @@ public class UserDTO {
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
                    boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd,
-                   Picture pic, ZoneDTO zone, List<Route> routes, List<GeoPointDTO> geoPoints, List<Comment> comments) {
+                   PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints, List<RouteDTO> routes) {
         this(id, type, state, name, email, phone, about, password, isNotified, muteStart, muteEnd);
         this.pic = pic;
         this.zone = zone;
         this.geoPoints = geoPoints;
+        this.routes = routes;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -147,22 +149,22 @@ public class UserDTO {
         return muteEnd;
     }
 
-    public Picture getPic() {
+    public PictureDTO getPic() {
         return pic;
     }
 
-    public void setPic(Picture pic) {
+    public void setPic(PictureDTO pic) {
         this.pic = pic;
     }
 
-//    public List<Route> getRoutes() {
-//        return routes;
-//    }
-//
-//    public void setRoutes(List<Route> routes) {
-//        this.routes = routes;
-//    }
-//
+    public List<RouteDTO> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<RouteDTO> routes) {
+        this.routes = routes;
+    }
+
 //    public List<Comment> getComments() {
 //        return comments;
 //    }
