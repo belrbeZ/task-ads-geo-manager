@@ -5,8 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.dto.*;
-import com.keeper.service.impl.TaskRepoService;
-import com.keeper.util.Converter;
+import com.keeper.service.impl.TaskService;
 import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,10 +26,10 @@ public class TaskRestController {
 
     private final String PATH = ApiResolver.REST_TASK;
 
-    private final TaskRepoService repoService;
+    private final TaskService repoService;
 
     @Autowired
-    public TaskRestController(TaskRepoService repoService) {
+    public TaskRestController(TaskService repoService) {
         this.repoService = repoService;
     }
 
@@ -83,5 +81,7 @@ public class TaskRestController {
         repoService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 
 }

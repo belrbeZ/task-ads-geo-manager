@@ -21,12 +21,12 @@ import java.util.Set;
  * Repository Service to work with Tasks
  */
 @Service
-public class TaskRepoService extends ModelRepoService<Task> implements ITaskService {
+public class TaskService extends ModelRepoService<Task> implements ITaskService {
 
     private final TaskRepository repository;
 
     @Autowired
-    public TaskRepoService(TaskRepository repository) {
+    public TaskService(TaskRepository repository) {
         this.repository = repository;
         this.primeRepository = repository;
     }
