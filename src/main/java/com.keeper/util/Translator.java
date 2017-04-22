@@ -66,11 +66,11 @@ public class Translator {
                             (model.getMuteEnd() != null)
                                     ? model.getMuteEnd().toLocalDateTime()
                                     : LocalDateTime.MIN,
-                            model.getPic(),
+                            Translator.convertToDTO(model.getPic()),
                             convertToDTO(model.getZone()),
-                            model.getRoutes(),
                             convertGeoToDTO(model.getGeoPoints()),
-                            model.getComments());
+                            convertRoutesToDTO(model.getRoutes())
+        );
     }
 
     public static ZoneDTO convertToDTO(Zone model) {
@@ -124,7 +124,7 @@ public class Translator {
     }
 
     //<editor-fold desc="Lists">
-    public static List<PictureDTO> convertPicturessToDTO (List<Picture> models) {
+    public static List<PictureDTO> convertPicturesToDTO (List<Picture> models) {
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
 
@@ -239,5 +239,26 @@ public class Translator {
                             model.getPoints());
     }
 
+    public static Zone convertToDAO(ZoneDTO model) {
+        return (model == null)
+                ? Zone.EMPTY
+                : new Zone(
+                        model.getprofileId(),
+                        model.getCity(),
+                        model.getCountry()
+//                        ,model.getRegisterDate().toLocalDateTime()
+        );
+    }
+
+    public static Picture convertToDAO(PictureDTO model) {
+        return (model == null)
+                ? Picture.EMPTY
+                : new Picture(
+                model.getUserId(),
+                model.getTaskId(),
+                model.getPic(),
+                model.getInfo()
+        );
+    }
     //</editor-fold>
 }
