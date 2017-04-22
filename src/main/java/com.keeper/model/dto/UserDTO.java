@@ -4,6 +4,10 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 6.04.2017.
  */
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.keeper.model.dao.*;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
@@ -28,8 +32,15 @@ public class UserDTO {
     private String      password;
     private String      about;
     private Boolean     isNotified;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime muteStart;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime muteEnd;
+
     private Picture     pic;
     private List<GeoPointDTO> geoPoints;
     private ZoneDTO zone;

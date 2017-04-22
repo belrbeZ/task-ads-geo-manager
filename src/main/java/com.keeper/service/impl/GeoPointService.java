@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,15 +18,16 @@ import java.util.List;
  *
  */
 @Service
-public class GeoPointRepoService extends ModelRepoService<GeoPoint> implements IGeoPointService {
+public class GeoPointService extends ModelRepoService<GeoPoint> implements IGeoPointService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRepoService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointService.class);
 
     private final GeoPointRepository repository;
 
     @Autowired
-    public GeoPointRepoService(GeoPointRepository repository) {
+    public GeoPointService(GeoPointRepository repository) {
         this.repository = repository;
+        this.primeRepository = repository;
     }
 
     @Override
@@ -40,13 +40,4 @@ public class GeoPointRepoService extends ModelRepoService<GeoPoint> implements I
         return Collections.emptyList();
     }
 
-    @Override
-    public List<GeoPoint> getByUserId(Long ownerId) {
-        return getEmptyList();
-    }
-
-    @Override
-    public List<GeoPoint> updateGeoPoints(List<GeoPoint> geoPoints) {
-        return getEmptyList();
-    }
 }

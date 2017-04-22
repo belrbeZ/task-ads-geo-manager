@@ -17,6 +17,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,18 +65,18 @@ public class Task {
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER,
+    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
             joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
             inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
     private List<Tag> tags;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER,
-               joinColumns = @JoinColumn(name = "taskId", referencedColumnName = "id"),
-               inverseJoinColumns= @JoinColumn(name = "userId", referencedColumnName = "id"))
-    private List<User> participants;
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
+               joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
+               inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
+    private List<User> participants  = new ArrayList<>();
 
     private Task() {
         this.id = 0L;
