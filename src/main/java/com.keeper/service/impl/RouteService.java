@@ -17,12 +17,12 @@ import java.util.List;
  * Default Comment
  */
 @Service
-public class RouteRepoService extends ModelRepoService<Route> implements IRouteService {
+public class RouteService extends ModelRepoService<Route> implements IRouteService {
 
     private final RouteRepository repository;
 
     @Autowired
-    public RouteRepoService(RouteRepository repository) {
+    public RouteService(RouteRepository repository) {
         this.repository = repository;
         this.primeRepository = repository;
     }

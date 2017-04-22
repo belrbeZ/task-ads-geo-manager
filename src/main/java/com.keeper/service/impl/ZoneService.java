@@ -18,12 +18,12 @@ import java.util.List;
  * Default Comment
  */
 @Service
-public class ZoneRepoService extends ModelRepoService<Zone> implements IZoneService {
+public class ZoneService extends ModelRepoService<Zone> implements IZoneService {
 
     private final ZoneRepository repository;
 
     @Autowired
-    public ZoneRepoService(ZoneRepository repository) {
+    public ZoneService(ZoneRepository repository) {
         this.repository = repository;
         this.primeRepository = repository;
     }

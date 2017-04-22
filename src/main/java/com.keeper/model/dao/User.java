@@ -4,19 +4,21 @@ package com.keeper.model.dao;
  * Created by @GoodforGod on 6.04.2017.
  */
 
+import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Hasher;
-import com.keeper.util.resolve.DatabaseResolver;
+import com.keeper.util.dao.DatabaseResolver;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Default Comment
@@ -48,34 +50,34 @@ public class User {
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
     private Picture pic;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="userId", referencedColumnName="id")
-    private List<Route> routes;
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "userId", referencedColumnName="id")
+//    private List<Comment> comments;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "userId", referencedColumnName="id")
-    private List<Comment> comments;
-
-    // THIS TYPE OF SELECT VIA DIRECT JOIN DOES NOT WORK
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
-               joinColumns = @JoinColumn(name = "userId", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "geopointId", referencedColumnName = "id"))
+               joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
+               inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
     private List<GeoPoint> geoPoints;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
-               joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
-               inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
-    private List<Task> participantedTasks;
+
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="userId", referencedColumnName="id")
+    private List<Route> routes;
+
+////    @Fetch(FetchMode.SELECT)
+////    @BatchSize(size = 10)
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
+//               joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
+//               inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
+//    private List<Task> participantedTasks;
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -100,14 +102,13 @@ public class User {
     public User(UserType type, String name,
                 String email, String phone,
                 String password, String about) {
-//        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
+        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
         this.phone      = phone;
-        this.password   = password;
-//        this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
+        this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }
@@ -121,6 +122,18 @@ public class User {
         this.isNotified = isNotified;
         this.muteStart  = Timestamp.valueOf(muteStart);
         this.muteEnd    = Timestamp.valueOf(muteEnd);
+    }
+
+    public User(UserType type, String name,
+                String email, String phone,
+                String password, String about, boolean isNotified,
+                LocalDateTime muteStart, LocalDateTime muteEnd, Zone zone, Picture pic, List<GeoPoint> geoPoints, List<Route> routes)
+    {
+        this(type, name, email, phone, password, about, isNotified, muteStart, muteEnd);
+        this.zone = zone;
+        this.pic = pic;
+        this.geoPoints = geoPoints;
+        this.routes = routes;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -233,13 +246,13 @@ public class User {
         this.routes = routes;
     }
 
-    public List<Comment> getComments() {
+    /*public List<Comment> getComments() {
         return (comments == null) ? Collections.emptyList() : comments;
-    }
+    }*/
 
-    public void setComments(List<Comment> comments) {
+    /*public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
+    }*/
 
     public List<GeoPoint> getGeoPoints() {
         return geoPoints;
@@ -249,15 +262,72 @@ public class User {
         this.geoPoints = geoPoints;
     }
 
-    public List<Task> getParticipantedTasks() {
+    /*public List<Task> getParticipantedTasks() {
         return participantedTasks;
-    }
+    }*/
 
-    public void setParticipantedTasks(List<Task> participantedTasks) {
+    /*public void setParticipantedTasks(List<Task> participantedTasks) {
         this.participantedTasks = participantedTasks;
-    }
+    }*/
 
     //</editor-fold>
+
+
+    /*---GEOPOINTS---*/
+    public int hasGeoPoint( GeoPoint geoPoint ) {
+        return geoPoints.indexOf(geoPoint);
+    }
+
+    public void addGeoPoint( GeoPoint geoPoint ) {
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !geoPoints.contains( geoPoint ) ) {
+            geoPoints.add( geoPoint );
+        }
+    }
+
+    public void removeGeoPoint( GeoPoint geoPoint ) {
+//        int index;
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
+//        }
+//        return geoPoint.getEMPTY();
+        if ( geoPoints.contains( geoPoint )) {
+            geoPoints.remove( geoPoint );
+        } else {
+            throw new IllegalArgumentException("No such geoPoint associated with this User");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+        }
+    }
+    /*---END GEOPOINTS---*/
+
+    /*---ROUTES---*/
+    public int hasRoute( Route route ) {
+        return routes.indexOf(route);
+    }
+
+    public void addRoute( Route route ) {
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !routes.contains( route ) ) {
+            routes.add( route );
+        }
+    }
+
+    public void removeRoute( Route route ) {
+//        int index;
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
+//        }
+//        return geoPoint.getEMPTY();
+        if ( routes.contains( route )) {
+            routes.remove( route );
+        } else {
+            throw new IllegalArgumentException("No such geoPoint associated with this User");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+        }
+    }
+    /*---END ROUTES---*/
 
     @Override
     public boolean equals(Object o) {

@@ -6,7 +6,7 @@ package com.keeper.controllers.restful;
 
 import com.keeper.model.dao.Zone;
 import com.keeper.model.dto.ZoneDTO;
-import com.keeper.service.impl.ZoneRepoService;
+import com.keeper.service.impl.ZoneService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ import javax.validation.Valid;
 public class ZoneRestController {
     private final String PATH = ApiResolver.REST_ZONE;
 
-    private final ZoneRepoService repoService;
+    private final ZoneService repoService;
 
     @Autowired
-    public ZoneRestController(ZoneRepoService repoService) {
+    public ZoneRestController(ZoneService repoService) {
         this.repoService = repoService;
     }
 
