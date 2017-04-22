@@ -1,4 +1,4 @@
-package com.keeper.util.web;
+package com.keeper.util.resolve;
 
 /*
  * Created by @GoodforGod on 28.03.2017.
@@ -10,9 +10,8 @@ package com.keeper.util.web;
 public class SecureResolver {
     public static final String TRUSTED_CLIENT_ID    = "trusted-client";
 
-    public static final String ROLE_ADMIN           = "ROLE_ADMIN";
-    public static final String ROLE_CLIENT          = "ROLE_CLIENT";
-    public static final String ROLE_TRUSTED_CLIENT  = "ROLE_TRUSTED_CLIENT";
+    public static final String ROLE_ADMIN           = "ADMIN";
+    public static final String ROLE_USER            = "USER";
 
     // In Seconds
     public static final Integer ACCESS_TOKEN_PERIOD  = 240;

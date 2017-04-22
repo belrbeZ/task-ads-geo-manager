@@ -5,7 +5,7 @@ package com.keeper.model.dao;
  */
 
 import com.keeper.model.types.UserType;
-import com.keeper.util.dao.DatabaseResolver;
+import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

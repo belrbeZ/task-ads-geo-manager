@@ -1,4 +1,4 @@
-package com.keeper.config.security;
+package com.keeper.config.security.oauth;
 
 /*
  * Created by @GoodforGod on 28.03.2017.
@@ -28,7 +28,7 @@ public class AuthServiceConfig {//  extends AuthorizationServerConfigurerAdapter
 //        clients.inMemory()
 //                .withClient(TRUSTED_CLIENT_ID)
 //                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
-//                .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
+//                .authorities("ROLE_USER", "ROLE_TRUSTED_CLIENT")
 //                .scopes("read", "write", "trust")
 //                .secret("secret")
 //                .accessTokenValiditySeconds(SecureResolver.ACCESS_TOKEN_PERIOD)

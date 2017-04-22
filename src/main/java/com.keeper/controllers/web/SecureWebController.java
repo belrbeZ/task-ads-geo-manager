@@ -7,13 +7,19 @@ package com.keeper.controllers.web;
  *
  */
 
-import com.keeper.util.web.ViewResolver;
-import com.keeper.util.web.WebmapResolver;
+import com.keeper.model.dto.UserFormDTO;
+import com.keeper.service.impl.UserRepoService;
+import com.keeper.util.Translator;
+import com.keeper.util.resolve.TemplateResolver;
+import com.keeper.util.resolve.WebResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * Control Web & Api OAUTH and Registration forms
@@ -21,37 +27,43 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SecureWebController {
 
-    @RequestMapping(value = WebmapResolver.WEB_REGISTER, method = RequestMethod.GET)
-    public ModelAndView registerGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_REGISTER);
+    private final UserRepoService userService;
+
+    @Autowired
+    public SecureWebController(UserRepoService userService) {
+        this.userService = userService;
+    }
+
+    @RequestMapping(value = WebResolver.LOGIN, method = RequestMethod.GET)
+    public ModelAndView loginGet(){
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.LOGIN);
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebmapResolver.WEB_REGISTER, method = RequestMethod.POST)
-    public ModelAndView registerPost(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_REGISTER);
+    @RequestMapping(value = WebResolver.REGISTER, method = RequestMethod.GET)
+    public ModelAndView registrationGet(){
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.REGISTER);
 
+        modelAndView.addObject("user", new UserFormDTO());
         return modelAndView;
     }
 
-    @RequestMapping(value = WebmapResolver.WEB_LOGIN, method = RequestMethod.GET)
-    public ModelAndView loginGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGIN);
+    @RequestMapping(value = WebResolver.REGISTER, method = RequestMethod.POST)
+    public ModelAndView registrationPost(@Valid UserFormDTO user, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.REGISTER);
 
-        return modelAndView;
-    }
+        if(userService.isExistsByEmail(user.getEmail()))
+            bindingResult.rejectValue("email",
+                    "error.user",
+                    "There is already a user registered with the email provided");
 
-    @RequestMapping(value = WebmapResolver.WEB_LOGIN, method = RequestMethod.POST)
-    public ModelAndView loginPost(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGIN);
+        if (!bindingResult.hasErrors()) {
+            userService.add(Translator.convertToDAO(user));
+            modelAndView.addObject("successMessage", "User has been registered successfully");
+            modelAndView.addObject("user", new UserFormDTO());
+        }
 
-        return modelAndView;
-    }
-
-    @RequestMapping(value = WebmapResolver.WEB_LOGOUT, method = RequestMethod.POST)
-    public ModelAndView logoutGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(ViewResolver.PAGE_LOGOUT);
         return modelAndView;
     }
 }

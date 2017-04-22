@@ -16,7 +16,7 @@
     border: 1px solid #bce8f1;
 }
 
-#login-form {
+.login-form {
     width: 300px;
     padding: 20px;
     margin: 100px auto;

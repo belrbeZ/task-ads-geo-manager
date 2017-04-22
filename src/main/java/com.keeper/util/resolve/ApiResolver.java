@@ -1,4 +1,4 @@
-package com.keeper.util.web;
+package com.keeper.util.resolve;
 
 /*
  * Created by @GoodforGod on 28.03.2017.
@@ -8,7 +8,7 @@ package com.keeper.util.web;
  * Default Comment
  */
 public class ApiResolver {
-    public static final String API          = WebmapResolver.SECURED + "/api";
+    public static final String API          = WebResolver.SECURED + "/api";
     public static final String API_VERSION  = "/v1.0";
 
     public static final String PRODUCES_CHARSET = "charset=UTF-8;";

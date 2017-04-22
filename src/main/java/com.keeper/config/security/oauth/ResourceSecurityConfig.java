@@ -1,4 +1,4 @@
-package com.keeper.config.security;
+package com.keeper.config.security.oauth;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -11,13 +11,13 @@ package com.keeper.config.security;
 //@EnableResourceServer
 public class ResourceSecurityConfig { //extends ResourceServerConfigurerAdapter{
 //
-//    private final String ROLE_CLIENT  = "hasRole('" + SecureResolver.ROLE_CLIENT + "')" ;
+//    private final String ROLE_USER  = "hasRole('" + SecureResolver.ROLE_USER + "')" ;
 //    private final String ROLE_ADMIN = SecureResolver.ROLE_ADMIN;
 //
 //    private final String PATH_AUTH  = SecureResolver.PATH_AUTH + "/**";
 //    private final String PATH_ADMIN = SecureResolver.PATH_ADMIN + "/**";
 //
-//    private final String ResourceId = WebmapResolver.PAGE_LOGIN;
+//    private final String ResourceId = WebmapResolver.LOGIN;
 //
 //    @Override
 //    public void configure(ResourceServerSecurityConfigurer resource) {
@@ -29,7 +29,7 @@ public class ResourceSecurityConfig { //extends ResourceServerConfigurerAdapter{
 //    public void configure(HttpSecurity http) throws Exception {
 //        http.anonymous().disable().requestMatchers().antMatchers(PATH_AUTH)
 //                .and().authorizeRequests()
-//                .antMatchers(PATH_AUTH).access(ROLE_CLIENT)
+//                .antMatchers(PATH_AUTH).access(ROLE_USER)
 //                .and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
 //    }
 }

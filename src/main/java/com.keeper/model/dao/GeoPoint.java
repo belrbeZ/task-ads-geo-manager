@@ -9,12 +9,9 @@ package com.keeper.model.dao;
  *
  */
 
-import com.keeper.util.dao.DatabaseResolver;
+import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.List;
 
 @Entity
 @Table(name = DatabaseResolver.TABLE_GEOPOINTS, schema = DatabaseResolver.SCHEMA)
