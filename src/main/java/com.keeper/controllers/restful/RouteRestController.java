@@ -5,7 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.dto.RouteDTO;
-import com.keeper.service.impl.RouteRepoService;
+import com.keeper.service.impl.RouteService;
 import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +25,10 @@ import java.util.List;
 public class RouteRestController {
     private final String PATH = ApiResolver.REST_ROUTE;
 
-    private final RouteRepoService repoService;
+    private final RouteService repoService;
 
     @Autowired
-    public RouteRestController(RouteRepoService repoService) {
+    public RouteRestController(RouteService repoService) {
         this.repoService = repoService;
     }
 
