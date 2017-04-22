@@ -5,7 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.service.impl.GeoPointRepoService;
+import com.keeper.service.impl.GeoPointService;
 import com.keeper.util.Translator;
 import com.keeper.util.web.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Default Comment
@@ -25,10 +24,10 @@ import java.util.List;
 public class GeoPointRestController {
     private final String PATH = ApiResolver.REST_GEOPOINT;
 
-    private final GeoPointRepoService repoService;
+    private final GeoPointService repoService;
 
     @Autowired
-    public GeoPointRestController(GeoPointRepoService repoService) {
+    public GeoPointRestController(GeoPointService repoService) {
         this.repoService = repoService;
     }
 

@@ -19,5 +19,4 @@ import java.util.List;
 @Repository
 public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> {
 
-
 }

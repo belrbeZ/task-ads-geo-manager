@@ -1,6 +1,7 @@
 package com.keeper.service;
 
 import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dao.Route;
 
 import java.util.List;
 
@@ -11,7 +12,4 @@ import java.util.List;
  *
  */
 public interface IGeoPointService {
-//    List<GeoPoint> getByUserId(Long ownerId);
-
-    List<GeoPoint> updateGeoPoints(List<GeoPoint> geoPoints);
 }
