@@ -4,6 +4,7 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.dao.Comment;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.TaskService;
@@ -41,7 +42,7 @@ public class TaskRestController {
     }
 
     @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TaskDTO>> getByUserId(@PathVariable("userId") Long userId) {
+    public ResponseEntity<List<TaskDTO>> getByUserId(@RequestParam("userId") Long userId) {
         return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
     }
 
@@ -75,16 +76,51 @@ public class TaskRestController {
     }
 
 
+    /*---PICTURE---*/
+    @RequestMapping(value = PATH + "/picture", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PictureDTO> getPicture(@RequestParam("userId") Long taskId) {
+        return new ResponseEntity<>(repoService.getPicture(taskId), HttpStatus.OK);
+    }
 
-    @RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/picture", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDTO> setPicture(@RequestParam("userId") Long taskId, @Valid @RequestBody PictureDTO picture, BindingResult result) {
+        return new ResponseEntity<>(repoService.setPicture(taskId, picture), HttpStatus.OK);
+    }
+    /*---END PICTURE---*/
+
+    /*---COMMENTS---*/
+    /*@RequestMapping(value = PATH + "/comments/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CommentDTO>> getGeoPoints(@PathVariable("taskId") Long taskId) {
+//        if (user == null) {
+//            System.out.println("User with id " + id + " not found");
+//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+//        }
+        return new ResponseEntity<>(repoService.getComments(taskId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/comments", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDTO> addComment(@RequestParam("taskId") Long taskId, @Valid @RequestBody  CommentDTO comment, BindingResult result) {
+        return new ResponseEntity<>(repoService.addComment(taskId, comment), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/comments/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDTO> removeComment(@RequestParam("taskId") Long taskId, @Valid @RequestBody CommentDTO comment) {
+        return new ResponseEntity<>(repoService.removeComment(taskId, comment), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/comments", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDTO> removeComment(@RequestParam("taskId") Long taskId, @RequestParam("commentId") Long commentId) {
+        return new ResponseEntity<>(repoService.removeCommentById(taskId, commentId), HttpStatus.OK);
+    }
+*/
+    /*---END COMMENTS---*/
+
+
+    /*@RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Task.EMPTY)).getParticipants(), HttpStatus.OK);
-    }
+        return new ResponseEntity<>(Translator.convertCommentsToDTO(repoService.get(id).orElse(Task.EMPTY).getParticipants(), HttpStatus.OK);
+    }*/
 
-    @RequestMapping(value = PATH + "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CommentDTO>> getComments(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Task.EMPTY)).getComments(), HttpStatus.OK);
-    }
 
 
 }

@@ -18,16 +18,17 @@ public class TaskDTO {
 
     private Long id;
     private Long topicStarterId;
+    private Long originGeoPointId;
     private TaskType type;
     private TaskState state = TaskState.HIDEN;
     private String theme;
     private String descr;
 
-    //    private GeoPointDTO geoPointDTO;
-    private List<UserDTO> participants;
-    private List<CommentDTO> comments;
     private PictureDTO picture;
-    private List<TagDTO> tags;
+
+//    private List<UserDTO> participants;
+//    private List<CommentDTO> comments;
+//    private List<TagDTO> tags;
 
     private TaskDTO() {}
 
@@ -39,25 +40,21 @@ public class TaskDTO {
         this.descr = descr;
     }
 
-//    public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, GeoPointDTO geoPointDTO) {
-//        this.topicStarterId = topicStarterId;
-//        this.type = type;
-//        this.state = state;
-//        this.theme = theme;
-//        this.descr = descr;
-//        this.geoPointDTO = geoPointDTO;
-//    }
-    public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
-                   List<UserDTO> participants, List<CommentDTO> comments, List<TagDTO> tags, PictureDTO picture) {
+    public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture) {
         this.topicStarterId = topicStarterId;
         this.type = type;
         this.state = state;
         this.theme = theme;
         this.descr = descr;
-        this.participants = participants;
-        this.comments = comments;
-        this.tags = tags;
         this.picture = picture;
+    }
+    public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
+                   List<UserDTO> participants, List<CommentDTO> comments, List<TagDTO> tags, PictureDTO picture) {
+        this(topicStarterId, type, state, theme, descr);
+//        this.participants = participants;
+//        this.comments = comments;
+//        this.tags = tags;
+//        this.picture = picture;
     }
     //<editor-fold desc="GetterAndSetter">
 
@@ -67,6 +64,10 @@ public class TaskDTO {
 
     public Long getTopicStarterId() {
         return topicStarterId;
+    }
+
+    public Long getOriginGeoPointId() {
+        return originGeoPointId;
     }
 
     public TaskType getType() {
@@ -97,44 +98,36 @@ public class TaskDTO {
         this.descr = descr;
     }
 
-    public List<UserDTO> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<UserDTO> participants) {
-        this.participants = participants;
-    }
-
-    public List<CommentDTO> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<CommentDTO> comments) {
-        this.comments = comments;
-    }
-
     public PictureDTO getPicture() {
         return picture;
     }
 
-    public void setPictures(PictureDTO picture) {
+    public void setPicture(PictureDTO picture) {
         this.picture = picture;
     }
 
-    public List<TagDTO> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<TagDTO> tags) {
-        this.tags = tags;
-    }
-
-//    public GeoPointDTO getgeoPointDTO() {
-//        return geoPointDTO;
+//    public List<UserDTO> getParticipants() {
+//        return participants;
+//    }
+//
+//    public void setParticipants(List<UserDTO> participants) {
+//        this.participants = participants;
+//    }
+//
+//    public List<CommentDTO> getComments() {
+//        return comments;
+//    }
+//
+//    public void setComments(List<CommentDTO> comments) {
+//        this.comments = comments;
 //    }
 
-//    public void setgeoPointDTO(GeoPointDTO geoPointDTO) {
-//        this.geoPointDTO = geoPointDTO;
+//    public List<TagDTO> getTags() {
+//        return tags;
+//    }
+//
+//    public void setTags(List<TagDTO> tags) {
+//        this.tags = tags;
 //    }
 
     //</editor-fold>

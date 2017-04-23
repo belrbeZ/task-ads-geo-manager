@@ -22,7 +22,7 @@ import java.util.Set;
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Optional<List<Task>> findAllByTags(@Param("tagId") List<String> tagsId);
+//    Optional<List<Task>> findAllByTags(@Param("tagId") List<String> tagsId);
 
     Optional<List<Task>> findAllByTopicStarterId(@Param("userId") Long userId);
 

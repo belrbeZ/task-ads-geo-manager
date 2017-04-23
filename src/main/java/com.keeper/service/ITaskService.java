@@ -8,6 +8,9 @@ package com.keeper.service;
  */
 
 import com.keeper.model.dao.Task;
+import com.keeper.model.dto.CommentDTO;
+import com.keeper.model.dto.PictureDTO;
+import com.keeper.model.dto.TaskDTO;
 
 import java.util.List;
 import java.util.Set;
@@ -20,5 +23,19 @@ public interface ITaskService {
     List<Task> getByUserId(Long userId);
 
     Task removeByUserId(Long topicStarterId);
+
+    /*---PICTURE---*/
+    PictureDTO getPicture(Long taskId);
+    TaskDTO setPicture(Long taskId, PictureDTO picture);
+    /*---END PICTURE---*/
+
+    /*---COMMENTS---*/
+/*
+    List<CommentDTO> getComments(Long taskId);
+    TaskDTO addComment(Long taskId, CommentDTO comment);
+    TaskDTO removeComment(Long taskId, CommentDTO comment);
+    TaskDTO removeCommentById(Long taskId, Long commentId);
+*/
+    /*---END COMMENTS---*/
 
 }

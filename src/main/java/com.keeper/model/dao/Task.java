@@ -35,6 +35,7 @@ public class Task {
     @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
     @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
     @Column(name = "topicStarterId", nullable = false)              private Long topicStarterId;
+    @Column(name = "originGeoPointId", nullable = false)            private Long originGeoPointId;
     @Column(name = "type")                                          private TaskType type;
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
     @Column(name = "theme")                                         private String theme;
@@ -44,39 +45,33 @@ public class Task {
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "taskId")
     private Picture picture;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @PrimaryKeyJoinColumn(name = "topicStarterId", referencedColumnName = "id")
-//    private User topicStarter;
-
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-    @JoinColumn(name = "taskId", referencedColumnName = "id")
-    private List<Comment> comments;
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+//    @JoinColumn(name = "taskId", referencedColumnName = "id")
+//    private List<Comment> comments;
 
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
 //    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-//    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER,
-//               joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
-//               inverseJoinColumns= @JoinColumn(name = "geopointId", referencedColumnName="id") )
+//    @JoinColumn(name = "id", referencedColumnName = "originGeoPointId")
 //    private GeoPoint originGeoPoint;
-
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
-            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
-            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
-    private List<Tag> tags;
 
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
-               joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
-               inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
-    private List<User> participants  = new ArrayList<>();
+//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
+//            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
+//            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
+//    private List<Tag> tags;
+
+////    @Fetch(FetchMode.SELECT)
+////    @BatchSize(size = 10)
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
+//               joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
+//               inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
+//    private List<User> participants;
 
     private Task() {
         this.id = 0L;
@@ -95,12 +90,25 @@ public class Task {
         this.type = type;
     }
 
-    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
+    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
+        this.originGeoPointId = originGeoPointId;
         this.type = type;
         this.state = state;
         this.theme = theme;
         this.descr = descr;
+    }
+
+    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
+                Picture picture, List<Comment> comments, GeoPoint originGeoPoint,
+                List<Tag> tags, List<User> participants) {
+        this(topicStarterId, originGeoPointId, type, state, theme, descr);
+        this.picture = picture;
+//        this.comments = comments;
+//        this.tags = tags;
+//        this.participants = participants;
+//        this.originGeoPoint = originGeoPoint;
+        /*this.topicStarter = topicStarter;*/
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -111,6 +119,10 @@ public class Task {
 
     public Long getTopicStarterId() {
         return topicStarterId;
+    }
+
+    public Long getOriginGeoPointId() {
+        return originGeoPointId;
     }
 
     public TaskType getType() {
@@ -165,17 +177,68 @@ public class Task {
         return picture;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
+//
+//    public List<Tag> getTags() {
+//        return tags;
+//    }
+//
+//    public List<User> getParticipants() {
+//        return participants;
+//    }
 
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public List<User> getParticipants() {
-        return participants;
-    }
+//    public void setComments(List<Comment> comments) {
+//        this.comments = comments;
+//    }
+//
+//    public GeoPoint getOriginGeoPoint() {
+//        return originGeoPoint;
+//    }
+//
+//    public void setOriginGeoPoint(GeoPoint originGeoPoint) {
+//        this.originGeoPoint = originGeoPoint;
+//    }
+//
+//    public void setTags(List<Tag> tags) {
+//        this.tags = tags;
+//    }
+//
+//    public void setParticipants(List<User> participants) {
+//        this.participants = participants;
+//    }
 
     //</editor-fold>
+
+    /*---COMMENTS---*/
+//    public int hasComment( Comment comment ) {
+//        return comments.indexOf(comment);
+//    }
+//
+//    public void addComment( Comment comment ) {
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( !comments.contains( comment ) ) {
+//            comments.add( comment );
+//        }
+//    }
+//
+//    public void removeComment( Comment comment ) {
+////        int index;
+////        //avoid circular calls : assumes equals and hashcode implemented
+////        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+////            geoPoints.get(index);
+////            return geoPoints.remove( index );
+////        }
+////        return geoPoint.getEMPTY();
+//        if ( comments.contains( comment )) {
+//            comments.remove( comment );
+//        } else {
+//            throw new IllegalArgumentException("No such comment associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+//        }
+//    }
+    /*---END COMMENTS---*/
 }
