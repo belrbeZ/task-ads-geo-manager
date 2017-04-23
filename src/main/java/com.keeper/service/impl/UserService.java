@@ -13,14 +13,16 @@ import com.keeper.repo.RouteRepository;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -49,43 +51,36 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     }
 
     @Override
-    public boolean isExists(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.existsByEmail(email)
-                : (phone != null && !phone.isEmpty()) && repository.existsByPhone(phone);
+    public boolean existsByEmail(@NotEmpty String email) {
+        return repository.existsByEmail(email);
     }
 
     @Override
-    public boolean isExistsByEmail(String email) {
-        return (email != null && !email.isEmpty()) && repository.existsByEmail(email);
+    public boolean existsByPhone(@NotEmpty String phone) {
+        return repository.existsByPhone(phone);
     }
 
     @Override
-    public boolean isUserLoginDataValid(String email, String phone, String password) {
-        return (get(email, phone).getPassword().equals(password));
+    public Optional<User> getByEmail(@NotEmpty String email) {
+        return repository.findOneByEmail(email);
     }
 
     @Override
-    public User get(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.findOneByEmail(email).orElse(getEmpty())
-                : (phone != null && !phone.isEmpty()) ? repository.findOneByPhone(phone).orElse(getEmpty()) : getEmpty();
+    public Optional<User> getByPhone(@NotEmpty String phone) {
+        return repository.findOneByPhone(phone);
     }
 
+    @Transactional
     @Override
-    public User getByEmail(String email) {
-        return (email != null && !email.isEmpty())
-                ? repository.findOneByEmail(email).orElse(getEmpty())
-                : getEmpty();
+    public Optional<User> removeByEmail(@NotEmpty String email) {
+        return repository.removeByEmail(email);
     }
 
+    @Transactional
     @Override
-    public User remove(String email, String phone) {
-        return (email != null && !email.isEmpty())
-                ? repository.removeByEmail(email).orElse(getEmpty())
-                : (phone != null && !phone.isEmpty()) ? repository.removeByPhone(phone).orElse(getEmpty()) : getEmpty();
+    public Optional<User> removeByPhone(@NotEmpty String phone) {
+        return repository.removeByPhone(phone);
     }
-
 
     /*---ZONES---*/
     public ZoneDTO getZone(Long userId) {
@@ -133,7 +128,6 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     }
 
     @Override
-    @Transactional
     public UserDTO addGeoPoint(Long userId, GeoPointDTO geoPoint) {
         User user;
         if((user = repository.findOne(userId))==null)
@@ -145,7 +139,6 @@ public class UserService extends ModelRepoService<User> implements IUserService 
 
     //This works programmic only! remove check on links.
     @Override
-    @Transactional
     public UserDTO removeGeoPoint(Long userId, GeoPointDTO geoPoint) {
         User user;
         if((user = repository.findOne(userId))==null)
@@ -156,7 +149,6 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     }
 
     @Override
-    @Transactional
     public UserDTO removeGeoPointById(Long userId, Long geoPointId) {
         User user = repository.findOne(userId);
         if((user)==null)

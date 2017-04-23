@@ -4,6 +4,7 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.TaskService;
 import com.keeper.util.Translator;
@@ -46,7 +47,7 @@ public class TaskRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDTO> get(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Task.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
@@ -77,12 +78,12 @@ public class TaskRestController {
 
     @RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getParticipants(), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Task.EMPTY)).getParticipants(), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/comments", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getComments(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)).getComments(), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Task.EMPTY)).getComments(), HttpStatus.OK);
     }
 
 

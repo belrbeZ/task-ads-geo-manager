@@ -4,28 +4,26 @@ package com.keeper.service;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.UserDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
  */
 public interface IUserService extends IModelService<User> {
-    boolean isExists(String email, String phone);
+    boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
 
-    boolean isExistsByEmail(String email);
+    Optional<User> getByEmail(String email);
+    Optional<User> getByPhone(String phone);
 
-    boolean isUserLoginDataValid(String email, String phone, String password);
-
-    User get(String email, String phone);
-
-    User getByEmail(String email);
-
-    User remove(String email, String phone);
+    Optional<User> removeByEmail(String email);
+    Optional<User> removeByPhone(String phone);
 
 
     /*GEOPOINTS*/

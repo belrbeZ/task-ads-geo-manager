@@ -4,6 +4,7 @@ package com.keeper.controllers.restful;
  * Created by @GoodforGod on 28.03.2017.
  */
 
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.impl.GeoPointService;
 import com.keeper.util.Translator;
@@ -38,7 +39,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GeoPointDTO> get(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(GeoPoint.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)

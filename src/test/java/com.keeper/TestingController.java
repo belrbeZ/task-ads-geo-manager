@@ -24,7 +24,7 @@ public class TestingController extends TestCase {
     }
 
     public void testApp() throws Exception {
-        System.out.println(repoService.get(1L).getEmail());
+        System.out.println(repoService.get(1L).get());
     }
 
     public void tearDown() throws Exception {

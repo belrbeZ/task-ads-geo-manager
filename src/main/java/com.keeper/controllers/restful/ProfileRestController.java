@@ -4,6 +4,7 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
@@ -35,7 +36,7 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)

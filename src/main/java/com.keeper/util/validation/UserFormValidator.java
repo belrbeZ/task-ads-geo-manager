@@ -7,7 +7,6 @@ package com.keeper.util.validation;
 import com.keeper.model.dto.UserFormDTO;
 import com.keeper.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -53,7 +52,7 @@ public class UserFormValidator implements Validator {
     }
 
     private void validateEmail(Errors errors, UserFormDTO form) {
-        if(userService.isExistsByEmail(form.getEmail()))
+        if(userService.existsByEmail(form.getEmail()))
             errors.reject("email.exists", "User with this email already exists");
     }
 }

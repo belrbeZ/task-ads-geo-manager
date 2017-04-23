@@ -53,7 +53,7 @@ public class SecureWebController {
     public ModelAndView registrationPost(@Valid UserFormDTO user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.REGISTER);
 
-        if(userService.isExistsByEmail(user.getEmail()))
+        if(userService.existsByEmail(user.getEmail()))
             bindingResult.rejectValue("email",
                     "error.user",
                     "There is already a user registered with the email provided");

@@ -21,38 +21,5 @@ public class ZoneTestManager implements IZoneTestManager {
     @Autowired
     private ZoneTestRepoService repoService;
 
-    @Override
-    public ZoneTestDTO getEmpty() {
-        return null;
-    }
 
-    @Override
-    public boolean isExists(Long id) {
-        return false;
-    }
-
-    @Override
-    public ZoneTestDTO add(ZoneTestDTO model) {
-        return null;
-    }
-
-    @Override
-    public ZoneTestDTO get(Long id) {
-        return null;
-    }
-
-    @Override
-    public List<ZoneTestDTO> getAll() {
-        return null;
-    }
-
-    @Override
-    public ZoneTestDTO update(ZoneTestDTO model) {
-        return null;
-    }
-
-    @Override
-    public void remove(Long id) {
-
-    }
 }

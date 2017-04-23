@@ -5,6 +5,7 @@ package com.keeper.service;
  */
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -13,15 +14,17 @@ public interface IModelService<T> {
 
     T getEmpty();
 
+    List<T> getEmptyList();
+
     boolean isExists(Long id);
 
-    T add(T model);
+    Optional<T> add(T model);
 
-    T get(Long id);
+    Optional<T> get(Long id);
 
-    List<T> getAll();
+    Optional<List<T>> getAll();
 
-    T update(T model);
+    Optional<T> update(T model);
 
     void remove(Long id);
 }

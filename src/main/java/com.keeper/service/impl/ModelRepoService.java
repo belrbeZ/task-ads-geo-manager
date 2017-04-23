@@ -11,8 +11,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Basic model with ID as a LONG type PARAMETER!
@@ -41,30 +43,30 @@ public class ModelRepoService<T> implements IModelService<T> {
     // Ask what to return, exception or empty/null in case of NULL
     @Transactional
     @Override
-    public T add(T model) {
-        return  (model != null) ? primeRepository.save(model) : getEmpty();
+    public Optional<T> add(T model) {
+        return  Optional.of(primeRepository.save(model));
     }
 
     @Override
-    public T get(Long id) {
-        return (id != null) ? primeRepository.findOne(id) : getEmpty();
+    public Optional<T> get(Long id) {
+        return Optional.of(primeRepository.findOne(id));
     }
 
     @Override
-    public List<T> getAll() {
-        return primeRepository.findAll();
+    public Optional<List<T>> getAll() {
+        return Optional.of(primeRepository.findAll());
     }
 
     // Ask what to return, exception or empty/null in case of NULL
     @Transactional
     @Override
-    public T update(T model) {
-        return (model != null) ? primeRepository.save(model) : getEmpty();
+    public Optional<T> update(T model) {
+        return Optional.of(primeRepository.save(model));
     }
 
+    @Transactional
     @Override
     public void remove(Long id) {
-        if(id != null)
-            primeRepository.delete(id);
+        primeRepository.delete(id);
     }
 }

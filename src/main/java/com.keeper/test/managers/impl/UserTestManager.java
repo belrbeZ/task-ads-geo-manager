@@ -20,48 +20,13 @@ public class UserTestManager implements IUserTestManager {
     private UserTestRepoService userTestRepoService;
 
     @Override
-    public UserTestDTO getEmpty() {
-        return null;
-    }
-
-    @Override
-    public boolean isExists(Long id) {
-        return false;
-    }
-
-    @Override
-    public UserTestDTO add(UserTestDTO model) {
-        return null;
-    }
-
-    @Override
-    public UserTestDTO get(Long id) {
-        return null;
-    }
-
-    @Override
     public boolean isExists(String email, String phone) {
         return false;
     }
 
     @Override
-    public List<UserTestDTO> getAll() {
-        return null;
-    }
-
-    @Override
-    public UserTestDTO update(UserTestDTO model) {
-        return null;
-    }
-
-    @Override
     public UserTestDTO get(String email, String phone) {
         return null;
-    }
-
-    @Override
-    public void remove(Long id) {
-
     }
 
     @Override

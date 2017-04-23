@@ -10,6 +10,6 @@ import com.keeper.managers.IModelManager;
 /**
  * Default Comment
  */
-public interface IZoneTestManager extends IModelManager<ZoneTestDTO> {
+public interface IZoneTestManager {
 
 }

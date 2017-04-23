@@ -6,7 +6,9 @@ package com.keeper.managers.impl;
 
 import com.keeper.managers.IModelManager;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -24,22 +26,27 @@ public class ModelManager<T> implements IModelManager<T> {
     }
 
     @Override
-    public T add(T model) {
+    public List<T> getEmptyList() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Optional<T> add(T model) {
         return null;
     }
 
     @Override
-    public T get(Long id) {
+    public Optional<T> get(Long id) {
         return null;
     }
 
     @Override
-    public List<T> getAll() {
+    public Optional<List<T>> getAll() {
         return null;
     }
 
     @Override
-    public T update(T model) {
+    public Optional<T> update(T model) {
         return null;
     }
 

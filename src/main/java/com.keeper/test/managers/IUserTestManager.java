@@ -10,7 +10,7 @@ import com.keeper.managers.IModelManager;
 /**
  * Default Comment
  */
-public interface IUserTestManager extends IModelManager<UserTestDTO> {
+public interface IUserTestManager {
     boolean isExists(String email, String phone);
 
     UserTestDTO get(String email, String phone);

@@ -34,7 +34,7 @@ public class ZoneRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ZoneDTO> get(@RequestParam("userId") Long userId) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId).orElse(Zone.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
