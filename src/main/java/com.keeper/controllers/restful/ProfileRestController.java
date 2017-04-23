@@ -4,10 +4,12 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
+import com.keeper.util.Validator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Control Profile Rest End points
@@ -40,10 +43,34 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid @RequestBody UserDTO model, BindingResult result) {
-//        repoService.get(model.getId());
-        repoService.update(Translator.convertToDAO(model));
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> update(@RequestBody UserDTO model, BindingResult result) {
+
+        HttpStatus code = HttpStatus.OK;
+        String info = "";
+        try {
+            User user = updateUserEmailDAO(repoService.get(model.getId()), model);
+            ModelLoggerManager.logSetupError(user.getAbout());
+            repoService.update(user);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            info = e.getMessage();
+            code = HttpStatus.INTERNAL_SERVER_ERROR;
+        } finally {
+
+        }
+
+        return new ResponseEntity<>(info, code);
+    }
+
+    public User updateUserEmailDAO(Optional<User> user, UserDTO dto) throws NullPointerException {
+        if(!user.isPresent())
+            throw new NullPointerException("NO SUCH USER");
+        if(dto.getAbout() == null || dto.getAbout().isEmpty())
+            throw new NullPointerException("NO SUCH INFO");
+
+        User upUser = user.get();
+        upUser.setEmail(dto.getAbout());
+        return upUser;
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
@@ -105,7 +132,7 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH + "/geoPoint", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> removeGeoPointById(@RequestParam("userId") Long userId, @RequestParam("geoPointId") Long geoPointId) {
+    public ResponseEntity<UserDTO> removeGeoPoint(@RequestParam("userId") Long userId, @RequestParam("geoPointId") Long geoPointId) {
         return new ResponseEntity<>(repoService.removeGeoPointById(userId, geoPointId), HttpStatus.OK);
     }
     /*---END GEOPOINTS---*/
@@ -133,35 +160,8 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH + "/route", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> removeRouteById(@RequestParam("userId") Long userId, @RequestParam("geoPointId") Long routeId) {
+    public ResponseEntity<UserDTO> removeRoute(@RequestParam("userId") Long userId, @RequestParam("geoPointId") Long routeId) {
         return new ResponseEntity<>(repoService.removeRouteById(userId, routeId), HttpStatus.OK);
     }
     /*---END ROUTE---*/
-
-    /*---PARTICIPANTED TASKS---*/
-    /*@RequestMapping(value = PATH + "/participantedTasks/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TaskDTO>> getParticipantedTask(@PathVariable("userId") Long userId) {
-//        if (user == null) {
-//            System.out.println("User with id " + id + " not found");
-//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-//        }
-        return new ResponseEntity<>(repoService.getParticipantedTasks(userId), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH + "/participantedTasks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> addParticipantedTask(@RequestParam("userId") Long userId, @Valid @RequestBody  TaskDTO task, BindingResult result) {
-        return new ResponseEntity<>(repoService.addParticipantedTask(userId, task), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH + "/participantedTasks/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> removeParticipantedTask(@RequestParam("userId") Long userId, @Valid @RequestBody TaskDTO task) {
-        return new ResponseEntity<>(repoService.removeParticipantedTask(userId, task), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH + "/participantedTasks", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> removeParticipantedTaskById(@RequestParam("userId") Long userId, @RequestParam("taskId") Long taskId) {
-        return new ResponseEntity<>(repoService.removeParticipantedTaskById(userId, taskId), HttpStatus.OK);
-    }*/
-    /*---END PARTICIPANTED TASKS---*/
-
 }

@@ -12,6 +12,7 @@ import com.keeper.model.dao.*;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +24,7 @@ public class UserDTO {
 
     public static final UserDTO EMPTY = new UserDTO((long)UserType.EMPTY.getValue(),UserType.EMPTY);
 
+    @NotEmpty
     private Long  id;
     private UserState   state;
     private UserType    type;
