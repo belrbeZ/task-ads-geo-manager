@@ -10,6 +10,7 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.Comment;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.CommentDTO;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.PictureDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.CommentRepository;
@@ -91,7 +92,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     public PictureDTO getPicture(Long taskId) {
         Task task = repository.findOne(taskId);
         if((task)==null)
-            throw new IllegalArgumentException("No such user!");
+            throw new IllegalArgumentException("No such task!");
         return Translator.convertToDTO(task.getPicture());
     }
 
@@ -99,13 +100,21 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     public TaskDTO setPicture(Long taskId, PictureDTO picture) {
         Task task = repository.findOne(taskId);
         if((task)==null)
-            throw new IllegalArgumentException("No such user!");
+            throw new IllegalArgumentException("No such task!");
         task.setPicture(Translator.convertToDAO(picture));
         primeRepository.save(task);
         return Translator.convertToDTO(task);
     }
     /*---END PICTURE---*/
 
+    /*---ORIGIN GEO POINT---*/
+    public GeoPointDTO getOriginGeoPoint(Long taskId) {
+        Task task = repository.findOne(taskId);
+        if((task)==null)
+            throw new IllegalArgumentException("No such task!");
+        return Translator.convertToDTO(task.getOriginGeoPoint());
+    }
+    /*---END ORIGIN GEO POINT---*/
 
     /*---COMMENTS---*/
 //    @Override

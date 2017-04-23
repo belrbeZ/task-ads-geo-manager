@@ -25,7 +25,7 @@ public class TaskDTO {
     private String descr;
 
     private PictureDTO picture;
-
+    private GeoPointDTO originGeoPoint;
 //    private List<UserDTO> participants;
 //    private List<CommentDTO> comments;
 //    private List<TagDTO> tags;
@@ -40,17 +40,20 @@ public class TaskDTO {
         this.descr = descr;
     }
 
-    public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture) {
+    public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture) {
         this.topicStarterId = topicStarterId;
+        this.originGeoPointId = originGeoPointId;
         this.type = type;
         this.state = state;
         this.theme = theme;
         this.descr = descr;
         this.picture = picture;
     }
-    public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
-                   List<UserDTO> participants, List<CommentDTO> comments, List<TagDTO> tags, PictureDTO picture) {
-        this(topicStarterId, type, state, theme, descr);
+
+    public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture,
+                   List<UserDTO> participants, List<CommentDTO> comments, List<TagDTO> tags) {
+        this(topicStarterId, originGeoPointId, type, state, theme, descr ,picture);
+
 //        this.participants = participants;
 //        this.comments = comments;
 //        this.tags = tags;
@@ -106,7 +109,15 @@ public class TaskDTO {
         this.picture = picture;
     }
 
-//    public List<UserDTO> getParticipants() {
+    public GeoPointDTO getOriginGeoPoint() {
+        return originGeoPoint;
+    }
+
+    public void setOriginGeoPoint(GeoPointDTO geoPoint) {
+        this.originGeoPoint = originGeoPoint;
+    }
+
+    //    public List<UserDTO> getParticipants() {
 //        return participants;
 //    }
 //

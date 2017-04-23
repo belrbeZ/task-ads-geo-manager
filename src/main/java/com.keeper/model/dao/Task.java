@@ -45,17 +45,17 @@ public class Task {
     @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "taskId")
     private Picture picture;
 
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "originGeoPointId")
+    private GeoPoint originGeoPoint;
+
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
 //    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
 //    @JoinColumn(name = "taskId", referencedColumnName = "id")
 //    private List<Comment> comments;
-
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-//    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "id", referencedColumnName = "originGeoPointId")
-//    private GeoPoint originGeoPoint;
 
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
@@ -90,20 +90,21 @@ public class Task {
         this.type = type;
     }
 
-    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr) {
+    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, Picture picture) {
         this.topicStarterId = topicStarterId;
         this.originGeoPointId = originGeoPointId;
         this.type = type;
         this.state = state;
         this.theme = theme;
         this.descr = descr;
+        this.picture = picture;
     }
 
     public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
                 Picture picture, List<Comment> comments, GeoPoint originGeoPoint,
                 List<Tag> tags, List<User> participants) {
-        this(topicStarterId, originGeoPointId, type, state, theme, descr);
-        this.picture = picture;
+        this(topicStarterId, originGeoPointId, type, state, theme, descr, picture);
+
 //        this.comments = comments;
 //        this.tags = tags;
 //        this.participants = participants;
@@ -180,6 +181,7 @@ public class Task {
     public void setPicture(Picture picture) {
         this.picture = picture;
     }
+
 //    public List<Comment> getComments() {
 //        return comments;
 //    }
@@ -195,15 +197,15 @@ public class Task {
 //    public void setComments(List<Comment> comments) {
 //        this.comments = comments;
 //    }
-//
-//    public GeoPoint getOriginGeoPoint() {
-//        return originGeoPoint;
-//    }
-//
-//    public void setOriginGeoPoint(GeoPoint originGeoPoint) {
-//        this.originGeoPoint = originGeoPoint;
-//    }
-//
+
+    public GeoPoint getOriginGeoPoint() {
+        return originGeoPoint;
+    }
+
+    public void setOriginGeoPoint(GeoPoint originGeoPoint) {
+        this.originGeoPoint = originGeoPoint;
+    }
+
 //    public void setTags(List<Tag> tags) {
 //        this.tags = tags;
 //    }

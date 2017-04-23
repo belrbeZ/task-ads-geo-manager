@@ -88,6 +88,13 @@ public class TaskRestController {
     }
     /*---END PICTURE---*/
 
+    /*---ORIGIN GEO POINT---*/
+    @RequestMapping(value = PATH + "/originGeo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GeoPointDTO> getOriginGeoPoint(@RequestParam("taskId") Long taskId) {
+        return new ResponseEntity<>(repoService.getOriginGeoPoint(taskId), HttpStatus.OK);
+    }
+    /*---END PICTURE---*/
+
     /*---COMMENTS---*/
     /*@RequestMapping(value = PATH + "/comments/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getGeoPoints(@PathVariable("taskId") Long taskId) {

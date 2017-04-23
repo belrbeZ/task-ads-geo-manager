@@ -29,12 +29,13 @@ public class Translator {
         return (model == null)
                 ? TaskDTO.EMPTY
                 : new TaskDTO(model.getTopicStarterId(),
-//                            model.getOriginGeoPointId(),
+                            model.getTopicStarterId(),
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
-                            model.getDescr()/*,
-                            convertUsersToDTO(model.getParticipants()),
+                            model.getDescr(),
+                            Translator.convertToDTO(model.getPicture())
+                            /*convertUsersToDTO(model.getParticipants()),
                             convertCommentsToDTO(model.getComments()),
                             convertTagsToDTO(model.getTags()),
                             convertToDTO(model.getPicture())*/
@@ -237,7 +238,9 @@ public class Translator {
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
-                            model.getDescr());
+                            model.getDescr(),
+                            Translator.convertToDAO(model.getPicture())
+                );
     }
 
     public static GeoPoint convertToDAO(GeoPointDTO model) {
