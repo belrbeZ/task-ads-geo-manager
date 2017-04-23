@@ -4,10 +4,12 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
+import com.keeper.util.Validator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Control Profile Rest End points
@@ -40,13 +43,38 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid @RequestBody UserDTO model, BindingResult result) {
-        repoService.update(Translator.convertToDAO(model));
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> update(@RequestBody UserDTO model, BindingResult result) {
+
+        HttpStatus code = HttpStatus.OK;
+        String info = "";
+        try {
+            User user = updateUserEmailDAO(repoService.get(model.getId()), model);
+            ModelLoggerManager.logSetupError(user.getAbout());
+            repoService.update(user);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            info = e.getMessage();
+            code = HttpStatus.INTERNAL_SERVER_ERROR;
+        } finally {
+
+        }
+
+        return new ResponseEntity<>(info, code);
+    }
+
+    public User updateUserEmailDAO(Optional<User> user, UserDTO dto) throws NullPointerException {
+        if(!user.isPresent())
+            throw new NullPointerException("NO SUCH USER");
+        if(dto.getAbout() == null || dto.getAbout().isEmpty())
+            throw new NullPointerException("NO SUCH INFO");
+
+        User upUser = user.get();
+        upUser.setEmail(dto.getAbout());
+        return upUser;
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody UserDTO model, BindingResult result) {
+    public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
         repoService.add(Translator.convertToDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }

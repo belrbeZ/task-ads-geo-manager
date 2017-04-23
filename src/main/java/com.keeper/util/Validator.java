@@ -14,6 +14,10 @@ public class Validator {
 
     public static final int EMAIL_INCORRECT = -1;
 
+    public static boolean isEmailValid(String email) {
+        return (email != null && email.length() > 3 && email.indexOf('@') != EMAIL_INCORRECT);
+    }
+
     public static int isEmailValidReturnIndex(String email) {
         return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
     }
