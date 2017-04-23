@@ -164,4 +164,31 @@ public class ProfileRestController {
         return new ResponseEntity<>(repoService.removeRouteById(userId, routeId), HttpStatus.OK);
     }
     /*---END ROUTE---*/
+
+
+    /*---PARTICIPANTED TASKS---*/
+    /*@RequestMapping(value = PATH + "/participantedTasks/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TaskDTO>> getParticipantedTask(@PathVariable("userId") Long userId) {
+//        if (user == null) {
+//            System.out.println("User with id " + id + " not found");
+//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+//        }
+        return new ResponseEntity<>(repoService.getParticipantedTasks(userId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/participantedTasks", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> addParticipantedTask(@RequestParam("userId") Long userId, @Valid @RequestBody  TaskDTO task, BindingResult result) {
+        return new ResponseEntity<>(repoService.addParticipantedTask(userId, task), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/participantedTasks/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> removeParticipantedTask(@RequestParam("userId") Long userId, @Valid @RequestBody TaskDTO task) {
+        return new ResponseEntity<>(repoService.removeParticipantedTask(userId, task), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/participantedTasks", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> removeParticipantedTaskById(@RequestParam("userId") Long userId, @RequestParam("taskId") Long taskId) {
+        return new ResponseEntity<>(repoService.removeParticipantedTaskById(userId, taskId), HttpStatus.OK);
+    }*/
+    /*---END PARTICIPANTED TASKS---*/
 }
