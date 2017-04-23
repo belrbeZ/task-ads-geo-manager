@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Transactional
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = (service.getByEmail(email)).orElseThrow(() -> new UsernameNotFoundException("No user present with email: " + email));
+        User user = service.getByEmail(email).orElseThrow(() -> new UsernameNotFoundException("No user present with email: " + email));
 
         return new UserCredentials(user, SecureResolver.ROLE_USER);
     }

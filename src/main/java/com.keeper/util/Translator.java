@@ -29,14 +29,16 @@ public class Translator {
         return (model == null)
                 ? TaskDTO.EMPTY
                 : new TaskDTO(model.getTopicStarterId(),
+//                            model.getOriginGeoPointId(),
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
-                            model.getDescr(),
+                            model.getDescr()/*,
                             convertUsersToDTO(model.getParticipants()),
                             convertCommentsToDTO(model.getComments()),
                             convertTagsToDTO(model.getTags()),
-                            convertToDTO(model.getPicture()));
+                            convertToDTO(model.getPicture())*/
+        );
     }
 
     public static GeoPointDTO convertToDTO(GeoPoint model) {
@@ -70,7 +72,8 @@ public class Translator {
                             Translator.convertToDTO(model.getPic()),
                             convertToDTO(model.getZone()),
                             convertGeoToDTO(model.getGeoPoints()),
-                            convertRoutesToDTO(model.getRoutes())
+                            convertRoutesToDTO(model.getRoutes())/*,
+                            convertTasksToDTO(model.getParticipantedTasks())*/
         );
     }
 
@@ -230,6 +233,7 @@ public class Translator {
         return (model == null)
                 ? Task.EMPTY
                 : new Task(model.getTopicStarterId(),
+                            model.getOriginGeoPointId(),
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
@@ -272,6 +276,18 @@ public class Translator {
                 model.getTaskId(),
                 model.getPic(),
                 model.getInfo()
+        );
+    }
+
+    public static Comment convertToDAO(CommentDTO model) {
+        return (model == null)
+                ? Comment.EMPTY
+                : new Comment(
+                model.getUserId(),
+                model.getTaskId(),
+                model.getCreateDate(),
+                model.getMessage(),
+                new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
         );
     }
     //</editor-fold>

@@ -14,6 +14,8 @@ public class SimpleGeoPoint {
     private String longtitude;
     private String latitude;
 
+    public SimpleGeoPoint(){};
+
     public SimpleGeoPoint(@GeoCoordinate String longtitude,
                           @GeoCoordinate String latitude) {
         this.longtitude = longtitude;
@@ -26,6 +28,14 @@ public class SimpleGeoPoint {
 
     public String getLatitude() {
         return latitude;
+    }
+
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     @Override

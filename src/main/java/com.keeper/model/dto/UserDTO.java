@@ -45,6 +45,7 @@ public class UserDTO {
     private PictureDTO     pic;
     private List<GeoPointDTO> geoPoints;
     private List<RouteDTO> routes;
+   /* private List<TaskDTO> participantedTasks;*/
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -95,12 +96,14 @@ public class UserDTO {
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
                    boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd,
-                   PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints, List<RouteDTO> routes) {
+                   PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints,
+                   List<RouteDTO> routes/*, List<TaskDTO> participantedTasks*/) {
         this(id, type, state, name, email, phone, about, password, isNotified, muteStart, muteEnd);
         this.pic = pic;
         this.zone = zone;
         this.geoPoints = geoPoints;
         this.routes = routes;
+        /*this.participantedTasks = participantedTasks;*/
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -165,15 +168,6 @@ public class UserDTO {
         this.routes = routes;
     }
 
-//    public List<Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<Comment> comments) {
-//        this.comments = comments;
-//    }
-
-
     public List<GeoPointDTO> getGeoPoints() {
         return geoPoints;
     }
@@ -189,6 +183,15 @@ public class UserDTO {
     public void setZone(ZoneDTO zone) {
         this.zone = zone;
     }
+/*
+    public List<TaskDTO> getParticipantedTasks() {
+        return participantedTasks;
+    }
+
+    public void setParticipantedTasks(List<TaskDTO> participantedTasks) {
+        this.participantedTasks = participantedTasks;
+    }*/
+
     //</editor-fold>
 
     @Override

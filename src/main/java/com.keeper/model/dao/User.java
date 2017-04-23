@@ -71,13 +71,14 @@ public class User {
     @JoinColumn(name="userId", referencedColumnName="id")
     private List<Route> routes;
 
-////    @Fetch(FetchMode.SELECT)
-////    @BatchSize(size = 10)
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
 //               joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
 //               inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
-//    private List<Task> participantedTasks;
+/*    @ManyToMany(mappedBy="participants")
+    private List<Task> participantedTasks;*/
 
     private User() {
         this.id         = (long) UserType.UNKNOWN.getValue();
@@ -107,7 +108,7 @@ public class User {
         this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
-        this.phone      = phone;
+        this.phone      = (phone==null || phone.equals("")) ? String.valueOf(-1*(email.hashCode())) : phone;
         this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
@@ -246,14 +247,6 @@ public class User {
         this.routes = routes;
     }
 
-    /*public List<Comment> getComments() {
-        return (comments == null) ? Collections.emptyList() : comments;
-    }*/
-
-    /*public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }*/
-
     public List<GeoPoint> getGeoPoints() {
         return geoPoints;
     }
@@ -262,13 +255,15 @@ public class User {
         this.geoPoints = geoPoints;
     }
 
-    /*public List<Task> getParticipantedTasks() {
+/*
+    public List<Task> getParticipantedTasks() {
         return participantedTasks;
-    }*/
+    }
 
-    /*public void setParticipantedTasks(List<Task> participantedTasks) {
+    public void setParticipantedTasks(List<Task> participantedTasks) {
         this.participantedTasks = participantedTasks;
-    }*/
+    }
+*/
 
     //</editor-fold>
 
@@ -328,6 +323,46 @@ public class User {
         }
     }
     /*---END ROUTES---*/
+
+
+    /*---PARTICIPANTED TASKS---*/
+/*
+    public int hasParticipantedTask( Task task ) {
+        return participantedTasks.indexOf(task);
+    }
+
+    public void addParticipantedTask( Task task ) {
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !routes.contains( task ) ) {
+            participantedTasks.add( task );
+        }
+    }
+
+    public void removeParticipantedTask( Task task ) {
+//        int index;
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
+//        }
+//        return geoPoint.getEMPTY();
+        if ( participantedTasks.contains( task )) {
+            participantedTasks.remove( task );
+        } else {
+            throw new IllegalArgumentException("No such participanted task associated with this User");//"No such geoPoint *//*
+*/
+/*with id " + geoPoint.getId() + " *//*
+*/
+/*associated with User with id "*//*
+*/
+/* + this.getId()*//*
+*/
+/*);
+        }
+    }
+*/
+    /*---END PARTICIPANTED TASKS---*/
+
 
     @Override
     public boolean equals(Object o) {

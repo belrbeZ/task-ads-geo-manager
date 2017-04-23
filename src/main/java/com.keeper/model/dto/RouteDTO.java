@@ -67,5 +67,22 @@ public class RouteDTO {
     public List<SimpleGeoPoint> getPoints() {
         return points;
     }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setType(RouteType type) {
+        this.type = type;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public void setPoints(List<SimpleGeoPoint> points) {
+        this.points = points;
+    }
+
     //</editor-fold>
 }

@@ -90,6 +90,10 @@ public class Route {
         return userId;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     public String getInfo() {
         return info;
     }

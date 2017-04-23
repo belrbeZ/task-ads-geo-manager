@@ -6,10 +6,12 @@ package com.keeper.service.impl;
 
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
+import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
 import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
+import com.keeper.repo.TaskRepository;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
@@ -36,13 +38,15 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;
     private final RouteRepository routeRepository;
+    private final TaskRepository taskRepository;
 
     @Autowired
-    public UserService(UserRepository repository, GeoPointRepository geoPointRepository, RouteRepository routeRepository) {
+    public UserService(UserRepository repository, GeoPointRepository geoPointRepository, RouteRepository routeRepository, TaskRepository taskRepository) {
         this.repository = repository;
         this.primeRepository = repository;
         this.geoPointRepository = geoPointRepository;
         this.routeRepository = routeRepository;
+        this.taskRepository = taskRepository;
     }
 
     @Override
@@ -83,6 +87,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     }
 
     /*---ZONES---*/
+    @Override
     public ZoneDTO getZone(Long userId) {
         User user = repository.findOne(userId);
         if((user)==null)
@@ -90,6 +95,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user.getZone());
     }
 
+    @Override
     public UserDTO createZone(Long userId, ZoneDTO zone) {
         User user = repository.findOne(userId);
         if((user)==null)
@@ -101,6 +107,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     /*---END ZONES---*/
 
     /*---PICTURE---*/
+    @Override
     public PictureDTO getPicture(Long userId) {
         User user = repository.findOne(userId);
         if((user)==null)
@@ -108,6 +115,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user.getPic());
     }
 
+    @Override
     public UserDTO setPicture(Long userId, PictureDTO picture) {
         User user = repository.findOne(userId);
         if((user)==null)
@@ -164,31 +172,31 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     /*---END GEOPOINTS---*/
 
     /*---ROUTES---*/
+    @Override
     public List<RouteDTO> getRoutes(Long userId) {
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-
 //        System.out.println("User First Route:"+user.getRoutes().get(0).getLongtitudes() [0]+" "+user.getRoutes().get(0).getLatitudes()[0]);
-
 //        LOGGER.debug("User First Route:"+user.getRoutes().get(0).getLongtitudes() [0]+" "+user.getRoutes().get(0).getLatitudes()[0]);
-
 //        List<RouteDTO> routes = Translator.convertRoutesToDTO(user.getRoutes());
-
 //        System.out.println("User First Reversed Route:"+routes.get(0).getPoints().get(0)+" "+routes.get(0).getPoints().get(0));
-
         return Translator.convertRoutesToDTO(user.getRoutes());
     }
 
+    @Override
     public UserDTO addRoute(Long userId, RouteDTO route) {
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        user.addRoute(Translator.convertToDAO(route));
+        Route routeDao = Translator.convertToDAO(route);
+        routeDao.setUserId(user.getId());
+        user.addRoute(routeDao);
         primeRepository.save(user);
         return Translator.convertToDTO(user);
     }
 
+    @Override
     public UserDTO removeRoute(Long userId, RouteDTO route) {
         User user;
         if((user = repository.findOne(userId))==null)
@@ -198,19 +206,63 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user);
     }
 
+    @Override
     public UserDTO removeRouteById(Long userId, Long routeId) {
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
         Route route = routeRepository.findOne(routeId);
         if(route==null)
-            throw new IllegalArgumentException("No such geoPoint!");
+            throw new IllegalArgumentException("No such route!");
 //        if(user.hasGeoPoint(geoPoint)>0)
         user.removeRoute(route);
         primeRepository.save(user);
         return Translator.convertToDTO(user);
     }
-
-
     /*---END ROUTES---*/
+
+    /*---PARTICIPANTED TASKS---*/
+    /*@Override
+    public List<TaskDTO> getParticipantedTasks(Long userId) {
+        User user;
+        if((user = repository.findOne(userId))==null)
+            throw new IllegalArgumentException("No such user!");
+        return Translator.convertTasksToDTO(user.getParticipantedTasks());
+    }
+
+    @Override
+    public UserDTO addParticipantedTask(Long userId, TaskDTO task) {
+        User user;
+        if((user = repository.findOne(userId))==null)
+            throw new IllegalArgumentException("No such user!");
+        user.addParticipantedTask(Translator.convertToDAO(task));
+        primeRepository.save(user);
+        return Translator.convertToDTO(user);
+    }
+
+    //This works programmic only! remove check on links.
+    @Override
+    public UserDTO removeParticipantedTask(Long userId, TaskDTO task) {
+        User user;
+        if((user = repository.findOne(userId))==null)
+            throw new IllegalArgumentException("No such user!");
+        user.removeParticipantedTask(Translator.convertToDAO(task));
+        primeRepository.save(user);
+        return Translator.convertToDTO(user);
+    }
+
+    @Override
+    public UserDTO removeParticipantedTaskById(Long userId, Long taskId) {
+        User user = repository.findOne(userId);
+        if((user)==null)
+            throw new IllegalArgumentException("No such user!");
+        Task task = taskRepository.findOne(taskId);
+        if(task==null)
+            throw new IllegalArgumentException("No such task!");
+//        if(user.hasGeoPoint(geoPoint)>0)
+        user.removeParticipantedTask(task);
+        primeRepository.save(user);
+        return Translator.convertToDTO(user);
+    }*/
+    /*---END PARTICIPANTED TASKS---*/
 }
