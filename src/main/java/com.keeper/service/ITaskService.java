@@ -30,12 +30,12 @@ public interface ITaskService {
     /*---END PICTURE---*/
 
     /*---COMMENTS---*/
-/*
+
     List<CommentDTO> getComments(Long taskId);
-    TaskDTO addComment(Long taskId, CommentDTO comment);
+    TaskDTO addComment(Long taskId, Long userId, CommentDTO comment);
     TaskDTO removeComment(Long taskId, CommentDTO comment);
     TaskDTO removeCommentById(Long taskId, Long commentId);
-*/
+
     /*---END COMMENTS---*/
 
 }

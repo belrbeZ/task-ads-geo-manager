@@ -7,21 +7,25 @@ package com.keeper.service.impl;
  *
  */
 
-import com.keeper.model.dao.Comment;
-import com.keeper.model.dao.Task;
+import com.keeper.model.dao.*;
 import com.keeper.model.dto.CommentDTO;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.PictureDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.CommentRepository;
+import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.TaskRepository;
 import com.keeper.service.ITaskService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -32,12 +36,15 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
 
     private final TaskRepository repository;
     private final CommentRepository commentRepository;
+    private final GeoPointRepository geoPointRepository;
 
     @Autowired
-    public TaskService(TaskRepository repository, CommentRepository commentRepository) {
+    public TaskService(TaskRepository repository, CommentRepository commentRepository,
+                       GeoPointRepository geoPointRepository) {
         this.repository = repository;
         this.primeRepository = repository;
         this.commentRepository = commentRepository;
+        this.geoPointRepository = geoPointRepository;
     }
 
     @Override
@@ -80,11 +87,26 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
                 : getEmptyList();
     }
 
+    @Transactional
     @Override
     public Task removeByUserId(Long topicStarterId) {
         return (topicStarterId != null && topicStarterId > 0L)
                 ? repository.removeByTopicStarterId(topicStarterId).orElse(getEmpty())
                 : getEmpty();
+    }
+
+    @Transactional
+    public Task updateTaskDAO(Optional<Task> task, TaskDTO dto) {
+        if(!task.isPresent())
+            throw new NullPointerException("NO SUCH TASK");
+        if(dto.getDescr() == null || dto.getDescr().isEmpty())
+            throw new NullPointerException("NO SUCH DESCR");
+
+        Task upUser = task.get();
+        System.out.println(upUser);
+        upUser.setLastModifyDate(Timestamp.valueOf(LocalDateTime.now()));
+        upUser.setDescr(dto.getDescr());
+        return upUser;
     }
 
     /*---PICTURE---*/
@@ -101,7 +123,15 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task = repository.findOne(taskId);
         if((task)==null)
             throw new IllegalArgumentException("No such task!");
-        task.setPicture(Translator.convertToDAO(picture));
+        Picture existPic = task.getPicture();
+        if(existPic != null && (existPic.getUserId()!=null || existPic.getTaskId()!=null)){
+            existPic.setInfo(picture.getInfo());
+            existPic.setPic(picture.getPic());
+            task.setPicture(existPic);
+        } else {
+            picture.setTaskId(taskId);
+            task.setPicture(Translator.convertToDAO(picture));
+        }
         primeRepository.save(task);
         return Translator.convertToDTO(task);
     }
@@ -114,50 +144,71 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
             throw new IllegalArgumentException("No such task!");
         return Translator.convertToDTO(task.getOriginGeoPoint());
     }
+
+    @Transactional
+    public TaskDTO setOriginGeoPoint(Long taskId, GeoPointDTO modelGeo) {
+        Task task = repository.findOne(taskId);
+        if((task)==null)
+            throw new IllegalArgumentException("No such task!");
+        GeoPoint addedGeo = geoPointRepository.save(Translator.convertToDAO(modelGeo));
+        task.setOriginGeoPoint(addedGeo);
+        task.setOriginGeoPointId(addedGeo.getId());
+        primeRepository.save(task);
+        return Translator.convertToDTO(task);
+    }
     /*---END ORIGIN GEO POINT---*/
 
     /*---COMMENTS---*/
-//    @Override
-//    public List<CommentDTO> getComments(Long taskId) {
-//        Task task;
-//        if((task = repository.findOne(taskId))==null)
-//            throw new IllegalArgumentException("No such task!");
-//        return Translator.convertCommentsToDTO(task.getComments());
-//    }
-//
-//    @Override
-//    public TaskDTO addComment(Long taskId, CommentDTO comment) {
-//        Task task;
-//        if((task = repository.findOne(taskId))==null)
-//            throw new IllegalArgumentException("No such task!");
-//        task.addComment(Translator.convertToDAO(comment));
-//        primeRepository.save(task);
-//        return Translator.convertToDTO(task);
-//    }
-//
-//    //This works programmic only! remove check on links.
-//    @Override
-//    public TaskDTO removeComment(Long taskId, CommentDTO comment) {
-//        Task task;
-//        if((task = repository.findOne(taskId))==null)
-//            throw new IllegalArgumentException("No such task!");
-//        task.removeComment(Translator.convertToDAO(comment));
-//        primeRepository.save(task);
-//        return Translator.convertToDTO(task);
-//    }
-//
-//    @Override
-//    public TaskDTO removeCommentById(Long taskId, Long commentId) {
-//        Task task = repository.findOne(taskId);
-//        if((task)==null)
-//            throw new IllegalArgumentException("No such task!");
-//        Comment comment = commentRepository.findOne(commentId);
-//        if(comment==null)
-//            throw new IllegalArgumentException("No such comment!");
-////        if(task.hasComment(comment)>0)
-//        task.removeComment(comment);
-//        primeRepository.save(task);
-//        return Translator.convertToDTO(task);
-//    }
+    @Override
+    public List<CommentDTO> getComments(Long taskId) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+        return Translator.convertCommentsToDTO(task.getComments());
+    }
+
+    @Transactional
+    @Override
+    public TaskDTO addComment(Long taskId, Long userId, CommentDTO comment) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+        comment.setTaskId(taskId);
+        comment.setUserId(userId);
+
+        Comment commentDAO = Translator.convertToDAO(comment);
+        commentDAO.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        task.addComment(commentDAO);
+        primeRepository.save(task);
+        return Translator.convertToDTO(task);
+    }
+
+    //This works programmic only! remove check on links.
+    @Transactional
+    @Override
+    public TaskDTO removeComment(Long taskId, CommentDTO comment) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+        task.removeComment(Translator.convertToDAO(comment));
+        primeRepository.save(task);
+        return Translator.convertToDTO(task);
+    }
+
+    @Transactional
+    @Override
+    public TaskDTO removeCommentById(Long taskId, Long commentId) {
+        Task task = repository.findOne(taskId);
+        if((task)==null)
+            throw new IllegalArgumentException("No such task!");
+        Comment comment = commentRepository.findOne(commentId);
+        if(comment==null)
+            throw new IllegalArgumentException("No such comment!");
+//        if(task.hasComment(comment)>0)
+        task.removeComment(comment);
+        primeRepository.save(task);
+        return Translator.convertToDTO(task);
+    }
+
     /*---END COMMENTS---*/
 }

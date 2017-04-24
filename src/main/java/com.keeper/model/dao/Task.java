@@ -34,15 +34,17 @@ public class Task {
     @Column(name = "id", unique = true, nullable = false)           private Long id;
     @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
     @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
-    @Column(name = "topicStarterId", nullable = false)              private Long topicStarterId;
-    @Column(name = "originGeoPointId", nullable = false)            private Long originGeoPointId;
+    @Column(name = "topicStarterId")                                private Long topicStarterId;
+    @Column(name = "originGeoPointId")                              private Long originGeoPointId;
     @Column(name = "type")                                          private TaskType type;
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
 
+    //Not work! Picture Id must be in TASK!
+    //@JoinColumn(name = "taskId") //- then it will work
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "taskId")
+    @JoinColumn(name = "id", referencedColumnName = "taskId")
     private Picture picture;
 
     @Fetch(FetchMode.SELECT)
@@ -51,11 +53,11 @@ public class Task {
     @JoinColumn(name = "id", referencedColumnName = "originGeoPointId")
     private GeoPoint originGeoPoint;
 
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
-//    @JoinColumn(name = "taskId", referencedColumnName = "id")
-//    private List<Comment> comments;
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @JoinColumn(name = "taskId", referencedColumnName = "id")
+    private List<Comment> comments;
 
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
@@ -76,7 +78,7 @@ public class Task {
     private Task() {
         this.id = 0L;
         this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
-        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MIN);
+        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MAX);
         this.topicStarterId = 0L;
         this.type = TaskType.EMPTY;
         this.state = TaskState.UNKNOWN;
@@ -90,25 +92,37 @@ public class Task {
         this.type = type;
     }
 
-    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, Picture picture) {
+    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
         this.originGeoPointId = originGeoPointId;
+//        this.createDate = Timestamp.valueOf(createDate);
+//        this.lastModifyDate = Timestamp.valueOf(lastModifyDate);
         this.type = type;
         this.state = state;
         this.theme = theme;
         this.descr = descr;
-        this.picture = picture;
+
     }
-
-    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
-                Picture picture, List<Comment> comments, GeoPoint originGeoPoint,
-                List<Tag> tags, List<User> participants) {
-        this(topicStarterId, originGeoPointId, type, state, theme, descr, picture);
-
+//    public Task(/*LocalDateTime createDate, LocalDateTime lastModifyDate,*/ Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
+//                Picture picture, List<Comment> comments, GeoPoint originGeoPoint
+//                /*,List<Tag> tags, List<User> participants*/) {
+//        this(createDate,lastModifyDate, topicStarterId, originGeoPointId, type, state, theme, descr);
+//        this.picture = picture;
 //        this.comments = comments;
+//        this.originGeoPoint = originGeoPoint;
+////        this.tags = tags;
+////        this.participants = participants;
+//        /*this.topicStarter = topicStarter;*/
+//    }
+    public Task(LocalDateTime createDate, LocalDateTime lastModifyDate, Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
+                Picture picture, List<Comment> comments, GeoPoint originGeoPoint
+                /*,List<Tag> tags, List<User> participants*/) {
+        this(topicStarterId, originGeoPointId, type, state, theme, descr);
+        this.picture = picture;
+        this.comments = comments;
+        this.originGeoPoint = originGeoPoint;
 //        this.tags = tags;
 //        this.participants = participants;
-//        this.originGeoPoint = originGeoPoint;
         /*this.topicStarter = topicStarter;*/
     }
 
@@ -124,6 +138,10 @@ public class Task {
 
     public Long getOriginGeoPointId() {
         return originGeoPointId;
+    }
+
+    public void setOriginGeoPointId(Long originGeoPointId) {
+        this.originGeoPointId = originGeoPointId;
     }
 
     public TaskType getType() {
@@ -182,11 +200,14 @@ public class Task {
         this.picture = picture;
     }
 
-//    public List<Comment> getComments() {
-//        return comments;
-//    }
-//
-//    public List<Tag> getTags() {
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+    //    public List<Tag> getTags() {
 //        return tags;
 //    }
 //
@@ -217,30 +238,43 @@ public class Task {
     //</editor-fold>
 
     /*---COMMENTS---*/
-//    public int hasComment( Comment comment ) {
-//        return comments.indexOf(comment);
-//    }
-//
-//    public void addComment( Comment comment ) {
+    public int hasComment( Comment comment ) {
+        return comments.indexOf(comment);
+    }
+
+    public void addComment( Comment comment ) {
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !comments.contains( comment ) ) {
+            comments.add( comment );
+        }
+    }
+
+    public void removeComment( Comment comment ) {
+//        int index;
 //        //avoid circular calls : assumes equals and hashcode implemented
-//        if ( !comments.contains( comment ) ) {
-//            comments.add( comment );
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
 //        }
-//    }
-//
-//    public void removeComment( Comment comment ) {
-////        int index;
-////        //avoid circular calls : assumes equals and hashcode implemented
-////        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
-////            geoPoints.get(index);
-////            return geoPoints.remove( index );
-////        }
-////        return geoPoint.getEMPTY();
-//        if ( comments.contains( comment )) {
-//            comments.remove( comment );
-//        } else {
-//            throw new IllegalArgumentException("No such comment associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
-//        }
-//    }
+//        return geoPoint.getEMPTY();
+        if ( comments.contains( comment )) {
+            comments.remove( comment );
+        } else {
+            throw new IllegalArgumentException("No such comment associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+        }
+    }
     /*---END COMMENTS---*/
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", createDate=" + createDate +
+                ", lastModifyDate=" + lastModifyDate +
+                ", topicStarterId=" + topicStarterId +
+                ", originGeoPointId=" + originGeoPointId +
+                ", descr='" + descr + '\'' +
+                ", picture=" + picture +
+                '}';
+    }
 }

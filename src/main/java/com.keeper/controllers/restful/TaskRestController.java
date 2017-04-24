@@ -4,9 +4,11 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.dao.Comment;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
+import com.keeper.service.impl.GeoPointService;
 import com.keeper.service.impl.TaskService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
@@ -29,10 +31,11 @@ public class TaskRestController {
     private final String PATH = ApiResolver.REST_TASK;
 
     private final TaskService repoService;
-
+    private final GeoPointService geoPointService;
     @Autowired
-    public TaskRestController(TaskService repoService) {
+    public TaskRestController(TaskService repoService, GeoPointService geoPointService) {
         this.repoService = repoService;
+        this.geoPointService = geoPointService;
     }
 
 
@@ -54,12 +57,29 @@ public class TaskRestController {
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody TaskDTO model, BindingResult result) {
         repoService.update(Translator.convertToDAO(model));
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        HttpStatus code = HttpStatus.OK;
+        String info = "";
+        try {
+            Task task = repoService.updateTaskDAO(repoService.get(model.getId()), model);
+            ModelLoggerManager.logSetupError(task.getLastModifyDate().toString());
+            repoService.update(task);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            info = e.getMessage();
+            code = HttpStatus.INTERNAL_SERVER_ERROR;
+        } finally {
+
+        }
+
+        return new ResponseEntity<>(info, code);
+//        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody TaskDTO model, BindingResult result) {
-        repoService.add(Translator.convertToDAO(model));
+    public ResponseEntity<String> create(@RequestParam("userId") Long userId,@Valid @RequestBody TaskDTO modelTask, BindingResult result) {
+            modelTask.setTopicStarterId(userId);
+            repoService.add(Translator.convertToDAO(modelTask));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -78,12 +98,12 @@ public class TaskRestController {
 
     /*---PICTURE---*/
     @RequestMapping(value = PATH + "/picture", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PictureDTO> getPicture(@RequestParam("userId") Long taskId) {
+    public ResponseEntity<PictureDTO> getPicture(@RequestParam("taskId") Long taskId) {
         return new ResponseEntity<>(repoService.getPicture(taskId), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/picture", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDTO> setPicture(@RequestParam("userId") Long taskId, @Valid @RequestBody PictureDTO picture, BindingResult result) {
+    public ResponseEntity<TaskDTO> setPicture(@RequestParam("taskId") Long taskId, @Valid @RequestBody PictureDTO picture, BindingResult result) {
         return new ResponseEntity<>(repoService.setPicture(taskId, picture), HttpStatus.OK);
     }
     /*---END PICTURE---*/
@@ -93,10 +113,15 @@ public class TaskRestController {
     public ResponseEntity<GeoPointDTO> getOriginGeoPoint(@RequestParam("taskId") Long taskId) {
         return new ResponseEntity<>(repoService.getOriginGeoPoint(taskId), HttpStatus.OK);
     }
+
+    @RequestMapping(value = PATH + "/originGeo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<TaskDTO> setOriginGeoPoint(@RequestParam("taskId") Long taskId,@Valid @RequestBody GeoPointDTO modelGeo) {
+        return new ResponseEntity<>(repoService.setOriginGeoPoint(taskId, modelGeo), HttpStatus.OK);
+    }
     /*---END PICTURE---*/
 
     /*---COMMENTS---*/
-    /*@RequestMapping(value = PATH + "/comments/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/comments/{taskId}}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getGeoPoints(@PathVariable("taskId") Long taskId) {
 //        if (user == null) {
 //            System.out.println("User with id " + id + " not found");
@@ -106,8 +131,8 @@ public class TaskRestController {
     }
 
     @RequestMapping(value = PATH + "/comments", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDTO> addComment(@RequestParam("taskId") Long taskId, @Valid @RequestBody  CommentDTO comment, BindingResult result) {
-        return new ResponseEntity<>(repoService.addComment(taskId, comment), HttpStatus.OK);
+    public ResponseEntity<TaskDTO> addComment(@RequestParam("taskId") Long taskId,@RequestParam("userId") Long userId, @Valid @RequestBody  CommentDTO comment, BindingResult result) {
+        return new ResponseEntity<>(repoService.addComment(taskId, userId, comment), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/comments/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -119,7 +144,7 @@ public class TaskRestController {
     public ResponseEntity<TaskDTO> removeComment(@RequestParam("taskId") Long taskId, @RequestParam("commentId") Long commentId) {
         return new ResponseEntity<>(repoService.removeCommentById(taskId, commentId), HttpStatus.OK);
     }
-*/
+
     /*---END COMMENTS---*/
 
 

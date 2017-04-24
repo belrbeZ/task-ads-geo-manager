@@ -1,10 +1,13 @@
 package com.keeper.model.dto;
 
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Picture;
 import com.keeper.model.dao.User;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,11 +26,13 @@ public class TaskDTO {
     private TaskState state = TaskState.HIDEN;
     private String theme;
     private String descr;
+    private LocalDateTime createDate;
+    private LocalDateTime lastModifyDate;
 
     private PictureDTO picture;
     private GeoPointDTO originGeoPoint;
+    private List<CommentDTO> comments;
 //    private List<UserDTO> participants;
-//    private List<CommentDTO> comments;
 //    private List<TagDTO> tags;
 
     private TaskDTO() {}
@@ -47,17 +52,19 @@ public class TaskDTO {
         this.state = state;
         this.theme = theme;
         this.descr = descr;
-        this.picture = picture;
     }
 
     public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture,
-                   List<UserDTO> participants, List<CommentDTO> comments, List<TagDTO> tags) {
+                   Timestamp createDate, Timestamp lastModifyDate,
+                   List<CommentDTO> comments, GeoPointDTO originGeoPoint/*List<UserDTO> participants, , List<TagDTO> tags*/) {
         this(topicStarterId, originGeoPointId, type, state, theme, descr ,picture);
-
+        this.createDate = createDate.toLocalDateTime();
+        this.lastModifyDate = lastModifyDate!=null ? lastModifyDate.toLocalDateTime() : createDate.toLocalDateTime();
+        this.picture = picture;
+        this.comments = comments;
+        this.originGeoPoint = originGeoPoint;
 //        this.participants = participants;
-//        this.comments = comments;
 //        this.tags = tags;
-//        this.picture = picture;
     }
     //<editor-fold desc="GetterAndSetter">
 
@@ -71,6 +78,26 @@ public class TaskDTO {
 
     public Long getOriginGeoPointId() {
         return originGeoPointId;
+    }
+
+    public void setType(TaskType type) {
+        this.type = type;
+    }
+
+    public LocalDateTime getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public LocalDateTime getLastModifyDate() {
+        return lastModifyDate;
+    }
+
+    public void setLastModifyDate(LocalDateTime lastModifyDate) {
+        this.lastModifyDate = lastModifyDate;
     }
 
     public TaskType getType() {
@@ -117,6 +144,14 @@ public class TaskDTO {
         this.originGeoPoint = originGeoPoint;
     }
 
+    public void setTopicStarterId(Long topicStarterId) {
+        this.topicStarterId = topicStarterId;
+    }
+
+    public void setOriginGeoPointId(Long originGeoPointId) {
+        this.originGeoPointId = originGeoPointId;
+    }
+
     //    public List<UserDTO> getParticipants() {
 //        return participants;
 //    }
@@ -124,14 +159,14 @@ public class TaskDTO {
 //    public void setParticipants(List<UserDTO> participants) {
 //        this.participants = participants;
 //    }
-//
-//    public List<CommentDTO> getComments() {
-//        return comments;
-//    }
-//
-//    public void setComments(List<CommentDTO> comments) {
-//        this.comments = comments;
-//    }
+
+    public List<CommentDTO> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDTO> comments) {
+        this.comments = comments;
+    }
 
 //    public List<TagDTO> getTags() {
 //        return tags;
