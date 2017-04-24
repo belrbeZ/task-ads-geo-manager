@@ -48,7 +48,7 @@ public class ProfileRestController {
         HttpStatus code = HttpStatus.OK;
         String info = "";
         try {
-            User user = updateUserEmailDAO(repoService.get(model.getId()), model);
+            User user = repoService.updateUserEmailDAO(repoService.get(model.getId()), model);
             ModelLoggerManager.logSetupError(user.getAbout());
             repoService.update(user);
         } catch (NullPointerException e) {
@@ -62,16 +62,6 @@ public class ProfileRestController {
         return new ResponseEntity<>(info, code);
     }
 
-    public User updateUserEmailDAO(Optional<User> user, UserDTO dto) throws NullPointerException {
-        if(!user.isPresent())
-            throw new NullPointerException("NO SUCH USER");
-        if(dto.getAbout() == null || dto.getAbout().isEmpty())
-            throw new NullPointerException("NO SUCH INFO");
-
-        User upUser = user.get();
-        upUser.setEmail(dto.getAbout());
-        return upUser;
-    }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
@@ -105,7 +95,7 @@ public class ProfileRestController {
         return new ResponseEntity<>(repoService.getPicture(userId), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH + "/picture", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/picture", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> setPicture(@RequestParam("userId") Long userId, @Valid @RequestBody PictureDTO picture, BindingResult result) {
         return new ResponseEntity<>(repoService.setPicture(userId, picture), HttpStatus.OK);
     }
@@ -160,7 +150,7 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH + "/route", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> removeRoute(@RequestParam("userId") Long userId, @RequestParam("geoPointId") Long routeId) {
+    public ResponseEntity<UserDTO> removeRoute(@RequestParam("userId") Long userId, @RequestParam("routeId") Long routeId) {
         return new ResponseEntity<>(repoService.removeRouteById(userId, routeId), HttpStatus.OK);
     }
     /*---END ROUTE---*/

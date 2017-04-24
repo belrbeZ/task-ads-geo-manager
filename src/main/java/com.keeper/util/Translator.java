@@ -23,20 +23,26 @@ import java.util.stream.Collectors;
  */
 public class Translator {
 
+    //CREATE DIFFERENT OVEROLOAD TYPES OF CONVERTING
+
     //<editor-fold desc="toDTO">
 
     public static TaskDTO convertToDTO(Task model) {
         return (model == null)
                 ? TaskDTO.EMPTY
-                : new TaskDTO(model.getTopicStarterId(),
+                : new TaskDTO(
                             model.getTopicStarterId(),
+                            model.getOriginGeoPointId(),
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
                             model.getDescr(),
-                            Translator.convertToDTO(model.getPicture())
-                            /*convertUsersToDTO(model.getParticipants()),
+                            Translator.convertToDTO(model.getPicture()),
+                            model.getCreateDate(),
+                            model.getLastModifyDate(),
                             convertCommentsToDTO(model.getComments()),
+                            convertToDTO(model.getOriginGeoPoint())
+                            /*convertUsersToDTO(model.getParticipants()),
                             convertTagsToDTO(model.getTags()),
                             convertToDTO(model.getPicture())*/
         );
@@ -99,7 +105,8 @@ public class Translator {
     public static CommentDTO convertToDTO(Comment model) {
         return (model == null)
                 ? CommentDTO.EMPTY
-                : new CommentDTO(model.getTaskId(),
+                : new CommentDTO(model.getId(),
+                                model.getTaskId(),
                                 model.getUserId(),
                                 model.getCreateDate(),
                                 model.getLastModifyDate(),
@@ -116,6 +123,7 @@ public class Translator {
                                 model.getUserId(),
                                 model.getType(),
                                 model.getInfo(),
+                                model.getRadius(),
                                 model.getLatitudes(),
                                 model.getLongtitudes());
     }
@@ -158,6 +166,7 @@ public class Translator {
 //        System.out.println("convertRoutesToDTO");
         return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
     }
+
 
     public static List<SimpleGeoPoint> convertToSimpleGeoPoints(String[] latitude,
                                                                 String[] longtitude) {
@@ -205,6 +214,7 @@ public class Translator {
 
     //<editor-fold desc="toDAO">
 
+    //??????
     public static User convertToDAO(UserDTO model) {
         return (model == null)
                 ? User.EMPTY
@@ -230,16 +240,22 @@ public class Translator {
                             "");
     }
 
+
     public static Task convertToDAO(TaskDTO model) {
         return (model == null)
                 ? Task.EMPTY
-                : new Task(model.getTopicStarterId(),
+                : new Task(
+//                            model.getCreateDate(),
+//                            model.getLastModifyDate(),
+                            model.getTopicStarterId(),
                             model.getOriginGeoPointId(),
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
-                            model.getDescr(),
-                            Translator.convertToDAO(model.getPicture())
+                            model.getDescr()/*,
+                            Translator.convertToDAO(model.getPicture()),
+                            Translator.convertCommentsToDAO(model.getComments()),
+                            Translator.convertToDAO(model.getOriginGeoPoint())*/
                 );
     }
 
@@ -255,8 +271,10 @@ public class Translator {
     public static Route convertToDAO(RouteDTO model) {
         return (model == null)
                 ? Route.EMPTY
-                : new Route(model.getType(),
+                : new Route(model.getUserId(),
+                            model.getType(),
                             model.getInfo(),
+                            model.getRadius(),
                             model.getPoints());
     }
 
@@ -286,12 +304,19 @@ public class Translator {
         return (model == null)
                 ? Comment.EMPTY
                 : new Comment(
-                model.getUserId(),
                 model.getTaskId(),
-                model.getCreateDate(),
+                model.getUserId(),
+//                model.getCreateDate(),
+//                model.getLastModifyDate(),
                 model.getMessage(),
                 new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
         );
     }
+
+
+    public static List<Comment> convertCommentsToDAO(List<CommentDTO> models) {
+        return models.stream().map(Translator::convertToDAO).collect(Collectors.toList());
+    }
+
     //</editor-fold>
 }

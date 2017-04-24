@@ -30,7 +30,7 @@ public class User {
     public static final User EMPTY = new User((long)UserType.EMPTY.getValue(), UserType.EMPTY);
 
     @Id
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
+    @Column(name = "id", unique = true, nullable = false)       private Long id;
     @Column(name = "state")                                     private UserState state;
     @Column(name = "type")                                      private UserType type;
     @Column(name = "name",       nullable = false)              private String name;
@@ -43,11 +43,13 @@ public class User {
     @Column(name = "endMuteTime")                               private Timestamp muteEnd;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
+    @PrimaryKeyJoinColumn//(name = "userId", referencedColumnName = "id")
     private Zone zone;
 
+    //Not work! Picture Id must be in USER!
+    //@JoinColumn(name = "userId") //- then it will work
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @PrimaryKeyJoinColumn(name = "id", referencedColumnName = "userId")
+    @JoinColumn(name = "id", referencedColumnName = "userId")
     private Picture pic;
 
 //    @Fetch(FetchMode.SELECT)
@@ -56,17 +58,17 @@ public class User {
 //    @JoinColumn(name = "userId", referencedColumnName="id")
 //    private List<Comment> comments;
 
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
                joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
                inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
     private List<GeoPoint> geoPoints;
 
 
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="userId", referencedColumnName="id")
     private List<Route> routes;
@@ -123,6 +125,15 @@ public class User {
         this.isNotified = isNotified;
         this.muteStart  = Timestamp.valueOf(muteStart);
         this.muteEnd    = Timestamp.valueOf(muteEnd);
+    }
+
+    public User(UserType type, String name,
+                String email, String phone,
+                String password, String about, boolean isNotified,
+                LocalDateTime muteStart, LocalDateTime muteEnd,Picture pic)
+    {
+        this(type, name, email, phone, password, about, isNotified, muteStart, muteEnd);
+        this.pic = pic;
     }
 
     public User(UserType type, String name,
@@ -319,7 +330,7 @@ public class User {
         if ( routes.contains( route )) {
             routes.remove( route );
         } else {
-            throw new IllegalArgumentException("No such geoPoint associated with this User");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+            throw new IllegalArgumentException("No such route associated with this User");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
         }
     }
     /*---END ROUTES---*/
@@ -377,5 +388,12 @@ public class User {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("User id:").append(this.getId()).append(" name:").append(this.getName()).append(" picId").append(this.getPic()).append(super.toString());
+        return str.toString();
     }
 }

@@ -4,10 +4,7 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.Route;
-import com.keeper.model.dao.Task;
-import com.keeper.model.dao.User;
+import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
@@ -86,6 +83,19 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return repository.removeByPhone(phone);
     }
 
+
+
+    public User updateUserEmailDAO(Optional<User> user, UserDTO dto) throws NullPointerException {
+        if(!user.isPresent())
+            throw new NullPointerException("NO SUCH USER");
+        if(dto.getEmail() == null || dto.getEmail().isEmpty())
+            throw new NullPointerException("NO SUCH EMAIL");
+
+        User upUser = user.get();
+        upUser.setEmail(dto.getAbout());
+        return upUser;
+    }
+
     /*---ZONES---*/
     @Override
     public ZoneDTO getZone(Long userId) {
@@ -95,6 +105,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user.getZone());
     }
 
+    @Transactional
     @Override
     public UserDTO createZone(Long userId, ZoneDTO zone) {
         User user = repository.findOne(userId);
@@ -112,15 +123,28 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
+        System.out.println(user);
         return Translator.convertToDTO(user.getPic());
     }
 
+    @Transactional
     @Override
     public UserDTO setPicture(Long userId, PictureDTO picture) {
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
-        user.setPic(Translator.convertToDAO(picture));
+//        user.setPic(Translator.convertToDAO(picture));
+
+        Picture existPic = user.getPic();
+        if(existPic != null && (existPic.getUserId()!=null || existPic.getTaskId()!=null)){
+            existPic.setInfo(picture.getInfo());
+            existPic.setPic(picture.getPic());
+            user.setPic(existPic);
+        } else {
+            picture.setUserId(user.getId());
+            user.setPic(Translator.convertToDAO(picture));
+        }
+
         primeRepository.save(user);
         return Translator.convertToDTO(user);
     }
@@ -135,6 +159,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertGeoToDTO(user.getGeoPoints());
     }
 
+    @Transactional
     @Override
     public UserDTO addGeoPoint(Long userId, GeoPointDTO geoPoint) {
         User user;
@@ -146,6 +171,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     }
 
     //This works programmic only! remove check on links.
+    @Transactional
     @Override
     public UserDTO removeGeoPoint(Long userId, GeoPointDTO geoPoint) {
         User user;
@@ -156,6 +182,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user);
     }
 
+    @Transactional
     @Override
     public UserDTO removeGeoPointById(Long userId, Long geoPointId) {
         User user = repository.findOne(userId);
@@ -184,6 +211,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertRoutesToDTO(user.getRoutes());
     }
 
+    @Transactional
     @Override
     public UserDTO addRoute(Long userId, RouteDTO route) {
         User user;
@@ -196,6 +224,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user);
     }
 
+    @Transactional
     @Override
     public UserDTO removeRoute(Long userId, RouteDTO route) {
         User user;
@@ -206,12 +235,14 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         return Translator.convertToDTO(user);
     }
 
+    @Transactional
     @Override
     public UserDTO removeRouteById(Long userId, Long routeId) {
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
         Route route = routeRepository.findOne(routeId);
+        System.out.println(route);
         if(route==null)
             throw new IllegalArgumentException("No such route!");
 //        if(user.hasGeoPoint(geoPoint)>0)

@@ -27,9 +27,10 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "userId", nullable = false)              private Long userId;
-    @Column(name = "type", nullable = false)                private RouteType type;
+    @Column(name = "userId")                                private Long userId;
+    @Column(name = "type")                                  private RouteType type;
     @Column(name = "info")                                  private String info;
+    @Column(name = "radius")                                private Integer radius;
     @Type(type = "com.keeper.util.dao.StringArrayUserType")
     @Column(name = "latitudes")                             private String[] latitudes;
     @Type(type = "com.keeper.util.dao.StringArrayUserType")
@@ -37,16 +38,19 @@ public class Route {
 
     private Route() {
         this.id = (long)RouteType.EMPTY.getValue();
+        this.userId = 0L;
         this.type = RouteType.EMPTY;
         this.info = "";
+        this.radius = 1;
         this.latitudes = new String[]{""};
         this.longtitudes = new String[]{""};
     }
 
-    public Route(RouteType type, String info, List<SimpleGeoPoint> geoPoints){
+    public Route(Long userId, RouteType type, String info, Integer radius, List<SimpleGeoPoint> geoPoints){
+        this.userId = userId;
         this.type = type;
         this.info = info;
-
+        this.radius = radius;
         this.latitudes = new String[geoPoints.size()];
         this.longtitudes = new String[geoPoints.size()];
 
@@ -56,10 +60,11 @@ public class Route {
         }
     }
 
-    public Route(RouteType type, String info, List<String> longtitudes, List<String> latitudes){
+    public Route(Long userId, RouteType type, String info, Integer radius, List<String> longtitudes, List<String> latitudes){
+        this.userId = userId;
         this.type = type;
         this.info = info;
-
+        this.radius = radius;
         this.latitudes = new String[latitudes.size()];
         this.longtitudes = new String[longtitudes.size()];
 
@@ -69,9 +74,11 @@ public class Route {
         }
     }
 
-    public Route(RouteType type, String info, String[] longtitudes, String[] latitudes){
+    public Route(Long userId, RouteType type, String info, Integer radius, String[] longtitudes, String[] latitudes){
+        this.userId = userId;
         this.type = type;
         this.info = info;
+        this.radius = radius;
         this.longtitudes = longtitudes;
         this.latitudes = latitudes;
     }
@@ -100,6 +107,14 @@ public class Route {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Integer getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Integer radius) {
+        this.radius = radius;
     }
 
     public String[] getLatitudes() {
@@ -152,4 +167,12 @@ public class Route {
     }
 
     //</editor-fold>
+
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Route id:").append(this.getId()).append(" userId:").append(this.getUserId()).append(" info:").append(this.getInfo()).append(" radius").append(this.radius).append(super.toString());
+        return str.toString();
+    }
 }

@@ -22,6 +22,7 @@ public class RouteDTO {
     private Long userId;
     private RouteType type;
     private String info;
+    Integer radius;
     private List<SimpleGeoPoint> points = new ArrayList<>();
 
     private RouteDTO() {
@@ -29,15 +30,16 @@ public class RouteDTO {
         this.userId = 0L;
         this.type   = RouteType.EMPTY;
         this.info   = "";
+        this.radius = radius;
         this.points = Collections.emptyList();
     }
 
-    public RouteDTO(Long id, Long userId, RouteType type, String info, String[] latitudes, String[] longtitudes) {
+    public RouteDTO(Long id, Long userId, RouteType type, String info, Integer radius, String[] latitudes, String[] longtitudes) {
         this.id = id;
         this.userId = userId;
         this.type = type;
         this.info = info;
-
+        this.radius = radius;
 
         for(int i = 0; i < latitudes.length; i++){
             points.add(new SimpleGeoPoint(longtitudes[i], latitudes[i]));
@@ -62,6 +64,10 @@ public class RouteDTO {
 
     public String getInfo() {
         return info;
+    }
+
+    public Integer getRadius() {
+        return radius;
     }
 
     public List<SimpleGeoPoint> getPoints() {

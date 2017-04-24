@@ -69,6 +69,14 @@ public class Picture {
         return taskId;
     }
 
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
     public String getPic() {
         return pic;
     }
@@ -86,4 +94,12 @@ public class Picture {
     }
 
     //</editor-fold>
+
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("Picture id:").append(this.getId()).append(super.toString());
+        return str.toString();
+    }
 }
