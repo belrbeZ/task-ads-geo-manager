@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" content="text/html"/>
+    <title>Task</title>
+</head>
+<body>
+    <div class="container">
+        <div th:object="${task}">
+            <td th:text="${task.createDate}">Created</td>
+            <td th:text="${task.lastModifyDate}">Modified</td>
+        </div>
+
+        <div>
+            <form autocomplete="off" action="#" th:action="@{/secure/api/tasks}"
+                  th:object="${task}" th:method="patch" class="form-registration" role="form">
+
+                <input name="_method" type="hidden" value="PATCH" />
+
+                <div>
+                    <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
+                    <label th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="validation-message"></label>
+                </div>
+
+                <div>
+                    <input type="text" th:field="*{description}" placeholder="Description" class="form-control" />
+                    <label th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="validation-message"></label>
+                </div>
+
+                <div>
+                    <!--<input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />-->
+                    <select th:field="*{type}">
+                        <option th:each="type : ${allTypes}"
+                                th:value="${type}"
+                                th:text="#{${'type.' + type}}">Type</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button type="submit">Update</button>
+                </div>
+
+                <span th:utext="${successMessage}"></span>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>

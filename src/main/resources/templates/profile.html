@@ -2,23 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" content="text/html"/>
-    <title>Register</title>
-
-    <link href="/static/css/base.css" rel="stylesheet"/>
-    <link href="/static/css/login.css" rel="stylesheet"/>
+    <title>Profile</title>
 </head>
 <body>
-    <form th:action="@{/login}" method="get">
-        <button type="Submit">Go To Login Page</button>
-    </form>
-
     <div class="container">
-        <div >
-            <form autocomplete="off" action="#" th:action="@{/registration}"
-                  th:object="${user}" method="post" class="form-registration" role="form">
-
-                <h2>Registration Form</h2>
-
+        <div>
+            <form autocomplete="off" action="#" th:action="@{/secure/api/profile}"
+                  th:object="${user}" th:method="patch" class="form-registration" role="form">
+                
+                <input name="_method" type="hidden" value="PATCH" />
+                
                 <div>
                     <input type="text" th:field="*{name}" placeholder="Name" class="form-control" />
                     <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label>
@@ -35,7 +28,15 @@
                 </div>
 
                 <div>
-                    <button type="submit" >Register User</button>
+                    <input type="text" th:field="*{about}" placeholder="About" class="form-control" />
+                </div>
+
+                <div>
+                    <input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />
+                </div>
+
+                <div>
+                    <button type="submit" >Update</button>
                 </div>
 
                 <span th:utext="${successMessage}"></span>

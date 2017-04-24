@@ -1,4 +1,4 @@
-package com.keeper.model.dto;
+package com.keeper.util.validation;
 
 /*
  * Created by @GoodforGod on 22.04.2017.

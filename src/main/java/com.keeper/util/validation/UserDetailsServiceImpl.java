@@ -4,11 +4,8 @@ package com.keeper.util.validation;
  * Created by @GoodforGod on 19.04.2017.
  */
 
-import java.util.Optional.*;
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.UserCredentials;
 import com.keeper.service.impl.UserService;
-import com.keeper.util.Translator;
 import com.keeper.util.resolve.SecureResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
