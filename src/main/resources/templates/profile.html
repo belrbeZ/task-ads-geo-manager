@@ -23,8 +23,10 @@
 
     <div class="container">
         <div>
-            <form autocomplete="off" th:action="@{/secure/profile}"
-                  th:object="${user}" th:method="post" method="post" class="form-registration" role="form">
+            <form th:action="@{/secure/profile}" method="POST"
+                  th:object="${user}" class="form-registration" role="form">
+
+                <input type="hidden" th:field="*{id}" />
 
                 <div>
                     <input type="text" th:field="*{name}" placeholder="Name" class="form-control" />

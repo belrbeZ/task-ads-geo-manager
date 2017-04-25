@@ -67,8 +67,8 @@ public class Translator {
                             model.getName(),
                             model.getEmail(),
                             model.getPhone(),
-                            model.getPassword(),
                             model.getAbout(),
+                            model.getPassword(),
                             (model.getNotified() == null) ? false : model.getNotified(),
                             (model.getMuteStart() != null)
                                     ? model.getMuteStart().toLocalDateTime()

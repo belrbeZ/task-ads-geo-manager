@@ -65,7 +65,6 @@ public class SecureWebController {
             userService.add(Translator.convertToDAO(user));
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new UserFormDTO());
-            modelAndView.setViewName(TemplateResolver.REGISTER);
         }
 
         return modelAndView;

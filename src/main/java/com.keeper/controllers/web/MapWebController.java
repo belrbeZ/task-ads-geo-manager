@@ -14,18 +14,18 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Default Comment
  */
-public class MapsWebController {
+public class MapWebController {
 
-    @RequestMapping(value = WebResolver.MAPS, method = RequestMethod.GET)
+    @RequestMapping(value = WebResolver.MAP, method = RequestMethod.GET)
     public ModelAndView mapGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAPS);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebResolver.MAPS, method = RequestMethod.POST)
+    @RequestMapping(value = WebResolver.MAP, method = RequestMethod.POST)
     public ModelAndView mapUpdate(Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAPS);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
         return modelAndView;
     }

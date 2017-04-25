@@ -27,7 +27,7 @@
             <button name="Submit" value="search" type="Submit" th:text="Search"></button>
         </form>
 
-        <a href="/secure/tasks/create" th:href="@{/secure/tasks/create}">Create Task</a>
+        <a href="/secure/tasks/create" th:href="@{/secure/task/create}">Create Task</a>
     </div>
 
     <br/>
@@ -41,7 +41,9 @@
             <td th:text="${task.createDate}" />
 
             <td>
-                <a th:href="@{/secure/tasks?id=task.id}"></a>
+                <button type="button" th:placeholder="Update">
+                    <a th:href="@{/secure/tasks?id=task.id}"></a>
+                </button>
             </td>
 
             <td>

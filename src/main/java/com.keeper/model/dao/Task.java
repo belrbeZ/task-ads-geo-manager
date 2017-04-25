@@ -95,8 +95,8 @@ public class Task {
     public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
         this.originGeoPointId = originGeoPointId;
-//        this.createDate = Timestamp.valueOf(createDate);
-//        this.lastModifyDate = Timestamp.valueOf(lastModifyDate);
+        this.createDate = Timestamp.valueOf(LocalDateTime.now());
+        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.now());
         this.type = type;
         this.state = state;
         this.theme = theme;

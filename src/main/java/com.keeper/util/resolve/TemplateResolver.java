@@ -21,7 +21,7 @@ public class TemplateResolver {
     public static final String PROFILE  = "profile";
     public static final String TASK     = "task";
     public static final String FEED     = "feed";
-    public static final String MAPS     = "map";
+    public static final String MAP      = "map";
     public static final String TASK_FORM = "taskform";
 
     public static String redirect(String viewName) {

@@ -2,6 +2,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -22,7 +23,11 @@ public class TaskDTO {
     private Long originGeoPointId;
     private TaskType type;
     private TaskState state = TaskState.HIDEN;
+
+    @NotEmpty
     private String theme;
+
+    @NotEmpty
     private String descr;
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
@@ -33,7 +38,16 @@ public class TaskDTO {
 //    private List<UserDTO> participants;
 //    private List<TagDTO> tags;
 
-    private TaskDTO() { }
+    public TaskDTO() {
+        this.id = 0L;
+        this.createDate = null;
+        this.lastModifyDate = null;
+        this.topicStarterId = 0L;
+        this.type = TaskType.EMPTY;
+        this.state = TaskState.UNKNOWN;
+        this.theme = "";
+        this.descr = "";
+    }
 
     public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
@@ -69,6 +83,10 @@ public class TaskDTO {
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getTopicStarterId() {

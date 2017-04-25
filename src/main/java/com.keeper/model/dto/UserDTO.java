@@ -11,8 +11,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,13 +25,19 @@ public class UserDTO {
 
     public static final UserDTO EMPTY = new UserDTO((long)UserType.EMPTY.getValue(),UserType.EMPTY);
 
-    @NotEmpty
+    @NotNull
     private Long  id;
     private UserState   state;
     private UserType    type;
+
+    @NotEmpty
     private String      name;
+
+    @Email
     private String      email;
     private String      phone;
+
+    @NotEmpty
     private String      password;
     private String      about;
     private Boolean     notified;

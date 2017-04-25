@@ -48,13 +48,10 @@ public class FeedWebController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         Long userId = Translator.convertToDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
-        System.out.println("User ID : " + userId);
 
         List<Task> tasks = taskService.getByUserId(userId);
 
-        if(tasks != null && !tasks.isEmpty())
-            System.out.println("Tasks : " + tasks.size());
-        else
+        if(tasks == null || tasks.isEmpty())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
 
         modelAndView.addObject("tasks", Translator.convertTasksToDTO(tasks));

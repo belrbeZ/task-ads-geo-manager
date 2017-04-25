@@ -14,18 +14,21 @@
 
     <br/>
     <br/>
+    <br/>
 
     <div class="container">
         <div th:object="${task}">
-            <td th:text="${task.createDate}">Created</td>
-            <td th:text="${task.lastModifyDate}">Modified</td>
+            <div>
+                <span th:text="${task?.createDate}">Created</span>
+            </div>
+            <div>
+                <span th:text="${task?.lastModifyDate}">Modified</span>
+            </div>
         </div>
 
         <div>
-            <form autocomplete="off" action="#" th:action="@{/secure/api/tasks}"
-                  th:object="${task}" th:method="patch" class="form-registration" role="form">
-
-                <input name="_method" type="hidden" value="PATCH" />
+            <form autocomplete="off" th:action="@{/secure/task/create}"
+                  th:object="${task}" method="post" class="form-registration" role="form">
 
                 <div>
                     <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
@@ -39,11 +42,11 @@
 
                 <div>
                     <!--<input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />-->
-                    <select th:field="*{type}">
+                    <!--<select th:field="*{type}">
                         <option th:each="type : ${allTypes}"
                                 th:value="${type}"
                                 th:text="#{${'type.' + type}}">Type</option>
-                    </select>
+                    </select>-->
                 </div>
 
                 <div>

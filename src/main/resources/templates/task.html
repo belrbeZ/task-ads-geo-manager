@@ -11,21 +11,28 @@
 <body>
 
 <div class="container">
+    <div th:replace="fragments/header :: header"> </div>
+
+    <br/>
     <br/>
     <br/>
 
+    <h2>User Info</h2>
+
     <div th:object="${user}">
-        <td th:text="${user.name}" />
-        <td th:text="${user.email}" />
+        <td th:text="${user?.name}">User</td>
+        <td th:text="${user?.email}">Contact</td>
     </div>
 
     <br/>
 
+    <h2>Task Info</h2>
+
     <div th:object="${task}">
-        <td th:text="${task.createDate}" />
-        <td th:text="${task.type.toString()}" />
-        <td th:text="${task.theme}" />
-        <td th:text="${task.descr}" />
+        <td th:text="${task?.createDate}">Created</td>
+        <td th:text="${task?.type.toString()}" />
+        <td th:text="${task.theme}">Theme</td>
+        <td th:text="${task.descr}">Description</td>
     </div>
 </div>
 </body>
