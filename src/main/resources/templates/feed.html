@@ -3,8 +3,35 @@
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title>Feed</title>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
 </head>
 <body>
+    <div th:replace="fragments/header :: header"> </div>
 
+    <span th:utext="${emptyMessage}"></span>
+
+    <div>
+
+    </div>
+
+    <div th:unless="${#lists.isEmpty(tasks)}">
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.theme}" />
+            <td th:text="${task.theme}" />
+            <td th:text="${task.createDate}" />
+            <td>
+                <a th:href="/secure/tasks?id=${task.id}"/>
+            </td>
+            <td>
+                <form th:action="@{/login}" method="POST" class="form-login">
+                    <input type="hidden" name="_method" value="delete"/>
+                    <button name="Submit" value="Delete" type="Submit" th:text="Delete"></button>
+                </form>
+            </td>
+        </tr>
+    </div>
 </body>
 </html>

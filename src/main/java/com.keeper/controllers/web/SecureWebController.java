@@ -51,17 +51,20 @@ public class SecureWebController {
 
     @RequestMapping(value = WebResolver.REGISTER, method = RequestMethod.POST)
     public ModelAndView registrationPost(@Valid UserFormDTO user, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.REGISTER);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.LOGIN);
 
-        if(userService.existsByEmail(user.getEmail()))
+        if(userService.existsByEmail(user.getEmail())) {
             bindingResult.rejectValue("email",
                     "error.user",
                     "There is already a user registered with the email provided");
+            modelAndView.setViewName(TemplateResolver.REGISTER);
+        }
 
         if (!bindingResult.hasErrors()) {
             userService.add(Translator.convertToDAO(user));
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new UserFormDTO());
+            modelAndView.setViewName(TemplateResolver.REGISTER);
         }
 
         return modelAndView;

@@ -17,7 +17,7 @@ spring:
 #    tomcat:
 #      max-active: 120
   resources:
-    static-locations: classpath:/resources/static, classpath:/META-INF/resources/
+    static-locations: classpath:/resources/static/**, classpath:/META-INF/resources/
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 

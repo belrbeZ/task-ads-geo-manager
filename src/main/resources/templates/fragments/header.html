@@ -1,43 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
 
 <head>
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
-          th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
-          rel="stylesheet" media="screen" />
-    <!--<script src="http://cdn.jsdelivr.net/webjars/jquery/2.2.1/jquery.min.js"-->
-            <!--th:src="@{/webjars/jquery/2.2.1/jquery.min.js}"></script>-->
+    <!--<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/js/bootstrap.min.js"-->
+          <!--th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"-->
+          <!--rel="stylesheet" media="screen" />-->
 </head>
 <body>
-
-<!-- Navbar -->
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#">Spring Boot</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="/secure/home">Home</a></li>
-                    <li><a href="/secure/logout">Log out</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li style="float:right">
-                        <a class="active" href="/secure/welcome">Help</a>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Welcome</a>
         </div>
-    </nav>
 
+        <div sec:authorize="!isAuthenticated()" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/registration" th:href="@{/registration}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span>Sign up</a>
+                </li>
+                <li>
+                    <a href="/login" th:href="@{/login}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span>Log in</a>
+                </li>
+            </ul>
+        </div>
+
+        <div sec:authorize="isAuthenticated()" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li>
+                    <a href="/secure/home" th:href="@{/secure/home}">
+                        <span class="glyphicon" aria-hidden="true"> </span>Home</a>
+                </li>
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-center">
+                <li>
+                    <a href="/secure/map" th:href="@{/secure/map}">
+                        <span class="glyphicon" aria-hidden="true"> </span>Map</a>
+                </li>
+                <li>
+                    <a href="/secure/feed" th:href="@{/secure/feed}">
+                        <span class="glyphicon" aria-hidden="true"> </span>Feed</a>
+                </li>
+            </ul>
+
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/secure/profile" th:href="@{/secure/profile}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span>Profile</a>
+                </li>
+                <li>
+                    <a href="/secure/logout" th:href="@{/secure/logout}" onclick="$('#form').submit();">
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span>Logout </a>
+                    <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/secure/logout}"></form>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 </body>
 </html>

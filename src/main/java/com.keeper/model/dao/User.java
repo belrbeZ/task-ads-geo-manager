@@ -111,7 +111,7 @@ public class User {
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
         this.phone      = (phone==null || phone.equals("")) ? String.valueOf(-1*(email.hashCode())) : phone;
-        this.password   = Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
+        this.password   =  password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }

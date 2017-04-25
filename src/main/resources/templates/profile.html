@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title>Profile</title>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+    th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+    rel="stylesheet" media="screen" />
 </head>
 <body>
-    <div class="container">
+    <div th:replace="fragments/header :: header"> </div>
+
+        <div class="container">
         <div>
             <form autocomplete="off" action="#" th:action="@{/secure/api/profile}"
                   th:object="${user}" th:method="patch" class="form-registration" role="form">

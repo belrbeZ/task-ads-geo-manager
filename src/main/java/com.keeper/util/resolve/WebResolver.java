@@ -15,10 +15,13 @@ public class WebResolver {
 
     public static final String ERROR    = "/error";
     public static final String DENIED   = "/denied";
-    public static final String HOME     = SECURED + "/home";
     public static final String LOGIN    = "/login";
     public static final String LOGOUT   = "/logout";
-    public static final String PROFILE  = SECURED + "/profile";
     public static final String WELCOME  = "/welcome";
     public static final String REGISTER = "/registration";
+    public static final String HOME     = SECURED + "/home";
+    public static final String PROFILE  = SECURED + "/profile";
+    public static final String TASK     = SECURED + "/task";
+    public static final String FEED     = SECURED + "/feed";
+    public static final String MAPS     = SECURED + "/map";
 }

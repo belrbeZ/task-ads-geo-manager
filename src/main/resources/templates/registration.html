@@ -4,10 +4,13 @@
     <meta charset="UTF-8" content="text/html"/>
     <title>Register</title>
 
-    <link href="/static/css/base.css" rel="stylesheet"/>
-    <link href="/static/css/login.css" rel="stylesheet"/>
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
 </head>
 <body>
+    <div th:replace="fragments/header :: header"> </div>
+
     <form th:action="@{/login}" method="get">
         <button type="Submit">Go To Login Page</button>
     </form>
@@ -15,7 +18,7 @@
     <div class="container">
         <div >
             <form autocomplete="off" action="#" th:action="@{/registration}"
-                  th:object="${user}" method="post" class="form-registration" role="form">
+                  th:object="${user}" method="post" class="form-login" role="form">
 
                 <h2>Registration Form</h2>
 

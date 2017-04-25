@@ -1,8 +1,5 @@
 package com.keeper.model.dto;
 
-import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.Picture;
-import com.keeper.model.dao.User;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 
@@ -17,6 +14,7 @@ import java.util.List;
  *
  */
 public class TaskDTO {
+
     public static final TaskDTO EMPTY = new TaskDTO();
 
     private Long id;
@@ -35,7 +33,7 @@ public class TaskDTO {
 //    private List<UserDTO> participants;
 //    private List<TagDTO> tags;
 
-    private TaskDTO() {}
+    private TaskDTO() { }
 
     public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
@@ -66,6 +64,7 @@ public class TaskDTO {
 //        this.participants = participants;
 //        this.tags = tags;
     }
+
     //<editor-fold desc="GetterAndSetter">
 
     public Long getId() {
