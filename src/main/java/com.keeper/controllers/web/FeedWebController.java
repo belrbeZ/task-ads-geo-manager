@@ -6,6 +6,7 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.service.impl.TaskService;
 import com.keeper.service.impl.UserService;
@@ -47,14 +48,14 @@ public class FeedWebController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         Long userId = Translator.convertToDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
+        System.out.println("User ID : " + userId);
 
         List<Task> tasks = taskService.getByUserId(userId);
 
-        System.out.println("User ID : " + userId);
-        if(tasks != null && !tasks.isEmpty()) {
+        if(tasks != null && !tasks.isEmpty())
             System.out.println("Tasks : " + tasks.size());
+        else
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
-        }
 
         modelAndView.addObject("tasks", Translator.convertTasksToDTO(tasks));
 
@@ -62,8 +63,18 @@ public class FeedWebController {
     }
 
     @RequestMapping(value = WebResolver.FEED, method = RequestMethod.POST)
-    public ModelAndView feedSearch(Model model) {
+    public ModelAndView feedSearch(@RequestParam(value = "search", required = false) String theme, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
+
+        List<Task> tasks =  taskService.getByTheme(theme);
+        List<TaskDTO> taskDTOS = Collections.emptyList();
+
+        if(tasks == null || tasks.isEmpty())
+            modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
+        else
+            taskDTOS = Translator.convertTasksToDTO(tasks);
+
+        modelAndView.addObject("tasks", taskDTOS);
 
         return modelAndView;
     }

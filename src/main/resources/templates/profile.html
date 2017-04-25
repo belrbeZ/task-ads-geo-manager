@@ -5,42 +5,43 @@
     <title>Profile</title>
 
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-    th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
-    rel="stylesheet" media="screen" />
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
 </head>
 <body>
     <div th:replace="fragments/header :: header"> </div>
 
-        <div class="container">
+    <div>
+        <h1>User Profile Information</h1>
+    </div>
+
+    <br/>
+
+    <div class="container">
         <div>
-            <form autocomplete="off" action="#" th:action="@{/secure/api/profile}"
+            <form autocomplete="off" th:action="@{/secure/api/profile}"
                   th:object="${user}" th:method="patch" class="form-registration" role="form">
-                
+
                 <input name="_method" type="hidden" value="PATCH" />
-                
+
                 <div>
                     <input type="text" th:field="*{name}" placeholder="Name" class="form-control" />
                     <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="validation-message"></label>
                 </div>
-
                 <div>
                     <input type="text" th:field="*{email}" placeholder="Email" class="form-control" />
                     <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></label>
                 </div>
-
                 <div>
                     <input type="password" th:field="*{password}" placeholder="Password" class="form-control" />
                     <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="validation-message"></label>
                 </div>
-
                 <div>
                     <input type="text" th:field="*{about}" placeholder="About" class="form-control" />
                 </div>
-
                 <div>
                     <input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />
                 </div>
-
                 <div>
                     <button type="submit" >Update</button>
                 </div>

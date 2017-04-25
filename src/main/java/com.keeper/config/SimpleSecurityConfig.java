@@ -38,8 +38,11 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", WebResolver.LOGIN, WebResolver.REGISTER).permitAll()
                 .antMatchers(WebResolver.SECURED + "/**").hasAuthority(ROLE).anyRequest()
-                .authenticated().and().csrf().disable().formLogin()
-                .loginPage(WebResolver.LOGIN).failureUrl(WebResolver.LOGIN + "?error=true")
+                .authenticated()
+                .and().csrf().disable().formLogin()
+                .loginPage(WebResolver.LOGIN)
+                .failureUrl(WebResolver.LOGIN + "?error=true")
+                .successForwardUrl(WebResolver.HOME)
                 .defaultSuccessUrl(WebResolver.HOME)
                 .usernameParameter("email")
                 .passwordParameter("password");

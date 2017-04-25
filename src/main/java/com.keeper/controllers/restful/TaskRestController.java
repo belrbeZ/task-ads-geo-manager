@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,12 +33,24 @@ public class TaskRestController {
 
     private final TaskService repoService;
     private final GeoPointService geoPointService;
+
     @Autowired
     public TaskRestController(TaskService repoService, GeoPointService geoPointService) {
         this.repoService = repoService;
         this.geoPointService = geoPointService;
     }
 
+    @RequestMapping(value = ApiResolver.REST_SEARCH_TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<TaskDTO>> searchByTheme(@PathVariable("search") String search) {
+
+        List<Task> tasks = repoService.getByTheme(search);
+        List<TaskDTO> taskDTOS = Collections.emptyList();
+
+        if(tasks != null && !tasks.isEmpty())
+            taskDTOS = Translator.convertTasksToDTO(tasks);
+
+        return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
+    }
 
     @RequestMapping(value = PATH + "/tags", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> getTasksByTags(@PathVariable("tags") List<String> tags) {
