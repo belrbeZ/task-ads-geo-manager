@@ -9,7 +9,11 @@
           rel="stylesheet" media="screen" />
 </head>
 <body>
+<div class="container">
     <div th:replace="fragments/header :: header"> </div>
+
+    <br/>
+    <br/>
 
     <div>
         <h1>User Profile Information</h1>
@@ -19,10 +23,8 @@
 
     <div class="container">
         <div>
-            <form autocomplete="off" th:action="@{/secure/api/profile}"
-                  th:object="${user}" th:method="patch" class="form-registration" role="form">
-
-                <input name="_method" type="hidden" value="PATCH" />
+            <form autocomplete="off" th:action="@{/secure/profile}"
+                  th:object="${user}" th:method="post" method="post" class="form-registration" role="form">
 
                 <div>
                     <input type="text" th:field="*{name}" placeholder="Name" class="form-control" />
@@ -40,7 +42,8 @@
                     <input type="text" th:field="*{about}" placeholder="About" class="form-control" />
                 </div>
                 <div>
-                    <input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />
+                    <span th:text="Notify"></span>
+                    <input type="checkbox" th:checked="*{notified}" placeholder="Notified" class="form-control" />
                 </div>
                 <div>
                     <button type="submit" >Update</button>
@@ -51,5 +54,6 @@
             </form>
         </div>
     </div>
+</div>
 </body>
 </html>

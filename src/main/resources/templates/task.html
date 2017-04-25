@@ -9,6 +9,11 @@
           rel="stylesheet" media="screen" />
 </head>
 <body>
+
+<div class="container">
+    <br/>
+    <br/>
+
     <div th:object="${user}">
         <td th:text="${user.name}" />
         <td th:text="${user.email}" />
@@ -22,5 +27,6 @@
         <td th:text="${task.theme}" />
         <td th:text="${task.descr}" />
     </div>
+</div>
 </body>
 </html>

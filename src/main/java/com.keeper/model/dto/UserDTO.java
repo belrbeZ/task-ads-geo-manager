@@ -8,7 +8,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.keeper.model.dao.*;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Converter;
@@ -33,7 +32,7 @@ public class UserDTO {
     private String      phone;
     private String      password;
     private String      about;
-    private Boolean     isNotified;
+    private Boolean     notified;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -58,7 +57,7 @@ public class UserDTO {
         this.phone      = "";
         this.password   = "";
         this.about      = "";
-        this.isNotified = false;
+        this.notified = false;
         this.muteStart  = LocalDateTime.MIN;
         this.muteEnd    = LocalDateTime.MAX;
     }
@@ -81,7 +80,7 @@ public class UserDTO {
 
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
-                   boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd) {
+                   boolean notified, LocalDateTime muteStart, LocalDateTime muteEnd) {
         this.id         = id;
         this.state      = state;
         this.type       = type;
@@ -90,17 +89,17 @@ public class UserDTO {
         this.phone      = Converter.maskStr(phone);
         this.password   = password;
         this.about      = about;
-        this.isNotified = isNotified;
+        this.notified = notified;
         this.muteStart  = muteStart;
         this.muteEnd    = muteEnd;
     }
 
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
-                   boolean isNotified, LocalDateTime muteStart, LocalDateTime muteEnd,
+                   boolean notified, LocalDateTime muteStart, LocalDateTime muteEnd,
                    PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints,
                    List<RouteDTO> routes/*, List<TaskDTO> participantedTasks*/) {
-        this(id, type, state, name, email, phone, about, password, isNotified, muteStart, muteEnd);
+        this(id, type, state, name, email, phone, about, password, notified, muteStart, muteEnd);
         this.pic = pic;
         this.zone = zone;
         this.geoPoints = geoPoints;
@@ -114,44 +113,88 @@ public class UserDTO {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public UserState getState() {
         return state;
+    }
+
+    public void setState(UserState state) {
+        this.state = state;
     }
 
     public UserType getType() {
         return type;
     }
 
+    public void setType(UserType type) {
+        this.type = type;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getPhone() {
         return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getAbout() {
         return about;
     }
 
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
     public Boolean getNotified() {
-        return isNotified;
+        return notified;
+    }
+
+    public void setNotified(Boolean notified) {
+        this.notified = notified;
     }
 
     public LocalDateTime getMuteStart() {
         return muteStart;
     }
 
+    public void setMuteStart(LocalDateTime muteStart) {
+        this.muteStart = muteStart;
+    }
+
     public LocalDateTime getMuteEnd() {
         return muteEnd;
+    }
+
+    public void setMuteEnd(LocalDateTime muteEnd) {
+        this.muteEnd = muteEnd;
     }
 
     public PictureDTO getPic() {

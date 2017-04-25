@@ -46,6 +46,7 @@ public class SecureWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.REGISTER);
 
         modelAndView.addObject("user", new UserFormDTO());
+
         return modelAndView;
     }
 

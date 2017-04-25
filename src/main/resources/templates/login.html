@@ -9,13 +9,13 @@
           rel="stylesheet" media="screen" />
 </head>
 <body>
+<div class="container">
+    <div th:replace="fragments/header :: header"> </div>
 
-    <form th:action="@{/registration}" method="get">
-        <button type="Submit">Go To Registration Page</button>
-    </form>
+    <br/>
+    <br/>
 
     <div class="container">
-        <div th:replace="fragments/header :: header"> </div>
         <form th:action="@{/login}" method="POST" class="form-login">
 
             <h3 th:text="Welcome"></h3>
@@ -29,5 +29,12 @@
             <button name="Submit" value="Login" type="Submit" th:text="Login"></button>
         </form>
     </div>
+
+    <div>
+        <form th:action="@{/registration}" method="get">
+            <button type="Submit">Go To Registration Page</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

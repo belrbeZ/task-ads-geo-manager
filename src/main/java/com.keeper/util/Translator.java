@@ -69,7 +69,7 @@ public class Translator {
                             model.getPhone(),
                             model.getPassword(),
                             model.getAbout(),
-                            model.getNotified(),
+                            (model.getNotified() == null) ? false : model.getNotified(),
                             (model.getMuteStart() != null)
                                     ? model.getMuteStart().toLocalDateTime()
                                     : LocalDateTime.MIN,
