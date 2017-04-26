@@ -58,7 +58,7 @@
                     <td>
                         <form th:action="@{/secure/task}" th:method="DELETE">
                             <input type="hidden" name="_method" value="delete"/>
-                            <button name="Submit" value="Delete" type="Submit" th:text="Delete"></button>
+                            <button name="Submit" th:value="${task.id}" type="Submit" th:text="Delete"></button>
                         </form>
                     </td>
                 </tr>
