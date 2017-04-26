@@ -45,7 +45,7 @@ public class Translator {
                             /*convertUsersToDTO(model.getParticipants()),
                             convertTagsToDTO(model.getTags()),
                             convertToDTO(model.getPicture())*/
-        );
+        ) {{ setId(model.getId()); }};
     }
 
     public static GeoPointDTO convertToDTO(GeoPoint model) {

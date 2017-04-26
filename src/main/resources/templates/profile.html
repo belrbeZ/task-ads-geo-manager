@@ -41,12 +41,15 @@
                     <input type="text" th:field="*{about}" placeholder="About" class="form-control" />
                 </div>
                 <div>
-                    <span th:text="Notify"></span>
+                    <span th:text="Notify"> </span>
                     <input type="checkbox" th:checked="*{notified}" placeholder="Notified" class="form-control" />
                 </div>
+
+                <br/>
                 <div>
                     <button type="submit" >Update</button>
                 </div>
+                <br/>
 
                 <span th:utext="${successMessage}"></span>
 

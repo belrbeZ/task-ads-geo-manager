@@ -41,8 +41,12 @@ public class TaskWebController {
     }
 
     @RequestMapping(value = WebResolver.TASK, method = RequestMethod.GET)
-    public ModelAndView taskGet(Model model) {
+    public ModelAndView taskGet(@RequestParam(value = "id", required = false) Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
+
+        if(taskId != null) {
+
+        }
 
         return modelAndView;
     }
