@@ -45,8 +45,27 @@ public class TaskWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
         if(taskId != null) {
-
+            modelAndView.addObject("task", taskService.get(taskId));
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.getByEmail(auth.getName()).get();
+            modelAndView.addObject("user", Translator.convertToDTO(user));
         }
+        else
+            modelAndView.setViewName(TemplateResolver.FEED);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = WebResolver.TASK, method = RequestMethod.DELETE)
+    public ModelAndView taskDelete(@RequestParam(value = "id", required = false) Long taskId, Model model) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
+
+        if(taskId != null) {
+            taskService.remove(taskId);
+            modelAndView.setViewName(TemplateResolver.FEED);
+        }
+        else
+            modelAndView.addObject("message", "No such task!");
 
         return modelAndView;
     }

@@ -65,7 +65,10 @@ public class ProfileWebController {
 
         userService.add(user);
 
-        modelAndView.addObject("user", Translator.convertToDTO(user));
+        UserDTO userDTO = Translator.convertToDTO(user);
+        userDTO.setEmail(user.getEmail());
+
+        modelAndView.addObject("user", userDTO);
 
         return modelAndView;
     }
