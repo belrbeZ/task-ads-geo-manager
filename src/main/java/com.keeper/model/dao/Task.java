@@ -59,21 +59,21 @@ public class Task {
     @JoinColumn(name = "taskId", referencedColumnName = "id")
     private List<Comment> comments;
 
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-//    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
-//            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
-//            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
-//    private List<Tag> tags;
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
+            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
+            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
+    private List<Tag> tags;
 
-////    @Fetch(FetchMode.SELECT)
-////    @BatchSize(size = 10)
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
-//               joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
-//               inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
-//    private List<User> participants;
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
+               joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
+               inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
+    private List<User> participants;
 
     private Task() {
         this.id = 0L;
@@ -116,14 +116,13 @@ public class Task {
 //    }
     public Task(LocalDateTime createDate, LocalDateTime lastModifyDate, Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
                 Picture picture, List<Comment> comments, GeoPoint originGeoPoint
-                /*,List<Tag> tags, List<User> participants*/) {
+                ,List<Tag> tags, List<User> participants) {
         this(topicStarterId, originGeoPointId, type, state, theme, descr);
         this.picture = picture;
         this.comments = comments;
         this.originGeoPoint = originGeoPoint;
-//        this.tags = tags;
-//        this.participants = participants;
-        /*this.topicStarter = topicStarter;*/
+        this.tags = tags;
+        this.participants = participants;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -207,17 +206,22 @@ public class Task {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    //    public List<Tag> getTags() {
-//        return tags;
-//    }
-//
-//    public List<User> getParticipants() {
-//        return participants;
-//    }
 
-//    public void setComments(List<Comment> comments) {
-//        this.comments = comments;
-//    }
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public List<User> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<User> participants) {
+        this.participants = participants;
+    }
 
     public GeoPoint getOriginGeoPoint() {
         return originGeoPoint;
@@ -226,14 +230,6 @@ public class Task {
     public void setOriginGeoPoint(GeoPoint originGeoPoint) {
         this.originGeoPoint = originGeoPoint;
     }
-
-//    public void setTags(List<Tag> tags) {
-//        this.tags = tags;
-//    }
-//
-//    public void setParticipants(List<User> participants) {
-//        this.participants = participants;
-//    }
 
     //</editor-fold>
 
@@ -260,10 +256,69 @@ public class Task {
         if ( comments.contains( comment )) {
             comments.remove( comment );
         } else {
-            throw new IllegalArgumentException("No such comment associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+            System.err.println("No such comment associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
         }
     }
     /*---END COMMENTS---*/
+
+
+    /*---TAGS---*/
+    public int hasTag( Tag tag ) {
+        return tags.indexOf(tag);
+    }
+
+    public void addTag( Tag tag ) {
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !tags.contains( tag ) ) {
+            tags.add( tag );
+            tag.incCounter();
+        }
+    }
+
+    public void removeTag( Tag tag ) {
+//        int index;
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
+//        }
+//        return geoPoint.getEMPTY();
+        if ( tags.contains( tag )) {
+            tags.remove( tag );
+            tag.decCounter();
+        } else {
+            System.err.println("No such tag associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+        }
+    }
+    /*---END TAGS---*/
+
+    /*---PARTICIPANTS---*/
+    public int hasParticipant( User participant ) {
+        return participants.indexOf(participant);
+    }
+
+    public void addParticipant( User participant ) {
+        //avoid circular calls : assumes equals and hashcode implemented
+        if ( !participants.contains( participant ) ) {
+            participants.add( participant );
+        }
+    }
+
+    public void removeParticipant( User participant ) {
+//        int index;
+//        //avoid circular calls : assumes equals and hashcode implemented
+//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
+//            geoPoints.get(index);
+//            return geoPoints.remove( index );
+//        }
+//        return geoPoint.getEMPTY();
+        if ( participants.contains( participant )) {
+            participants.remove( participant );
+        } else {
+            System.err.println("No such participant associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
+        }
+    }
+    /*---END PARTICIPANTS---*/
 
     @Override
     public String toString() {

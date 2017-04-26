@@ -8,13 +8,8 @@ package com.keeper.service.impl;
  */
 
 import com.keeper.model.dao.*;
-import com.keeper.model.dto.CommentDTO;
-import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.model.dto.PictureDTO;
-import com.keeper.model.dto.TaskDTO;
-import com.keeper.repo.CommentRepository;
-import com.keeper.repo.GeoPointRepository;
-import com.keeper.repo.TaskRepository;
+import com.keeper.model.dto.*;
+import com.keeper.repo.*;
 import com.keeper.service.ITaskService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +32,18 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     private final TaskRepository repository;
     private final CommentRepository commentRepository;
     private final GeoPointRepository geoPointRepository;
-
+    private final TagRepository tagRepository;
+    private final UserRepository userRepository;
     @Autowired
     public TaskService(TaskRepository repository, CommentRepository commentRepository,
-                       GeoPointRepository geoPointRepository) {
+                       GeoPointRepository geoPointRepository, TagRepository tagRepository,
+                       UserRepository userRepository) {
         this.repository = repository;
         this.primeRepository = repository;
         this.commentRepository = commentRepository;
         this.geoPointRepository = geoPointRepository;
+        this.tagRepository = tagRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -211,4 +210,133 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     }
 
     /*---END COMMENTS---*/
+
+    /*---TAGS---*/
+    public List<TagDTO> getTags(Long taskId) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+        return Translator.convertTagsToDTO(task.getTags());
+    }
+
+    @Transactional
+    public TaskDTO addTag(Long taskId, TagDTO tag) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+
+        Tag tagDAO = tagRepository.findOneByTag(tag.getTag()).get();
+
+        if(tagDAO==null){
+            System.out.println("NEW TAG");
+
+            task.addTag(Translator.convertToDAO(tag));
+        }
+        else{
+            System.out.println("exist tag");
+            task.addTag(tagDAO);
+        }
+
+        primeRepository.save(task);
+        return Translator.convertToDTO(task);
+    }
+
+    //This works programmic only! remove check on links.
+    @Transactional
+    public TaskDTO removeTag(Long taskId, TagDTO tag) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+
+        Tag tagDAO = tagRepository.findOneByTag(tag.getTag()).get();
+        if(tagDAO!=null) {
+            task.removeTag(tagDAO);
+            primeRepository.save(task);
+        } else {
+            System.err.println("No such tag");
+        }
+
+        return Translator.convertToDTO(task);
+    }
+
+    @Transactional
+    public TaskDTO removeTagById(Long taskId, Long tagId) {
+        Task task = repository.findOne(taskId);
+        if((task)==null)
+            throw new IllegalArgumentException("No such task!");
+        Tag tagDAO = tagRepository.getOne(tagId);
+        if(tagDAO!=null) {
+            task.removeTag(tagDAO);
+            primeRepository.save(task);
+        } else {
+            System.err.println("No such tag");
+        }
+        return Translator.convertToDTO(task);
+    }
+
+    /*---END TAGS---*/
+
+
+    /*---PARTICIPANTS---*/
+    public List<UserDTO> getParticipants(Long taskId) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+        return Translator.convertUsersToDTO(task.getParticipants());
+    }
+
+    @Transactional
+    public TaskDTO addParticipant(Long taskId, Long userId /*, UserDTO participant*/) {
+        Task task;
+        if((task = repository.findOne(taskId))==null)
+            throw new IllegalArgumentException("No such task!");
+
+//        User participantDAO = userRepository.findOneByEmail(participant.getEmail()).get();
+        User userDAO = userRepository.findOne(userId);
+        if(userDAO!=null){
+            System.out.println("exist suer");
+            task.addParticipant(userDAO);
+            primeRepository.save(task);
+        }
+        else{
+            System.err.println("No such user!");
+        }
+        return Translator.convertToDTO(task);
+    }
+
+//    //This works programmic only! remove check on links.
+//    @Transactional
+//    public TaskDTO removeParticipant(Long taskId, UserDTO participant) {
+//        Task task;
+//        if((task = repository.findOne(taskId))==null)
+//            throw new IllegalArgumentException("No such task!");
+//
+//        User participantDAO = userRepository.findOneByEmail(participant.getEmail()).get();
+//        if(participantDAO!=null) {
+//            task.removeParticipant(participantDAO);
+//            primeRepository.save(task);
+//        } else {
+//            System.err.println("No such participant");
+//        }
+//
+//        return Translator.convertToDTO(task);
+//    }
+
+    @Transactional
+    public TaskDTO removeParticipantById(Long taskId, Long participantId) {
+        Task task = repository.findOne(taskId);
+        if((task)==null)
+            throw new IllegalArgumentException("No such task!");
+        User participantDAO = userRepository.findOne(participantId);
+        if(participantDAO!=null) {
+            task.removeParticipant(participantDAO);
+            primeRepository.save(task);
+        } else {
+            System.err.println("No such participant");
+        }
+        return Translator.convertToDTO(task);
+    }
+
+    /*---END PARTICIPANTS---*/
+
 }

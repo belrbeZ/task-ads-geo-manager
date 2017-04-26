@@ -7,11 +7,14 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.Tag;
 import com.keeper.repo.TagRepository;
 import com.keeper.service.ITagService;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -37,6 +40,10 @@ public class TagService extends ModelRepoService<Tag> implements ITagService {
         return new ArrayList<Tag>() {{ add(getEmpty()); }};
     }
 
+    @Transactional
+    public Optional<Tag> getByTagValue(@NotEmpty String tag) {
+        return repository.findOneByTag(tag);
+    }
 
 
 }

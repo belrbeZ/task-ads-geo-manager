@@ -19,33 +19,43 @@ public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long taskId;
-    @Column(name = "tag")                                   private String value;
+    @Column(name = "id", unique = true, nullable = false)   private Long id;
+    @Column(name = "tag")                                   private String tag;
     @Column(name = "counter")                               private Integer counter;
 
     private Tag() {
-        this.taskId = -1L;
-        this.value = "";
+        this.id = -1L;
+        this.tag = "";
         this.counter = 0;
     }
 
-    public Tag(Long taskId, String value) {
-        this.taskId = taskId;
-        this.value = value;
+    public Tag(Long id, String tag) {
+        this.id = id;
+        this.tag = tag;
+        this.counter = 0;
     }
 
+    public Tag(Long id, String tag, Integer counter) {
+        this.id = id;
+        this.tag = tag;
+        this.counter = counter;
+    }
     //<editor-fold desc="GetterAndSetter">
 
-    public Long getTaskId() {
-        return taskId;
+    public Long getId() {
+        return id;
     }
 
-    public String getValue() {
-        return value;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public Integer getCounter() {
@@ -72,11 +82,11 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        return value != null ? value.equals(tag.value) : tag.value == null;
+        return tag != null ? tag.equals(tag.tag) : tag.tag == null;
     }
 
     @Override
     public int hashCode() {
-        return value != null ? value.hashCode() : 0;
+        return tag != null ? tag.hashCode() : 0;
     }
 }
