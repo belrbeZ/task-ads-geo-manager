@@ -14,8 +14,6 @@ spring:
     username: postgres
     password: myRea11ySecRett0Pass
     platform: postgres
-#    tomcat:
-#      max-active: 120
   resources:
     static-locations: classpath:/resources/static/**, classpath:/META-INF/resources/
   jackson:

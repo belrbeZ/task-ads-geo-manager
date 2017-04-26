@@ -36,13 +36,18 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/", WebResolver.LOGIN, WebResolver.REGISTER).permitAll()
+                .antMatchers("/",
+                        WebResolver.LOGIN,
+                        WebResolver.REGISTER,
+                        "/css/**",
+                        "/webjars/bootstrap/**").permitAll()
                 .antMatchers(WebResolver.SECURED + "/**").hasAuthority(ROLE).anyRequest()
                 .authenticated()
-                .and().csrf().disable().formLogin()
+                .and().csrf()
+                .and().formLogin()
                 .loginPage(WebResolver.LOGIN)
                 .failureUrl(WebResolver.LOGIN + "?error=true")
-                .successForwardUrl(WebResolver.HOME)
+//                .successForwardUrl(WebResolver.HOME)
                 .defaultSuccessUrl(WebResolver.HOME)
                 .usernameParameter("email")
                 .passwordParameter("password");
@@ -57,8 +62,6 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-           .antMatchers(
-                   "/static/js/**",
-                   "/static/css/**");
+           .antMatchers( "/js/**", "/css/**", "/images/**", "/webjars/bootstrap/**");
     }
 }

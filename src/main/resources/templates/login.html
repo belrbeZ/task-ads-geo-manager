@@ -14,9 +14,21 @@
 
     <br/>
     <br/>
+    <br/>
+    <br/>
+
+    <div>
+        <form th:action="@{/registration}" method="get">
+            <button type="Submit">Go To Registration Page</button>
+        </form>
+    </div>
+
+    <br/>
 
     <div class="container">
         <form th:action="@{/login}" method="POST" class="form-login">
+
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <h3 th:text="Welcome"></h3>
             <input type="text" id="email" name="email" th:placeholder="Email" class="form-control"/>
@@ -30,11 +42,6 @@
         </form>
     </div>
 
-    <div>
-        <form th:action="@{/registration}" method="get">
-            <button type="Submit">Go To Registration Page</button>
-        </form>
-    </div>
 </div>
 </body>
 </html>
