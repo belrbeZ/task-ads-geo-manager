@@ -2,6 +2,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Picture;
+import com.keeper.model.dao.Tag;
 import com.keeper.model.dao.User;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
@@ -32,8 +33,8 @@ public class TaskDTO {
     private PictureDTO picture;
     private GeoPointDTO originGeoPoint;
     private List<CommentDTO> comments;
-//    private List<UserDTO> participants;
-//    private List<TagDTO> tags;
+    private List<TagDTO> tags;
+    private List<UserDTO> participants;
 
     private TaskDTO() {}
 
@@ -56,15 +57,15 @@ public class TaskDTO {
 
     public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture,
                    Timestamp createDate, Timestamp lastModifyDate,
-                   List<CommentDTO> comments, GeoPointDTO originGeoPoint/*List<UserDTO> participants, , List<TagDTO> tags*/) {
+                   List<CommentDTO> comments, GeoPointDTO originGeoPoint, List<TagDTO> tags,List<UserDTO> participants) {
         this(topicStarterId, originGeoPointId, type, state, theme, descr ,picture);
         this.createDate = createDate.toLocalDateTime();
         this.lastModifyDate = lastModifyDate!=null ? lastModifyDate.toLocalDateTime() : createDate.toLocalDateTime();
         this.picture = picture;
         this.comments = comments;
         this.originGeoPoint = originGeoPoint;
-//        this.participants = participants;
-//        this.tags = tags;
+        this.tags = tags;
+        this.participants = participants;
     }
     //<editor-fold desc="GetterAndSetter">
 
@@ -152,13 +153,13 @@ public class TaskDTO {
         this.originGeoPointId = originGeoPointId;
     }
 
-    //    public List<UserDTO> getParticipants() {
-//        return participants;
-//    }
-//
-//    public void setParticipants(List<UserDTO> participants) {
-//        this.participants = participants;
-//    }
+    public List<UserDTO> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(List<UserDTO> participants) {
+        this.participants = participants;
+    }
 
     public List<CommentDTO> getComments() {
         return comments;
@@ -168,13 +169,13 @@ public class TaskDTO {
         this.comments = comments;
     }
 
-//    public List<TagDTO> getTags() {
-//        return tags;
-//    }
-//
-//    public void setTags(List<TagDTO> tags) {
-//        this.tags = tags;
-//    }
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
+    }
 
     //</editor-fold>
 }

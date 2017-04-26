@@ -13,15 +13,17 @@ public class TagDTO {
 
     public static final TagDTO EMPTY = new TagDTO();
 
-    private Long taskId;
-    private String value;
+    private Long id;
+    private String tag;
     private Integer counter;
 
-    public TagDTO(){}
+    public TagDTO(){
+        counter = 0;
+    }
 
-    public TagDTO(Long taskId, String value, Integer counter){
-        this.taskId = taskId;
-        this.value = value;
+    public TagDTO(Long id, String tag, Integer counter){
+        this.id = id;
+        this.tag = tag;
         this.counter = counter;
     }
 
@@ -29,15 +31,23 @@ public class TagDTO {
         return EMPTY;
     }
 
-    public Long getTaskId() {
-        return taskId;
+    public Long getId() {
+        return id;
     }
 
-    public String getValue() {
-        return value;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTag() {
+        return tag;
     }
 
     public Integer getCounter() {
         return counter;
+    }
+
+    public void setCounter(Integer counter) {
+        this.counter = counter;
     }
 }
