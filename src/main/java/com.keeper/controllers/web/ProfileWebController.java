@@ -57,10 +57,10 @@ public class ProfileWebController {
         User user = userService.get(userForm.getId()).get();
 
         user.setEmail((userForm.getEmail() != null && !userForm.getEmail().isEmpty()) ? userForm.getEmail() : user.getEmail());
-        user.setEmail((userForm.getPassword() != null && !userForm.getPassword().isEmpty()) ? userForm.getPassword() : user.getPassword());
-        user.setEmail((userForm.getPhone() != null && !userForm.getPhone().isEmpty()) ? userForm.getPhone() : user.getPhone());
-        user.setEmail((userForm.getAbout() != null && !userForm.getAbout().isEmpty()) ? userForm.getAbout() : user.getAbout());
-        user.setEmail((userForm.getName() != null && !userForm.getName().isEmpty()) ? userForm.getName() : user.getName());
+        user.setPassword((userForm.getPassword() != null && !userForm.getPassword().isEmpty()) ? userForm.getPassword() : user.getPassword());
+        user.setPhone((userForm.getPhone() != null && !userForm.getPhone().isEmpty()) ? userForm.getPhone() : user.getPhone());
+        user.setAbout((userForm.getAbout() != null && !userForm.getAbout().isEmpty()) ? userForm.getAbout() : user.getAbout());
+        user.setName((userForm.getName() != null && !userForm.getName().isEmpty()) ? userForm.getName() : user.getName());
         user.setNotified((userForm.getNotified() == null) ? false : userForm.getNotified());
 
         userService.add(user);
