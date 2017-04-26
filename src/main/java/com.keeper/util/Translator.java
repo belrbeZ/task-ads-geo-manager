@@ -41,10 +41,10 @@ public class Translator {
                             model.getCreateDate(),
                             model.getLastModifyDate(),
                             convertCommentsToDTO(model.getComments()),
-                            convertToDTO(model.getOriginGeoPoint())
-                            /*convertUsersToDTO(model.getParticipants()),
-                            convertTagsToDTO(model.getTags()),
-                            convertToDTO(model.getPicture())*/
+                            convertToDTO(model.getOriginGeoPoint()),
+                            convertUsersToDTO(model.getParticipants()),
+                            convertTagsToDTO(model.getTags())
+//                            convertToDTO(model.getPicture())
         ) {{ setId(model.getId()); }};
     }
 
@@ -131,8 +131,8 @@ public class Translator {
     public static TagDTO convertToDTO(Tag model) {
         return (model == null)
                 ? TagDTO.EMPTY
-                : new TagDTO(model.getTaskId(),
-                            model.getValue(),
+                : new TagDTO(model.getId(),
+                            model.getTag(),
                             model.getCounter()
         );
     }
@@ -227,6 +227,14 @@ public class Translator {
                             model.getNotified(),
                             model.getMuteStart(),
                             model.getMuteEnd());
+    }
+
+    public static Tag convertToDAO(TagDTO model) {
+        return (model == null)
+                ? Tag.EMPTY
+                : new Tag(model.getId(),
+                        model.getTag(),
+                        model.getCounter());
     }
 
     public static User convertToDAO(UserFormDTO model) {
