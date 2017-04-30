@@ -393,7 +393,8 @@ public class User {
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
-        str.append("User id:").append(this.getId()).append(" name:").append(this.getName()).append(" picId").append(this.getPic()).append(super.toString());
+        str.append("User id:").append(this.getId()).append(" name:").append(this.getName()).append(" picId").append(this.getPic()).append(super.toString())
+        .append("User First Route:").append(getRoutes().get(0).getLongtitudes() [0]).append(" ").append(getRoutes().get(0).getLatitudes()[0]);
         return str.toString();
     }
 }

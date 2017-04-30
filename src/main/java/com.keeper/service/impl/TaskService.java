@@ -231,8 +231,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
             System.out.println("NEW TAG");
 
             task.addTag(Translator.convertToDAO(tag));
-        }
-        else{
+        } else{
             System.out.println("exist tag");
             task.addTag(tagDAO);
         }
