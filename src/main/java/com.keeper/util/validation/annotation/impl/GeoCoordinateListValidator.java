@@ -9,18 +9,19 @@ import com.keeper.util.validation.annotation.GeoCoordinateList;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Default Comment
  */
-public class GeoCoordinateListValidator implements ConstraintValidator<GeoCoordinateList, List<String>> {
+public class GeoCoordinateListValidator implements ConstraintValidator<GeoCoordinateList, String[]> {
 
     @Override
     public void initialize(GeoCoordinateList geoCoord) { }
 
     @Override
-    public boolean isValid(List<String> coords, ConstraintValidatorContext constraintValidatorContext) {
-        return Validator.isGeoCoordValid(coords);
+    public boolean isValid(String[] coords, ConstraintValidatorContext constraintValidatorContext) {
+        return Validator.isGeoCoordValid(Arrays.asList(coords));
     }
 }

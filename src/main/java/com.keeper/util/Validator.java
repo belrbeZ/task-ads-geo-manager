@@ -4,8 +4,10 @@ package com.keeper.util;
  * Created by @GoodforGod on 16.04.2017.
  */
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Default Comment
@@ -47,5 +49,9 @@ public class Validator {
 
     public static boolean isGeoCoordValid(List<String> coords) {
         return coords.stream().noneMatch(Validator.geoCoordFilter);
+    }
+
+    public static List<Double> converGeoPoints(String[] points) {
+        return Arrays.stream(points).map(Double::valueOf).collect(Collectors.toList());
     }
 }

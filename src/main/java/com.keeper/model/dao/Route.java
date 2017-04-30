@@ -8,6 +8,7 @@ package com.keeper.model.dao;
  */
 
 import com.keeper.model.SimpleGeoPoint;
+import com.keeper.model.SimpleRoute;
 import com.keeper.model.types.RouteType;
 import com.keeper.util.resolve.DatabaseResolver;
 import org.hibernate.annotations.Type;
@@ -55,8 +56,8 @@ public class Route {
         this.longtitudes = new String[geoPoints.size()];
 
         for(int i = 0; i < geoPoints.size(); i++) {
-            this.latitudes[i] = geoPoints.get(i).getLatitude();
-            this.longtitudes[i] = geoPoints.get(i).getLongtitude();
+            this.latitudes[i] = geoPoints.get(i).getLatitude().toString();
+            this.longtitudes[i] = geoPoints.get(i).getLongtitude().toString();
         }
     }
 
@@ -145,17 +146,12 @@ public class Route {
         latitudes = Arrays.copyOf(latitudes, latitudes.length +1);
         longtitudes = Arrays.copyOf(longtitudes, longtitudes.length +1);
 
-        latitudes[latitudes.length - 1] = geoPoint.getLatitude();
-        longtitudes[longtitudes.length - 1] = geoPoint.getLongtitude();
+        latitudes[latitudes.length - 1] = geoPoint.getLatitude().toString();
+        longtitudes[longtitudes.length - 1] = geoPoint.getLongtitude().toString();
     }
 
-    public List<SimpleGeoPoint> getGeoPoints() {
-        List<SimpleGeoPoint> geoPoints = new ArrayList<>();
-
-        for(int i = 0; i < latitudes.length; i++)
-            geoPoints.add(new SimpleGeoPoint(latitudes[i], longtitudes[i]));
-
-        return geoPoints;
+    public SimpleRoute getGeoPoints() {
+        return new SimpleRoute(longtitudes, latitudes);
     }
 
     public void setType(RouteType type) {
