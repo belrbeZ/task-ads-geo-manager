@@ -1,25 +1,904 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title>Maps</title>
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen" />
-</head>
-<body>
-<div class="container">
-    <div th:replace="fragments/header :: header"> </div>
+    <!--WORKING IN SITE-->
+    <link rel="stylesheet"  th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          type="text/css" media="screen" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 
-    <br/>
-    <br/>
-    <br/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
     <script type="text/javascript"
-            charset="utf-8"
-            src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Aa7687eff85da280e54515c0cb8d66e37bef6260face91bd724445f20c022d2a2&amp;width=830&amp;height=500&amp;lang=ru_RU&amp;scroll=true"></script>
+            src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/simple-left-sidebar.css}"
+          href="/static/css/simple-left-sidebar.css" type="text/css" media="screen" />
+
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+    <!--STYLES FOR WRAPPED MENU-->
+    <style th:inline="text">
+        .sidebar-wrapper {
+            z-index: 1000;
+            position: fixed;
+            top:0;
+            width: 30%;
+            height: 100%;
+            overflow-y: auto;
+            background: #222;
+            -webkit-transition: all 0.4s ease-in-out 0s;
+            -moz-transition: all 0.4s ease-in-out 0s;
+            -ms-transition: all 0.4s ease-in-out 0s;
+            -o-transition: all 0.4s ease-in-out 0s;
+            transition: all 0.4s ease-in-out 0s;
+        }
+        .sidebar-nav {
+            position: absolute;
+            top: 8.2%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .sidebar-nav li {
+            position: relative;
+            line-height: 20px;
+            display: inline-block;
+            width: 100%;
+            font-size: 110%;
+            font-weight: 800;
+            text-transform: uppercase;
+            outline: none;
+        }
+        .sidebar-nav li:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            z-index: -1;
+            height: 100%;
+            width: 3px;
+            background-color: #1c1c1c;
+            -webkit-transition: width .4s ease-in-out;
+            -moz-transition: width .4s ease-in-out;
+            -ms-transition: width .4s ease-in-out;
+            transition: width .4s ease-in-out;
+        }
+        .sidebar-nav li:first-child a {
+            color: #fff;
+            background-color: #1a1a1a;
+        }
+        .sidebar-nav li:nth-child(2):before {
+            color: #fff;
+            background-color: #1a1a1a;
+        }
+        .sidebar-nav li:nth-child(3):before {
+            background-color: #ec1b5a;
+        }
+        .sidebar-nav li:nth-child(4):before {
+            background-color: #79aefe;
+        }
+        .sidebar-nav li:nth-child(5):before {
+            background-color: #314190;
+        }
+        .sidebar-nav li:nth-child(6):before {
+            background-color: #279636;
+        }
+        .sidebar-nav li:nth-child(7):before {
+            background-color: #7d5d81;
+        }
+        .sidebar-nav li:nth-child(8):before {
+            background-color: #ead24c;
+        }
+        .sidebar-nav li:nth-child(9):before {
+            background-color: #2d2366;
+        }
+        .sidebar-nav li:nth-child(10):before {
+            background-color: #35acdf;
+        }
+        .sidebar-nav li:hover:before, .sidebar-nav li.open:hover:before {
+            width: 100%;
+            -webkit-transition: width .4s ease-in-out;
+            -moz-transition: width .4s ease-in-out;
+            -ms-transition: width .4s ease-in-out;
+            transition: width .4s ease-in-out;
+        }
+        .sidebar-nav li a {
+            display: block;
+            color: #ddd;
+            text-decoration: none;
+            padding: 10px 15px 10px 30px;
+        }
+        .sidebar-nav li a:hover, .sidebar-nav li a:active, .sidebar-nav li a:focus, .sidebar-nav li.open a:hover, .sidebar-nav li.open a:active, .sidebar-nav li.open a:focus {
+            color: #fff;
+            text-decoration: none;
+            background-color: transparent;
+        }
+        .sidebar-nav > .sidebar-brand {
+            height: 44px;
+            font-size: 18px;
+            line-height: 1.43;
+        }
+        .sidebar-nav .dropdown-menu {
+            position: relative;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            border-radius: 0;
+            border: none;
+            background-color: #222;
+            box-shadow: none;
+        }
+        .menu-toggle{
+            z-index: 801;
+            /*position: fixed;*/
+            /*top: 0;*/
+            /*left: .5%;*/
+        }
+        .sidebar-wrapper.active {
+            -webkit-transition: all 0.4s ease 0s;
+            -moz-transition: all 0.4s ease 0s;
+            -ms-transition: all 0.4s ease 0s;
+            -o-transition: all 0.4s ease 0s;
+            transition: all 0.4s ease 0s;
+        }
+        .toggle {
+            margin: 0;
+        }
+        .btn-dark {
+            border-radius: 0;
+            color: #fff;
+            background-color: rgba(0,  0,  0,  0.4);
+        }
+        .btn-dark:hover, .btn-dark:focus, .btn-dark:active {
+            color: #fff;
+            background-color: rgba(0,  0,  0,  0.7);
+        }
+        .btn-light {
+            border-radius: 0;
+            color: #333;
+            background-color: rgb(255,  255,  255);
+        }
+        .btn-light:hover, .btn-light:focus, .btn-light:active {
+            color: #333;
+            background-color: rgba(255,  255,  255,  0.8);
+        }
+        .btn {
+            border-radius: 0px;
+            overflow: hidden;
+            border:none;
+        }
+        .btn-success:hover, .btn-success:focus, .btn-success.focus, .btn-success:active, .btn-success.active, .open > .dropdown-toggle.btn-success {
+            color: #fff;
+            background-color: #449d44;
+            border-color: #398439;
+            box-shadow: inset 0 0 0 2px #398439;
+        }
+        .btn-danger:hover, .btn-danger:focus, .btn-danger.focus, .btn-danger:active, .btn-danger.active, .open > .dropdown-toggle.btn-danger {
+            color: #fff;
+            background-color: #c9302c;
+            border-color: #ac2925;
+            box-shadow: inset 0 0 0 2px #ac2925;
+        }
+        .btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+            color: #fff;
+            background-color: #286090;
+            border-color: #204d74;
+            box-shadow: inset 0 0 0 2px #204d74;
+        }
+        .btn-default {
+            color: #333;
+            background-color: #efefef;
+            border-color: #ccc;
+        }
+        .btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
+            color: #333;
+            background-color: #e6e6e6;
+            border-color: #adadad;
+            box-shadow: inset 0 0 0 5px #adadad;
+        }
+        .btn-inverse {
+            background-color: #222;
+            border-color: #080808;
+            color: #9d9d9d;
+        }
+        .btn-inverse:hover, .btn-inverse:focus, .btn-inverse.focus, .btn-inverse:active, .btn-inverse.active, .open > .dropdown-toggle.btn-inverse {
+            color: #fff;
+            background-color: #080808;
+            border-color: #333;
+            box-shadow: inset 0 0 0 2px #333;
+        }
+        .btn-danger:hover, .btn-danger:focus, .btn-danger.focus, .btn-danger:active, .btn-danger.active, .open > .dropdown-toggle.btn-danger {
+            color: #fff;
+            background-color: #c9302c;
+            border-color: #ac2925;
+            box-shadow: inset 0 0 0 2px #ac2925;
+        }
+        .btn-danger.active, .btn-danger.focus, .btn-danger:active, .btn-danger:focus, .btn-danger:hover, .open>.dropdown-toggle.btn-danger {
+            color: #c9302c;
+            background-color: #fff;
+            box-shadow: inset 0 0 0 2px #c9302c;
+            border-color: #ac2925;
+        }
+        .btn-dark{
+            border-radius: 0;
+            color: #fff;
+            background-color: rgba(0,0,0,0.4);
+        }
+        .btn-dark:hover,
+        .btn-dark:focus,
+        .btn-dark:active,
+        .btn-dark.active{
+            color: #fff;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        /********************************/
+        /*          Custom Buttons      */
+        /********************************/
+        .btn.btn-lg {padding: 10px 40px;}
+
+    </style>
+
+    <!--STYLES FOR RIGHT MENU-->
+    <style th:inline="text">
+        #sidebar-wrapper-right{
+            position: fixed;
+            top:0;
+            /*width: 30%;*/
+            /*height: 100%;*/
+            right: 0;
+            margin-right: -30%;
+        }
+        .wrapper-right li:before {
+            right: 0;
+        }
+        #sidebar-wrapper-right.active {
+            right: 30%;
+            width: 30%;
+        }
+        #right-menu-toggle {
+            position: fixed;
+            top: 0;
+            right: .5%;
+        }
+    </style>
+
+    <!--STYLES FOR LEFT MENU-->
+    <style th:inline="text">
+        #sidebar-wrapper-left{
+            position: fixed;
+            top:0;
+            /*width: 30%;*/
+            /*height: 100%;*/
+            left: 0;
+            margin-left: -30%;
+        }
+        .wrapper-left li:before {
+            left: 0;
+        }
+        #sidebar-wrapper-left.active {
+            left: 30%;
+            width: 30%;
+        }
+        #left-menu-toggle {
+            position: fixed;
+            top: 0;
+            left: .5%;
+        }
+    </style>
+
+    <!--STYLES FOR MAP-->
+    <style th:inline="text">
+        #map {
+            width: 100%;
+            height: 100%
+        }
+        .main-container {
+            display: block;
+            position: relative;
+            width: 90%;
+            height: 100%;
+            /*padding-right: 15px;*/
+            /*padding-left: 15px;*/
+            padding-top: 50px;
+            margin-right: auto;
+            margin-left: auto;
+
+            overflow: hidden;
+        }
+        /*@media (min-width: 768px) {*/
+        /*.main-container {*/
+        /*width: 750px*/
+        /*}*/
+        /*}*/
+        /*@media (min-width: 992px) {*/
+        /*.main-container {*/
+        /*width: 970px*/
+        /*}*/
+        /*}*/
+        /*@media (min-width: 1200px) {*/
+        /*.main-container {*/
+        /*width: 1170px*/
+        /*}*/
+        /*}*/
+    </style>
+
+    <!--STYLES FOR MESSAGES-->
+    <style th:inline="text">
+        .Message {
+            display: table;
+            position: fixed;
+            /*left:0;*/
+            left:calc(50% - 250px);
+            bottom: 1em;
+            margin: 0 auto;
+            /*margin: 40px auto 0;*/
+            width: 500px;
+            background-color: #0074D9;
+            color: #fff;
+            -webkit-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+            -webkit-animation: opacity 0.5s ease-out;
+            -moz-animation: opacity 0.5s ease-out;
+            -o-animation: opacity 0.5s ease-out;
+            animation: opacity 0.5s ease-out;
+        }
+        .Message.is-hidden {
+            opacity: 0;
+            height: 0;
+            margin-bottom: -250px;
+            font-size: 0;
+            padding: 0;
+            /*margin: 0 auto;*/
+            display: block;
+            -webkit-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+            -webkit-animation: opacity 0.5s ease-out;
+            -moz-animation: opacity 0.5s ease-out;
+            -o-animation: opacity 0.5s ease-out;
+            animation: opacity 0.5s ease-out;
+        }
+        .Message-icon {
+            display: table-cell;
+            vertical-align: middle;
+            width: 60px;
+            padding: 30px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.25);
+        }
+        .Message-icon > i {
+            width: 20px;
+            font-size: 20px;
+        }
+
+        .Message-body {
+            display: table-cell;
+            vertical-align: middle;
+            padding: 30px 20px 30px 10px;
+        }
+        .Message-body > p {
+            line-height: 1.2;
+            margin-top: 6px;
+        }
+
+        .Message-button {
+            position: relative;
+            margin: 15px 5px -10px;
+            background-color: rgba(0, 0, 0, 0.25);
+            box-shadow: 0 3px rgba(0, 0, 0, 0.4);
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-family: 'Source Sans Pro';
+            color: #fff;
+            outline: none;
+            cursor: pointer;
+        }
+        .Message-button:hover {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        .Message-button:active {
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0px rgba(0, 0, 0, 0.4);
+            top: 3px;
+        }
+
+        .Message-close {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            border: none;
+            outline: none;
+            font-size: 20px;
+            right: 5px;
+            top: 5px;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .Message:hover .Message-close {
+            opacity: 1;
+        }
+        .Message-close:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .u-italic {
+            font-style: italic;
+        }
+    </style>
+
+    <!--STYLES FOR CHANGING FORMS IN RIGHT MENU-->
+    <style th:inline="text">
+        .geo_point-button {
+            width:49%;
+        }
+    </style>
+
+</head>
+<body>
+
+<!--HEADER-->
+<div th:replace="fragments/header :: header"> </div>
+<!--MAIN MAP CONTAINER-->
+<div class="main-container">
+
+    <!--yMaps-->
+    <div id="map" style="width: 90vw; height: 90vh"></div>
+    <!--<div id="map" style="position: relative;display: block;width: 100%; height: 100%"></div>-->
+
+    <!--<th:block layout:fragment="script">-->
+    <!--<script  type="text/javascript" src="ymaps.js" th:src="@{/js/ymaps.js}"></script>-->
+    <!--</th:block>-->
+
+    <script  type="text/javascript" th:src="@{/js/ymaps.js}" src="/static/js/ymaps.js"></script>
+
+    <!--OBJECTS TO MAP-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var groups = [
+            {
+                name: "Наши салоны красоты",
+                style: "islands#blueIcon",
+                items: [
+                    {
+                        center: [59.93674, 30.3117],
+                        name: 'Салон "YourMakeup" м.Адмиралтейская'
+                    },
+                    {
+                        center: [59.925544, 30.389422],
+                        name: 'Салон "YourMakeup" м.Пл.А.Невского'
+                    }
+                ]},
+            {
+                name: "Покупайки",
+                style: "islands#greenIcon",
+                items: [
+                    {
+                        center: [59.92858, 30.357068],
+                        name: 'Магазин "YourMakeupShop" м.Пл.Восстания'
+                    },
+                    {
+                        center: [59.968226, 30.309588],
+                        name: 'Магазин "YourMakeupShop" м.Петроградская'
+                    }
+                ]}
+        ];
+        /*]]>*/
+    </script>
+
+    <!--MAP CONFIGURE-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var createUpdateButton;
+        var deleteCancelButton;
+
+        ymaps.ready(function () {
+            createUpdateButton = document.getElementById("geo_point-create_update-button");
+            deleteCancelButton = document.getElementById("geo_point-delete_cancel-button");
+            var myMap = new ymaps.Map('map', {
+                    center: [55.751574, 37.573856],
+                    zoom: 9
+                }, {
+                    searchControlProvider: 'yandex#search'
+                }),
+                yellowCollection = new ymaps.GeoObjectCollection(null, {
+                    preset: 'islands#yellowIcon'
+                }),
+                blueCollection = new ymaps.GeoObjectCollection(null, {
+                    preset: 'islands#blueIcon'
+                }),
+                // Создаём макет содержимого.
+                MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
+                    '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
+                ),
+
+                myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
+                    hintContent: 'Собственный значок метки',
+                    balloonContent: 'Это красивая метка'
+                }, {
+                    // Опции.
+                    // Необходимо указать данный тип макета.
+                                            iconLayout: 'default#image'
+                    //,
+                    //                         Своё изображение иконки метки.
+                    //                        iconImageHref: 'images/myIcon.gif',
+                    // Размеры метки.
+                    //                        iconImageSize: [30, 42],
+                    // Смещение левого верхнего угла иконки относительно
+                    // её "ножки" (точки привязки).
+                    //                        iconImageOffset: [-5, -38]
+                })
+            /*,
+                myPlacemarkWithContent = new ymaps.Placemark([55.661574, 37.573856], {
+                    hintContent: 'Собственный значок метки с контентом',
+                    balloonContent: 'А эта — новогодняя',
+                    iconContent: '12'
+                }, {
+                    // Опции.
+                    // Необходимо указать данный тип макета.
+                    iconLayout: 'default#imageWithContent',
+                    // Своё изображение иконки метки.
+                    //                        iconImageHref: 'images/ball.png',
+                    // Размеры метки.
+                    //                        iconImageSize: [48, 48],
+                    // Смещение левого верхнего угла иконки относительно
+                    // её "ножки" (точки привязки).
+                    //                        iconImageOffset: [-24, -24],
+                    // Смещение слоя с содержимым относительно слоя с картинкой.
+                    //                        iconContentOffset: [15, 15],
+                    // Макет содержимого.
+                    iconContentLayout: MyIconContentLayout
+                })*/
+                ,
+                yellowCoords = [[55.73, 37.75], [55.81, 37.75]],
+                blueCoords = [[55.73, 37.65], [55.81, 37.65]];
+
+            for (var i = 0, l = yellowCoords.length; i < l; i++) {
+                yellowCollection.add(new ymaps.Placemark(yellowCoords[i]));
+            }
+            for (var i = 0, l = blueCoords.length; i < l; i++) {
+                blueCollection.add(new ymaps.Placemark(blueCoords[i]));
+            }
+
+            myMap.geoObjects.add(yellowCollection).add(blueCollection);
+
+            myMap.balloon.events.add('open', function (event) {
+                // ваши действия
+                // myMap.balloon.close();
+                // event.get('target').ballon.open();
+//                this.coords;
+//                var coords = event.get('coords');
+                var coords;
+                try{
+                    coords = event.originalEvent.target.geometry._coordinates;
+
+                    document.getElementById('input-latitude').value = coords[0];
+                    document.getElementById('input-longitude').value = coords[1];
+
+                } catch (e){console.log(e.toString());}
+
+                var balloonText = event.get('target').properties.get('balloonContent');
+                if(balloonText==null){
+                    balloonText = event.get('target')['properties'].get('balloonContent');
+                }
+                document.getElementById('input-info').value = balloonText;
+
+                if(event.get('target')['properties'].get('iconContent')!="Новое"){
+                    hideYourPlaceholder();
+                    createUpdateButton.textContent = "Update";
+                    deleteCancelButton.textContent = "Delete";
+                }
+                    createUpdateButton.disabled = false;
+                    deleteCancelButton.disabled = false;
+//                document.getElementById();
+            });
+
+            var placemarkYour;
+
+            myMap.balloon.events.add('close', function (event) {
+                // ваши действия
+                // myMap.balloon.close();
+                // event.get('target').ballon.open();
+                //myMap.geoObjects.remove(placemarkYour);
+                document.getElementById('input-info').value = "";
+
+                document.getElementById('input-latitude').value = null;
+                document.getElementById('input-longitude').value = null;
+
+                    createUpdateButton.disabled = true;
+                    createUpdateButton.textContent = "Create";
+                    deleteCancelButton.disabled = true;
+                    deleteCancelButton.textContent = "Cancel";
+            });
+
+            function hideYourPlaceholder() {
+                try{
+                    placemarkYour.balloon.close();
+                    placemarkYour.options.set('visible', false);
+                    placemarkYour.properties.set('balloonContent',  "");
+
+                    document.getElementById('input-info').value = "";
+
+                    document.getElementById('input-latitude').value = null;
+                    document.getElementById('input-longitude').value = null;
+
+                        createUpdateButton.disabled = true;
+                        createUpdateButton.textContent = "Create";
+                        deleteCancelButton.disabled = true;
+                        deleteCancelButton.textContent = "Cancel";
+
+                }catch(e){console.log(e.toString())}
+            }
+
+            // Обработка события, возникающего при щелчке
+            // левой кнопкой мыши в любой точке карты.
+            // При возникновении такого события откроем балун.
+            myMap.events.add('click', function (e) {
+                if (!myMap.balloon.isOpen() && (placemarkYour == null || placemarkYour.options._options.visible == false)) {
+                    var coords = e.get('coords');
+
+                    if(placemarkYour==null){
+                        // Создаем метку.
+                        placemarkYour = new ymaps.Placemark([coords[0].toPrecision(6), coords[1].toPrecision(6)], {
+                            // balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
+                            iconContent: "Новое"
+                        }, {
+                            preset: "islands#greenStretchyIcon",
+                            // Отключаем кнопку закрытия балуна.
+//                            balloonCloseButton: false,
+                            // Балун будем открывать и закрывать кликом по иконке метки.
+                            hideIconOnBalloonOpen: false
+                        });
+
+                        /*HIDE PLACEMARK ON CLOSING BALOON*/
+                        placemarkYour.events.add('balloonclose',function (e) {
+                            console.log("your baloon closed");
+                            hideYourPlaceholder();
+                        });
+
+                        // myMap.geoObjects.get(collection)
+                        myMap.geoObjects.add(placemarkYour);
+                        messageToAddPlace();
+                    }else{
+                        placemarkYour.geometry.setCoordinates([coords[0].toPrecision(6), coords[1].toPrecision(6)]);
+                        placemarkYour.options.set('visible', true)
+                    }
+
+                    var newContent;
+                    try{
+                        ymaps.geocode(placemarkYour.geometry.getCoordinates(), {
+                            results: 1
+                        }).then(function (res) {
+                            newContent = res.geoObjects.get(0) ?
+                                res.geoObjects.get(0).properties.get('name') :
+                                'Не удалось определить адрес.';
+
+                            // Задаем новое содержимое балуна в соответствующее свойство метки.
+                            placemarkYour.properties.set('balloonContent',  newContent);
+//                            placemarkYour.balloon.setData({ content: ''+newContent });
+                        });
+                    }catch(e){console.log(e.toString())}
+                    console.log(placemarkYour.properties.get('balloonContent'));
+                    console.log(placemarkYour['properties'].get('balloonContent'));
+
+                    //placemarkYour.balloon.open();
+                }
+                else {
+                    myMap.balloon.close();
+                    hideYourPlaceholder();
+                }
+            });
+
+            myMap.geoObjects
+                .add(myPlacemark);
+//                .add(myPlacemarkWithContent);
+        });
+        /*]]>*/
+    </script>
 </div>
+
+<!--RIGHT MENU-->
+<nav id="sidebar-wrapper-right" class="sidebar-wrapper">
+    <ul class="sidebar-nav wrapper-right">
+        <a id="menu-close" href="#" class="btn btn-danger pull-right hidden-md hidden-lg toggle"><i class="fa fa-times"></i></a>
+        <li class="sidebar-brand">
+            <a href="#top">Element <strong>DETAILS</strong></a>
+        </li>
+        <!--<li>-->
+            <!--<a href="/profile" title="Go to Top">Profile </a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="/about" title="Go to About Us section">About</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash; Future Development-->
+        <!--<li>-->
+            <!--<a href="#portfolio">Portfolio</a>-->
+        <!--</li> &ndash;&gt;-->
+        <!--<li>-->
+            <!--<a href="/blog" title="Our Blog">Blog</a>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>-->
+        <!--</li>-->
+        <li>
+            <a  title="Create or Change GeoPoint">GeoPoints</a>
+            <div th:replace="fragments/geopointform :: geopointform"> </div>
+        </li>
+    </ul>
+</nav>
+
+<!--LEFT MENU-->
+<nav id="sidebar-wrapper-left" class="sidebar-wrapper">
+    <ul class="sidebar-nav wrapper-left">
+        <a id="menu-close" href="#" class="btn btn-danger pull-right hidden-md hidden-lg toggle"><i class="fa fa-times"></i></a>
+        <li class="sidebar-brand">
+            <a href="#top">YOUR <strong>ELEMENTS</strong></a>
+        </li>
+        <li>
+            <a href="/about" title="List of Tasks">List of Tasks</a>
+        </li>
+        <li>
+            <a href="/profile" title="List of GeoPoints">List of GeoPoints</a>
+        </li>
+        <!--<li>-->
+        <!--<a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash; Future Development-->
+        <!--<li>-->
+        <!--<a href="#portfolio">Portfolio</a>-->
+        <!--</li> &ndash;&gt;-->
+        <!--<li>-->
+        <!--<a href="/blog" title="Our Blog">Blog</a>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>-->
+        <!--</li>-->
+        <li>
+            <a  title="List of Routes">List of Routes</a>
+        </li>
+    </ul>
+</nav>
+
+<!--SIDES MENU EVENTS-->
+<script th:inline="javascript">
+    // <![CDATA[
+    $(document).ready(function()
+    {
+        // Closes the sidebar menu on menu-close button click event
+        $("#menu-close").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
+        {
+            // - will not work otherwise")
+            $(".sidebar-wrapper").toggleClass("active");			//instead on click event toggle active CSS element
+            e.preventDefault(); 									//prevent the default action ("Do not remove as the code
+
+            /*!
+             ======================= Notes ===============================
+             * see: .sidebar-wrapper.active in: style.css
+             ==================== END Notes ==============================
+             */
+        });															//Close 'function()'
+
+//        // Open the Sidebar-wrapper on Hover
+//        $(".menu-toggle").hover(function(e)							//declare the element event ...'(e)' = event (shorthand)
+//        {
+//            if($(this)[0].id==="left-menu-toggle"){
+//                $("#sidebar-wrapper-left").toggleClass("active",true);		//instead on click event toggle active CSS element
+//            }
+//            else if($(this)[0].id==="right-menu-toggle") {
+//                $("#sidebar-wrapper-right").toggleClass("active",true);
+//            }
+//            e.preventDefault();										//prevent the default action ("Do not remove as the code
+//        });
+//
+//        $(".menu-toggle").bind('click',function(e)					//declare the element event ...'(e)' = event (shorthand)
+//        {
+//            $(".sidebar-wrapper").toggleClass("active",true);		//instead on click event toggle active CSS element
+//            e.preventDefault();										//prevent the default action ("Do not remove as the code
+//        });
+//
+//        $('.sidebar-wrapper').mouseleave(function(e)				//declare the jQuery: mouseleave() event
+//            // - see: ('//api.jquery.com/mouseleave/' for details)
+//        {
+//            /*! .toggleClass( className, state ) */
+//            $(this).toggleClass('active',false);		/* toggleClass: Add or remove one or more classes from each element
+//         in the set of matched elements, depending on either the class's
+//         presence or the value of the state argument */
+//            e.stopPropagation();									//Prevents the event from bubbling up the DOM tree
+//            // - see: ('//api.jquery.com/event.stopPropagation/' for details)
+//
+//            e.preventDefault();										// Prevent the default action of the event will not be triggered
+//            // - see: ('//api.jquery.com/event.preventDefault/' for details)
+//        });
+
+        // Open the Sidebar-wrapper on Hover
+        $(".menu-toggle").on("click", function(e)							//declare the element event ...'(e)' = event (shorthand)
+        {
+            if($(this)[0].id==="left-menu-toggle"){
+                $("#sidebar-wrapper-left").toggleClass("active");		//instead on click event toggle active CSS element
+            }
+            else if($(this)[0].id==="right-menu-toggle") {
+                $("#sidebar-wrapper-right").toggleClass("active");
+            }
+            e.preventDefault();										//prevent the default action ("Do not remove as the code
+        });
+													//Close 'function()'
+
+    });
+    // Closes the sidebar menu on menu-close button click event
+    $("#menu-close").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
+    {
+        // - will not work otherwise")
+        $(".sidebar-wrapper").toggleClass("active");			//instead on click event toggle active CSS element
+        e.preventDefault(); 									//prevent the default action ("Do not remove as the code
+
+        /*!
+         ======================= Notes ===============================
+         * see: .sidebar-wrapper.active in: style.css
+         ==================== END Notes ==============================
+         */
+    });															//Close 'function()'
+    // ]]>
+</script>
+
+<!--MESSAGES-->
+<div id="message-add_place" class="Message is-hidden">
+    <div class="Message-icon">
+        <i class="fa fa-bell-o"></i>
+    </div>
+    <div class="Message-body">
+        <p>CHECK PLACE FOR CREATE OR CHANGING
+            <small><br>Do you want to add new Place in which area you can see tasks?</small></p>
+        <button class="Message-button" id="js-showMe">Show me how to add your new Place</button>
+        <button class="Message-button js-messageClose">Nah, not interested</button>
+    </div>
+    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function closeMessage(el) {
+        el.addClass('is-hidden');
+    }
+
+    $('.js-messageClose').on('click', function(e) {
+        closeMessage($(this).closest('.Message'));
+    });
+
+    $('#js-showMe').on('click', function(e) {
+//        th:onclick="'javascript:getContactId(\'' + ${contact.id} + '\');'"
+//        alert("You're off to our help section. See you later!");
+        $("#sidebar-wrapper-right").toggleClass("active", true);
+        closeMessage($(this).closest('.Message'));
+    });
+
+    function messageToAddPlace() {
+        var mes = $('#message-add_place');
+        mes.removeClass('is-hidden');
+        setTimeout(function() {
+            closeMessage(mes);
+        }, 10000);
+    }
+
+    /*]]*/
+</script>
+
+
 </body>
 </html>
