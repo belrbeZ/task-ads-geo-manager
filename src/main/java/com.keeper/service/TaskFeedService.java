@@ -74,13 +74,72 @@ public class TaskFeedService implements ITaskFeedService {
 
     }
 
+    public void proceed(TaskDTO task) {
+
+    }
+
+    public void proceed(UserDTO user) {
+
+    }
+
+    public void proceed(RouteDTO route) {
+
+    }
+
+    public void proceed(GeoPointDTO point) {
+
+    }
+
     @Scheduled(initialDelay = 10000, fixedDelay = 5000)
     private void update() {
 
     }
 
+    @Scheduled(initialDelay = 20000, fixedDelay = 10000)
+    private void proceedQueues() {
+
+    }
+
+    @Override
+    public List<TaskDTO> getHot(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<TaskDTO> getNew(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<TaskDTO> getLocal(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<TaskDTO> getMy(Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<TaskDTO> getAll(Long userId) {
+        return null;
+    }
+
     @Override
     public List<TaskDTO> getFeed(Long userId, TaskFeedType type) {
-        return null;
+
+        List<TaskDTO> feed = new ArrayList<>();
+
+        switch (type) {
+            case ALL:
+            case HOT:
+            case LOCAL:
+            case MY:
+            case NEW:
+
+            default: break;
+        }
+
+        return feed;
     }
 }

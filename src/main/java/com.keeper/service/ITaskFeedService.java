@@ -14,4 +14,10 @@ import java.util.List;
  */
 public interface ITaskFeedService {
     List<TaskDTO> getFeed(Long userId, TaskFeedType type);
+
+    List<TaskDTO> getHot(Long userId);
+    List<TaskDTO> getNew(Long userId);
+    List<TaskDTO> getLocal(Long userId);
+    List<TaskDTO> getMy(Long userId);
+    List<TaskDTO> getAll(Long userId);
 }
