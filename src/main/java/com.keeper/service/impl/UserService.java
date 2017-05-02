@@ -13,10 +13,7 @@ import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,15 +27,16 @@ import java.util.Optional;
 @Service
 public class UserService extends ModelRepoService<User> implements IUserService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
-
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;
     private final RouteRepository routeRepository;
     private final TaskRepository taskRepository;
 
     @Autowired
-    public UserService(UserRepository repository, GeoPointRepository geoPointRepository, RouteRepository routeRepository, TaskRepository taskRepository) {
+    public UserService(UserRepository repository,
+                       GeoPointRepository geoPointRepository,
+                       RouteRepository routeRepository,
+                       TaskRepository taskRepository) {
         this.repository = repository;
         this.primeRepository = repository;
         this.geoPointRepository = geoPointRepository;
@@ -102,7 +100,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
-        return Translator.convertToDTO(user.getZone());
+        return Translator.toDTO(user.getZone());
     }
 
     @Transactional
@@ -111,9 +109,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
-        user.setZone(Translator.convertToDAO(zone));
+        user.setZone(Translator.toDAO(zone));
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
     /*---END ZONES---*/
 
@@ -124,7 +122,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
         System.out.println(user);
-        return Translator.convertToDTO(user.getPic());
+        return Translator.toDTO(user.getPic());
     }
 
     @Transactional
@@ -133,7 +131,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
-//        user.setPic(Translator.convertToDAO(picture));
+//        user.setPic(Translator.toDAO(picture));
 
         Picture existPic = user.getPic();
         if(existPic != null && (existPic.getUserId()!=null || existPic.getTaskId()!=null)){
@@ -142,11 +140,11 @@ public class UserService extends ModelRepoService<User> implements IUserService 
             user.setPic(existPic);
         } else {
             picture.setUserId(user.getId());
-            user.setPic(Translator.convertToDAO(picture));
+            user.setPic(Translator.toDAO(picture));
         }
 
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
     /*---END PICTURE---*/
 
@@ -156,7 +154,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        return Translator.convertGeoToDTO(user.getGeoPoints());
+        return Translator.geoPointsToDTO(user.getGeoPoints());
     }
 
     @Transactional
@@ -165,9 +163,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        user.addGeoPoint(Translator.convertToDAO(geoPoint));
+        user.addGeoPoint(Translator.toDAO(geoPoint));
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
 
     //This works programmic only! remove check on links.
@@ -177,9 +175,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        user.removeGeoPoint(Translator.convertToDAO(geoPoint));
+        user.removeGeoPoint(Translator.toDAO(geoPoint));
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
 
     @Transactional
@@ -194,7 +192,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
 //        if(user.hasGeoPoint(geoPoint)>0)
             user.removeGeoPoint(geoPoint);
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
     /*---END GEOPOINTS---*/
 
@@ -206,9 +204,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
             throw new IllegalArgumentException("No such user!");
 //        System.out.println("User First Route:"+user.getRoutes().get(0).getLongtitudes() [0]+" "+user.getRoutes().get(0).getLatitudes()[0]);
 //        LOGGER.debug("User First Route:"+user.getRoutes().get(0).getLongtitudes() [0]+" "+user.getRoutes().get(0).getLatitudes()[0]);
-//        List<RouteDTO> routes = Translator.convertRoutesToDTO(user.getRoutes());
+//        List<RouteDTO> routes = Translator.routesToDTO(user.getRoutes());
 //        System.out.println("User First Reversed Route:"+routes.get(0).getPoints().get(0)+" "+routes.get(0).getPoints().get(0));
-        return Translator.convertRoutesToDTO(user.getRoutes());
+        return Translator.routesToDTO(user.getRoutes());
     }
 
     @Transactional
@@ -217,11 +215,11 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        Route routeDao = Translator.convertToDAO(route);
+        Route routeDao = Translator.toDAO(route);
         routeDao.setUserId(user.getId());
         user.addRoute(routeDao);
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
 
     @Transactional
@@ -230,9 +228,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        user.removeRoute(Translator.convertToDAO(route));
+        user.removeRoute(Translator.toDAO(route));
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
 
     @Transactional
@@ -248,7 +246,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
 //        if(user.hasGeoPoint(geoPoint)>0)
         user.removeRoute(route);
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
     /*---END ROUTES---*/
 
@@ -258,7 +256,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        return Translator.convertTasksToDTO(user.getParticipantedTasks());
+        return Translator.tasksToDTO(user.getParticipantedTasks());
     }
 
     @Override
@@ -266,9 +264,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        user.addParticipantedTask(Translator.convertToDAO(task));
+        user.addParticipantedTask(Translator.toDAO(task));
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
 
     //This works programmic only! remove check on links.
@@ -277,9 +275,9 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        user.removeParticipantedTask(Translator.convertToDAO(task));
+        user.removeParticipantedTask(Translator.toDAO(task));
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }
 
     @Override
@@ -293,7 +291,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
 //        if(user.hasGeoPoint(geoPoint)>0)
         user.removeParticipantedTask(task);
         primeRepository.save(user);
-        return Translator.convertToDTO(user);
+        return Translator.toDTO(user);
     }*/
     /*---END PARTICIPANTED TASKS---*/
 }

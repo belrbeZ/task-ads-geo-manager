@@ -46,23 +46,23 @@ public class RouteRestController {
 //        System.out.println("User First Route:"+routes.get(0).getLongtitudes() [0]+" "+routes.get(0).getLatitudes()[0]);
 //        LOGGER.debug("User First Route:"+routes.get(0).getLongtitudes() [0]+" "+routes.get(0).getLatitudes()[0]);
 
-        return new ResponseEntity<>(Translator.convertRoutesToDTO(routes), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.routesToDTO(routes), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RouteDTO> get(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Route.EMPTY)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(Route.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody RouteDTO model, BindingResult result) {
-        repoService.update(Translator.convertToDAO(model));
+        repoService.update(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody RouteDTO model, BindingResult result) {
-        repoService.add(Translator.convertToDAO(model));
+        repoService.add(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

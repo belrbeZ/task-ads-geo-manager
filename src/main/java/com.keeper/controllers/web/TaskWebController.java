@@ -48,7 +48,7 @@ public class TaskWebController {
             modelAndView.addObject("task", taskService.get(taskId));
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.getByEmail(auth.getName()).get();
-            modelAndView.addObject("user", Translator.convertToDTO(user));
+            modelAndView.addObject("user", Translator.toDTO(user));
         }
         else
             modelAndView.setViewName(TemplateResolver.FEED);
@@ -74,7 +74,7 @@ public class TaskWebController {
     public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
 
-        TaskDTO taskDTO = (id == null) ? new TaskDTO() : Translator.convertToDTO(taskService.get(id).get());
+        TaskDTO taskDTO = (id == null) ? new TaskDTO() : Translator.toDTO(taskService.get(id).get());
 
         modelAndView.addObject("task", taskDTO);
 
@@ -95,7 +95,7 @@ public class TaskWebController {
                                         "24.12412",
                                         4));
 
-        taskService.add(Translator.convertToDAO(task));
+        taskService.add(Translator.toDAO(task));
 
         modelAndView.addObject("user", user);
         modelAndView.addObject("task", task);

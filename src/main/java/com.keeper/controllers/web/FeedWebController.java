@@ -7,7 +7,6 @@ package com.keeper.controllers.web;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.model.dto.UserDTO;
 import com.keeper.service.impl.TaskService;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
@@ -18,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,14 +45,14 @@ public class FeedWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Long userId = Translator.convertToDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
+        Long userId = Translator.toDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
 
         List<Task> tasks = taskService.getByUserId(userId);
 
         if(tasks == null || tasks.isEmpty())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
 
-        modelAndView.addObject("tasks", Translator.convertTasksToDTO(tasks));
+        modelAndView.addObject("tasks", Translator.tasksToDTO(tasks));
 
         return modelAndView;
     }
@@ -69,7 +67,7 @@ public class FeedWebController {
         if(tasks == null || tasks.isEmpty())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
         else
-            taskDTOS = Translator.convertTasksToDTO(tasks);
+            taskDTOS = Translator.tasksToDTO(tasks);
 
         modelAndView.addObject("tasks", taskDTOS);
 

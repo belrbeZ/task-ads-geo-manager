@@ -41,7 +41,7 @@ public class ProfileWebController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.getByEmail(auth.getName()).get();
-        UserDTO userDTO = Translator.convertToDTO(user);
+        UserDTO userDTO = Translator.toDTO(user);
 
         userDTO.setEmail(user.getEmail());
 
@@ -65,7 +65,7 @@ public class ProfileWebController {
 
         userService.add(user);
 
-        UserDTO userDTO = Translator.convertToDTO(user);
+        UserDTO userDTO = Translator.toDTO(user);
         userDTO.setEmail(user.getEmail());
 
         modelAndView.addObject("user", userDTO);

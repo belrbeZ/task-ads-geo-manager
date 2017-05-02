@@ -14,7 +14,7 @@ import com.keeper.util.resolve.DatabaseResolver;
 import javax.persistence.*;
 
 @Entity
-@Table(name = DatabaseResolver.TABLE_GEOPOINTS, schema = DatabaseResolver.SCHEMA)
+@Table(name = DatabaseResolver.TABLE_GEO_POINTS, schema = DatabaseResolver.SCHEMA)
 public class GeoPoint {
 
     public static final GeoPoint EMPTY = new GeoPoint();

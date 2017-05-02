@@ -5,7 +5,6 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.ModelLoggerManager;
-import com.keeper.model.dao.Comment;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.GeoPointService;
@@ -47,29 +46,29 @@ public class TaskRestController {
         List<TaskDTO> taskDTOS = Collections.emptyList();
 
         if(tasks != null && !tasks.isEmpty())
-            taskDTOS = Translator.convertTasksToDTO(tasks);
+            taskDTOS = Translator.tasksToDTO(tasks);
 
         return new ResponseEntity<>(taskDTOS, HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/tags", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> getTasksByTags(@PathVariable("tags") List<String> tags) {
-        return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByTags(tags)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByTags(tags)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> getByUserId(@RequestParam("userId") Long userId) {
-        return new ResponseEntity<>(Translator.convertTasksToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDTO> get(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(id).orElse(Task.EMPTY)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(Task.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody TaskDTO model, BindingResult result) {
-        repoService.update(Translator.convertToDAO(model));
+        repoService.update(Translator.toDAO(model));
 
         HttpStatus code = HttpStatus.OK;
         String info = "";
@@ -92,7 +91,7 @@ public class TaskRestController {
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@RequestParam("userId") Long userId,@Valid @RequestBody TaskDTO modelTask, BindingResult result) {
             modelTask.setTopicStarterId(userId);
-            repoService.add(Translator.convertToDAO(modelTask));
+            repoService.add(Translator.toDAO(modelTask));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -190,7 +189,7 @@ public class TaskRestController {
 
     /*@RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.convertCommentsToDTO(repoService.get(id).orElse(Task.EMPTY).getParticipants(), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.commentsToDTO(repoService.get(id).orElse(Task.EMPTY).getParticipants(), HttpStatus.OK);
     }*/
 
     /*---PARTICIPANTS---*/

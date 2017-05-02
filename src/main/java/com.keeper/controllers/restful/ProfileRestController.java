@@ -9,7 +9,6 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
-import com.keeper.util.Validator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Control Profile Rest End points
@@ -39,7 +37,7 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
-        return new ResponseEntity<>(Translator.convertToDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.toDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
@@ -65,7 +63,7 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
-        repoService.add(Translator.convertToDAO(model));
+        repoService.add(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

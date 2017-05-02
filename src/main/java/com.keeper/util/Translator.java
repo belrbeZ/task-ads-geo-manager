@@ -23,11 +23,9 @@ import java.util.stream.Collectors;
  */
 public class Translator {
 
-    //CREATE DIFFERENT OVEROLOAD TYPES OF CONVERTING
-
     //<editor-fold desc="toDTO">
 
-    public static TaskDTO convertToDTO(Task model) {
+    public static TaskDTO toDTO(Task model) {
         return (model == null)
                 ? TaskDTO.EMPTY
                 : new TaskDTO(
@@ -37,18 +35,18 @@ public class Translator {
                             model.getState(),
                             model.getTheme(),
                             model.getDescr(),
-                            Translator.convertToDTO(model.getPicture()),
+                            Translator.toDTO(model.getPicture()),
                             model.getCreateDate(),
                             model.getLastModifyDate(),
-                            convertCommentsToDTO(model.getComments()),
-                            convertToDTO(model.getOriginGeoPoint()),
-                            convertUsersToDTO(model.getParticipants()),
-                            convertTagsToDTO(model.getTags())
-//                            convertToDTO(model.getPicture())
+                            commentsToDTO(model.getComments()),
+                            toDTO(model.getOriginGeoPoint()),
+                            usersToDTO(model.getParticipants()),
+                            tagsToDTO(model.getTags())
+//                            toDTO(model.getPicture())
         ) {{ setId(model.getId()); }};
     }
 
-    public static GeoPointDTO convertToDTO(GeoPoint model) {
+    public static GeoPointDTO toDTO(GeoPoint model) {
         return (model == null)
                 ? GeoPointDTO.EMPTY
                 : new GeoPointDTO(model.getId(),
@@ -58,7 +56,7 @@ public class Translator {
                                 model.getInfo());
     }
 
-    public static UserDTO convertToDTO(User model) {
+    public static UserDTO toDTO(User model) {
         return (model == null)
                 ? UserDTO.EMPTY
                 : new UserDTO(model.getId(),
@@ -76,15 +74,15 @@ public class Translator {
                             (model.getMuteEnd() != null)
                                     ? model.getMuteEnd().toLocalDateTime()
                                     : LocalDateTime.MIN,
-                            Translator.convertToDTO(model.getPic()),
-                            convertToDTO(model.getZone()),
-                            convertGeoToDTO(model.getGeoPoints()),
-                            convertRoutesToDTO(model.getRoutes())/*,
-                            convertTasksToDTO(model.getParticipantedTasks())*/
+                            Translator.toDTO(model.getPic()),
+                            toDTO(model.getZone()),
+                            geoPointsToDTO(model.getGeoPoints()),
+                            routesToDTO(model.getRoutes())/*,
+                            tasksToDTO(model.getParticipantedTasks())*/
         );
     }
 
-    public static ZoneDTO convertToDTO(Zone model) {
+    public static ZoneDTO toDTO(Zone model) {
         return (model == null)
                 ? ZoneDTO.EMPTY
                 : new ZoneDTO(model.getProfileId(),
@@ -93,7 +91,7 @@ public class Translator {
                             model.getRegisterDate());
     }
 
-    public static PictureDTO convertToDTO(Picture model) {
+    public static PictureDTO toDTO(Picture model) {
         return (model == null)
                 ? PictureDTO.EMPTY
                 : new PictureDTO(model.getUserId(),
@@ -102,7 +100,7 @@ public class Translator {
                                 model.getInfo());
     }
 
-    public static CommentDTO convertToDTO(Comment model) {
+    public static CommentDTO toDTO(Comment model) {
         return (model == null)
                 ? CommentDTO.EMPTY
                 : new CommentDTO(model.getId(),
@@ -115,8 +113,7 @@ public class Translator {
         );
     }
 
-    public static RouteDTO convertToDTO(Route model) {
-//        System.out.println("convertToDTO(Route model)"+model.getLatitudes()[0]);
+    public static RouteDTO toDTO(Route model) {
         return (model == null)
                 ? RouteDTO.EMPTY
                 : new RouteDTO(model.getId(),
@@ -128,7 +125,7 @@ public class Translator {
                                 model.getLongtitudes());
     }
 
-    public static TagDTO convertToDTO(Tag model) {
+    public static TagDTO toDTO(Tag model) {
         return (model == null)
                 ? TagDTO.EMPTY
                 : new TagDTO(model.getId(),
@@ -138,38 +135,40 @@ public class Translator {
     }
 
     //<editor-fold desc="Lists">
-    public static List<PictureDTO> convertPicturesToDTO (List<Picture> models) {
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+
+    public static List<PictureDTO> picsToDTO(List<Picture> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<CommentDTO> convertCommentsToDTO (List<Comment> models) {
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    public static List<CommentDTO> commentsToDTO(List<Comment> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<TagDTO> convertTagsToDTO (List<Tag> models) {
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    public static List<TagDTO> tagsToDTO(List<Tag> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<UserDTO> convertUsersToDTO (List<User> models) {
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    public static List<UserDTO> usersToDTO(List<User> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<TaskDTO> convertTasksToDTO(List<Task> models) {
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    public static List<TaskDTO> tasksToDTO(List<Task> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<GeoPointDTO> convertGeoToDTO(List<GeoPoint> models) {
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    public static List<GeoPointDTO> geoPointsToDTO(List<GeoPoint> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<RouteDTO> convertRoutesToDTO(List<Route> models) {
-//        System.out.println("convertRoutesToDTO");
-        return models.stream().map(Translator::convertToDTO).collect(Collectors.toList());
+    public static List<RouteDTO> routesToDTO(List<Route> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
+    public static List<Comment> commentsToDAO(List<CommentDTO> models) {
+        return models.stream().map(Translator::toDAO).collect(Collectors.toList());
+    }
 
-    public static List<SimpleGeoPoint> convertToSimpleGeoPoints(String[] latitude,
-                                                                String[] longtitude) {
+    public static List<SimpleGeoPoint> toSimpleGeoPoints(String[] latitude, String[] longtitude) {
         if(latitude == null || longtitude == null || latitude.length != longtitude.length)
             return null;
 
@@ -185,7 +184,7 @@ public class Translator {
 
     //<editor-fold desc="Testing">
 
-    public static UserTestDTO convertToDTO(UserTest model) {
+    public static UserTestDTO toDTO(UserTest model) {
         return (model == null)
                 ? UserTestDTO.EMPTY
                 : new UserTestDTO(model.getId(),
@@ -200,7 +199,7 @@ public class Translator {
                 model.getMuteEnd().toLocalDateTime());
     }
 
-    public static ZoneTestDTO convertToDTO(ZoneTest model) {
+    public static ZoneTestDTO toDTO(ZoneTest model) {
         return (model == null)
                 ? ZoneTestDTO.EMPTY
                 : new ZoneTestDTO(model.getUserId(),
@@ -214,8 +213,7 @@ public class Translator {
 
     //<editor-fold desc="toDAO">
 
-    //??????
-    public static User convertToDAO(UserDTO model) {
+    public static User toDAO(UserDTO model) {
         return (model == null)
                 ? User.EMPTY
                 : new User(model.getType(),
@@ -229,7 +227,7 @@ public class Translator {
                             model.getMuteEnd());
     }
 
-    public static Tag convertToDAO(TagDTO model) {
+    public static Tag toDAO(TagDTO model) {
         return (model == null)
                 ? Tag.EMPTY
                 : new Tag(model.getId(),
@@ -237,7 +235,7 @@ public class Translator {
                         model.getCounter());
     }
 
-    public static User convertToDAO(UserFormDTO model) {
+    public static User toDAO(UserFormDTO model) {
         return (model == null)
                 ? User.EMPTY
                 : new User(UserType.USER,
@@ -249,7 +247,7 @@ public class Translator {
     }
 
 
-    public static Task convertToDAO(TaskDTO model) {
+    public static Task toDAO(TaskDTO model) {
         return (model == null)
                 ? Task.EMPTY
                 : new Task(
@@ -261,13 +259,13 @@ public class Translator {
                             model.getState(),
                             model.getTheme(),
                             model.getDescr()/*,
-                            Translator.convertToDAO(model.getPicture()),
-                            Translator.convertCommentsToDAO(model.getComments()),
-                            Translator.convertToDAO(model.getOriginGeoPoint())*/
+                            Translator.toDAO(model.getPicture()),
+                            Translator.commentsToDAO(model.getComments()),
+                            Translator.toDAO(model.getOriginGeoPoint())*/
                 );
     }
 
-    public static GeoPoint convertToDAO(GeoPointDTO model) {
+    public static GeoPoint toDAO(GeoPointDTO model) {
         return (model == null)
                 ? GeoPoint.EMPTY
                 : new GeoPoint(model.getLatitude(),
@@ -276,7 +274,7 @@ public class Translator {
                                 model.getInfo());
     }
 
-    public static Route convertToDAO(RouteDTO model) {
+    public static Route toDAO(RouteDTO model) {
         return (model == null)
                 ? Route.EMPTY
                 : new Route(model.getUserId(),
@@ -286,7 +284,7 @@ public class Translator {
                             model.getPoints());
     }
 
-    public static Zone convertToDAO(ZoneDTO model) {
+    public static Zone toDAO(ZoneDTO model) {
         return (model == null)
                 ? Zone.EMPTY
                 : new Zone(
@@ -297,7 +295,7 @@ public class Translator {
         );
     }
 
-    public static Picture convertToDAO(PictureDTO model) {
+    public static Picture toDAO(PictureDTO model) {
         return (model == null)
                 ? Picture.EMPTY
                 : new Picture(
@@ -308,7 +306,7 @@ public class Translator {
         );
     }
 
-    public static Comment convertToDAO(CommentDTO model) {
+    public static Comment toDAO(CommentDTO model) {
         return (model == null)
                 ? Comment.EMPTY
                 : new Comment(
@@ -320,11 +318,5 @@ public class Translator {
                 new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
         );
     }
-
-
-    public static List<Comment> convertCommentsToDAO(List<CommentDTO> models) {
-        return models.stream().map(Translator::convertToDAO).collect(Collectors.toList());
-    }
-
     //</editor-fold>
 }

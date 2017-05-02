@@ -18,6 +18,13 @@ public class SimpleGeoPoint {
     public SimpleGeoPoint(){ }
 
     public SimpleGeoPoint(@GeoCoordinate String longtitude,
+                          @GeoCoordinate String latitude) {
+        this.longtitude = Double.valueOf(longtitude);
+        this.latitude = Double.valueOf(latitude);
+        this.radius = 5.;
+    }
+
+    public SimpleGeoPoint(@GeoCoordinate String longtitude,
                           @GeoCoordinate String latitude,
                           double radius) {
         this.longtitude = Double.valueOf(longtitude);

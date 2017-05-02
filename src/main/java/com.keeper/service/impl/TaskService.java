@@ -10,6 +10,7 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.repo.*;
+import com.keeper.service.IFeedSubmitService;
 import com.keeper.service.ITaskService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Repository Service to work with Tasks
@@ -34,16 +34,22 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     private final GeoPointRepository geoPointRepository;
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
+
+    private final IFeedSubmitService feedSubmitService;
+
     @Autowired
-    public TaskService(TaskRepository repository, CommentRepository commentRepository,
-                       GeoPointRepository geoPointRepository, TagRepository tagRepository,
-                       UserRepository userRepository) {
+    public TaskService(TaskRepository repository,
+                       CommentRepository commentRepository,
+                       GeoPointRepository geoPointRepository,
+                       TagRepository tagRepository,
+                       UserRepository userRepository, FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.commentRepository = commentRepository;
         this.geoPointRepository = geoPointRepository;
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
+        this.feedSubmitService = feedSubmitService;
     }
 
     @Override
@@ -54,6 +60,13 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     @Override
     public List<Task> getEmptyList() {
         return new ArrayList<Task>() {{ add(getEmpty()); }};
+    }
+
+    @Override
+    public Optional<Task> add(Task model) {
+        Optional<Task> task = super.add(model);
+        task.ifPresent(feedSubmitService::submit);
+        return task;
     }
 
     @Override
@@ -114,7 +127,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task = repository.findOne(taskId);
         if((task)==null)
             throw new IllegalArgumentException("No such task!");
-        return Translator.convertToDTO(task.getPicture());
+        return Translator.toDTO(task.getPicture());
     }
 
     @Override
@@ -129,10 +142,10 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
             task.setPicture(existPic);
         } else {
             picture.setTaskId(taskId);
-            task.setPicture(Translator.convertToDAO(picture));
+            task.setPicture(Translator.toDAO(picture));
         }
         primeRepository.save(task);
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
     /*---END PICTURE---*/
 
@@ -141,7 +154,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task = repository.findOne(taskId);
         if((task)==null)
             throw new IllegalArgumentException("No such task!");
-        return Translator.convertToDTO(task.getOriginGeoPoint());
+        return Translator.toDTO(task.getOriginGeoPoint());
     }
 
     @Transactional
@@ -149,11 +162,11 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task = repository.findOne(taskId);
         if((task)==null)
             throw new IllegalArgumentException("No such task!");
-        GeoPoint addedGeo = geoPointRepository.save(Translator.convertToDAO(modelGeo));
+        GeoPoint addedGeo = geoPointRepository.save(Translator.toDAO(modelGeo));
         task.setOriginGeoPoint(addedGeo);
         task.setOriginGeoPointId(addedGeo.getId());
         primeRepository.save(task);
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
     /*---END ORIGIN GEO POINT---*/
 
@@ -163,7 +176,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task;
         if((task = repository.findOne(taskId))==null)
             throw new IllegalArgumentException("No such task!");
-        return Translator.convertCommentsToDTO(task.getComments());
+        return Translator.commentsToDTO(task.getComments());
     }
 
     @Transactional
@@ -175,11 +188,11 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         comment.setTaskId(taskId);
         comment.setUserId(userId);
 
-        Comment commentDAO = Translator.convertToDAO(comment);
+        Comment commentDAO = Translator.toDAO(comment);
         commentDAO.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
         task.addComment(commentDAO);
         primeRepository.save(task);
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     //This works programmic only! remove check on links.
@@ -189,9 +202,9 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task;
         if((task = repository.findOne(taskId))==null)
             throw new IllegalArgumentException("No such task!");
-        task.removeComment(Translator.convertToDAO(comment));
+        task.removeComment(Translator.toDAO(comment));
         primeRepository.save(task);
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     @Transactional
@@ -206,7 +219,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
 //        if(task.hasComment(comment)>0)
         task.removeComment(comment);
         primeRepository.save(task);
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     /*---END COMMENTS---*/
@@ -216,7 +229,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task;
         if((task = repository.findOne(taskId))==null)
             throw new IllegalArgumentException("No such task!");
-        return Translator.convertTagsToDTO(task.getTags());
+        return Translator.tagsToDTO(task.getTags());
     }
 
     @Transactional
@@ -230,7 +243,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         if(tagDAO==null){
             System.out.println("NEW TAG");
 
-            task.addTag(Translator.convertToDAO(tag));
+            task.addTag(Translator.toDAO(tag));
         }
         else{
             System.out.println("exist tag");
@@ -238,7 +251,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         }
 
         primeRepository.save(task);
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     //This works programmic only! remove check on links.
@@ -256,7 +269,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
             System.err.println("No such tag");
         }
 
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     @Transactional
@@ -271,7 +284,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         } else {
             System.err.println("No such tag");
         }
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     /*---END TAGS---*/
@@ -282,7 +295,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task;
         if((task = repository.findOne(taskId))==null)
             throw new IllegalArgumentException("No such task!");
-        return Translator.convertUsersToDTO(task.getParticipants());
+        return Translator.usersToDTO(task.getParticipants());
     }
 
     @Transactional
@@ -301,7 +314,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         else{
             System.err.println("No such user!");
         }
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
 //    //This works programmic only! remove check on links.
@@ -319,7 +332,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
 //            System.err.println("No such participant");
 //        }
 //
-//        return Translator.convertToDTO(task);
+//        return Translator.toDTO(task);
 //    }
 
     @Transactional
@@ -334,7 +347,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         } else {
             System.err.println("No such participant");
         }
-        return Translator.convertToDTO(task);
+        return Translator.toDTO(task);
     }
 
     /*---END PARTICIPANTS---*/

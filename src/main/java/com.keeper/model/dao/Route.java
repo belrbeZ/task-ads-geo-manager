@@ -28,7 +28,7 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "userId")                                private Long userId;
+    @Column(name = "userId", nullable = false)              private Long userId;
     @Column(name = "type")                                  private RouteType type;
     @Column(name = "info")                                  private String info;
     @Column(name = "radius")                                private Integer radius;

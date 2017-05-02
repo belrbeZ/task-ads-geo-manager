@@ -4,7 +4,6 @@ package com.keeper.model.dao;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Hasher;
@@ -12,13 +11,12 @@ import com.keeper.util.resolve.DatabaseResolver;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Default Comment
@@ -65,6 +63,13 @@ public class User {
                joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
                inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
     private List<GeoPoint> geoPoints;
+
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="userId", referencedColumnName="id")
+    private List<GeoUser> geoUsers;
 
 
     @Fetch(FetchMode.SELECT)
@@ -256,6 +261,14 @@ public class User {
 
     public void setRoutes(List<Route> routes) {
         this.routes = routes;
+    }
+
+    public List<GeoUser> getGeoUsers() {
+        return geoUsers;
+    }
+
+    public void setGeoUsers(List<GeoUser> geoUsers) {
+        this.geoUsers = geoUsers;
     }
 
     public List<GeoPoint> getGeoPoints() {

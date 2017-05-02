@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * Default Comment
  */
-public interface ITaskFeedService {
+public interface IFeedService {
     List<TaskDTO> getFeed(Long userId, TaskFeedType type);
 
-    List<TaskDTO> getHot(Long userId);
-    List<TaskDTO> getNew(Long userId);
-    List<TaskDTO> getLocal(Long userId);
-    List<TaskDTO> getMy(Long userId);
-    List<TaskDTO> getAll(Long userId);
+    List<TaskDTO> all(Long userId);
+    List<TaskDTO> recent(Long userId);
+    List<TaskDTO> hot(Long userId);
+    List<TaskDTO> local(Long userId);
+    List<TaskDTO> owned(Long userId);
 }
