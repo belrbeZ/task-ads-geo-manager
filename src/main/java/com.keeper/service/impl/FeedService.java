@@ -4,12 +4,10 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 30.04.2017.
  */
 
-import com.keeper.model.SimpleGeoPoint;
-import com.keeper.model.SimpleRoute;
-import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dao.GeoUser;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
-import com.keeper.model.dto.GeoPointDTO;
+import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.types.TaskFeedType;
@@ -25,6 +23,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * Default Comment
@@ -35,28 +34,26 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     private final UserService userService;
     private final TaskService taskService;
     private final RouteService routeService;
-    private final GeoPointService pointService;
+    private final GeoUserService pointService;
 
 
-    private final Map<Long, List<SimpleGeoPoint>> points = new ConcurrentHashMap<>(); // All user geopoints
-    private final Map<Long, List<SimpleRoute>> routes = new ConcurrentHashMap<>(); // All user routes
+    private final Map<Long, List<GeoUserDTO>> points = new ConcurrentHashMap<>(); // All user geopoints
+    private final Map<Long, List<RouteDTO>> routes = new ConcurrentHashMap<>(); // All user routes
 
     private final int HOT_FEED_SIZE = 20;
 
     private final Set<TaskDTO> tasks = new ConcurrentSkipListSet<>(); // All tasks
     private final List<Long> hotTasks = new ArrayList<>(HOT_FEED_SIZE); // Rang of hot tasks ids
-
-    // Users local tasks, which are in their track locations
-    private final Map<Long, List<Long>> userLocalTasks = new ConcurrentHashMap<>();
+    private final Map<Long, List<Long>> userLocalTasks = new ConcurrentHashMap<>(); // Users locations tasks
 
 
     // Queue models to proceed
-    private int proceedListSize = 30;
+//    private int proceedListSize = 30;
+//    private final List<TaskDTO>    tasksToProceed = new ArrayList<>(proceedListSize);
+//    private final List<RouteDTO>   routesToProceed = new ArrayList<>(proceedListSize);
+//    private final List<GeoUserDTO> pointsToProceed = new ArrayList<>(proceedListSize);
 
-    private final List<TaskDTO>    tasksToProceed = new ArrayList<>(proceedListSize);
-    private final List<RouteDTO>   routesToProceed = new ArrayList<>(proceedListSize);
-    private final List<GeoPointDTO> pointsToProceed = new ArrayList<>(proceedListSize);
-
+    HashSet<GeoUserDTO> dts;
 
     // Filters for
     private final Predicate<TaskDTO> filterNew   = (task) -> true;
@@ -67,7 +64,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     @Autowired
     public FeedService(UserService userService,
                        TaskService taskService,
-                       GeoPointService pointService,
+                       GeoUserService pointService,
                        RouteService routeService) {
 
         this.userService = userService;
@@ -78,58 +75,76 @@ public class FeedService implements IFeedService, IFeedSubmitService {
 
     @PostConstruct
     private void setup() {
-        taskService.getAll().ifPresent(tasks ->  tasksToProceed.addAll(Translator.tasksToDTO(tasks)));
-        routeService.getAll().ifPresent(routes -> routesToProceed.addAll(Translator.routesToDTO(routes)));
-        pointService.getAll().ifPresent(points -> pointsToProceed.addAll(Translator.geoPointsToDTO(points)));
+        taskService.getAll().ifPresent(repoTasks -> tasks.addAll(Translator.tasksToDTO(repoTasks)));
+        routeService.getAll().ifPresent(repoRoutes -> routes.putAll(Translator.routesToDTO(repoRoutes).stream().parallel().collect(Collectors.groupingBy(RouteDTO::getUserId))));
+        pointService.getAll().ifPresent(repoPoints -> points.putAll(Translator.geoUsersToDTO(repoPoints).stream().parallel().collect(Collectors.groupingBy(GeoUserDTO::getUserId))));
     }
 
     @Override
     public void submit(Task task) {
-        tasksToProceed.add(Translator.toDTO(task));
+        tasks.add(Translator.toDTO(task));
     }
 
     @Override
-    public void submit(GeoPoint point) {
-        pointsToProceed.add(Translator.toDTO(point));
+    public void submit(GeoUser point) {
+        GeoUserDTO tempPoint = Translator.toDTO(point);
+
+        List<GeoUserDTO> tempPoints = points.get(point.getUserId());
+        if(tempPoints == null)
+            points.put(point.getUserId(), new ArrayList<GeoUserDTO>() {{ add(tempPoint); }});
+        else {
+            tempPoints.add(tempPoint);
+            points.replace(point.getUserId(), tempPoints);
+        }
     }
 
     @Override
     public void submit(Route route) {
-        routesToProceed.add(Translator.toDTO(route));
+        RouteDTO tempRoute = Translator.toDTO(route);
+
+        List<RouteDTO> tempRoutes = routes.get(route.getUserId());
+        if(tempRoutes == null)
+            routes.put(route.getUserId(), new ArrayList<RouteDTO>() {{ add(tempRoute); }});
+        else {
+            tempRoutes.add(tempRoute);
+            routes.replace(route.getUserId(), tempRoutes);
+        }
     }
 
-    @Scheduled(initialDelay = 10000, fixedDelay = 5000)
+    @Scheduled(initialDelay = 5000, fixedDelay = 5000)
     private void update() {
 
     }
 
-    @Scheduled(initialDelay = 20000, fixedDelay = 10000)
-    private void proceedQueues() {
-
-    }
+//    @Scheduled(initialDelay = 2500, fixedDelay = 10000)
+//    private void proceed() {
+//        points.putAll(pointsToProceed.stream().parallel().collect(Collectors.groupingBy(GeoUserDTO::getUserId)));
+//        routes.putAll(routesToProceed.stream().parallel().collect(Collectors.groupingBy(RouteDTO::getUserId)));
+//        tasks.addAll(tasksToProceed);
+//    }
 
     @Override
-    public List<TaskDTO> hot(Long userId) {
+    public List<TaskDTO> getHot(Long userId) {
         return null;
     }
 
     @Override
-    public List<TaskDTO> recent(Long userId) {
+    public List<TaskDTO> getRecent(Long userId) {
         return null;
     }
 
     @Override
-    public List<TaskDTO> local(Long userId) {
+    public List<TaskDTO> getLocal(Long userId) {
         return null;
     }
 
     @Override
-    public List<TaskDTO> owned(Long userId) {
+    public List<TaskDTO> getOwned(Long userId) {
         return null;
     }
 
     @Override
-    public List<TaskDTO> all(Long userId) {
+    public List<TaskDTO> getAll(Long userId) {
         return null;
     }
 

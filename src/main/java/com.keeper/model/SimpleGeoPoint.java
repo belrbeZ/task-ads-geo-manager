@@ -11,11 +11,17 @@ import com.keeper.util.validation.annotation.GeoCoordinate;
  */
 public class SimpleGeoPoint {
 
+    public static final SimpleGeoPoint EMPTY = new SimpleGeoPoint();
+
     private Double longtitude;
     private Double latitude;
     private Double radius;
 
-    public SimpleGeoPoint(){ }
+    public SimpleGeoPoint(){
+        this.latitude = 0.;
+        this.longtitude = 0.;
+        this.radius = 0.;
+    }
 
     public SimpleGeoPoint(@GeoCoordinate String longtitude,
                           @GeoCoordinate String latitude) {
@@ -37,6 +43,8 @@ public class SimpleGeoPoint {
                           int radius) {
         this(longtitude, latitude, (double)radius / 1000);
     }
+
+    //<editor-fold desc="GetterAndSetter">
 
     public Double getLongtitude() {
         return longtitude;
@@ -69,6 +77,7 @@ public class SimpleGeoPoint {
     public void setRadius(Double radius) {
         this.radius = radius;
     }
+    //</editor-fold>
 
     @Override
     public String toString() {

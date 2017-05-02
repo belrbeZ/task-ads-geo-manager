@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Main Application Spring Boot Starter
  */
 @SpringBootApplication
-public class AppBootStarter  { //extends SpringBootServletInitializer {
+public class AppBootStarter  {
 
     public static void main(String[] args) {
         SpringApplication.run(AppBootStarter.class, args);

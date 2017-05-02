@@ -4,8 +4,10 @@ import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -14,11 +16,14 @@ import java.util.List;
  * @author Alexandr Vasiliev
  *
  */
-public class TaskDTO {
+public class TaskDTO implements Comparator<LocalDateTime> {
 
     public static final TaskDTO EMPTY = new TaskDTO();
 
+    @NotNull
     private Long id;
+
+    @NotNull
     private Long topicStarterId;
     private Long originGeoPointId;
     private TaskType type;
@@ -197,6 +202,10 @@ public class TaskDTO {
 
     //</editor-fold>
 
+    @Override
+    public int compare(LocalDateTime o1, LocalDateTime o2) {
+        return o1.compareTo(o2);
+    }
 
     @Override
     public boolean equals(Object o) {

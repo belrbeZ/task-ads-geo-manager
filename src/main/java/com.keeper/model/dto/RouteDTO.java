@@ -7,6 +7,7 @@ package com.keeper.model.dto;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.RouteType;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +19,14 @@ public class RouteDTO {
 
     public static final RouteDTO EMPTY = new RouteDTO();
 
+    @NotNull
     private Long id;
+
+    @NotNull
     private Long userId;
     private RouteType type;
     private String info;
-    Integer radius;
+    private Integer radius;
     private List<SimpleGeoPoint> points = new ArrayList<>();
 
     private RouteDTO() {
@@ -91,4 +95,19 @@ public class RouteDTO {
     }
 
     //</editor-fold>
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RouteDTO routeDTO = (RouteDTO) o;
+
+        return id.equals(routeDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

@@ -4,7 +4,7 @@ package com.keeper.service;
  * Created by @GoodforGod on 02.05.2017.
  */
 
-import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dao.GeoUser;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
 
@@ -13,6 +13,6 @@ import com.keeper.model.dao.Task;
  */
 public interface IFeedSubmitService {
     void submit(Task task);
-    void submit(GeoPoint point);
+    void submit(GeoUser point);
     void submit(Route route);
 }

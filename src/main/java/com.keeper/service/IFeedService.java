@@ -15,9 +15,9 @@ import java.util.List;
 public interface IFeedService {
     List<TaskDTO> getFeed(Long userId, TaskFeedType type);
 
-    List<TaskDTO> all(Long userId);
-    List<TaskDTO> recent(Long userId);
-    List<TaskDTO> hot(Long userId);
-    List<TaskDTO> local(Long userId);
-    List<TaskDTO> owned(Long userId);
+    List<TaskDTO> getAll(Long userId);
+    List<TaskDTO> getRecent(Long userId);
+    List<TaskDTO> getHot(Long userId);
+    List<TaskDTO> getLocal(Long userId);
+    List<TaskDTO> getOwned(Long userId);
 }

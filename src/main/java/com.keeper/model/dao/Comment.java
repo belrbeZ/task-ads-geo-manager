@@ -37,7 +37,7 @@ public class Comment {
         this.taskId = 0L;
         this.userId = 0L;
         this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
-        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MAX);
+        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MIN);
         this.message = "";
         this.longtitude = "";
         this.latitude = "";
@@ -47,20 +47,14 @@ public class Comment {
         this.taskId     = taskId;
         this.userId     = userId;
         this.createDate = Timestamp.valueOf(LocalDateTime.now());
-        this.lastModifyDate = null;
+        this.lastModifyDate = createDate;
         this.message    = message;
         this.longtitude = longtitude;
         this.latitude   = latitude;
     }
 
     public Comment(Long taskId, Long userId, String message, SimpleGeoPoint geoPoint) {
-        this.taskId     = taskId;
-        this.userId     = userId;
-        this.createDate = Timestamp.valueOf(LocalDateTime.now());
-        this.lastModifyDate = null;
-        this.message    = message;
-        this.longtitude = geoPoint.getLongtitude().toString();
-        this.latitude   = geoPoint.getLatitude().toString();
+        this(taskId, userId, message, geoPoint.getLongtitude().toString(), geoPoint.getLatitude().toString());
     }
 
     //<editor-fold desc="GetterAndSetter">
