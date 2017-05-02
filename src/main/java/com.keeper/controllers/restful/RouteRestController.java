@@ -30,7 +30,7 @@ public class RouteRestController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
 
-    private final String PATH = ApiResolver.REST_ROUTE;
+    private final String PATH = ApiResolver.ROUTE;
 
     private final RouteService repoService;
 

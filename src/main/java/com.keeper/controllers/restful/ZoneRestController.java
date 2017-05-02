@@ -23,7 +23,7 @@ import javax.validation.Valid;
  */
 @RestController
 public class ZoneRestController {
-    private final String PATH = ApiResolver.REST_ZONE;
+    private final String PATH = ApiResolver.ZONE;
 
     private final ZoneService repoService;
 

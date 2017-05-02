@@ -8,16 +8,17 @@ package com.keeper.util.resolve;
  * Default Comment
  */
 public class ApiResolver {
-    public static final String API_PRIVATE  = WebResolver.SECURED + "/api";
-    public static final String API_PUBLIC   = "/api";
-    public static final String API_VERSION  = "/v1.0";
+    private static final String API_PRIVATE  = WebResolver.SECURED + "/api";
+    private static final String API_PUBLIC   = "/api";
+    private static final String API_VERSION  = "/v1.0";
 
-    public static final String REST_PROFILE = API_PRIVATE + "/profile";
-    public static final String REST_TASK    = API_PRIVATE + "/tasks";
-    public static final String REST_ZONE    = API_PRIVATE + "/zone";
-    public static final String REST_ROUTE   = API_PRIVATE + "/routes";
-    public static final String REST_GEOPOINT = API_PRIVATE + "/points";
-    public static final String REST_SEARCH_TASK = API_PRIVATE + "/search";
+    public static final String PROFILE = API_PRIVATE + "/profile";
+    public static final String TASK = API_PRIVATE + "/tasks";
+    public static final String ZONE = API_PRIVATE + "/zone";
+    public static final String ROUTE = API_PRIVATE + "/routes";
+    public static final String GEOPOINT = API_PRIVATE + "/points";
+    public static final String GEO_USER = API_PRIVATE + "/geouser";
+    public static final String SEARCH_TASK = API_PRIVATE + "/search";
 
     public static final String TEST_REST_PROFILE = API_PRIVATE + "/test" + "/profile";
     public static final String TEST_REST_ZONE    = API_PRIVATE + "/test" + "/zone";

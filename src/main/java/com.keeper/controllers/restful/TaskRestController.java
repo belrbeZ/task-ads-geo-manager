@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 public class TaskRestController {
 
-    private final String PATH = ApiResolver.REST_TASK;
+    private final String PATH = ApiResolver.TASK;
 
     private final TaskService repoService;
     private final GeoPointService geoPointService;
@@ -39,7 +39,7 @@ public class TaskRestController {
         this.geoPointService = geoPointService;
     }
 
-    @RequestMapping(value = ApiResolver.REST_SEARCH_TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.SEARCH_TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> searchByTheme(@PathVariable("search") String search) {
 
         List<Task> tasks = repoService.getByTheme(search);

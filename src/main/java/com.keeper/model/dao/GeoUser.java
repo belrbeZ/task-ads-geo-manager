@@ -34,20 +34,11 @@ public class GeoUser {
         this.descr      = "";
     }
 
-    public GeoUser(String latitude, String longitude) {
+    public GeoUser(Long userId, String latitude, String longitude, Integer radius, String descr) {
         this.latitude = new Double(latitude);
         this.longitude = new Double(longitude);
-        this.radius = 5;
-        this.descr = "";
-    }
-
-    public GeoUser(String latitude, String longitude, Integer radius) {
-        this(latitude, longitude);
         this.radius = radius;
-    }
-
-    public GeoUser(String latitude, String longitude, Integer radius, String descr) {
-        this(latitude, longitude, radius);
+        this.userId = userId;
         this.descr = descr;
     }
 
@@ -55,6 +46,10 @@ public class GeoUser {
 
     public Long getId() {
         return id;
+    }
+
+    public Long getUserId() {
+        return userId;
     }
 
     public Double getLatitude() {

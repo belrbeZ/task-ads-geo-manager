@@ -23,7 +23,7 @@ import javax.validation.Valid;
  */
 @RestController
 public class GeoPointRestController {
-    private final String PATH = ApiResolver.REST_GEOPOINT;
+    private final String PATH = ApiResolver.GEOPOINT;
 
     private final GeoPointService repoService;
 

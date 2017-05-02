@@ -56,6 +56,17 @@ public class Translator {
                                 model.getInfo());
     }
 
+    public static GeoUserDTO toDTO(GeoUser model) {
+        return (model == null)
+                ? GeoUserDTO.EMPTY
+                : new GeoUserDTO(model.getId(),
+                                model.getUserId(),
+                                model.getLatitude().toString(),
+                                model.getLongitude().toString(),
+                                model.getRadius(),
+                                model.getDescr());
+    }
+
     public static UserDTO toDTO(User model) {
         return (model == null)
                 ? UserDTO.EMPTY
@@ -134,7 +145,9 @@ public class Translator {
         );
     }
 
-    //<editor-fold desc="Lists">
+    //</editor-fold>
+
+    //<editor-fold desc="toListsDTO">
 
     public static List<PictureDTO> picsToDTO(List<Picture> models) {
         return models.stream().map(Translator::toDTO).collect(Collectors.toList());
@@ -160,6 +173,10 @@ public class Translator {
         return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
+    public static List<GeoUserDTO> geoUsersToDTO(List<GeoUser> models) {
+        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+    }
+
     public static List<RouteDTO> routesToDTO(List<Route> models) {
         return models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
@@ -179,35 +196,6 @@ public class Translator {
 
         return geoPoints;
     }
-
-    //</editor-fold>
-
-    //<editor-fold desc="Testing">
-
-    public static UserTestDTO toDTO(UserTest model) {
-        return (model == null)
-                ? UserTestDTO.EMPTY
-                : new UserTestDTO(model.getId(),
-                model.getType(),
-                model.getState(),
-                model.getName(),
-                model.getMaskedEmail(),
-                model.getPhone(),
-                model.getAbout(),
-                model.getNotified(),
-                model.getMuteStart().toLocalDateTime(),
-                model.getMuteEnd().toLocalDateTime());
-    }
-
-    public static ZoneTestDTO toDTO(ZoneTest model) {
-        return (model == null)
-                ? ZoneTestDTO.EMPTY
-                : new ZoneTestDTO(model.getUserId(),
-                model.getCity(),
-                model.getCountry(),
-                model.getRegisterDate());
-    }
-    //</editor-fold>
 
     //</editor-fold>
 
@@ -250,10 +238,7 @@ public class Translator {
     public static Task toDAO(TaskDTO model) {
         return (model == null)
                 ? Task.EMPTY
-                : new Task(
-//                            model.getCreateDate(),
-//                            model.getLastModifyDate(),
-                            model.getTopicStarterId(),
+                : new Task(model.getTopicStarterId(),
                             model.getOriginGeoPointId(),
                             model.getType(),
                             model.getState(),
@@ -274,6 +259,17 @@ public class Translator {
                                 model.getInfo());
     }
 
+    public static GeoUser toDAO(GeoUserDTO model) {
+        if(model == null)
+            throw new NullPointerException();
+
+        return new GeoUser(model.getUserId(),
+                              model.getLatitude(),
+                              model.getLongitude(),
+                              model.getRadius(),
+                              model.getDescr());
+    }
+
     public static Route toDAO(RouteDTO model) {
         return (model == null)
                 ? Route.EMPTY
@@ -287,36 +283,59 @@ public class Translator {
     public static Zone toDAO(ZoneDTO model) {
         return (model == null)
                 ? Zone.EMPTY
-                : new Zone(
-                        model.getprofileId(),
-                        model.getCity(),
-                        model.getCountry()
-//                        ,model.getRegisterDate().toLocalDateTime()
+                : new Zone(model.getprofileId(),
+                           model.getCity(),
+                           model.getCountry()
         );
     }
 
     public static Picture toDAO(PictureDTO model) {
         return (model == null)
                 ? Picture.EMPTY
-                : new Picture(
-                model.getUserId(),
-                model.getTaskId(),
-                model.getPic(),
-                model.getInfo()
+                : new Picture(model.getUserId(),
+                              model.getTaskId(),
+                              model.getPic(),
+                              model.getInfo()
         );
     }
 
     public static Comment toDAO(CommentDTO model) {
         return (model == null)
                 ? Comment.EMPTY
-                : new Comment(
-                model.getTaskId(),
-                model.getUserId(),
-//                model.getCreateDate(),
-//                model.getLastModifyDate(),
-                model.getMessage(),
-                new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
+                : new Comment(model.getTaskId(),
+                              model.getUserId(),
+                              model.getMessage(),
+                              new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
         );
+    }
+    //</editor-fold>
+
+
+
+    //<editor-fold desc="Testing">
+
+    public static UserTestDTO toDTO(UserTest model) {
+        return (model == null)
+                ? UserTestDTO.EMPTY
+                : new UserTestDTO(model.getId(),
+                model.getType(),
+                model.getState(),
+                model.getName(),
+                model.getMaskedEmail(),
+                model.getPhone(),
+                model.getAbout(),
+                model.getNotified(),
+                model.getMuteStart().toLocalDateTime(),
+                model.getMuteEnd().toLocalDateTime());
+    }
+
+    public static ZoneTestDTO toDTO(ZoneTest model) {
+        return (model == null)
+                ? ZoneTestDTO.EMPTY
+                : new ZoneTestDTO(model.getUserId(),
+                model.getCity(),
+                model.getCountry(),
+                model.getRegisterDate());
     }
     //</editor-fold>
 }

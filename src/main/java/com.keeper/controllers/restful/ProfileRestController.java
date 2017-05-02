@@ -25,7 +25,7 @@ import java.util.List;
  */
 @RestController
 public class ProfileRestController {
-    private final String PATH = ApiResolver.REST_PROFILE;
+    private final String PATH = ApiResolver.PROFILE;
 
     private final UserService repoService;
 
