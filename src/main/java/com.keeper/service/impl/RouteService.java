@@ -11,6 +11,7 @@ import com.keeper.service.IRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -25,10 +26,16 @@ public class RouteService extends ModelRepoService<Route> implements IRouteServi
     private final IFeedSubmiter feedSubmitService;
 
     @Autowired
-    public RouteService(RouteRepository repository, IFeedSubmiter feedSubmitService) {
+    public RouteService(RouteRepository repository,
+                        FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.feedSubmitService = feedSubmitService;
+    }
+
+    @PostConstruct
+    public void setup() {
+        feedSubmitService.loadRoutes(getAll().orElse(getEmptyList()));
     }
 
     @Override

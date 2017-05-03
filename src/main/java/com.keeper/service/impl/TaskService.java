@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,7 +43,8 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
                        CommentRepository commentRepository,
                        GeoPointRepository geoPointRepository,
                        TagRepository tagRepository,
-                       UserRepository userRepository, FeedService feedSubmitService) {
+                       UserRepository userRepository,
+                       FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.commentRepository = commentRepository;
@@ -50,6 +52,11 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
         this.feedSubmitService = feedSubmitService;
+    }
+
+    @PostConstruct
+    public void setup() {
+        feedSubmitService.loadTasks(getAll().orElse(getEmptyList()));
     }
 
     @Override

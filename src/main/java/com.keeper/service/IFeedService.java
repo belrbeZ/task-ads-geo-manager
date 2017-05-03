@@ -19,4 +19,6 @@ public interface IFeedService {
     Optional<List<TaskDTO>> getHot(Long userId);
     Optional<List<TaskDTO>> getLocal(Long userId);
     Optional<List<TaskDTO>> getOwned(Long userId);
+
+    Optional<List<TaskDTO>> getByTheme(String theme);
 }

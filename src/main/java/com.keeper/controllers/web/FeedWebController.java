@@ -7,6 +7,7 @@ package com.keeper.controllers.web;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.service.impl.FeedService;
 import com.keeper.service.impl.TaskService;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
@@ -24,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -31,13 +33,15 @@ import java.util.List;
 @Controller
 public class FeedWebController {
 
-    private final TaskService taskService;
+    private final FeedService feedService;
     private final UserService userService;
+    private final TaskService taskService;
 
     @Autowired
-    public FeedWebController(TaskService taskService, UserService userService) {
+    public FeedWebController(TaskService taskService, UserService userService, FeedService feedService) {
         this.taskService = taskService;
         this.userService = userService;
+        this.feedService = feedService;
     }
 
     @RequestMapping(value = WebResolver.FEED, method = RequestMethod.GET)
@@ -47,29 +51,27 @@ public class FeedWebController {
 
         Long userId = Translator.toDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
 
-        List<Task> tasks = taskService.getByUserId(userId);
+        Optional<List<TaskDTO>> tasks = feedService.getAll(userId);
 
-        if(tasks == null || tasks.isEmpty())
+        if(!tasks.isPresent())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
 
-        modelAndView.addObject("tasks", Translator.tasksToDTO(tasks));
+        modelAndView.addObject("tasks", tasks.get());
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebResolver.FEED, method = RequestMethod.POST)
-    public ModelAndView feedSearch(@RequestParam(value = "search", required = false) String theme, Model model) {
+    public ModelAndView feedSearch(@RequestParam(value = "search", required = false) String theme,
+                                   Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        List<Task> tasks =  taskService.getByTheme(theme);
-        List<TaskDTO> taskDTOS = Collections.emptyList();
+        Optional<List<TaskDTO>> tasks =  feedService.getByTheme(theme);
 
-        if(tasks == null || tasks.isEmpty())
+        if(!tasks.isPresent())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
-        else
-            taskDTOS = Translator.tasksToDTO(tasks);
 
-        modelAndView.addObject("tasks", taskDTOS);
+        modelAndView.addObject("tasks", tasks.get());
 
         return modelAndView;
     }

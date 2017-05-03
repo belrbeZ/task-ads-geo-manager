@@ -55,13 +55,13 @@ public class Task {
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
     @JoinColumn(name = "taskId", referencedColumnName = "id")
     private List<Comment> comments;
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
             joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
             inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
@@ -69,7 +69,7 @@ public class Task {
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
                joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
                inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})

@@ -11,6 +11,7 @@ import com.keeper.service.IGeoUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +25,16 @@ public class GeoUserService extends ModelRepoService<GeoUser> implements IGeoUse
     private final IFeedSubmiter feedSubmitService;
 
     @Autowired
-    public GeoUserService(GeoUserRepository repository, FeedService feedSubmitService) {
+    public GeoUserService(GeoUserRepository repository,
+                          FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.feedSubmitService = feedSubmitService;
+    }
+
+    @PostConstruct
+    public void setup() {
+        feedSubmitService.loadPoints(getAll().orElse(getEmptyList()));
     }
 
     @Override

@@ -25,6 +25,13 @@
         <form th:action="@{/secure/feed}" method="post">
             <input type="text" name="search" placeholder="Theme Query"/>
             <button name="Submit" value="search" type="Submit" th:text="Search"></button>
+
+            <!--<select>-->
+                <!--<option th:each="state : ${T(com.mypackage.Ticket.State).values()}"-->
+                        <!--th:value="${state}"-->
+                        <!--th:text="${state}">-->
+                <!--</option>-->
+            <!--</select>-->
         </form>
 
         <a href="/secure/tasks/create" th:href="@{/secure/task/create}">Create Task</a>
