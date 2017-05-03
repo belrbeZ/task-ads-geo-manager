@@ -6,7 +6,7 @@ package com.keeper.service.impl;
 
 import com.keeper.model.dao.Route;
 import com.keeper.repo.RouteRepository;
-import com.keeper.service.IFeedSubmitService;
+import com.keeper.service.IFeedSubmiter;
 import com.keeper.service.IRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,10 @@ import java.util.Optional;
 public class RouteService extends ModelRepoService<Route> implements IRouteService {
 
     private final RouteRepository repository;
-    private final IFeedSubmitService feedSubmitService;
+    private final IFeedSubmiter feedSubmitService;
 
     @Autowired
-    public RouteService(RouteRepository repository, IFeedSubmitService feedSubmitService) {
+    public RouteService(RouteRepository repository, IFeedSubmiter feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.feedSubmitService = feedSubmitService;

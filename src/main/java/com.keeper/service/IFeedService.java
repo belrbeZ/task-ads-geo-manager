@@ -8,16 +8,15 @@ import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.types.TaskFeedType;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
  */
 public interface IFeedService {
-    List<TaskDTO> getFeed(Long userId, TaskFeedType type);
-
-    List<TaskDTO> getAll(Long userId);
-    List<TaskDTO> getRecent(Long userId);
-    List<TaskDTO> getHot(Long userId);
-    List<TaskDTO> getLocal(Long userId);
-    List<TaskDTO> getOwned(Long userId);
+    Optional<List<TaskDTO>> getAll(Long userId);
+    Optional<List<TaskDTO>> getRecent(Long userId);
+    Optional<List<TaskDTO>> getHot(Long userId);
+    Optional<List<TaskDTO>> getLocal(Long userId);
+    Optional<List<TaskDTO>> getOwned(Long userId);
 }

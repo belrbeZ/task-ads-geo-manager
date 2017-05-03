@@ -57,7 +57,7 @@ public class Route {
 
         for(int i = 0; i < geoPoints.size(); i++) {
             this.latitudes[i] = geoPoints.get(i).getLatitude().toString();
-            this.longtitudes[i] = geoPoints.get(i).getLongtitude().toString();
+            this.longtitudes[i] = geoPoints.get(i).getLongitude().toString();
         }
     }
 
@@ -147,7 +147,7 @@ public class Route {
         longtitudes = Arrays.copyOf(longtitudes, longtitudes.length +1);
 
         latitudes[latitudes.length - 1] = geoPoint.getLatitude().toString();
-        longtitudes[longtitudes.length - 1] = geoPoint.getLongtitude().toString();
+        longtitudes[longtitudes.length - 1] = geoPoint.getLongitude().toString();
     }
 
     public SimpleRoute getGeoPoints() {

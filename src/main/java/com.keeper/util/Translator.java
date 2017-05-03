@@ -263,7 +263,7 @@ public class Translator {
         if(model == null)
             throw new NullPointerException();
 
-        return new GeoUser(model.getUserId(),
+        return  new GeoUser(model.getUserId(),
                               model.getLatitude(),
                               model.getLongitude(),
                               model.getRadius(),

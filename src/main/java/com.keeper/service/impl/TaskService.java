@@ -10,7 +10,7 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.repo.*;
-import com.keeper.service.IFeedSubmitService;
+import com.keeper.service.IFeedSubmiter;
 import com.keeper.service.ITaskService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
-    private final IFeedSubmitService feedSubmitService;
+    private final IFeedSubmiter feedSubmitService;
 
     @Autowired
     public TaskService(TaskRepository repository,

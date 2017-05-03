@@ -54,7 +54,7 @@ public class Comment {
     }
 
     public Comment(Long taskId, Long userId, String message, SimpleGeoPoint geoPoint) {
-        this(taskId, userId, message, geoPoint.getLongtitude().toString(), geoPoint.getLatitude().toString());
+        this(taskId, userId, message, geoPoint.getLongitude().toString(), geoPoint.getLatitude().toString());
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -97,7 +97,7 @@ public class Comment {
 
     public void setGeoPoint(SimpleGeoPoint geoPoint) {
         this.latitude = geoPoint.getLatitude().toString();
-        this.longtitude = geoPoint.getLongtitude().toString();
+        this.longtitude = geoPoint.getLongitude().toString();
     }
 
     public SimpleGeoPoint getGeoPoint() {

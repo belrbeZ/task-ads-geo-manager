@@ -35,7 +35,7 @@ public class CommentDTO {
         this.createDate = createDate.toLocalDateTime();
         this.lastModifyDate = lastModifyDate!=null ? lastModifyDate.toLocalDateTime() : createDate.toLocalDateTime();
         this.message    = message;
-        this.longtitude = geoPoint.getLongtitude().toString();
+        this.longtitude = geoPoint.getLongitude().toString();
         this.latitude   = geoPoint.getLatitude().toString();
     }
 

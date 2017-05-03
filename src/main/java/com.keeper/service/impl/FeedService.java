@@ -4,15 +4,16 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 30.04.2017.
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.GeoUser;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.model.types.TaskFeedType;
 import com.keeper.service.IFeedService;
-import com.keeper.service.IFeedSubmitService;
+import com.keeper.service.IFeedSubmiter;
+import com.keeper.util.Computer;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,7 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListSet;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
  * Default Comment
  */
 @Service
-public class FeedService implements IFeedService, IFeedSubmitService {
+public class FeedService implements IFeedService, IFeedSubmiter {
 
     private final UserService userService;
     private final TaskService taskService;
@@ -41,19 +42,22 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     private final Map<Long, List<RouteDTO>> routes = new ConcurrentHashMap<>(); // All user routes
 
     private final int HOT_FEED_SIZE = 20;
+    private final int RECENT_FEED_SIZE = 20;
 
-    private final Set<TaskDTO> tasks = new ConcurrentSkipListSet<>(); // All tasks
+    private final Map<Long, TaskDTO> tasks = new ConcurrentHashMap<>(); // All tasks
     private final List<Long> hotTasks = new ArrayList<>(HOT_FEED_SIZE); // Rang of hot tasks ids
-    private final Map<Long, List<Long>> userLocalTasks = new ConcurrentHashMap<>(); // Users locations tasks
+    private final Map<Long, HashSet<Long>> userLocalTasks = new ConcurrentHashMap<>(); // Users locations tasks
 
 
-    // Queue models to proceed
-//    private int proceedListSize = 30;
-//    private final List<TaskDTO>    tasksToProceed = new ArrayList<>(proceedListSize);
-//    private final List<RouteDTO>   routesToProceed = new ArrayList<>(proceedListSize);
-//    private final List<GeoUserDTO> pointsToProceed = new ArrayList<>(proceedListSize);
+    private final List<RouteDTO>    routesToProceed = new ArrayList<>();
+    private final List<GeoUserDTO>  pointsToProceed = new ArrayList<>();
+    private final List<TaskDTO>     tasksToProceed   = new ArrayList<>();
 
-    HashSet<GeoUserDTO> dts;
+    // Geo ID | User Id
+    private final Map<Long, Long> removedRoutes = new ConcurrentHashMap<>();
+    private final Map<Long, Long> removedPoints = new ConcurrentHashMap<>();
+    private final Map<Long, Long> removedTask   = new ConcurrentHashMap<>();
+
 
     // Filters for
     private final Predicate<TaskDTO> filterNew   = (task) -> true;
@@ -75,14 +79,16 @@ public class FeedService implements IFeedService, IFeedSubmitService {
 
     @PostConstruct
     private void setup() {
-        taskService.getAll().ifPresent(repoTasks -> tasks.addAll(Translator.tasksToDTO(repoTasks)));
-        routeService.getAll().ifPresent(repoRoutes -> routes.putAll(Translator.routesToDTO(repoRoutes).stream().parallel().collect(Collectors.groupingBy(RouteDTO::getUserId))));
-        pointService.getAll().ifPresent(repoPoints -> points.putAll(Translator.geoUsersToDTO(repoPoints).stream().parallel().collect(Collectors.groupingBy(GeoUserDTO::getUserId))));
+        taskService.getAll().ifPresent(repoTasks -> tasksToProceed.addAll(Translator.tasksToDTO(repoTasks)));
+        routeService.getAll().ifPresent(repoRoutes -> routesToProceed.addAll(Translator.routesToDTO(repoRoutes)));
+        pointService.getAll().ifPresent(repoPoints -> pointsToProceed.addAll(Translator.geoUsersToDTO(repoPoints)));
     }
+
+    //<editor-fold desc="Submiter">
 
     @Override
     public void submit(Task task) {
-        tasks.add(Translator.toDTO(task));
+        tasks.put(task.getId(), Translator.toDTO(task));
     }
 
     @Override
@@ -96,6 +102,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
             tempPoints.add(tempPoint);
             points.replace(point.getUserId(), tempPoints);
         }
+        pointsToProceed.add(tempPoint);
     }
 
     @Override
@@ -109,60 +116,170 @@ public class FeedService implements IFeedService, IFeedSubmitService {
             tempRoutes.add(tempRoute);
             routes.replace(route.getUserId(), tempRoutes);
         }
+        routesToProceed.add(tempRoute);
     }
+
+    @Override
+    public void remove(Task task) {
+        tasks.remove(task.getId());
+    }
+
+    private void deletePoint(Long userId, Long pointId) {
+        List<GeoUserDTO> tempPoints = points.get(userId);
+        if(tempPoints != null) {
+            tempPoints = tempPoints.stream().filter(route -> route.getId().equals(pointId)).collect(Collectors.toList());
+            points.replace(userId, tempPoints);
+        }
+    }
+
+    @Override
+    public void remove(GeoUser point) {
+        removedPoints.put(point.getId(), point.getUserId());
+    }
+
+    private void deleteRoute(Long userId, Long routeId) {
+        List<RouteDTO> tempRoutes = routes.get(userId);
+        if(tempRoutes != null) {
+            tempRoutes = tempRoutes.stream().filter(route -> route.getId().equals(routeId)).collect(Collectors.toList());
+            routes.replace(userId, tempRoutes);
+        }
+    }
+
+    @Override
+    public void remove(Route route) {
+        removedPoints.put(route.getId(), route.getUserId());
+    }
+    //</editor-fold>
 
     @Scheduled(initialDelay = 5000, fixedDelay = 5000)
     private void update() {
+        tasks.putAll(tasksToProceed.stream().parallel().collect(Collectors.toConcurrentMap(TaskDTO::getId, Function.identity())));
+        Map<Long, List<GeoUserDTO>> geoPointsProceed = pointsToProceed.stream().parallel().collect(Collectors.groupingBy(GeoUserDTO::getUserId));
+        Map<Long, List<RouteDTO>> routesProceed = routesToProceed.stream().parallel().collect(Collectors.groupingBy(RouteDTO::getUserId));
 
-    }
+//        Map<Long, List<Long>> succedTasks = tasks
+//                .stream().map(task -> new Map.Entry(task.getId(), geoPointsProceed.entrySet()
+//                        .stream().map(geopoints -> geopoints.getValue()
+//                                .stream().filter(geo ->
+//                                        Computer.geoInRadius(task.getOriginGeoPoint().getLatitude(),
+//                                                            task.getOriginGeoPoint().getLongitude(),
+//                                                            geo.getLatitude(),
+//                                                            geo.getLongitude(),
+//                                                            task.getOriginGeoPoint().getRadius()))
+//                                                                .collect(Collectors.toList())))).collect(Collectors.mapping(value -> ));
 
-//    @Scheduled(initialDelay = 2500, fixedDelay = 10000)
-//    private void proceed() {
-//        points.putAll(pointsToProceed.stream().parallel().collect(Collectors.groupingBy(GeoUserDTO::getUserId)));
-//        routes.putAll(routesToProceed.stream().parallel().collect(Collectors.groupingBy(RouteDTO::getUserId)));
-//        tasks.addAll(tasksToProceed);
-//    }
+        //<editor-fold desc="Proceed">
 
-    @Override
-    public List<TaskDTO> getHot(Long userId) {
-        return null;
-    }
+        for(final Map.Entry<Long, TaskDTO> entryTask : tasks.entrySet()) {
 
-    @Override
-    public List<TaskDTO> getRecent(Long userId) {
-        return null;
-    }
+            for (final Map.Entry<Long, List<GeoUserDTO>> geos : geoPointsProceed.entrySet()) {
+                for (GeoUserDTO geo : geos.getValue()) {
+                    if (Computer.geoInRadius(entryTask.getValue().getOriginGeoPoint(), geo.getLatitude(), geo.getLongitude())
+                            || Computer.geoInRadius(geo.getLatitude(), geo.getLongitude(), entryTask.getValue().getOriginGeoPoint(), geo.getRadius())) {
 
-    @Override
-    public List<TaskDTO> getLocal(Long userId) {
-        return null;
-    }
+                        HashSet<Long> tasksIds = userLocalTasks.get(geo.getUserId());
+                        if (tasksIds == null) {
+                            userLocalTasks.put(geo.getUserId(), new HashSet<Long>() {{ add(entryTask.getValue().getId()); }});
+                        } else {
+                            tasksIds.add(entryTask.getValue().getId());
+                            userLocalTasks.put(geo.getUserId(), tasksIds);
+                        }
+                    }
+                }
+            }
 
-    @Override
-    public List<TaskDTO> getOwned(Long userId) {
-        return null;
-    }
 
-    @Override
-    public List<TaskDTO> getAll(Long userId) {
-        return null;
-    }
-
-    @Override
-    public List<TaskDTO> getFeed(Long userId, TaskFeedType type) {
-
-        List<TaskDTO> feed = new ArrayList<>();
-
-        switch (type) {
-            case ALL:
-            case HOT:
-            case LOCAL:
-            case MY:
-            case NEW:
-
-            default: break;
+            for (final Map.Entry<Long, List<RouteDTO>> routes : routesProceed.entrySet()) {
+                for (RouteDTO route : routes.getValue()) {
+                    for (SimpleGeoPoint geo : route.getPoints())
+                        if (Computer.geoInRadius(entryTask.getValue().getOriginGeoPoint(), geo.getLatitude(), geo.getLongitude())
+                                || Computer.geoInRadius(geo.getLatitude(), geo.getLongitude(), entryTask.getValue().getOriginGeoPoint(), geo.getRadius())) {
+                            HashSet<Long> tasksIds = userLocalTasks.get(route.getUserId());
+                            if (tasksIds == null) {
+                                userLocalTasks.put(route.getUserId(), new HashSet<Long>() {{ add(entryTask.getValue().getId()); }});
+                            } else {
+                                tasksIds.add(entryTask.getValue().getId());
+                                userLocalTasks.put(route.getUserId(), tasksIds);
+                            }
+                        }
+                }
+            }
         }
 
-        return feed;
+
+        pointsToProceed.clear();
+        routesToProceed.clear();
+
+        //</editor-fold>
+
+
+        //<editor-fold desc="Removed">
+
+        for(final Map.Entry<Long, TaskDTO> entryTask : tasks.entrySet()) {
+
+            for (final Map.Entry<Long, List<GeoUserDTO>> geos : geoPointsProceed.entrySet()) {
+                for (GeoUserDTO geo : geos.getValue()) {
+                    if (Computer.geoInRadius(entryTask.getValue().getOriginGeoPoint(), geo.getLatitude(), geo.getLongitude())
+                            || Computer.geoInRadius(geo.getLatitude(), geo.getLongitude(), entryTask.getValue().getOriginGeoPoint(), geo.getRadius())) {
+
+                        HashSet<Long> tasksIds = userLocalTasks.get(geo.getUserId());
+                        if (tasksIds == null) {
+                            userLocalTasks.put(geo.getUserId(), new HashSet<Long>() {{ add(entryTask.getValue().getId()); }});
+                        } else {
+                            tasksIds.add(entryTask.getValue().getId());
+                            userLocalTasks.put(geo.getUserId(), tasksIds);
+                        }
+                    }
+                }
+            }
+
+
+            for (final Map.Entry<Long, List<RouteDTO>> routes : routesProceed.entrySet()) {
+                for (RouteDTO route : routes.getValue()) {
+                    for (SimpleGeoPoint geo : route.getPoints())
+                        if (Computer.geoInRadius(entryTask.getValue().getOriginGeoPoint(), geo.getLatitude(), geo.getLongitude())
+                                || Computer.geoInRadius(geo.getLatitude(), geo.getLongitude(), entryTask.getValue().getOriginGeoPoint(), geo.getRadius())) {
+                            HashSet<Long> tasksIds = userLocalTasks.get(route.getUserId());
+                            if (tasksIds == null) {
+                                userLocalTasks.put(route.getUserId(), new HashSet<Long>() {{ add(entryTask.getValue().getId()); }});
+                            } else {
+                                tasksIds.add(entryTask.getValue().getId());
+                                userLocalTasks.put(route.getUserId(), tasksIds);
+                            }
+                        }
+                }
+            }
+        }
+
+
+        removedPoints.clear();
+        removedRoutes.clear();
+
+        //</editor-fold>
+    }
+
+    @Override
+    public Optional<List<TaskDTO>> getHot(Long userId) {
+        return Optional.of(tasks.entrySet().stream().filter(task -> hotTasks.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<TaskDTO>> getRecent(Long userId) {
+        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).limit(RECENT_FEED_SIZE).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<TaskDTO>> getLocal(Long userId) {
+        return Optional.of(tasks.entrySet().stream().filter(task -> userLocalTasks.get(userId).contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<TaskDTO>> getOwned(Long userId) {
+        return Optional.of(tasks.entrySet().stream().filter(task -> task.getKey().equals(userId)).map(Map.Entry::getValue).collect(Collectors.toList()));
+    }
+
+    @Override
+    public Optional<List<TaskDTO>> getAll(Long userId) {
+        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 }

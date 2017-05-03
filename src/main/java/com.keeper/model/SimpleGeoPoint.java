@@ -13,75 +13,68 @@ public class SimpleGeoPoint {
 
     public static final SimpleGeoPoint EMPTY = new SimpleGeoPoint();
 
-    private Double longtitude;
+    private Double longitude;
     private Double latitude;
-    private Double radius;
+    private Integer radius;
 
     public SimpleGeoPoint(){
         this.latitude = 0.;
-        this.longtitude = 0.;
-        this.radius = 0.;
+        this.longitude = 0.;
+        this.radius = 0;
     }
 
-    public SimpleGeoPoint(@GeoCoordinate String longtitude,
+    public SimpleGeoPoint(@GeoCoordinate String longitude,
                           @GeoCoordinate String latitude) {
-        this.longtitude = Double.valueOf(longtitude);
+        this.longitude = Double.valueOf(longitude);
         this.latitude = Double.valueOf(latitude);
-        this.radius = 5.;
+        this.radius = 5;
     }
 
-    public SimpleGeoPoint(@GeoCoordinate String longtitude,
+    public SimpleGeoPoint(@GeoCoordinate String longitude,
                           @GeoCoordinate String latitude,
-                          double radius) {
-        this.longtitude = Double.valueOf(longtitude);
-        this.latitude = Double.valueOf(latitude);
+                          Integer radius) {
+        this(longitude, latitude);
         this.radius = radius;
-    }
-
-    public SimpleGeoPoint(@GeoCoordinate String longtitude,
-                          @GeoCoordinate String latitude,
-                          int radius) {
-        this(longtitude, latitude, (double)radius / 1000);
     }
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Double getLongtitude() {
-        return longtitude;
+    public Double getLongitude() {
+        return longitude;
     }
 
     public Double getLatitude() {
         return latitude;
     }
 
-    public void setLongtitude(Double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public void setLongtitude(@GeoCoordinate String longtitude) {
-        this.longtitude = Double.valueOf(longtitude);
+    public void setLongitude(@GeoCoordinate String longtitude) {
+        this.longitude = Double.valueOf(longtitude);
     }
 
     public void setLatitude(@GeoCoordinate String latitude) {
         this.latitude = Double.valueOf(latitude);
     }
 
-    public Double getRadius() {
+    public Integer getRadius() {
         return radius;
     }
 
-    public void setRadius(Double radius) {
+    public void setRadius(Integer radius) {
         this.radius = radius;
     }
     //</editor-fold>
 
     @Override
     public String toString() {
-        return "long: " + longtitude + ", lat: " + latitude;
+        return "long: " + longitude + ", lat: " + latitude;
     }
 
 }

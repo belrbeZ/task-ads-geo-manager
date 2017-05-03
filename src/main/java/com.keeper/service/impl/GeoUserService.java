@@ -6,6 +6,7 @@ package com.keeper.service.impl;
 
 import com.keeper.model.dao.GeoUser;
 import com.keeper.repo.GeoUserRepository;
+import com.keeper.service.IFeedSubmiter;
 import com.keeper.service.IGeoUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,16 +21,24 @@ import java.util.Optional;
 public class GeoUserService extends ModelRepoService<GeoUser> implements IGeoUserService {
 
     private final GeoUserRepository repository;
+    private final IFeedSubmiter feedSubmitService;
 
     @Autowired
-    public GeoUserService(GeoUserRepository repository) {
+    public GeoUserService(GeoUserRepository repository, FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
+        this.feedSubmitService = feedSubmitService;
     }
 
     @Override
     public Optional<List<GeoUser>> getAllByUserId(Long userId) {
         return repository.findAllByUserId(userId);
+    }
 
+    @Override
+    public Optional<GeoUser> add(GeoUser model) {
+        Optional<GeoUser> geoUser = super.add(model);
+        geoUser.ifPresent(feedSubmitService::submit);
+        return geoUser;
     }
 }

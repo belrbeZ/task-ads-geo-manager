@@ -11,8 +11,12 @@ import com.keeper.model.dao.Task;
 /**
  * Default Comment
  */
-public interface IFeedSubmitService {
+public interface IFeedSubmiter {
     void submit(Task task);
     void submit(GeoUser point);
     void submit(Route route);
+
+    void remove(Task task);
+    void remove(GeoUser point);
+    void remove(Route route);
 }
