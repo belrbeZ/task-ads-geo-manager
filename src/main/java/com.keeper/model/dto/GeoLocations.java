@@ -12,8 +12,8 @@ import java.util.Set;
  */
 public class GeoLocations {
 
-    private Set<Long> routes = new HashSet<>();
-    private Set<Long> points = new HashSet<>();
+    private final Set<Long> routes = new HashSet<>();
+    private final Set<Long> points = new HashSet<>();
 
     public void addRoute(RouteDTO route) {
         routes.add(route.getId());
@@ -31,6 +31,8 @@ public class GeoLocations {
         points.add(point);
     }
 
+
+
     public void removeRoute(RouteDTO route) {
         removeRoute(route.getId());
     }
@@ -43,6 +45,8 @@ public class GeoLocations {
         routes.remove(routeId);
     }
 
+
+
     public void removePoint(GeoUserDTO point) {
         removePoint(point.getId());
     }
@@ -54,6 +58,8 @@ public class GeoLocations {
     public void removePoint(Long pointId) {
         points.remove(pointId);
     }
+
+
 
     public Set<Long> getRoutes() {
         return routes;

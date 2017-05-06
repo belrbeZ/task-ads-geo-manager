@@ -14,7 +14,7 @@ import com.keeper.model.dto.TaskDTO;
  */
 public class Computer {
 
-    public static double haversine(double lat1, double lng1, double lat2, double lng2) {
+    private static double haversine(double lat1, double lng1, double lat2, double lng2) {
         int r = 6371; // average radius of the earth in km
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lng2 - lng1);
@@ -23,27 +23,18 @@ public class Computer {
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) * 0.001; // 0.001 to meters
     }
 
     public static boolean geoInRadius(Double lat1, Double lng1, Double lat2, Double lng2, Integer radius) {
         return !(lat1 == null || lng1 == null || lat2 == null || lng2 == null || radius == null)
-                && haversine(lat1, lng1, lat2, lng2) <= (double) radius / 1000;
-
+                && haversine(lat1, lng1, lat2, lng2) <= radius;
     }
 
-    public static boolean geoInRadius(String lat1, String lng1, SimpleGeoPoint geo, Integer radius) {
-        return !(geo == null || geo.getLatitude() == null || geo.getLongitude() == null || lat1 == null || lng1 == null)
-                && geoInRadius(Double.valueOf(lat1), Double.valueOf(lng1), geo.getLatitude(), geo.getLongitude(), radius);
-    }
-
-    public static boolean geoInRadius(Double lat1, Double lng1, SimpleGeoPoint geo, Integer radius) {
-        return geoInRadius(lat1, lng1, geo.getLatitude(), geo.getLongitude(), radius);
-    }
-
-    public static boolean geoInRadius(SimpleGeoPoint geo, TaskDTO task) {
-        return geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getGeo().getLatitude(), task.getGeo().getLongitude(), geo.getRadius());
-    }
+//    public static boolean geoInRadius(String lat1, String lng1, SimpleGeoPoint geo, Integer radius) {
+//        return !(geo == null || geo.getLatitude() == null || geo.getLongitude() == null || lat1 == null || lng1 == null)
+//                && geoInRadius(Double.valueOf(lat1), Double.valueOf(lng1), geo.getLatitude(), geo.getLongitude(), radius);
+//    }
 
     public static boolean geoInRadius(GeoUserDTO geo, TaskDTO task) {
         return geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getGeo().getLatitude(), task.getGeo().getLongitude(), geo.getRadius());

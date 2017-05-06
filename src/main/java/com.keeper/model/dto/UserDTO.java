@@ -88,8 +88,8 @@ public class UserDTO {
         this.phone      = Converter.maskStr(phone);
         this.password   = password;
         this.about      = about;
-        this.notified = notified;
-        this.muteEnd    = muteEnd.toLocalDateTime();
+        this.notified   = notified;
+        this.muteEnd    = (muteEnd == null) ? null : muteEnd.toLocalDateTime();
     }
 
     public UserDTO(Long id, UserType type, UserState state, String name,

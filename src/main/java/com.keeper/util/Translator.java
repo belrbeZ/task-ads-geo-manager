@@ -15,6 +15,7 @@ import com.keeper.test.model.dto.ZoneTestDTO;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class Translator {
                             model.getLatitude(),
                             model.getLongitude(),
                             model.getRadius(),
-                            Translator.toDTO(model.getPicture()),
+                            toDTO(model.getPicture()),
                             model.getCreateDate(),
                             model.getLastModifyDate(),
                             commentsToDTO(model.getComments()),
@@ -79,7 +80,7 @@ public class Translator {
                             model.getPassword(),
                             model.getNotified(),
                             model.getMuteEnd(),
-                            Translator.toDTO(model.getPic()),
+                            toDTO(model.getPic()),
                             toDTO(model.getZone()),
                             geoUsersToDTO(model.getGeoUsers()),
                             routesToDTO(model.getRoutes()));
@@ -141,46 +142,58 @@ public class Translator {
     //<editor-fold desc="toListsDTO">
 
     public static List<PictureDTO> picsToDTO(List<Picture> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<CommentDTO> commentsToDTO(List<Comment> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<TagDTO> tagsToDTO(List<Tag> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<UserDTO> usersToDTO(List<User> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<TaskDTO> tasksToDTO(List<Task> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
-    }
-
-    public static List<GeoPointDTO> geoPointsToDTO(List<GeoPoint> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<GeoUserDTO> geoUsersToDTO(List<GeoUser> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<RouteDTO> routesToDTO(List<Route> models) {
-        return models.stream().map(Translator::toDTO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
     public static List<Comment> commentsToDAO(List<CommentDTO> models) {
-        return models.stream().map(Translator::toDAO).collect(Collectors.toList());
+        return (models == null)
+                ? Collections.emptyList()
+                : models.stream().map(Translator::toDAO).collect(Collectors.toList());
     }
 
     public static List<SimpleGeoPoint> toSimpleGeoPoints(String[] latitude, String[] longtitude) {
-        if(latitude == null || longtitude == null || latitude.length != longtitude.length)
-            return null;
-
         List<SimpleGeoPoint> geoPoints = new ArrayList<>();
+
+        if(latitude == null || longtitude == null || latitude.length != longtitude.length)
+            return geoPoints;
 
         for(int i = 0; i < latitude.length; i ++)
             geoPoints.add(new SimpleGeoPoint(latitude[i], longtitude[i]));

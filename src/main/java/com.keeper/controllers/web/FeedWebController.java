@@ -6,9 +6,7 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.model.types.FeedType;
 import com.keeper.service.impl.FeedService;
-import com.keeper.service.impl.TaskService;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
@@ -18,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,11 +33,9 @@ public class FeedWebController {
 
     private final FeedService feedService;
     private final UserService userService;
-    private final TaskService taskService;
 
     @Autowired
-    public FeedWebController(TaskService taskService, UserService userService, FeedService feedService) {
-        this.taskService = taskService;
+    public FeedWebController(UserService userService, FeedService feedService) {
         this.userService = userService;
         this.feedService = feedService;
     }
@@ -69,18 +64,16 @@ public class FeedWebController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Long userId = Translator.toDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
 
-        Optional<List<TaskDTO>> tasks = null;
+        Optional<List<TaskDTO>> tasks = Optional.empty();
 
-        System.out.println(type);
-
-        if(type == null)
+        if(type == null && !theme.isEmpty())
             tasks = feedService.getByTheme(theme);
-        else
+        else if(type != null)
             switch (type) {
-                case 10: tasks = feedService.getOwned(userId); break;
+                case 10: tasks = feedService.getOwned(userId);  break;
                 case 20: tasks = feedService.getRecent(userId); break;
-                case 30: tasks = feedService.getOwned(userId); break;
-                case 40: tasks = feedService.getHot(userId); break;
+                case 30: tasks = feedService.getOwned(userId);  break;
+                case 40: tasks = feedService.getHot(userId);    break;
                 case 0:
                     default: tasks = feedService.getAll(userId); break;
             }
