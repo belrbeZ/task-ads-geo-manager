@@ -5,6 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.ModelLoggerManager;
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
 import com.keeper.service.impl.GeoPointService;
@@ -31,12 +32,10 @@ public class TaskRestController {
     private final String PATH = ApiResolver.TASK;
 
     private final TaskService repoService;
-    private final GeoPointService geoPointService;
 
     @Autowired
-    public TaskRestController(TaskService repoService, GeoPointService geoPointService) {
+    public TaskRestController(TaskService repoService) {
         this.repoService = repoService;
-        this.geoPointService = geoPointService;
     }
 
     @RequestMapping(value = ApiResolver.SEARCH_TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -122,7 +121,7 @@ public class TaskRestController {
 
     /*---ORIGIN GEO POINT---*/
     @RequestMapping(value = PATH + "/originGeo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeoPointDTO> getOriginGeoPoint(@RequestParam("taskId") Long taskId) {
+    public ResponseEntity<SimpleGeoPoint> getOriginGeoPoint(@RequestParam("taskId") Long taskId) {
         return new ResponseEntity<>(repoService.getOriginGeoPoint(taskId), HttpStatus.OK);
     }
 

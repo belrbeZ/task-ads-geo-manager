@@ -15,6 +15,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import java.util.List;
  */
 public class UserDTO {
 
-    public static final UserDTO EMPTY = new UserDTO((long)UserType.EMPTY.getValue(),UserType.EMPTY);
+    public static final UserDTO EMPTY = new UserDTO();
 
     @NotNull
     private Long  id;
@@ -39,12 +40,9 @@ public class UserDTO {
 
     @NotEmpty
     private String      password;
+
     private String      about;
     private Boolean     notified;
-
-    @JsonSerialize(using = ToStringSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime muteStart;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -52,7 +50,7 @@ public class UserDTO {
 
     private ZoneDTO zone;
     private PictureDTO     pic;
-    private List<GeoPointDTO> geoPoints;
+    private List<GeoUserDTO> geoPoints;
     private List<RouteDTO> routes;
    /* private List<TaskDTO> participantedTasks;*/
 
@@ -66,14 +64,7 @@ public class UserDTO {
         this.password   = "";
         this.about      = "";
         this.notified = false;
-        this.muteStart  = LocalDateTime.MIN;
         this.muteEnd    = LocalDateTime.MAX;
-    }
-
-    private UserDTO(Long id, UserType type) {
-        super();
-        this.type = type;
-        this.id = id;
     }
 
     public UserDTO(UserType type, String name, String email, String phone, String password, String about) {
@@ -88,7 +79,7 @@ public class UserDTO {
 
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
-                   boolean notified, LocalDateTime muteStart, LocalDateTime muteEnd) {
+                   boolean notified, Timestamp muteEnd) {
         this.id         = id;
         this.state      = state;
         this.type       = type;
@@ -98,16 +89,15 @@ public class UserDTO {
         this.password   = password;
         this.about      = about;
         this.notified = notified;
-        this.muteStart  = muteStart;
-        this.muteEnd    = muteEnd;
+        this.muteEnd    = muteEnd.toLocalDateTime();
     }
 
     public UserDTO(Long id, UserType type, UserState state, String name,
                    String email, String phone, String about, String password,
-                   boolean notified, LocalDateTime muteStart, LocalDateTime muteEnd,
-                   PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints,
-                   List<RouteDTO> routes/*, List<TaskDTO> participantedTasks*/) {
-        this(id, type, state, name, email, phone, about, password, notified, muteStart, muteEnd);
+                   boolean notified, Timestamp muteEnd,
+                   PictureDTO pic, ZoneDTO zone, List<GeoUserDTO> geoPoints,
+                   List<RouteDTO> routes) {
+        this(id, type, state, name, email, phone, about, password, notified, muteEnd);
         this.pic = pic;
         this.zone = zone;
         this.geoPoints = geoPoints;
@@ -189,14 +179,6 @@ public class UserDTO {
         this.notified = notified;
     }
 
-    public LocalDateTime getMuteStart() {
-        return muteStart;
-    }
-
-    public void setMuteStart(LocalDateTime muteStart) {
-        this.muteStart = muteStart;
-    }
-
     public LocalDateTime getMuteEnd() {
         return muteEnd;
     }
@@ -221,11 +203,11 @@ public class UserDTO {
         this.routes = routes;
     }
 
-    public List<GeoPointDTO> getGeoPoints() {
+    public List<GeoUserDTO> getGeoPoints() {
         return geoPoints;
     }
 
-    public void setGeoPoints(List<GeoPointDTO> geoPoints) {
+    public void setGeoPoints(List<GeoUserDTO> geoPoints) {
         this.geoPoints = geoPoints;
     }
 

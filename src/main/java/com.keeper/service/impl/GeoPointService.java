@@ -15,24 +15,24 @@ import java.util.List;
  * @author AlexVasil
  *
  */
-@Service
-public class GeoPointService extends ModelRepoService<GeoPoint> implements IGeoPointService {
+//@Service
+public class GeoPointService {//extends ModelRepoService<GeoPoint> implements IGeoPointService {
 
-    private final GeoPointRepository repository;
+//    private final GeoPointRepository repository;
 
-    @Autowired
-    public GeoPointService(GeoPointRepository repository) {
-        this.repository = repository;
-        this.primeRepository = repository;
-    }
-
-    @Override
-    public GeoPoint getEmpty() {
-        return GeoPoint.EMPTY;
-    }
-
-    @Override
-    public List<GeoPoint> getEmptyList() {
-        return Collections.emptyList();
-    }
+//    @Autowired
+//    public GeoPointService(GeoPointRepository repository) {
+//        this.repository = repository;
+//        this.primeRepository = repository;
+//    }
+//
+//    @Override
+//    public GeoPoint getEmpty() {
+//        return GeoPoint.EMPTY;
+//    }
+//
+//    @Override
+//    public List<GeoPoint> getEmptyList() {
+//        return Collections.emptyList();
+//    }
 }

@@ -5,7 +5,6 @@ package com.keeper.service;
  */
 
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.model.types.TaskFeedType;
 
 import java.util.List;
 import java.util.Optional;

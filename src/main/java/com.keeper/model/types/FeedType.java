@@ -7,7 +7,7 @@ package com.keeper.model.types;
 /**
  * Default Comment
  */
-public enum TaskFeedType {
+public enum FeedType {
     ALL(0),
     MY(10),
     NEW(20),
@@ -16,7 +16,7 @@ public enum TaskFeedType {
 
     private final int value;
 
-    TaskFeedType(int value) {
+    FeedType(int value) {
         this.value = value;
     }
 

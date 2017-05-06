@@ -15,34 +15,40 @@ public class GeoUserDTO {
 
     public static final GeoUserDTO EMPTY = new GeoUserDTO();
 
-    @NotNull        private Long id;
-    @NotNull        private Long userId;
+    @NotNull private Long id;
+    @NotNull private Long userId;
 
-    @GeoCoordinate  private String latitude;
-    @GeoCoordinate  private String longitude;
+    @GeoCoordinate private Double latitude;
+    @GeoCoordinate private Double longitude;
 
-    private Integer radius;
+    @NotNull private Integer radius;
+
     private String descr;
 
     private GeoUserDTO() {
-        this.latitude = "0.";
-        this.longitude = "0.";
+        this.latitude = 0.;
+        this.longitude = 0.;
         this.radius = 5;
         this.userId = 0L;
         this.id     = 0L;
         this.descr = "";
     }
 
-    public GeoUserDTO(Long id, Long userId, String latitude, String longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public GeoUserDTO(Long id, Long userId,
+                      @GeoCoordinate String latitude,
+                      @GeoCoordinate String longitude) {
+        this.latitude = Double.valueOf(latitude);
+        this.longitude = Double.valueOf(longitude);
         this.radius = 5;
         this.userId = userId;
         this.id = id;
         this.descr = "";
     }
 
-    public GeoUserDTO(Long id, Long userId, String latitude, String longitude, Integer radius) {
+    public GeoUserDTO(Long id, Long userId,
+                      @GeoCoordinate String latitude,
+                      @GeoCoordinate String longitude,
+                      @NotNull Integer radius) {
         this(id, userId, latitude, longitude);
         this.radius = radius;
     }
@@ -70,19 +76,19 @@ public class GeoUserDTO {
         this.userId = userId;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 

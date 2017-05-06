@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-//    List<Parameter> listParameter = new ArrayList<>();
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -28,7 +28,6 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build()
-//                .globalOperationParameters(listParameter)
                 .apiInfo(apiInfo());
     }
 

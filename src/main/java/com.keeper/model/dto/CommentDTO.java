@@ -22,21 +22,29 @@ public class CommentDTO {
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
     private String message;
-    private String longtitude;
-    private String latitude;
+    private SimpleGeoPoint geo;
 
     public CommentDTO(){}
 
     public CommentDTO(Long id, Long taskId, Long userId, Timestamp createDate, Timestamp lastModifyDate,
-                      String message, SimpleGeoPoint geoPoint){
+                      String message, Double latitude, Double longitude){
         this.id = id;
         this.taskId     = taskId;
         this.userId     = userId;
         this.createDate = createDate.toLocalDateTime();
         this.lastModifyDate = lastModifyDate!=null ? lastModifyDate.toLocalDateTime() : createDate.toLocalDateTime();
         this.message    = message;
-        this.longtitude = geoPoint.getLongitude().toString();
-        this.latitude   = geoPoint.getLatitude().toString();
+        this.geo = new SimpleGeoPoint(latitude.toString(), longitude.toString());
+    }
+
+    //<editor-fold desc="GetterAndSetter">
+
+    public SimpleGeoPoint getGeo() {
+        return geo;
+    }
+
+    public void setGeo(SimpleGeoPoint geo) {
+        this.geo = geo;
     }
 
     public static CommentDTO getEMPTY() {
@@ -55,22 +63,12 @@ public class CommentDTO {
         return createDate;
     }
 
-
-
     public LocalDateTime getLastModifyDate() {
         return lastModifyDate;
     }
 
     public String getMessage() {
         return message;
-    }
-
-    public String getLongtitude() {
-        return longtitude;
-    }
-
-    public String getLatitude() {
-        return latitude;
     }
 
     public void setTaskId(Long taskId) {
@@ -80,4 +78,6 @@ public class CommentDTO {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+    //</editor-fold>
+
 }

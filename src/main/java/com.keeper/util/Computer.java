@@ -4,8 +4,10 @@ package com.keeper.util;
  * Created by GoodforGod on 20.03.2017.
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.GeoUserDTO;
+import com.keeper.model.dto.TaskDTO;
 
 /**
  * Computes Marks for Hot Coords and Routes
@@ -24,35 +26,26 @@ public class Computer {
         return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    public static boolean geoInRadius(double lat1, double lng1, double lat2, double lng2, int radius) {
-        return haversine(lat1, lng1, lat2, lng2) <= (double)radius / 1000;
+    public static boolean geoInRadius(Double lat1, Double lng1, Double lat2, Double lng2, Integer radius) {
+        return !(lat1 == null || lng1 == null || lat2 == null || lng2 == null || radius == null)
+                && haversine(lat1, lng1, lat2, lng2) <= (double) radius / 1000;
+
     }
 
-    public static boolean geoInRadius(String lat1, String lng1, String lat2, String lng2, int radius) {
-        return haversine(Double.valueOf(lat1), Double.valueOf(lng1), Double.valueOf(lat2), Double.valueOf(lng2)) <= (double)radius / 1000;
+    public static boolean geoInRadius(String lat1, String lng1, SimpleGeoPoint geo, Integer radius) {
+        return !(geo == null || geo.getLatitude() == null || geo.getLongitude() == null || lat1 == null || lng1 == null)
+                && geoInRadius(Double.valueOf(lat1), Double.valueOf(lng1), geo.getLatitude(), geo.getLongitude(), radius);
     }
 
-    public static boolean geoInRadius(String lat1, String lng1, Double lat2, Double lng2, int radius) {
-        return haversine(Double.valueOf(lat1), Double.valueOf(lng1), lat2, lng2) <= (double)radius / 1000;
+    public static boolean geoInRadius(Double lat1, Double lng1, SimpleGeoPoint geo, Integer radius) {
+        return geoInRadius(lat1, lng1, geo.getLatitude(), geo.getLongitude(), radius);
     }
 
-    public static boolean geoInRadius(Double lat1, Double lng1, String lat2, String lng2, int radius) {
-        return haversine(lat1, lng1, Double.valueOf(lat2), Double.valueOf(lng2)) <= (double)radius / 1000;
+    public static boolean geoInRadius(SimpleGeoPoint geo, TaskDTO task) {
+        return geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getGeo().getLatitude(), task.getGeo().getLongitude(), geo.getRadius());
     }
 
-    public static boolean geoInRadius(GeoPointDTO geo, String lat2, String lng2) {
-        return haversine(Double.valueOf(geo.getLatitude()), Double.valueOf(geo.getLongitude()), Double.valueOf(lat2), Double.valueOf(lng2)) <= (double)geo.getRadius() / 1000;
-    }
-
-    public static boolean geoInRadius(GeoPointDTO geo, Double lat2, Double lng2) {
-        return haversine(Double.valueOf(geo.getLatitude()), Double.valueOf(geo.getLongitude()), lat2, lng2) <= (double)geo.getRadius() / 1000;
-    }
-
-    public static boolean geoInRadius(String lat1, String lng1, GeoPointDTO geo, int radius) {
-        return haversine(Double.valueOf(lat1), Double.valueOf(lng1), Double.valueOf(geo.getLatitude()), Double.valueOf(geo.getLongitude())) <= (double)radius / 1000;
-    }
-
-    public static boolean geoInRadius(Double lat1, Double lng1, GeoPointDTO geo, int radius) {
-        return haversine(lat1, lng1, Double.valueOf(geo.getLatitude()), Double.valueOf(geo.getLongitude())) <= (double)radius / 1000;
+    public static boolean geoInRadius(GeoUserDTO geo, TaskDTO task) {
+        return geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getGeo().getLatitude(), task.getGeo().getLongitude(), geo.getRadius());
     }
 }

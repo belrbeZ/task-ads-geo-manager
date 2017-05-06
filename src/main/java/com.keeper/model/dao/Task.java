@@ -7,6 +7,7 @@ package com.keeper.model.dao;
  *
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import com.keeper.util.resolve.DatabaseResolver;
@@ -27,31 +28,27 @@ import java.util.List;
 @Table(name = DatabaseResolver.TABLE_TASKS, schema = DatabaseResolver.SCHEMA)
 public class Task {
 
-    public static final Task EMPTY = new Task((long)TaskType.EMPTY.getValue(), TaskType.EMPTY);
+    public static final Task EMPTY = new Task();
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
-    @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
     @Column(name = "topicStarterId")                                private Long topicStarterId;
-    @Column(name = "originGeoPointId")                              private Long originGeoPointId;
     @Column(name = "type")                                          private TaskType type;
     @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
+    @Column(name = "latitude")                                      private Double latitude;
+    @Column(name = "longitude")                                     private Double longitude;
+    @Column(name = "radius")                                        private Integer radius;
+    @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
+    @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
 
     //Not work! Picture Id must be in TASK!
     //@JoinColumn(name = "taskId") //- then it will work
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id", referencedColumnName = "taskId")
     private Picture picture;
-
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", referencedColumnName = "originGeoPointId")
-    private GeoPoint originGeoPoint;
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
@@ -86,15 +83,8 @@ public class Task {
         this.descr = "";
     }
 
-    private Task(Long id, TaskType type) {
-        super();
-        this.id = id;
-        this.type = type;
-    }
-
-    public Task(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr) {
+    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
         this.topicStarterId = topicStarterId;
-        this.originGeoPointId = originGeoPointId;
         this.createDate = Timestamp.valueOf(LocalDateTime.now());
         this.lastModifyDate = Timestamp.valueOf(LocalDateTime.now());
         this.type = type;
@@ -103,29 +93,44 @@ public class Task {
         this.descr = descr;
 
     }
-//    public Task(/*LocalDateTime createDate, LocalDateTime lastModifyDate,*/ Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
-//                Picture picture, List<Comment> comments, GeoPoint originGeoPoint
-//                /*,List<Tag> tags, List<User> participants*/) {
-//        this(createDate,lastModifyDate, topicStarterId, originGeoPointId, type, state, theme, descr);
-//        this.picture = picture;
-//        this.comments = comments;
-//        this.originGeoPoint = originGeoPoint;
-////        this.tags = tags;
-////        this.participants = participants;
-//        /*this.topicStarter = topicStarter;*/
-//    }
-    public Task(LocalDateTime createDate, LocalDateTime lastModifyDate, Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr,
-                Picture picture, List<Comment> comments, GeoPoint originGeoPoint
-                ,List<Tag> tags, List<User> participants) {
-        this(topicStarterId, originGeoPointId, type, state, theme, descr);
+
+    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, SimpleGeoPoint geo) {
+        this.topicStarterId = topicStarterId;
+        this.createDate = Timestamp.valueOf(LocalDateTime.now());
+        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.now());
+        this.type = type;
+        this.state = state;
+        this.theme = theme;
+        this.descr = descr;
+        this.latitude = geo.getLatitude();
+        this.longitude = geo.getLongitude();
+        this.radius = geo.getRadius();
+    }
+
+    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
+                Picture picture, List<Comment> comments, SimpleGeoPoint geo,
+                List<Tag> tags, List<User> participants) {
+        this(topicStarterId, type, state, theme, descr);
         this.picture = picture;
         this.comments = comments;
-        this.originGeoPoint = originGeoPoint;
+        this.latitude = geo.getLatitude();
+        this.longitude = geo.getLongitude();
+        this.radius = geo.getRadius();
         this.tags = tags;
         this.participants = participants;
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    public void setGeo(SimpleGeoPoint geo) {
+        this.latitude = geo.getLatitude();
+        this.longitude = geo.getLongitude();
+        this.radius = geo.getRadius();
+    }
+
+    public SimpleGeoPoint getGeo() {
+        return new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
+    }
 
     public Long getId() {
         return id;
@@ -135,12 +140,28 @@ public class Task {
         return topicStarterId;
     }
 
-    public Long getOriginGeoPointId() {
-        return originGeoPointId;
+    public Double getLatitude() {
+        return latitude;
     }
 
-    public void setOriginGeoPointId(Long originGeoPointId) {
-        this.originGeoPointId = originGeoPointId;
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Integer getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Integer radius) {
+        this.radius = radius;
     }
 
     public TaskType getType() {
@@ -221,14 +242,6 @@ public class Task {
 
     public void setParticipants(List<User> participants) {
         this.participants = participants;
-    }
-
-    public GeoPoint getOriginGeoPoint() {
-        return originGeoPoint;
-    }
-
-    public void setOriginGeoPoint(GeoPoint originGeoPoint) {
-        this.originGeoPoint = originGeoPoint;
     }
 
     //</editor-fold>
@@ -322,14 +335,12 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", createDate=" + createDate +
-                ", lastModifyDate=" + lastModifyDate +
-                ", topicStarterId=" + topicStarterId +
-                ", originGeoPointId=" + originGeoPointId +
-                ", descr='" + descr + '\'' +
-                ", picture=" + picture +
-                '}';
+        return "Task{ id=" + id
+                + ", createDate=" + createDate
+                + ", lastModifyDate=" + lastModifyDate
+                + ", topicStarterId=" + topicStarterId
+                + ", descr='" + descr + '\''
+                + ", picture=" + picture
+                + '}';
     }
 }

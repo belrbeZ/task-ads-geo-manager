@@ -6,10 +6,7 @@ package com.keeper.service.impl;
 
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
-import com.keeper.repo.GeoPointRepository;
-import com.keeper.repo.RouteRepository;
-import com.keeper.repo.TaskRepository;
-import com.keeper.repo.UserRepository;
+import com.keeper.repo.*;
 import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -28,13 +25,13 @@ import java.util.Optional;
 public class UserService extends ModelRepoService<User> implements IUserService {
 
     private final UserRepository repository;
-    private final GeoPointRepository geoPointRepository;
+    private final GeoUserRepository geoPointRepository;
     private final RouteRepository routeRepository;
     private final TaskRepository taskRepository;
 
     @Autowired
     public UserService(UserRepository repository,
-                       GeoPointRepository geoPointRepository,
+                       GeoUserRepository geoPointRepository,
                        RouteRepository routeRepository,
                        TaskRepository taskRepository) {
         this.repository = repository;
@@ -150,18 +147,18 @@ public class UserService extends ModelRepoService<User> implements IUserService 
 
     /*---GEOPOINTS---*/
     @Override
-    public List<GeoPointDTO> getGeoPoints(Long userId) {
+    public List<GeoUserDTO> getGeoPoints(Long userId) {
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        return Translator.geoPointsToDTO(user.getGeoPoints());
+        return Translator.geoUsersToDTO(user.getGeoUsers());
     }
 
     @Transactional
     @Override
-    public UserDTO addGeoPoint(Long userId, GeoPointDTO geoPoint) {
+    public UserDTO addGeoPoint(Long userId, GeoUserDTO geoPoint) {
         User user;
-        if((user = repository.findOne(userId))==null)
+        if((user = repository.findOne(userId))== null)
             throw new IllegalArgumentException("No such user!");
         user.addGeoPoint(Translator.toDAO(geoPoint));
         primeRepository.save(user);
@@ -171,7 +168,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     //This works programmic only! remove check on links.
     @Transactional
     @Override
-    public UserDTO removeGeoPoint(Long userId, GeoPointDTO geoPoint) {
+    public UserDTO removeGeoPoint(Long userId, GeoUserDTO geoPoint) {
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
@@ -186,7 +183,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
-        GeoPoint geoPoint = geoPointRepository.findOne(geoPointId);
+        GeoUser geoPoint = geoPointRepository.findOne(geoPointId);
         if(geoPoint==null)
             throw new IllegalArgumentException("No such geoPoint!");
 //        if(user.hasGeoPoint(geoPoint)>0)

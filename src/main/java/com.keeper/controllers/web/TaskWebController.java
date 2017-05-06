@@ -4,6 +4,7 @@ package com.keeper.controllers.web;
  * Created by @GoodforGod on 25.04.2017.
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.TaskDTO;
@@ -90,8 +91,7 @@ public class TaskWebController {
         task.setCreateDate(LocalDateTime.now());
         task.setLastModifyDate(LocalDateTime.now());
         task.setTopicStarterId(user.getId());
-        task.setOriginGeoPoint(new GeoPointDTO(0L,
-                                        "150.4214",
+        task.setGeo(new SimpleGeoPoint( "150.4214",
                                         "24.12412",
                                         4));
 

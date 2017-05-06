@@ -25,7 +25,7 @@ import java.util.List;
 @Table(name = DatabaseResolver.TABLE_USERS, schema = DatabaseResolver.SCHEMA)
 public class User {
 
-    public static final User EMPTY = new User((long)UserType.EMPTY.getValue(), UserType.EMPTY);
+    public static final User EMPTY = new User();
 
     @Id
     @Column(name = "id", unique = true, nullable = false)       private Long id;
@@ -37,7 +37,6 @@ public class User {
     @Column(name = "password",   nullable = false)              private String password;
     @Column(name = "about")                                     private String about;
     @Column(name = "isNotified")                                private Boolean isNotified;
-    @Column(name = "startMuteTime")                             private Timestamp muteStart;
     @Column(name = "endMuteTime")                               private Timestamp muteEnd;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,13 +55,13 @@ public class User {
 //    @JoinColumn(name = "userId", referencedColumnName="id")
 //    private List<Comment> comments;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
-               joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
-               inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
-    private List<GeoPoint> geoPoints;
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
+//               joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
+//               inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
+//    private List<GeoPoint> geoPoints;
 
 
     @Fetch(FetchMode.SELECT)
@@ -97,14 +96,7 @@ public class User {
         this.password   = "";
         this.about      = "";
         this.isNotified = false;
-        this.muteStart  = Timestamp.valueOf(LocalDateTime.MIN);
         this.muteEnd    = Timestamp.valueOf(LocalDateTime.MAX);
-    }
-
-    private User(Long id, UserType type) {
-        super();
-        this.id = id;
-        this.type = type;
     }
 
     public User(UserType type, String name,
@@ -115,7 +107,7 @@ public class User {
         this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
-        this.phone      = (phone==null || phone.equals("")) ? String.valueOf(-1*(email.hashCode())) : phone;
+        this.phone      = phone;
         this.password   =  password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
@@ -123,33 +115,27 @@ public class User {
 
     public User(UserType type, String name,
                 String email, String phone,
-                String password, String about, boolean isNotified,
-                LocalDateTime muteStart, LocalDateTime muteEnd)
-    {
-        this(type, name, email, phone, password, about);
+                String password, String about,
+                boolean isNotified, LocalDateTime muteEnd) {
+        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
+        this.state      = UserState.AWAIT_VERIFICATION;
+        this.type       = type != null ? type : UserType.UNKNOWN;
+        this.name       = name;
+        this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
+        this.phone      = phone;
+        this.password   =  password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
+        this.about      = about;
         this.isNotified = isNotified;
-        this.muteStart  = Timestamp.valueOf(muteStart);
-        this.muteEnd    = Timestamp.valueOf(muteEnd);
+        this.muteEnd = Timestamp.valueOf(muteEnd);
     }
 
-    public User(UserType type, String name,
-                String email, String phone,
-                String password, String about, boolean isNotified,
-                LocalDateTime muteStart, LocalDateTime muteEnd,Picture pic)
-    {
-        this(type, name, email, phone, password, about, isNotified, muteStart, muteEnd);
-        this.pic = pic;
-    }
-
-    public User(UserType type, String name,
-                String email, String phone,
-                String password, String about, boolean isNotified,
-                LocalDateTime muteStart, LocalDateTime muteEnd, Zone zone, Picture pic, List<GeoPoint> geoPoints, List<Route> routes)
-    {
-        this(type, name, email, phone, password, about, isNotified, muteStart, muteEnd);
+    public User(UserType type, String name, String email,
+                String phone, String password, String about,
+                Zone zone, Picture pic, List<GeoUser> geoUsers, List<Route> routes) {
+        this(type, name, email, phone, password, about);
         this.zone = zone;
         this.pic = pic;
-        this.geoPoints = geoPoints;
+        this.geoUsers = geoUsers;
         this.routes = routes;
     }
 
@@ -223,14 +209,6 @@ public class User {
         isNotified = notified;
     }
 
-    public Timestamp getMuteStart() {
-        return muteStart;
-    }
-
-    public void setMuteStart(Timestamp muteStart) {
-        this.muteStart = muteStart;
-    }
-
     public Timestamp getMuteEnd() {
         return muteEnd;
     }
@@ -271,14 +249,6 @@ public class User {
         this.geoUsers = geoUsers;
     }
 
-    public List<GeoPoint> getGeoPoints() {
-        return geoPoints;
-    }
-
-    public void setGeoPoints(List<GeoPoint> geoPoints) {
-        this.geoPoints = geoPoints;
-    }
-
 /*
     public List<Task> getParticipantedTasks() {
         return participantedTasks;
@@ -293,18 +263,18 @@ public class User {
 
 
     /*---GEOPOINTS---*/
-    public int hasGeoPoint( GeoPoint geoPoint ) {
-        return geoPoints.indexOf(geoPoint);
+    public int hasGeoPoint(GeoUser geoPoint) {
+        return geoUsers.indexOf(geoPoint);
     }
 
-    public void addGeoPoint( GeoPoint geoPoint ) {
+    public void addGeoPoint(GeoUser geoPoint) {
         //avoid circular calls : assumes equals and hashcode implemented
-        if ( !geoPoints.contains( geoPoint ) ) {
-            geoPoints.add( geoPoint );
+        if (!geoUsers.contains(geoPoint )) {
+            geoUsers.add( geoPoint );
         }
     }
 
-    public void removeGeoPoint( GeoPoint geoPoint ) {
+    public void removeGeoPoint(GeoUser geoPoint) {
 //        int index;
 //        //avoid circular calls : assumes equals and hashcode implemented
 //        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
@@ -312,11 +282,10 @@ public class User {
 //            return geoPoints.remove( index );
 //        }
 //        return geoPoint.getEMPTY();
-        if ( geoPoints.contains( geoPoint )) {
-            geoPoints.remove( geoPoint );
-        } else {
-            throw new IllegalArgumentException("No such geoPoint associated with this User");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
-        }
+        if ( geoUsers.contains( geoPoint ))
+            geoUsers.remove( geoPoint );
+        else
+            throw new IllegalArgumentException("No such geoPoint associated with this User"); //"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
     }
     /*---END GEOPOINTS---*/
 

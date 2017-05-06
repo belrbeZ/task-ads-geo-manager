@@ -4,20 +4,17 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 30.04.2017.
  */
 
-import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.GeoUser;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
-import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.model.dto.GeoLocations;
+import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.IFeedService;
 import com.keeper.service.IFeedSubmiter;
 import com.keeper.util.Computer;
 import com.keeper.util.Translator;
-import jdk.nashorn.internal.runtime.regexp.joni.encoding.ObjPtr;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +33,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
     private final Map<Long, GeoUserDTO> points = new ConcurrentHashMap<>(); // All user geopoints
     private final Map<Long, RouteDTO>   routes = new ConcurrentHashMap<>(); // All user routes
-    private final Map<Long, TaskDTO> tasks = new ConcurrentHashMap<>(); // All tasks
+    private final Map<Long, TaskDTO>    tasks = new ConcurrentHashMap<>(); // All tasks
 
     private final int HOT_FEED_SIZE = 20;
     private final int RECENT_FEED_SIZE = 20;
@@ -143,77 +140,118 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     @Scheduled(initialDelay = 5000, fixedDelay = 5000)
     private void update() {
 
-        List<Long> succededPoints   = new ArrayList<>();
-        List<Long> succededRoutes   = new ArrayList<>();
-        List<Long> succededTasks    = new ArrayList<>();
+        //<editor-fold desc="Proceed">
 
-        // POINTS & ROUTES
-        for (Long geoId : pointsToProceed) {
-            for (Map.Entry<Long, TaskDTO> task : tasks.entrySet()) {
-                GeoUserDTO geo = points.get(geoId);
-                if (Computer.geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getValue().getOriginGeoPoint(), geo.getRadius())) {
-                    Map<Long, GeoLocations> taskLocations = userLocalTasks.get(geo.getUserId());
-                    if(taskLocations == null)
-                            taskLocations = userLocalTasks.put(task.getKey(),
-                                    new HashMap<Long, GeoLocations>() {{ put(task.getKey(), new GeoLocations()); }});
-
-                    taskLocations.get(task.getKey()).addPoint(geo);
-                    succededPoints.add(geo.getId());
+        //<editor-fold desc="Points">
+        if(!pointsToProceed.isEmpty()) {
+            for (GeoUserDTO geo : points.entrySet().stream().filter(entry -> pointsToProceed.contains(entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())) {
+                for (Map.Entry<Long, TaskDTO> task : tasks.entrySet()) {
+                    if (Computer.geoInRadius(geo, task.getValue())) {
+                        Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
+                        taskLocations.get(task.getKey()).addPoint(geo);
+                    }
                 }
             }
-
-            // ROUTES
+            pointsToProceed.clear();
         }
+        //</editor-fold>
 
-        // TASKS
-        for(TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue).filter(entryTask -> tasksToProceed.contains(entryTask.getId())).collect(Collectors.toList())) {
-            for(GeoUserDTO geo : points.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList())) {
-                if (Computer.geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getOriginGeoPoint(), geo.getRadius())) {
-                    Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(),
-                            new HashMap<Long, GeoLocations>() {{ put(task.getId(), new GeoLocations()); }});
+        //<editor-fold desc="Routes">
 
-                    taskLocations.get(task.getId()).addPoint(geo);
-                    succededTasks.add(task.getId());
+        if(!routesToProceed.isEmpty()) {
+
+            routesToProceed.clear();
+        }
+        //</editor-fold>
+
+        //<editor-fold desc="Tasks">
+
+        if(!tasksToProceed.isEmpty()) {
+            for (TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue).filter(entryTask -> tasksToProceed.contains(entryTask.getId())).collect(Collectors.toList())) {
+                for (Map.Entry<Long, GeoUserDTO> geo : points.entrySet()) {
+                    if (Computer.geoInRadius(geo.getValue(), task)) {
+                        Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
+                        taskLocations.get(task.getId()).addPoint(geo.getValue());
+                    }
                 }
             }
+            tasksToProceed.clear();
         }
+        //</editor-fold>
 
-//        Map<Long, List<Long>> succedTasks = tasks
-//                .stream().map(task -> new Map.Entry(task.getId(), geoPointsProceed.entrySet()
-//                        .stream().map(geopoints -> geopoints.getValue()
-//                                .stream().filter(geo ->
-//                                        Computer.geoInRadius(task.getOriginGeoPoint().getLatitude(),
-//                                                            task.getOriginGeoPoint().getLongitude(),
-//                                                            geo.getLatitude(),
-//                                                            geo.getLongitude(),
-//                                                            task.getOriginGeoPoint().getRadius()))
-//                                                                .collect(Collectors.toList())))).collect(Collectors.mapping(value -> ));
-
-
-        pointsToProceed.removeAll(succededPoints);
-        routesToProceed.removeAll(succededRoutes);
-        tasksToProceed.removeAll(succededTasks);
-
+        //</editor-fold>
 
         //<editor-fold desc="Removed">
 
-       for(Map.Entry<Long,Long> removedPoint : removedPoints.entrySet()) {
-           for(Map.Entry<Long, GeoLocations> geoLocationsEntry : userLocalTasks.get(removedPoint.getValue()).entrySet()) {
-               geoLocationsEntry.getValue().removePoint(removedPoint.getKey());
-           }
-       }
+        //<editor-fold desc="Points">
 
-        for(Map.Entry<Long,Long> removedRoute : removedRoutes.entrySet()) {
-            for(Map.Entry<Long, GeoLocations> geoLocationsEntry : userLocalTasks.get(removedRoute.getValue()).entrySet()) {
-                geoLocationsEntry.getValue().removeRoute(removedRoute.getKey());
+//        for(Map.Entry<Long, Long> removedPoint : removedPoints.entrySet()) {
+//            for(Map.Entry<Long, GeoLocations> geoLocationsEntry : userLocalTasks.get(removedPoint.getValue()).entrySet()) {
+//                geoLocationsEntry.getValue().removePoint(removedPoint.getKey());
+//            }
+//        }
+
+        for(Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
+                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+            for(GeoLocations locations : taskMap.entrySet()
+                    .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                locations.removePoint(removedPoints.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
             }
         }
 
         removedPoints.clear();
-        removedRoutes.clear();
 
         //</editor-fold>
 
+        //<editor-fold desc="Tasks">
+
+        for(Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                .stream().parallel().filter(entry -> removedTask.containsValue(entry.getKey()))
+                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+            for(Long tastId : taskMap.entrySet().stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                                                                        .map(Map.Entry::getKey).collect(Collectors.toSet())) {
+                taskMap.remove(tastId);
+                tasks.remove(tastId);
+            }
+
+//            for(Long taskId : removedTask.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList())) {
+//                if(taskMap.remove(taskId) != null)
+//                    tasks.remove(taskId);
+//            }
+        }
+        removedTask.clear();
+
+        //</editor-fold>
+
+        //<editor-fold desc="Routes">
+
+//        for(Map.Entry<Long, Long> removedRoute : removedRoutes.entrySet()) {
+//            for(Map.Entry<Long, GeoLocations> geoLocationsEntry : userLocalTasks.get(removedRoute.getValue()).entrySet()) {
+//                geoLocationsEntry.getValue().removeRoute(removedRoute.getKey());
+//            }
+//        }
+
+        for(Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
+                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+            for(GeoLocations locations : taskMap.entrySet()
+                    .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                locations.removeRoute(removedRoutes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+            }
+        }
+
+        removedRoutes.clear();
+        //</editor-fold>
+
+        //</editor-fold>
+
+    }
+
+    public static Map<Long, GeoLocations> createTaskNode(Long taskId) {
+        return new HashMap<Long, GeoLocations>() {{ put(taskId, new GeoLocations()); }};
     }
 
     @Override
@@ -243,6 +281,12 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
     @Override
     public Optional<List<TaskDTO>> getByTheme(String theme) {
-        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).filter(task -> task.getTheme().equals(theme)).collect(Collectors.toList()));
+        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).filter(task -> satisfiesSearch(task.getTheme(), theme)).collect(Collectors.toList()));
+    }
+
+
+    // Search
+    public boolean satisfiesSearch(String target, String desired) {
+        return target.equals(desired);
     }
 }

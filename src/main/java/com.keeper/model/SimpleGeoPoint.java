@@ -17,21 +17,21 @@ public class SimpleGeoPoint {
     private Double latitude;
     private Integer radius;
 
-    public SimpleGeoPoint(){
+    private SimpleGeoPoint(){
         this.latitude = 0.;
         this.longitude = 0.;
         this.radius = 0;
     }
 
-    public SimpleGeoPoint(@GeoCoordinate String longitude,
-                          @GeoCoordinate String latitude) {
+    public SimpleGeoPoint(@GeoCoordinate String latitude,
+                          @GeoCoordinate String longitude) {
         this.longitude = Double.valueOf(longitude);
         this.latitude = Double.valueOf(latitude);
         this.radius = 5;
     }
 
-    public SimpleGeoPoint(@GeoCoordinate String longitude,
-                          @GeoCoordinate String latitude,
+    public SimpleGeoPoint(@GeoCoordinate String latitude,
+                          @GeoCoordinate String longitude,
                           Integer radius) {
         this(longitude, latitude);
         this.radius = radius;

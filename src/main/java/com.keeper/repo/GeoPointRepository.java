@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Default Comment
  */
-@Repository
-public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> {
+//@Repository
+public interface GeoPointRepository { //extends JpaRepository<GeoPoint, Long> {
 
 }

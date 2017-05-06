@@ -7,6 +7,7 @@ package com.keeper.service.impl;
  *
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.repo.*;
@@ -32,7 +33,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
 
     private final TaskRepository repository;
     private final CommentRepository commentRepository;
-    private final GeoPointRepository geoPointRepository;
+//    private final GeoPointRepository geoPointRepository;
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
@@ -41,14 +42,14 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     @Autowired
     public TaskService(TaskRepository repository,
                        CommentRepository commentRepository,
-                       GeoPointRepository geoPointRepository,
+//                       GeoPointRepository geoPointRepository,
                        TagRepository tagRepository,
                        UserRepository userRepository,
                        FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.commentRepository = commentRepository;
-        this.geoPointRepository = geoPointRepository;
+//        this.geoPointRepository = geoPointRepository;
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
         this.feedSubmitService = feedSubmitService;
@@ -157,11 +158,11 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     /*---END PICTURE---*/
 
     /*---ORIGIN GEO POINT---*/
-    public GeoPointDTO getOriginGeoPoint(Long taskId) {
+    public SimpleGeoPoint getOriginGeoPoint(Long taskId) {
         Task task = repository.findOne(taskId);
         if((task)==null)
             throw new IllegalArgumentException("No such task!");
-        return Translator.toDTO(task.getOriginGeoPoint());
+        return task.getGeo();
     }
 
     @Transactional
@@ -169,9 +170,8 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         Task task = repository.findOne(taskId);
         if((task)==null)
             throw new IllegalArgumentException("No such task!");
-        GeoPoint addedGeo = geoPointRepository.save(Translator.toDAO(modelGeo));
-        task.setOriginGeoPoint(addedGeo);
-        task.setOriginGeoPointId(addedGeo.getId());
+//        GeoPoint addedGeo = geoPointRepository.save(Translator.toDAO(modelGeo));
+        task.setGeo(new SimpleGeoPoint(modelGeo.getLatitude(), modelGeo.getLongitude(), modelGeo.getRadius()));
         primeRepository.save(task);
         return Translator.toDTO(task);
     }

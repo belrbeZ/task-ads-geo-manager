@@ -4,9 +4,9 @@ package com.keeper.controllers.web;
  * Created by @GoodforGod on 25.04.2017.
  */
 
-import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.types.FeedType;
 import com.keeper.service.impl.FeedService;
 import com.keeper.service.impl.TaskService;
 import com.keeper.service.impl.UserService;
@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,11 +50,10 @@ public class FeedWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Long userId = Translator.toDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
+        Long userId = userService.getByEmail(auth.getName()).get().getId();
+        Optional<List<TaskDTO>> tasks = Optional.of(Collections.emptyList());
 
-        Optional<List<TaskDTO>> tasks = feedService.getAll(userId);
-
-        if(!tasks.isPresent())
+        if (userId != null && !(tasks = feedService.getAll(userId)).isPresent())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
 
         modelAndView.addObject("tasks", tasks.get());
@@ -63,10 +63,27 @@ public class FeedWebController {
 
     @RequestMapping(value = WebResolver.FEED, method = RequestMethod.POST)
     public ModelAndView feedSearch(@RequestParam(value = "search", required = false) String theme,
-                                   Model model) {
+                                   @RequestParam(value = "type", required = false) Integer type, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        Optional<List<TaskDTO>> tasks =  feedService.getByTheme(theme);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = Translator.toDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
+
+        Optional<List<TaskDTO>> tasks = null;
+
+        System.out.println(type);
+
+        if(type == null)
+            tasks = feedService.getByTheme(theme);
+        else
+            switch (type) {
+                case 10: tasks = feedService.getOwned(userId); break;
+                case 20: tasks = feedService.getRecent(userId); break;
+                case 30: tasks = feedService.getOwned(userId); break;
+                case 40: tasks = feedService.getHot(userId); break;
+                case 0:
+                    default: tasks = feedService.getAll(userId); break;
+            }
 
         if(!tasks.isPresent())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");

@@ -34,9 +34,9 @@ public class GeoUser {
         this.descr      = "";
     }
 
-    public GeoUser(Long userId, String latitude, String longitude, Integer radius, String descr) {
-        this.latitude = new Double(latitude);
-        this.longitude = new Double(longitude);
+    public GeoUser(Long userId, Double latitude, Double longitude, Integer radius, String descr) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.radius = radius;
         this.userId = userId;
         this.descr = descr;

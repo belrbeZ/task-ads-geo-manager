@@ -40,6 +40,7 @@ public class Tag {
         this.tag = tag;
         this.counter = counter;
     }
+
     //<editor-fold desc="GetterAndSetter">
 
     public Long getId() {
@@ -82,7 +83,7 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        return tag != null ? tag.equals(tag.tag) : tag.tag == null;
+        return tag.equals(tag.tag);
     }
 
     @Override

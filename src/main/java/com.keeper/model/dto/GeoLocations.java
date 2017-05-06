@@ -35,12 +35,20 @@ public class GeoLocations {
         removeRoute(route.getId());
     }
 
+    public void removeRoute(Set<Long> routes) {
+        this.routes.removeAll(routes);
+    }
+
     public void removeRoute(Long routeId) {
         routes.remove(routeId);
     }
 
     public void removePoint(GeoUserDTO point) {
         removePoint(point.getId());
+    }
+
+    public void removePoint(Set<Long> points) {
+        this.points.removeAll(points);
     }
 
     public void removePoint(Long pointId) {

@@ -36,9 +36,9 @@ public interface IUserService extends IModelService<User> {
     /*---END PICTURE---*/
 
     /*GEOPOINTS*/
-    List<GeoPointDTO> getGeoPoints(Long userId);
-    UserDTO addGeoPoint(Long id, GeoPointDTO geoPoint);
-    UserDTO removeGeoPoint(Long userId, GeoPointDTO geoPoint);
+    List<GeoUserDTO> getGeoPoints(Long userId);
+    UserDTO addGeoPoint(Long id, GeoUserDTO geoPoint);
+    UserDTO removeGeoPoint(Long userId, GeoUserDTO geoPoint);
     UserDTO removeGeoPointById(Long userId, Long geoPointId);
     /*---END GEOPOINTS---*/
 

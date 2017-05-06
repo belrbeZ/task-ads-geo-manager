@@ -1,5 +1,6 @@
 package com.keeper.model.dto;
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,25 +21,21 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     public static final TaskDTO EMPTY = new TaskDTO();
 
-    @NotNull
-    private Long id;
+    @NotNull private Long id;
+    @NotNull private Long topicStarterId;
 
-    @NotNull
-    private Long topicStarterId;
-    private Long originGeoPointId;
     private TaskType type;
     private TaskState state = TaskState.HIDEN;
 
-    @NotEmpty
-    private String theme;
+    @NotEmpty private String theme;
+    @NotEmpty private String descr;
 
-    @NotEmpty
-    private String descr;
+    private SimpleGeoPoint geo;
+
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
 
     private PictureDTO picture;
-    private GeoPointDTO originGeoPoint;
     private List<CommentDTO> comments;
     private List<UserDTO> participants;
     private List<TagDTO> tags;
@@ -52,41 +49,42 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.state = TaskState.UNKNOWN;
         this.theme = "";
         this.descr = "";
+        this.geo = SimpleGeoPoint.EMPTY;
     }
 
-    public TaskDTO(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
+    public TaskDTO(Long id, Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
+                   Double latitude, Double longitude, Integer radius) {
+        this.id = id;
         this.topicStarterId = topicStarterId;
         this.type = type;
         this.state = state;
         this.theme = theme;
         this.descr = descr;
+        this.geo = new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
     }
 
-    public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state, String theme, String descr, PictureDTO picture) {
-        this.topicStarterId = topicStarterId;
-        this.originGeoPointId = originGeoPointId;
-        this.type = type;
-        this.state = state;
-        this.theme = theme;
-        this.descr = descr;
-    }
-
-    public TaskDTO(Long topicStarterId, Long originGeoPointId, TaskType type, TaskState state,
-                   String theme, String descr, PictureDTO picture,
+    public TaskDTO(Long id, Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
+                   Double latitude, Double longitude, Integer radius, PictureDTO picture,
                    Timestamp createDate, Timestamp lastModifyDate,
-                   List<CommentDTO> comments, GeoPointDTO originGeoPoint,
-                   List<UserDTO> participants, List<TagDTO> tags) {
-        this(topicStarterId, originGeoPointId, type, state, theme, descr ,picture);
+                   List<CommentDTO> comments, List<UserDTO> participants, List<TagDTO> tags) {
+        this(id, topicStarterId, type, state, theme, descr, latitude, longitude, radius);
         this.createDate = createDate.toLocalDateTime();
-        this.lastModifyDate = lastModifyDate!=null ? lastModifyDate.toLocalDateTime() : createDate.toLocalDateTime();
+        this.lastModifyDate = lastModifyDate.toLocalDateTime();
         this.picture = picture;
         this.comments = comments;
-        this.originGeoPoint = originGeoPoint;
         this.participants = participants;
         this.tags = tags;
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    public SimpleGeoPoint getGeo() {
+        return geo;
+    }
+
+    public void setGeo(SimpleGeoPoint geo) {
+        this.geo = geo;
+    }
 
     public Long getId() {
         return id;
@@ -98,10 +96,6 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     public Long getTopicStarterId() {
         return topicStarterId;
-    }
-
-    public Long getOriginGeoPointId() {
-        return originGeoPointId;
     }
 
     public void setType(TaskType type) {
@@ -160,23 +154,11 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.picture = picture;
     }
 
-    public GeoPointDTO getOriginGeoPoint() {
-        return originGeoPoint;
-    }
-
-    public void setOriginGeoPoint(GeoPointDTO geoPoint) {
-        this.originGeoPoint = originGeoPoint;
-    }
-
     public void setTopicStarterId(Long topicStarterId) {
         this.topicStarterId = topicStarterId;
     }
 
-    public void setOriginGeoPointId(Long originGeoPointId) {
-        this.originGeoPointId = originGeoPointId;
-    }
-
-        public List<UserDTO> getParticipants() {
+    public List<UserDTO> getParticipants() {
         return participants;
     }
 

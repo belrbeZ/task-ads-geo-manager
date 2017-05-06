@@ -101,7 +101,7 @@ public class ProfileRestController {
 
     /*---GEOPOINTS---*/
     @RequestMapping(value = PATH + "/geoPoints/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<GeoPointDTO>> getGeoPoints(@PathVariable("userId") Long userId) {
+    public ResponseEntity<List<GeoUserDTO>> getGeoPoints(@PathVariable("userId") Long userId) {
 //        if (user == null) {
 //            System.out.println("User with id " + id + " not found");
 //            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
@@ -110,12 +110,12 @@ public class ProfileRestController {
     }
 
     @RequestMapping(value = PATH + "/geoPoint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> addGeoPoint(@RequestParam("userId") Long userId, @Valid @RequestBody  GeoPointDTO geoPoint, BindingResult result) {
+    public ResponseEntity<UserDTO> addGeoPoint(@RequestParam("userId") Long userId, @Valid @RequestBody  GeoUserDTO geoPoint, BindingResult result) {
         return new ResponseEntity<>(repoService.addGeoPoint(userId, geoPoint), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/geoPoint/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDTO> removeGeoPoint(@RequestParam("userId") Long userId, @Valid @RequestBody GeoPointDTO geoPoint) {
+    public ResponseEntity<UserDTO> removeGeoPoint(@RequestParam("userId") Long userId, @Valid @RequestBody GeoUserDTO geoPoint) {
         return new ResponseEntity<>(repoService.removeGeoPoint(userId, geoPoint), HttpStatus.OK);
     }
 

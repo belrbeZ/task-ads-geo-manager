@@ -46,7 +46,7 @@ public class RouteDTO {
         this.radius = radius;
 
         for(int i = 0; i < latitudes.length; i++){
-            points.add(new SimpleGeoPoint(longtitudes[i], latitudes[i]));
+            points.add(new SimpleGeoPoint(latitudes[i], longtitudes[i]));
 //            System.out.println("RouteDTO"+this.getPoints().get(i));
         }
 

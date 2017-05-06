@@ -13,19 +13,24 @@ import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = DatabaseResolver.TABLE_GEO_POINTS, schema = DatabaseResolver.SCHEMA)
+//@Entity
+//@Table(name = DatabaseResolver.TABLE_GEO_POINTS, schema = DatabaseResolver.SCHEMA)
 public class GeoPoint {
 
     public static final GeoPoint EMPTY = new GeoPoint();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "latitude")                                      private Double latitude;
-    @Column(name = "longitude")                                     private Double longitude;
-    @Column(name = "radius")                                        private Integer radius;
-    @Column(name = "info")                                          private String info;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
+    @Column(name = "latitude")
+    private Double latitude;
+    @Column(name = "longitude")
+    private Double longitude;
+    @Column(name = "radius")
+    private Integer radius;
+    @Column(name = "info")
+    private String info;
 
     private GeoPoint() {
         this.id = 0L;

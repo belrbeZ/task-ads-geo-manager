@@ -28,22 +28,21 @@ public class Translator {
     public static TaskDTO toDTO(Task model) {
         return (model == null)
                 ? TaskDTO.EMPTY
-                : new TaskDTO(
+                : new TaskDTO(model.getId(),
                             model.getTopicStarterId(),
-                            model.getOriginGeoPointId(),
                             model.getType(),
                             model.getState(),
                             model.getTheme(),
                             model.getDescr(),
+                            model.getLatitude(),
+                            model.getLongitude(),
+                            model.getRadius(),
                             Translator.toDTO(model.getPicture()),
                             model.getCreateDate(),
                             model.getLastModifyDate(),
                             commentsToDTO(model.getComments()),
-                            toDTO(model.getOriginGeoPoint()),
                             usersToDTO(model.getParticipants()),
-                            tagsToDTO(model.getTags())
-//                            toDTO(model.getPicture())
-        ) {{ setId(model.getId()); }};
+                            tagsToDTO(model.getTags()));
     }
 
     public static GeoPointDTO toDTO(GeoPoint model) {
@@ -78,19 +77,12 @@ public class Translator {
                             model.getPhone(),
                             model.getAbout(),
                             model.getPassword(),
-                            (model.getNotified() == null) ? false : model.getNotified(),
-                            (model.getMuteStart() != null)
-                                    ? model.getMuteStart().toLocalDateTime()
-                                    : LocalDateTime.MIN,
-                            (model.getMuteEnd() != null)
-                                    ? model.getMuteEnd().toLocalDateTime()
-                                    : LocalDateTime.MIN,
+                            model.getNotified(),
+                            model.getMuteEnd(),
                             Translator.toDTO(model.getPic()),
                             toDTO(model.getZone()),
-                            geoPointsToDTO(model.getGeoPoints()),
-                            routesToDTO(model.getRoutes())/*,
-                            tasksToDTO(model.getParticipantedTasks())*/
-        );
+                            geoUsersToDTO(model.getGeoUsers()),
+                            routesToDTO(model.getRoutes()));
     }
 
     public static ZoneDTO toDTO(Zone model) {
@@ -120,8 +112,7 @@ public class Translator {
                                 model.getCreateDate(),
                                 model.getLastModifyDate(),
                                 model.getMessage(),
-                                new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
-        );
+                                model.getLongtitude(), model.getLatitude());
     }
 
     public static RouteDTO toDTO(Route model) {
@@ -202,68 +193,66 @@ public class Translator {
     //<editor-fold desc="toDAO">
 
     public static User toDAO(UserDTO model) {
-        return (model == null)
-                ? User.EMPTY
-                : new User(model.getType(),
-                            model.getName(),
-                            model.getEmail(),
-                            model.getPhone(),
-                            model.getPassword(),
-                            model.getAbout(),
-                            model.getNotified(),
-                            model.getMuteStart(),
-                            model.getMuteEnd());
+        if(model == null)
+            throw new NullPointerException();
+
+        return new User(model.getType(),
+                        model.getName(),
+                        model.getEmail(),
+                        model.getPhone(),
+                        model.getPassword(),
+                        model.getAbout(),
+                        model.getNotified(),
+                        model.getMuteEnd());
     }
 
     public static Tag toDAO(TagDTO model) {
-        return (model == null)
-                ? Tag.EMPTY
-                : new Tag(model.getId(),
+        if(model == null)
+            throw new NullPointerException();
+
+        return new Tag(model.getId(),
                         model.getTag(),
                         model.getCounter());
     }
 
     public static User toDAO(UserFormDTO model) {
-        return (model == null)
-                ? User.EMPTY
-                : new User(UserType.USER,
-                            model.getName(),
-                            model.getEmail(),
-                            "",
-                            model.getPassword(),
-                            "");
+        if(model == null)
+            throw new NullPointerException();
+
+        return new User(UserType.USER,
+                        model.getName(),
+                        model.getEmail(),
+                        "",
+                        model.getPassword(),
+                        "");
     }
 
-
     public static Task toDAO(TaskDTO model) {
-        return (model == null)
-                ? Task.EMPTY
-                : new Task(model.getTopicStarterId(),
-                            model.getOriginGeoPointId(),
-                            model.getType(),
-                            model.getState(),
-                            model.getTheme(),
-                            model.getDescr()/*,
-                            Translator.toDAO(model.getPicture()),
-                            Translator.commentsToDAO(model.getComments()),
-                            Translator.toDAO(model.getOriginGeoPoint())*/
-                );
+        if(model == null)
+            throw new NullPointerException();
+
+        return new Task(model.getTopicStarterId(),
+                    model.getType(),
+                    model.getState(),
+                    model.getTheme(),
+                    model.getDescr());
     }
 
     public static GeoPoint toDAO(GeoPointDTO model) {
-        return (model == null)
-                ? GeoPoint.EMPTY
-                : new GeoPoint(model.getLatitude(),
-                                model.getLongitude(),
-                                model.getRadius(),
-                                model.getInfo());
+        if(model == null)
+            throw new NullPointerException();
+
+        return new GeoPoint(model.getLatitude(),
+                        model.getLongitude(),
+                        model.getRadius(),
+                        model.getInfo());
     }
 
     public static GeoUser toDAO(GeoUserDTO model) {
         if(model == null)
             throw new NullPointerException();
 
-        return  new GeoUser(model.getUserId(),
+        return new GeoUser(model.getUserId(),
                               model.getLatitude(),
                               model.getLongitude(),
                               model.getRadius(),
@@ -271,42 +260,45 @@ public class Translator {
     }
 
     public static Route toDAO(RouteDTO model) {
-        return (model == null)
-                ? Route.EMPTY
-                : new Route(model.getUserId(),
-                            model.getType(),
-                            model.getInfo(),
-                            model.getRadius(),
-                            model.getPoints());
+        if(model == null)
+            throw new NullPointerException();
+
+        return new Route(model.getUserId(),
+                    model.getType(),
+                    model.getInfo(),
+                    model.getRadius(),
+                    model.getPoints());
     }
 
     public static Zone toDAO(ZoneDTO model) {
-        return (model == null)
-                ? Zone.EMPTY
-                : new Zone(model.getprofileId(),
-                           model.getCity(),
-                           model.getCountry()
+        if(model == null)
+            throw new NullPointerException();
+
+        return new Zone(model.getprofileId(),
+                       model.getCity(),
+                       model.getCountry()
         );
     }
 
     public static Picture toDAO(PictureDTO model) {
-        return (model == null)
-                ? Picture.EMPTY
-                : new Picture(model.getUserId(),
-                              model.getTaskId(),
-                              model.getPic(),
-                              model.getInfo()
+        if(model == null)
+            throw new NullPointerException();
+
+        return new Picture(model.getUserId(),
+                      model.getTaskId(),
+                      model.getPic(),
+                      model.getInfo()
         );
     }
 
     public static Comment toDAO(CommentDTO model) {
-        return (model == null)
-                ? Comment.EMPTY
-                : new Comment(model.getTaskId(),
-                              model.getUserId(),
-                              model.getMessage(),
-                              new SimpleGeoPoint(model.getLongtitude(), model.getLatitude())
-        );
+        if(model == null)
+            throw new NullPointerException();
+
+        return new Comment(model.getTaskId(),
+                            model.getUserId(),
+                            model.getMessage(),
+                            model.getGeo());
     }
     //</editor-fold>
 

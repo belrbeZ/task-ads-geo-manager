@@ -27,11 +27,31 @@
             <button name="Submit" value="search" type="Submit" th:text="Search"></button>
 
             <!--<select>-->
-                <!--<option th:each="state : ${T(com.mypackage.Ticket.State).values()}"-->
-                        <!--th:value="${state}"-->
-                        <!--th:text="${state}">-->
+                <!--<option th:each="state : ${T(com.keeper.model.states.FeedType).values()}"-->
+                        <!--th:value="${type}"-->
+                        <!--th:text="${type}">-->
                 <!--</option>-->
             <!--</select>-->
+        </form>
+        <form th:action="@{/secure/feed}" method="post">
+            <input type="hidden" th:value="0" name="type"/>
+            <button name="Submit" value="type" type="Submit" th:text="All"></button>
+        </form>
+        <form th:action="@{/secure/feed}" method="post">
+            <input type="hidden" value="40" name="type"/>
+            <button name="Submit" value="type" type="Submit" th:text="Hot"></button>
+        </form>
+        <form th:action="@{/secure/feed}" method="post">
+            <input type="hidden" value="30" name="type"/>
+            <button name="Submit" value="type" type="Submit" th:text="Local"></button>
+        </form>
+        <form th:action="@{/secure/feed}" method="post">
+            <input type="hidden" th:value="20" name="type"/>
+            <button name="Submit" value="type" type="Submit" th:text="New"></button>
+        </form>
+        <form th:action="@{/secure/feed}" method="post">
+            <input type="hidden" value="10" name="type"/>
+            <button name="Submit" value="type" type="Submit" th:text="My"></button>
         </form>
 
         <a href="/secure/tasks/create" th:href="@{/secure/task/create}">Create Task</a>
