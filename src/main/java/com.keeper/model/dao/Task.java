@@ -102,9 +102,9 @@ public class Task {
         this.state = state;
         this.theme = theme;
         this.descr = descr;
-        this.latitude = geo.getLatitude();
-        this.longitude = geo.getLongitude();
-        this.radius = geo.getRadius();
+        this.latitude = (geo != null) ? geo.getLatitude() : null;
+        this.longitude = (geo != null) ? geo.getLongitude() : null;
+        this.radius = (geo != null) ? geo.getRadius() : null;
     }
 
     public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr,

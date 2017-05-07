@@ -33,7 +33,6 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
 
     private final TaskRepository repository;
     private final CommentRepository commentRepository;
-//    private final GeoPointRepository geoPointRepository;
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
@@ -42,14 +41,12 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     @Autowired
     public TaskService(TaskRepository repository,
                        CommentRepository commentRepository,
-//                       GeoPointRepository geoPointRepository,
                        TagRepository tagRepository,
                        UserRepository userRepository,
                        FeedService feedSubmitService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.commentRepository = commentRepository;
-//        this.geoPointRepository = geoPointRepository;
         this.tagRepository = tagRepository;
         this.userRepository = userRepository;
         this.feedSubmitService = feedSubmitService;

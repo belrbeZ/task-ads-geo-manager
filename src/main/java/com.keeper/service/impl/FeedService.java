@@ -132,13 +132,16 @@ public class FeedService implements IFeedService, IFeedSubmiter {
                 for (Map.Entry<Long, TaskDTO> task : tasks.entrySet()) {
                     if (Computer.geoInRadius(geo, task.getValue())) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
-                        // WTF putIfAbset BUG, simple put BUG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!?!?!?!
-//                        Map<Long, GeoLocations> taskLocations = userLocalTasks.get(geo.getUserId());
-//                        if(taskLocations == null) {
-//                            userLocalTasks.put(geo.getUserId(), createTaskNode(task.getKey()));
-//                            taskLocations = userLocalTasks.get(geo.getUserId());
-//                        }
-                        taskLocations.putIfAbsent(task.getKey(), new GeoLocations()).addPoint(geo);
+
+                        if(taskLocations == null)
+                            taskLocations = userLocalTasks.get(geo.getUserId());
+
+                        GeoLocations geoLocations = taskLocations.putIfAbsent(task.getKey(), new GeoLocations());
+
+                        if(geoLocations == null)
+                            geoLocations = taskLocations.get(task.getKey());
+
+                        geoLocations.addPoint(geo);
                     }
                 }
             }
@@ -160,13 +163,17 @@ public class FeedService implements IFeedService, IFeedSubmiter {
             for (TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue).filter(entryTask -> tasksToProceed.contains(entryTask.getId())).collect(Collectors.toList())) {
                 for (Map.Entry<Long, GeoUserDTO> geo : points.entrySet()) {
                     if (Computer.geoInRadius(geo.getValue(), task)) {
-//                        Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
-                        Map<Long, GeoLocations> taskLocations = userLocalTasks.get(geo.getValue().getUserId());
-                        if(taskLocations == null) {
-                            userLocalTasks.put(geo.getValue().getUserId(), createTaskNode(task.getId()));
+                        Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
+
+                        if(taskLocations == null)
                             taskLocations = userLocalTasks.get(geo.getValue().getUserId());
-                        }
-                        taskLocations.get(task.getId()).addPoint(geo.getValue());
+
+                        GeoLocations geoLocations = taskLocations.putIfAbsent(task.getId(), new GeoLocations());
+
+                        if(geoLocations == null)
+                            geoLocations = taskLocations.get(task.getId());
+
+                        geoLocations.addPoint(geo.getValue());
                     }
                 }
             }
@@ -180,65 +187,53 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
         //<editor-fold desc="Points">
 
-//        for(Map.Entry<Long, Long> removedPoint : removedPoints.entrySet()) {
-//            for(Map.Entry<Long, GeoLocations> geoLocationsEntry : userLocalTasks.get(removedPoint.getValue()).entrySet()) {
-//                geoLocationsEntry.getValue().removePoint(removedPoint.getKey());
-//            }
-//        }
-
-        for(Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
-                .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
-                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-            for(GeoLocations locations : taskMap.entrySet()
-                    .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
-                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                locations.removePoint(removedPoints.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+        if(!removedPoints.isEmpty()) {
+            for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                    .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                for (GeoLocations locations : taskMap.entrySet()
+                        .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                        .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                    locations.removePoint(removedPoints.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+                }
             }
+            removedPoints.clear();
         }
-
-        removedPoints.clear();
 
         //</editor-fold>
 
         //<editor-fold desc="Tasks">
 
-        for(Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
-                .stream().parallel().filter(entry -> removedTask.containsValue(entry.getKey()))
-                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-            for(Long taskId : taskMap.entrySet().stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
-                                                                        .map(Map.Entry::getKey).collect(Collectors.toSet())) {
-                taskMap.remove(taskId);
-                tasks.remove(taskId);
+        if(!removedTask.isEmpty()) {
+            for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                    .stream().parallel().filter(entry -> removedTask.containsValue(entry.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                for (Long taskId : taskMap.entrySet().stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                        .map(Map.Entry::getKey).collect(Collectors.toSet())) {
+                    taskMap.remove(taskId);
+                    tasks.remove(taskId);
+                }
             }
-
-//            for(Long taskId : removedTask.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList())) {
-//                if(taskMap.remove(taskId) != null)
-//                    tasks.remove(taskId);
-//            }
+            removedTask.clear();
         }
-        removedTask.clear();
 
         //</editor-fold>
 
         //<editor-fold desc="Routes">
 
-//        for(Map.Entry<Long, Long> removedRoute : removedRoutes.entrySet()) {
-//            for(Map.Entry<Long, GeoLocations> geoLocationsEntry : userLocalTasks.get(removedRoute.getValue()).entrySet()) {
-//                geoLocationsEntry.getValue().removeRoute(removedRoute.getKey());
-//            }
-//        }
-
-        for(Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
-                .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
-                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-            for(GeoLocations locations : taskMap.entrySet()
-                    .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
-                                                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                locations.removeRoute(removedRoutes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+        if(!removedRoutes.isEmpty()) {
+            for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                    .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                for (GeoLocations locations : taskMap.entrySet()
+                        .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                        .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                    locations.removeRoute(removedRoutes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+                }
             }
+            removedRoutes.clear();
         }
 
-        removedRoutes.clear();
         //</editor-fold>
 
         //</editor-fold>

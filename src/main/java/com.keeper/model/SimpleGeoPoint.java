@@ -25,15 +25,15 @@ public class SimpleGeoPoint {
 
     public SimpleGeoPoint(@GeoCoordinate String latitude,
                           @GeoCoordinate String longitude) {
-        this.longitude = Double.valueOf(longitude);
         this.latitude = Double.valueOf(latitude);
+        this.longitude = Double.valueOf(longitude);
         this.radius = 5;
     }
 
     public SimpleGeoPoint(@GeoCoordinate String latitude,
                           @GeoCoordinate String longitude,
                           Integer radius) {
-        this(longitude, latitude);
+        this(latitude, longitude);
         this.radius = radius;
     }
 
@@ -45,14 +45,6 @@ public class SimpleGeoPoint {
 
     public Double getLatitude() {
         return latitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
     }
 
     public void setLongitude(@GeoCoordinate String longtitude) {

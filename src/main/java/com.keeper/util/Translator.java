@@ -248,7 +248,8 @@ public class Translator {
                     model.getType(),
                     model.getState(),
                     model.getTheme(),
-                    model.getDescr());
+                    model.getDescr(),
+                    model.getGeo());
     }
 
     public static GeoPoint toDAO(GeoPointDTO model) {
