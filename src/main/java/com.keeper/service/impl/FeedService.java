@@ -7,7 +7,6 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
-import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoLocations;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.RouteDTO;
@@ -17,7 +16,6 @@ import com.keeper.service.IFeedSubmiter;
 import com.keeper.util.Computer;
 import com.keeper.util.Translator;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;

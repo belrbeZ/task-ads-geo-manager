@@ -10,7 +10,7 @@ spring:
   datasource:
     dbcp2:
       driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://137.74.114.219:19009/keeperdb
+    url: jdbc:postgresql://137.74.114.219:19009/keeperdb?sslmode=disable
     username: postgres
     password: myRea11ySecRett0Pass
     platform: postgres
