@@ -119,9 +119,9 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     private void update() {
 
         // Remove unnecessary models, where there is no need to proceed them
-//        pointsToProceed = pointsToProceed.stream().filter(point -> !removedPoints.containsKey(point)).collect(Collectors.toSet());
-//        routesToProceed = routesToProceed.stream().filter(route -> !removedRoutes.containsKey(route)).collect(Collectors.toSet());
-//        tasksToProceed  = tasksToProceed.stream().filter(task -> !removedTask.containsKey(task)).collect(Collectors.toSet());
+        pointsToProceed.removeAll(pointsToProceed.stream().filter(removedPoints::containsKey).collect(Collectors.toSet()));
+        routesToProceed.removeAll(routesToProceed.stream().filter(removedRoutes::containsKey).collect(Collectors.toSet()));
+        tasksToProceed.removeAll(tasksToProceed.stream().filter(removedTask::containsKey).collect(Collectors.toSet()));
 
         //<editor-fold desc="Proceed">
 
@@ -257,7 +257,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     @Override
     public Optional<List<TaskDTO>> getLocal(Long userId) {
         List<Long> taskIds = userLocalTasks.get(userId).entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
-        return Optional.of(tasks.entrySet().stream().filter(task -> taskIds.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
+       return Optional.of(tasks.entrySet().stream().filter(task -> taskIds.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override

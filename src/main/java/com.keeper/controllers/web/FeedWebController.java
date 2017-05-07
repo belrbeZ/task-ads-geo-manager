@@ -72,7 +72,7 @@ public class FeedWebController {
             switch (type) {
                 case 10: tasks = feedService.getOwned(userId);  break;
                 case 20: tasks = feedService.getRecent(userId); break;
-                case 30: tasks = feedService.getOwned(userId);  break;
+                case 30: tasks = feedService.getLocal(userId);  break;
                 case 40: tasks = feedService.getHot(userId);    break;
                 case 0:
                     default: tasks = feedService.getAll(userId); break;
