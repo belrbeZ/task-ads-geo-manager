@@ -23,6 +23,7 @@ public class TemplateResolver {
     public static final String FEED     = "feed";
     public static final String MAP      = "map";
     public static final String TASK_FORM = "taskform";
+    public static final String GEOPOINT_FORM = "geopointform";
 
     public static String redirect(String viewName) {
         return "redirect:/" + viewName;

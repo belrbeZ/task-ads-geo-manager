@@ -26,4 +26,7 @@ public class WebResolver {
     public static final String FEED     = SECURED + "/feed";
     public static final String MAP      = SECURED + "/map";
     public static final String SEARCH   = SECURED + "/search";
+    public static final String GEOPOINT     = SECURED + "/geopoint";
+    public static final String GEOPOINT_CREATE = GEOPOINT + "/create";
+
 }

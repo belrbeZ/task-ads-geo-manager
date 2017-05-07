@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet"  th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          type="text/css" media="screen" />
+    <script type="text/javascript"
+            src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+<div class="container-fluid" th:fragment="geopointform">
+
+    <!--<div th:object="${geoPointShow}">-->
+    <!--<td th:text="${geoPointShow?.latitude}">Latitude</td>-->
+    <!--<br/>-->
+    <!--<td th:text="${geoPointShow?.longtitude}">Longtitude</td>-->
+    <!--<br/>-->
+    <!--<td th:text="${#numbers.formatInteger(geoPointShow.radius,1)}">Radius</td>-->
+    <!--<div>-->
+    <!--<td th:text="${geoPointShow.info}">Info</td>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <form autocomplete="off" th:action="@{/secure/geopoint/create}"
+          th:object="${geoPoint}" method="post" class="form-registration" role="form">
+
+        <div>
+            <input id="input-latitude" type="text" th:field="*{latitude}" placeholder="Latitude" class="form-control latitude" />
+            <label th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}" class="validation-message"></label>
+        </div>
+
+        <div>
+            <input id="input-longitude" type="text" th:field="*{longitude}" placeholder="Longtitude" class="form-control longtitude" />
+            <label th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}" class="validation-message"></label>
+        </div>
+
+        <div>
+            <input id="input-radius" type="number" th:field="*{radiusD}" placeholder="Radius" class="form-control radius" />
+            <label th:if="${#fields.hasErrors('radiusD')}" th:errors="*{radiusD}" class="validation-message"></label>
+        </div>
+
+        <div>
+            <input id="input-info" type="text" th:field="*{info}" placeholder="Info" class="form-control info" />
+            <label th:if="${#fields.hasErrors('info')}" th:errors="*{info}" class="validation-message"></label>
+        </div>
+
+        <div style="display: inline-block;width:100%;">
+            <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button" type="submit" disabled>CreateUpdate</button>
+            <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="submit" disabled>CancelDelete</button>
+        </div>
+
+        <span th:utext="${successMessage}"></span>
+
+    </form>
+</div>
+<!--</div>-->
+</body>
+</html>

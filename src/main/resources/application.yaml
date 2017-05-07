@@ -16,22 +16,20 @@ spring:
     platform: postgres
     continue-on-error: true
   resources:
-    static-locations: classpath:/resources/static/**, classpath:/META-INF/resources/
+    static-locations: classpath:/resources/static/, classpath:/META-INF/resources/, classpath:/META-INF/resources/webjars/
+
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTML5
+#logging:
+#  level: error
 
-logging:
-  level: error
+#---
 
----
-
-spring:
-    profiles: dev
-    thymeleaf:
-      cache: false
-
-server:
-    port: 8080
+#spring:
+#    profiles: dev
 
 logging:
   level: warn
