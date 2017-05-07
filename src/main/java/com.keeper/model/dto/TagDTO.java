@@ -4,8 +4,6 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 17.04.2017.
  */
 
-import javax.persistence.Column;
-
 /**
  * Default Comment
  */

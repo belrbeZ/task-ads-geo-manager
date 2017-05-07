@@ -13,13 +13,13 @@ import com.keeper.model.dto.PictureDTO;
 import com.keeper.model.dto.TaskDTO;
 
 import java.util.List;
-import java.util.Set;
 
 public interface ITaskService {
 
     List<Task> getByTheme(String theme);
     List<Task> getByTags(List<String> tags);
-    List<Task> getByEmailOrPhone(String email, String phone);
+    List<Task> getByEmail(String email);
+    List<Task> getByPhone(String phone);
     List<Task> getByUserId(Long userId);
 
     Task removeByUserId(Long topicStarterId);

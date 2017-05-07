@@ -7,7 +7,10 @@ package com.keeper.model.dao;
 import com.keeper.model.types.UserType;
 import com.keeper.util.resolve.DatabaseResolver;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 

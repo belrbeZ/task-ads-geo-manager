@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
  * Default Comment
  */
 @Entity
-@Table(name = DatabaseResolver.TABLE_GEO_USERS, schema = DatabaseResolver.SCHEMA)
+@Table(name = DatabaseResolver.TABLE_GEO_POINTS, schema = DatabaseResolver.SCHEMA)
 public class GeoPoint {
 
     public static final GeoPoint EMPTY = new GeoPoint();

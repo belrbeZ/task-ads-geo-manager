@@ -4,9 +4,15 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.model.dao.*;
+import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dao.Picture;
+import com.keeper.model.dao.Route;
+import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
-import com.keeper.repo.*;
+import com.keeper.repo.GeoPointRepository;
+import com.keeper.repo.RouteRepository;
+import com.keeper.repo.TaskRepository;
+import com.keeper.repo.UserRepository;
 import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
 import org.hibernate.validator.constraints.NotEmpty;

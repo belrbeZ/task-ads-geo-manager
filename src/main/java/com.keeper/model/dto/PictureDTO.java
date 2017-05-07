@@ -1,7 +1,5 @@
 package com.keeper.model.dto;
 
-import com.keeper.model.types.UserType;
-
 /**
  * Created by Alexandr Vasiliev on 18.04.2017.
  *

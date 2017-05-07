@@ -18,7 +18,6 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,7 +58,7 @@ public class Task {
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = DatabaseResolver.TABLE_TAGMANAGER, schema = DatabaseResolver.SCHEMA,
+    @JoinTable(name = DatabaseResolver.TABLE_TAG_MANAGER, schema = DatabaseResolver.SCHEMA,
             joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
             inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
     private List<Tag> tags;
@@ -67,7 +66,7 @@ public class Task {
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
+    @JoinTable(name = DatabaseResolver.TABLE_PARTICIPANT_MANAGER, schema = DatabaseResolver.SCHEMA,
                joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
                inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
     private List<User> participants;

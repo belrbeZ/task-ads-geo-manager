@@ -5,7 +5,6 @@ package com.keeper.repo;
  */
 
 import com.keeper.model.dao.Tag;
-import com.keeper.model.dao.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

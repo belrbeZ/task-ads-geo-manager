@@ -4,8 +4,8 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
+import net.jpountz.xxhash.XXHashFactory;
 import org.mindrot.jbcrypt.BCrypt;
-import net.jpountz.xxhash.*;
 
 import java.io.UnsupportedEncodingException;
 
@@ -14,8 +14,8 @@ import java.io.UnsupportedEncodingException;
  */
 public class Hasher {
 
+    // Values are SALT used for hash generation
     public enum HashType {
-        // Values are SALT used for hash generation
         COMMON(11),
         PASS(17),
         EMAIL(13);

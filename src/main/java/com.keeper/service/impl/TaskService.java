@@ -10,7 +10,10 @@ package com.keeper.service.impl;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
-import com.keeper.repo.*;
+import com.keeper.repo.CommentRepository;
+import com.keeper.repo.TagRepository;
+import com.keeper.repo.TaskRepository;
+import com.keeper.repo.UserRepository;
 import com.keeper.service.IFeedSubmiter;
 import com.keeper.service.ITaskService;
 import com.keeper.util.Translator;
@@ -83,18 +86,17 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
 
     @Override
     public List<Task> getByTags(List<String> tags) {
-//        return (tags != null && !tags.isEmpty())
-//                ? repository.findAllByTags(tags).orElse(getEmptyList())
-//                : getEmptyList();
-        return null;
+        return getEmptyList();
     }
 
     @Override
-    public List<Task> getByEmailOrPhone(String email, String phone) {
+    public List<Task> getByEmail(String email) {
         return getEmptyList();
-//        return (email != null && !email.isEmpty())
-//                ? repository.findAllByEmail(email).orElse(getEmptyList())
-//                : (phone != null && !phone.isEmpty()) ? repository.findAllByPhone(phone).orElse(getEmptyList()) : getEmptyList();
+    }
+
+    @Override
+    public List<Task> getByPhone(String phone) {
+        return getEmptyList();
     }
 
     @Override
@@ -130,7 +132,7 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     @Override
     public PictureDTO getPicture(Long taskId) {
         Task task = repository.findOne(taskId);
-        if((task)==null)
+        if(task == null)
             throw new IllegalArgumentException("No such task!");
         return Translator.toDTO(task.getPicture());
     }
@@ -138,9 +140,11 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     @Override
     public TaskDTO setPicture(Long taskId, PictureDTO picture) {
         Task task = repository.findOne(taskId);
-        if((task)==null)
+        if(task == null)
             throw new IllegalArgumentException("No such task!");
+
         Picture existPic = task.getPicture();
+
         if(existPic != null && (existPic.getUserId()!=null || existPic.getTaskId()!=null)){
             existPic.setInfo(picture.getInfo());
             existPic.setPic(picture.getPic());

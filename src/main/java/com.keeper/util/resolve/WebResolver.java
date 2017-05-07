@@ -9,9 +9,8 @@ package com.keeper.util.resolve;
  */
 public class WebResolver {
     public static final String SECURED  = "/secure";
-    public static final String TESTING  = "/test";
-    public static final String OAUTH    = "/oauth";
-    public static final String TOKEN    = "/token";
+    private static final String OAUTH    = "/oauth";
+    private static final String TOKEN    = "/token";
 
     public static final String ERROR    = "/error";
     public static final String DENIED   = "/denied";
@@ -25,8 +24,7 @@ public class WebResolver {
     public static final String TASK_CREATE = TASK + "/create";
     public static final String FEED     = SECURED + "/feed";
     public static final String MAP      = SECURED + "/map";
-    public static final String SEARCH   = SECURED + "/search";
-    public static final String GEOPOINT     = SECURED + "/geopoint";
+    public static final String GEOPOINT = SECURED + "/geopoint";
     public static final String GEOPOINT_CREATE = GEOPOINT + "/create";
 
 }

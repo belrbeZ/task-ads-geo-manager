@@ -8,7 +8,6 @@ import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Hasher;
 import com.keeper.util.resolve.DatabaseResolver;
-import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -71,7 +70,7 @@ public class User {
 //    @Fetch(FetchMode.SELECT)
 //    @BatchSize(size = 10)
 //    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinTable(name = DatabaseResolver.TABLE_PARTICINATMAANGER, schema = DatabaseResolver.SCHEMA,
+//    @JoinTable(name = DatabaseResolver.TABLE_PARTICIPANT_MANAGER, schema = DatabaseResolver.SCHEMA,
 //               joinColumns = @JoinColumn(name = "userId", referencedColumnName="id"),
 //               inverseJoinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"))
 /*    @ManyToMany(mappedBy="participants")

@@ -1,34 +1,23 @@
 package com.keeper;
 
-import com.keeper.test.service.impl.UserTestRepoService;
+import com.keeper.util.Computer;
 import junit.framework.TestCase;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
 
 /**
  * Created by Alexandr Vasiliev on 11.04.2017.
  *
  * @author Alexandr Vasiliev
  */
-public class TestingController extends TestCase {
+public class TestingController extends TestCase{
 
-    private final UserTestRepoService repoService;
-
-    @Autowired
-    public TestingController(UserTestRepoService repoService) {
-        this.repoService = repoService;
+    @Test
+    public void testGeoInRadiusPositive() {
+        assertEquals(true, Computer.geoInRadius(11.5325, 55.535, 11.5325, 55.535, 5));
     }
 
-
-    public void setUp() throws Exception {
-        super.setUp();
+    @Test
+    public void testGeoInRadiusNegative() {
+        assertEquals(false, Computer.geoInRadius(11.5325, 57.535, 12.5325, 55.535, 5));
     }
-
-    public void testApp() throws Exception {
-        System.out.println(repoService.get(1L).get());
-    }
-
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
-
 }
