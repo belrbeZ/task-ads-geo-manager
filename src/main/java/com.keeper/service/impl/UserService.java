@@ -11,6 +11,7 @@ import com.keeper.service.IUserService;
 import com.keeper.util.Translator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +55,11 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     @Override
     public boolean existsByPhone(@NotEmpty String phone) {
         return repository.existsByPhone(phone);
+    }
+
+    @Override
+    public Optional<User> getAuthorized() {
+        return getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @Override

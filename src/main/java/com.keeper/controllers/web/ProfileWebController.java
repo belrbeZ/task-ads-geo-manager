@@ -39,8 +39,7 @@ public class ProfileWebController {
     public ModelAndView profileGet(Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getByEmail(auth.getName()).get();
+        User user = userService.getAuthorized().get();
         UserDTO userDTO = Translator.toDTO(user);
 
         userDTO.setEmail(user.getEmail());

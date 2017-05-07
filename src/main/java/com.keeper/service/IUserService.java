@@ -19,11 +19,14 @@ public interface IUserService extends IModelService<User> {
     boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
 
+    Optional<User> getAuthorized();
+
     Optional<User> getByEmail(String email);
     Optional<User> getByPhone(String phone);
 
     Optional<User> removeByEmail(String email);
     Optional<User> removeByPhone(String phone);
+
 
     /*---ZONES---*/
     ZoneDTO getZone(Long userId);

@@ -6,8 +6,10 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
+import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.impl.GeoPointService;
+import com.keeper.service.impl.GeoUserService;
 import com.keeper.service.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -30,11 +33,11 @@ import javax.validation.Valid;
 @Controller
 public class MapWebController {
 
-    private final GeoPointService geoPointService;
+    private final GeoUserService geoPointService;
     private final UserService userService;
 
     @Autowired
-    public MapWebController(GeoPointService geoPointService, UserService userService) {
+    public MapWebController(GeoUserService geoPointService, UserService userService) {
         this.geoPointService = geoPointService;
         this.userService = userService;
     }
@@ -60,15 +63,19 @@ public class MapWebController {
     }
 
     @RequestMapping(value = WebResolver.GEOPOINT_CREATE, method = RequestMethod.POST)
-    public ModelAndView geoPointCreateForm(@Valid GeoPointDTO geoPointDTO, Model model) {
+    public ModelAndView geoPointCreateForm(@Valid GeoUserDTO geoPointDTO, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getByEmail(auth.getName()).get();
+        Optional<User> user = userService.getAuthorized();
 
         System.out.println(geoPointDTO.getRadius());
 
-        userService.addGeoPoint(user.getId(), geoPointDTO);
+        if(user.isPresent()) {
+            geoPointDTO.setUserId(user.get().getId());
+            geoPointService.add(Translator.toDAO(geoPointDTO));
+//            userService.addGeoPoint(user.getId(), geoPointDTO);
+            // БЫЛО, то что не закомменчено стало т.к. теперь GeoUserService & and should save geoPoints via GeoUserService, not UserService
+        }
 
         modelAndView.addObject("geoPoint", geoPointDTO);
 

@@ -15,8 +15,8 @@ public class GeoUserDTO {
 
     public static final GeoUserDTO EMPTY = new GeoUserDTO();
 
-    @NotNull private Long id;
-    @NotNull private Long userId;
+    private Long id;
+    private Long userId;
 
     @GeoCoordinate private Double latitude;
     @GeoCoordinate private Double longitude;
@@ -53,7 +53,10 @@ public class GeoUserDTO {
         this.radius = radius;
     }
 
-    public GeoUserDTO(Long id, Long userId, String latitude, String longitude, Integer radius, String descr) {
+    public GeoUserDTO(Long id, Long userId,
+                      @GeoCoordinate String latitude,
+                      @GeoCoordinate String longitude,
+                      Integer radius, String descr) {
         this(id, userId, latitude, longitude, radius);
         this.descr = descr;
     }

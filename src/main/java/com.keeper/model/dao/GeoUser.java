@@ -7,6 +7,7 @@ package com.keeper.model.dao;
 import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 /**
  * Default Comment
@@ -20,10 +21,14 @@ public class GeoUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)   private Long id;
+
+    @NotNull
     @Column(name = "userId", nullable = false)              private Long userId;
+
     @Column(name = "latitude")                              private Double latitude;
     @Column(name = "longitude")                             private Double longitude;
     @Column(name = "radius")                                private Integer radius;
+
     @Column(name = "descr")                                 private String descr;
 
     private GeoUser() {

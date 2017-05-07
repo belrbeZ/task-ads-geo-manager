@@ -43,12 +43,11 @@ public class FeedWebController {
     @RequestMapping(value = WebResolver.FEED, method = RequestMethod.GET)
     public ModelAndView feedGet(Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        Long userId = userService.getByEmail(auth.getName()).get().getId();
+        Long userId = userService.getAuthorized().orElse(User.EMPTY).getId();
         Optional<List<TaskDTO>> tasks = Optional.of(Collections.emptyList());
 
-        if (userId != null && !(tasks = feedService.getAll(userId)).isPresent())
+        if (userId != null && !(tasks = feedService.getRecent(userId)).isPresent())
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
 
         modelAndView.addObject("tasks", tasks.get());
@@ -61,8 +60,7 @@ public class FeedWebController {
                                    @RequestParam(value = "type", required = false) Integer type, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = Translator.toDTO(userService.getByEmail(auth.getName()).orElse(User.EMPTY)).getId();
+        Long userId = Translator.toDTO(userService.getAuthorized().orElse(User.EMPTY)).getId();
 
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
