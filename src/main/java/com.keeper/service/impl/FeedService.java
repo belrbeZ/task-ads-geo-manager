@@ -31,6 +31,10 @@ import java.util.stream.Collectors;
 @Service
 public class FeedService implements IFeedService, IFeedSubmiter {
 
+    private boolean taskLoader = false;
+    private boolean pointLoader = false;
+    private boolean routeLoader = false;
+
     private final Map<Long, GeoUserDTO> points = new ConcurrentHashMap<>(); // All user geopoints
     private final Map<Long, RouteDTO>   routes = new ConcurrentHashMap<>(); // All user routes
     private final Map<Long, TaskDTO>    tasks  = new ConcurrentHashMap<>(); // All tasks
@@ -54,6 +58,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
     @PostConstruct
     private void setup() {
+
 //        taskService.getAll().ifPresent(repoTasks -> tasks.putAll(Translator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity()))));
 //        routeService.getAll().ifPresent(repoRoutes -> routes.putAll(Translator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity()))));
 //        pointService.getAll().ifPresent(repoPoints -> points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoUserDTO::getId, Function.identity()))));
@@ -67,19 +72,32 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     //<editor-fold desc="Loads">
 
     public void loadTasks(List<Task> repoTasks) {
+        if(taskLoader)
+            return;
+
         tasks.putAll(Translator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity())));
         tasksToProceed.addAll(tasks.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
+        taskLoader = true;
     }
 
     public void loadRoutes(List<Route> repoRoutes) {
+        if(routeLoader)
+            return;
+
         routes.putAll(Translator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity())));
         routesToProceed.addAll(routes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
+        routeLoader = true;
     }
 
     public void loadPoints(List<GeoUser> repoPoints) {
+        if(pointLoader)
+            return;
+
         points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoUserDTO::getId, Function.identity())));
         pointsToProceed.addAll(points.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
+        pointLoader = true;
     }
+
     //</editor-fold>
 
     //<editor-fold desc="Submiter">
@@ -251,7 +269,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
     @Override
     public Optional<List<TaskDTO>> getRecent(Long userId) {
-        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).limit(RECENT_FEED_SIZE).collect(Collectors.toList()));
+        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).sorted().limit(RECENT_FEED_SIZE).collect(Collectors.toList()));
     }
 
     @Override
