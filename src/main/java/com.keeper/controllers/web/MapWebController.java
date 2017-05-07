@@ -67,11 +67,13 @@ public class MapWebController {
         if(user.isPresent()) {
             geoPointDTO.setUserId(user.get().getId());
             geoPointService.add(Translator.toDAO(geoPointDTO));
+
 //            userService.addGeoPoint(user.getId(), geoPointDTO);
             // БЫЛО, то что не закомменчено стало т.к. теперь GeoPointService & and should save geoPoints via GeoPointService, not UserService
-        }
 
-        modelAndView.addObject("geoPoint", geoPointDTO);
+            modelAndView.addObject("geoPoint", geoPointDTO);
+        } else
+            modelAndView.addObject("errorMessage", "Session is expired!");
 
         return modelAndView;
     }

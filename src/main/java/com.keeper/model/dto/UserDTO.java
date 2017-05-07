@@ -64,6 +64,7 @@ public class UserDTO {
     }
 
     public UserDTO(Long id, UserType type, String name, String email, String phone, String password, String about) {
+        this.id         = id;
         this.type       = type;
         this.name       = name;
         this.email      = email;

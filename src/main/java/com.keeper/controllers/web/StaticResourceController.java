@@ -15,9 +15,14 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author AlexVasil
  */
-
 @Controller
-public class JavascriptController {
+public class StaticResourceController {
+
+    @RequestMapping(value = "main.css", method = RequestMethod.GET)
+    public String main(Model model, HttpServletResponse response) {
+        model.addAttribute("backgroundColor", "lightblue");
+        return "main.css";
+    }
 
     @RequestMapping(value = WebResolver.SECURED+"/js/ymaps.js", method = RequestMethod.GET)
     public String common(Model model, HttpServletResponse response) {

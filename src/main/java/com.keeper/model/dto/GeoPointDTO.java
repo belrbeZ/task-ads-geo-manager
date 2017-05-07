@@ -4,7 +4,7 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 02.05.2017.
  */
 
-import com.keeper.util.validation.annotation.GeoCoordinate;
+import com.keeper.util.validation.annotation.Geo;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,8 +18,8 @@ public class GeoPointDTO {
     private Long id;
     private Long userId;
 
-    @GeoCoordinate private Double latitude;
-    @GeoCoordinate private Double longitude;
+    private Double latitude;
+    private Double longitude;
 
     @NotNull private Integer radius;
 
@@ -35,28 +35,28 @@ public class GeoPointDTO {
     }
 
     public GeoPointDTO(Long id, Long userId,
-                       @GeoCoordinate String latitude,
-                       @GeoCoordinate String longitude) {
+                       @Geo String latitude,
+                       @Geo String longitude) {
         this.latitude = Double.valueOf(latitude);
         this.longitude = Double.valueOf(longitude);
         this.radius = 5;
         this.userId = userId;
-        this.id = id;
-        this.descr = "";
+        this.id     = id;
+        this.descr  = "";
     }
 
     public GeoPointDTO(Long id, Long userId,
-                       @GeoCoordinate String latitude,
-                       @GeoCoordinate String longitude,
+                       @Geo String latitude,
+                       @Geo String longitude,
                        @NotNull Integer radius) {
         this(id, userId, latitude, longitude);
         this.radius = radius;
     }
 
     public GeoPointDTO(Long id, Long userId,
-                       @GeoCoordinate String latitude,
-                       @GeoCoordinate String longitude,
-                       Integer radius, String descr) {
+                       @Geo String latitude,
+                       @Geo String longitude,
+                       @NotNull Integer radius, String descr) {
         this(id, userId, latitude, longitude, radius);
         this.descr = descr;
     }
@@ -111,7 +111,6 @@ public class GeoPointDTO {
         this.descr = descr;
     }
     //</editor-fold>
-
 
     @Override
     public boolean equals(Object o) {

@@ -4,7 +4,7 @@ package com.keeper.model;
  * Created by @GoodforGod on 16.04.2017.
  */
 
-import com.keeper.util.validation.annotation.GeoCoordinate;
+import com.keeper.util.validation.annotation.Geo;
 
 /**
  * Default Comment
@@ -23,15 +23,15 @@ public class SimpleGeoPoint {
         this.radius = 0;
     }
 
-    public SimpleGeoPoint(@GeoCoordinate String latitude,
-                          @GeoCoordinate String longitude) {
+    public SimpleGeoPoint(@Geo String latitude,
+                          @Geo String longitude) {
         this.latitude = Double.valueOf(latitude);
         this.longitude = Double.valueOf(longitude);
         this.radius = 5;
     }
 
-    public SimpleGeoPoint(@GeoCoordinate String latitude,
-                          @GeoCoordinate String longitude,
+    public SimpleGeoPoint(@Geo String latitude,
+                          @Geo String longitude,
                           Integer radius) {
         this(latitude, longitude);
         this.radius = radius;
@@ -47,11 +47,11 @@ public class SimpleGeoPoint {
         return latitude;
     }
 
-    public void setLongitude(@GeoCoordinate String longtitude) {
+    public void setLongitude(@Geo String longtitude) {
         this.longitude = Double.valueOf(longtitude);
     }
 
-    public void setLatitude(@GeoCoordinate String latitude) {
+    public void setLatitude(@Geo String latitude) {
         this.latitude = Double.valueOf(latitude);
     }
 

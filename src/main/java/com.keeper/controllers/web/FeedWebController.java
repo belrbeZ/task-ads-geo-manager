@@ -12,6 +12,7 @@ import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,13 +59,13 @@ public class FeedWebController {
                                    @RequestParam(value = "type", required = false) Integer type, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        Long userId = Translator.toDTO(userService.getAuthorized().orElse(User.EMPTY)).getId();
+        Long userId = userService.getAuthorized().get().getId();
 
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
         if(type == null && !theme.isEmpty())
             tasks = feedService.getByTheme(theme);
-        else if(type != null)
+        else if(type != null && userId != null)
             switch (type) {
                 case 10: tasks = feedService.getOwned(userId);  break;
                 case 20: tasks = feedService.getRecent(userId); break;

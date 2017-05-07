@@ -42,8 +42,8 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     public TaskDTO() {
         this.id = 0L;
-        this.createDate = null;
-        this.lastModifyDate = null;
+        this.createDate     = LocalDateTime.MIN;
+        this.lastModifyDate = LocalDateTime.MIN;
         this.topicStarterId = 0L;
         this.type = TaskType.EMPTY;
         this.state = TaskState.UNKNOWN;

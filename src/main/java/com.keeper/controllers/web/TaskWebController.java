@@ -13,8 +13,6 @@ import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,8 +44,7 @@ public class TaskWebController {
 
         if(taskId != null) {
             modelAndView.addObject("task", taskService.get(taskId));
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User user = userService.getByEmail(auth.getName()).get();
+            User user = userService.getAuthorized().get();
             modelAndView.addObject("user", Translator.toDTO(user));
         }
         else
@@ -85,14 +82,11 @@ public class TaskWebController {
     public ModelAndView taskUpdateOrCreate(@Valid TaskDTO task, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.getByEmail(auth.getName()).get();
+        User user = userService.getAuthorized().get();
         task.setCreateDate(LocalDateTime.now());
         task.setLastModifyDate(LocalDateTime.now());
         task.setTopicStarterId(user.getId());
-        task.setGeo(new SimpleGeoPoint( "150.4214",
-                                        "24.12412",
-                                        4));
+        task.setGeo(new SimpleGeoPoint("150.4214", "24.12412", 15));
 
         taskService.add(Translator.toDAO(task));
 

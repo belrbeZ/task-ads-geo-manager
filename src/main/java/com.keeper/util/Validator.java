@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
  */
 public class Validator {
 
-    public static final int EMAIL_INCORRECT = -1;
+    static final int EMAIL_INCORRECT = -1;
 
     public static boolean isEmailValid(String email) {
         return (email != null && email.length() > 3 && email.indexOf('@') != EMAIL_INCORRECT);
@@ -24,7 +24,7 @@ public class Validator {
         return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
     }
 
-    public static Predicate<String> phoneFilter = (Validator::isPhoneValid);
+    private static Predicate<String> phoneFilter = (Validator::isPhoneValid);
 
     public static boolean isPhoneValid(String phone) {
         return !(phone == null || phone.isEmpty())
@@ -39,19 +39,19 @@ public class Validator {
 
     }
 
-    public static Predicate<String> geoCoordFilter = (Validator::isGeoCoordValid);
+    private static Predicate<String> geoFilter = (Validator::isGeoValid);
 
-    public static boolean isGeoCoordValid(String coord) {
-        return coord != null
-                && !coord.isEmpty()
-                && coord.matches("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
+    public static boolean isGeoValid(String geos) {
+        return geos != null
+                && !geos.isEmpty()
+                && geos.matches("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
     }
 
-    public static boolean isGeoCoordValid(List<String> coords) {
-        return coords.stream().noneMatch(Validator.geoCoordFilter);
+    public static boolean isGeoValid(List<String> geos) {
+        return geos.stream().noneMatch(Validator.geoFilter);
     }
 
-    public static List<Double> converGeoPoints(String[] points) {
+    public static List<Double> convertGeoArrayToList(String[] points) {
         return Arrays.stream(points).map(Double::valueOf).collect(Collectors.toList());
     }
 }
