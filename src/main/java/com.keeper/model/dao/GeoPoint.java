@@ -1,54 +1,50 @@
 package com.keeper.model.dao;
 
 /*
- * Created by GoodforGod on 19.03.2017.
- *
- * Updated by AlexVasil on 22.03.2017.
- *
- * Updated by AlexVasil on 26.03.2017.
- *
+ * Created by @GoodforGod on 02.05.2017.
  */
 
 import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-//@Entity
-//@Table(name = DatabaseResolver.TABLE_GEO_POINTS, schema = DatabaseResolver.SCHEMA)
+/**
+ * Default Comment
+ */
+@Entity
+@Table(name = DatabaseResolver.TABLE_GEO_USERS, schema = DatabaseResolver.SCHEMA)
 public class GeoPoint {
 
     public static final GeoPoint EMPTY = new GeoPoint();
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "id", unique = true, nullable = false)
-    private Long id;
-    @Column(name = "latitude")
-    private Double latitude;
-    @Column(name = "longitude")
-    private Double longitude;
-    @Column(name = "radius")
-    private Integer radius;
-    @Column(name = "info")
-    private String info;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", unique = true, nullable = false)   private Long id;
+
+    @NotNull
+    @Column(name = "userId", nullable = false)              private Long userId;
+
+    @Column(name = "latitude")                              private Double latitude;
+    @Column(name = "longitude")                             private Double longitude;
+    @Column(name = "radius")                                private Integer radius;
+
+    @Column(name = "descr")                                 private String descr;
 
     private GeoPoint() {
-        this.id = 0L;
-        this.latitude = 0.;
-        this.longitude = 0.;
-        this.radius = 0;
-        this.info = "";
+        this.id         = 0L;
+        this.latitude   = 0.;
+        this.longitude  = 0.;
+        this.radius     = 0;
+        this.descr      = "";
     }
 
-    public GeoPoint(String latitude, String longitude, Integer radius) {
-        this.latitude = new Double(latitude);
-        this.longitude = new Double(longitude);
+    public GeoPoint(Long userId, Double latitude, Double longitude, Integer radius, String descr) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.radius = radius;
-    }
-
-    public GeoPoint(String latitude, String longitude, Integer radius, String info) {
-        this(latitude, longitude, radius);
-        this.info = info;
+        this.userId = userId;
+        this.descr = descr;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -57,12 +53,24 @@ public class GeoPoint {
         return id;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public Double getLatitude() {
         return latitude;
     }
 
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
     public Double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public Integer getRadius() {
@@ -73,25 +81,12 @@ public class GeoPoint {
         this.radius = radius;
     }
 
-    public String getInfo() {
-        return info;
+    public String getDescr() {
+        return descr;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setDescr(String descr) {
+        this.descr = descr;
     }
-
-    public static GeoPoint getEMPTY() {
-        return EMPTY;
-    }
-
-    //    public Task getTask() {
-//        return task;
-//    }
-//
-//    public void setTask(Task task) {
-//        this.task = task;
-//    }
-
     //</editor-fold>
 }

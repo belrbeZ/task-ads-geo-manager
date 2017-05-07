@@ -163,12 +163,13 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     }
 
     @Transactional
-    public TaskDTO setOriginGeoPoint(Long taskId, GeoPointDTO modelGeo) {
+    public TaskDTO setOriginGeoPoint(Long taskId, SimpleGeoPoint modelGeo) {
         Task task = repository.findOne(taskId);
-        if((task)==null)
+
+        if(task == null)
             throw new IllegalArgumentException("No such task!");
-//        GeoPoint addedGeo = geoPointRepository.save(Translator.toDAO(modelGeo));
-        task.setGeo(new SimpleGeoPoint(modelGeo.getLatitude(), modelGeo.getLongitude(), modelGeo.getRadius()));
+
+        task.setGeo(modelGeo);
         primeRepository.save(task);
         return Translator.toDTO(task);
     }

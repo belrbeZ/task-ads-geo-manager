@@ -20,9 +20,11 @@ spring:
 
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+
   thymeleaf:
     cache: false
     mode: LEGACYHTML5
+
 #logging:
 #  level: error
 

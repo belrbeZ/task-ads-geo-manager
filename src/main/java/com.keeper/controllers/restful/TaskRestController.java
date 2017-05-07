@@ -8,7 +8,6 @@ import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
-import com.keeper.service.impl.GeoPointService;
 import com.keeper.service.impl.TaskService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
@@ -126,7 +125,7 @@ public class TaskRestController {
     }
 
     @RequestMapping(value = PATH + "/originGeo", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TaskDTO> setOriginGeoPoint(@RequestParam("taskId") Long taskId,@Valid @RequestBody GeoPointDTO modelGeo) {
+    public ResponseEntity<TaskDTO> setOriginGeoPoint(@RequestParam("taskId") Long taskId,@Valid @RequestBody SimpleGeoPoint modelGeo) {
         return new ResponseEntity<>(repoService.setOriginGeoPoint(taskId, modelGeo), HttpStatus.OK);
     }
     /*---END PICTURE---*/

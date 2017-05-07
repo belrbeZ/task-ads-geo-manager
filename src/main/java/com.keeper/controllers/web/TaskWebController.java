@@ -6,7 +6,6 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.impl.TaskService;
 import com.keeper.service.impl.UserService;

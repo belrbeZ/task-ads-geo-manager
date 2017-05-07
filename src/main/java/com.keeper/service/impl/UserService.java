@@ -26,13 +26,13 @@ import java.util.Optional;
 public class UserService extends ModelRepoService<User> implements IUserService {
 
     private final UserRepository repository;
-    private final GeoUserRepository geoPointRepository;
+    private final GeoPointRepository geoPointRepository;
     private final RouteRepository routeRepository;
     private final TaskRepository taskRepository;
 
     @Autowired
     public UserService(UserRepository repository,
-                       GeoUserRepository geoPointRepository,
+                       GeoPointRepository geoPointRepository,
                        RouteRepository routeRepository,
                        TaskRepository taskRepository) {
         this.repository = repository;
@@ -153,16 +153,16 @@ public class UserService extends ModelRepoService<User> implements IUserService 
 
     /*---GEOPOINTS---*/
     @Override
-    public List<GeoUserDTO> getGeoPoints(Long userId) {
+    public List<GeoPointDTO> getGeoPoints(Long userId) {
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        return Translator.geoUsersToDTO(user.getGeoUsers());
+        return Translator.geoUsersToDTO(user.getGeoPoints());
     }
 
     @Transactional
     @Override
-    public UserDTO addGeoPoint(Long userId, GeoUserDTO geoPoint) {
+    public UserDTO addGeoPoint(Long userId, GeoPointDTO geoPoint) {
         User user;
         if((user = repository.findOne(userId))== null)
             throw new IllegalArgumentException("No such user!");
@@ -174,7 +174,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
     //This works programmic only! remove check on links.
     @Transactional
     @Override
-    public UserDTO removeGeoPoint(Long userId, GeoUserDTO geoPoint) {
+    public UserDTO removeGeoPoint(Long userId, GeoPointDTO geoPoint) {
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
@@ -189,7 +189,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user = repository.findOne(userId);
         if((user)==null)
             throw new IllegalArgumentException("No such user!");
-        GeoUser geoPoint = geoPointRepository.findOne(geoPointId);
+        GeoPoint geoPoint = geoPointRepository.findOne(geoPointId);
         if(geoPoint==null)
             throw new IllegalArgumentException("No such geoPoint!");
 //        if(user.hasGeoPoint(geoPoint)>0)

@@ -5,11 +5,8 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.GeoUser;
 import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.service.impl.GeoPointService;
-import com.keeper.service.impl.GeoUserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,31 +25,26 @@ import javax.validation.Valid;
 public class GeoPointRestController {
     private final String PATH = ApiResolver.GEOPOINT;
 
-    private final GeoUserService repoService;
+    private final GeoPointService repoService;
 
     @Autowired
-    public GeoPointRestController(GeoUserService repoService) {
+    public GeoPointRestController(GeoPointService repoService) {
         this.repoService = repoService;
     }
 
-//    @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<GeoPointDTO>> getByUserId(@RequestParam("userId") Long userId) {
-//        return new ResponseEntity<>(Translator.convertGeoToDTO(repoService.getByUserId(userId)), HttpStatus.OK);
-//    }
-
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeoUserDTO> get(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(GeoUser.EMPTY)), HttpStatus.OK);
+    public ResponseEntity<GeoPointDTO> get(@RequestParam("id") Long id) {
+        return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(GeoPoint.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid @RequestBody GeoUserDTO model, BindingResult result) {
+    public ResponseEntity<String> update(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         repoService.update(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody GeoUserDTO model, BindingResult result) {
+    public ResponseEntity<String> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         repoService.add(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }

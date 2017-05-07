@@ -4,11 +4,11 @@ package com.keeper.service.impl;
  * Created by @GoodforGod on 30.04.2017.
  */
 
-import com.keeper.model.dao.GeoUser;
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.GeoLocations;
-import com.keeper.model.dto.GeoUserDTO;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.IFeedService;
@@ -22,7 +22,6 @@ import javax.annotation.PostConstruct;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +34,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     private boolean pointLoader = false;
     private boolean routeLoader = false;
 
-    private final Map<Long, GeoUserDTO> points = new ConcurrentHashMap<>(); // All user geopoints
+    private final Map<Long, GeoPointDTO> points = new ConcurrentHashMap<>(); // All user geopoints
     private final Map<Long, RouteDTO>   routes = new ConcurrentHashMap<>(); // All user routes
     private final Map<Long, TaskDTO>    tasks  = new ConcurrentHashMap<>(); // All tasks
 
@@ -61,7 +60,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
 //        taskService.getAll().ifPresent(repoTasks -> tasks.putAll(Translator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity()))));
 //        routeService.getAll().ifPresent(repoRoutes -> routes.putAll(Translator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity()))));
-//        pointService.getAll().ifPresent(repoPoints -> points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoUserDTO::getId, Function.identity()))));
+//        pointService.getAll().ifPresent(repoPoints -> points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity()))));
 //
 //        tasksToProceed.addAll(tasks.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
 //        routesToProceed.addAll(routes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
@@ -89,11 +88,11 @@ public class FeedService implements IFeedService, IFeedSubmiter {
         routeLoader = true;
     }
 
-    public void loadPoints(List<GeoUser> repoPoints) {
+    public void loadPoints(List<GeoPoint> repoPoints) {
         if(pointLoader)
             return;
 
-        points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoUserDTO::getId, Function.identity())));
+        points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity())));
         pointsToProceed.addAll(points.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
         pointLoader = true;
     }
@@ -108,7 +107,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     }
 
     @Override
-    public void submit(GeoUser point) {
+    public void submit(GeoPoint point) {
         pointsToProceed.add(points.putIfAbsent(point.getId(), Translator.toDTO(point)).getId());
     }
 
@@ -123,7 +122,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     }
 
     @Override
-    public void remove(GeoUser point) {
+    public void remove(GeoPoint point) {
         removedPoints.put(point.getId(), point.getUserId());
     }
 
@@ -146,7 +145,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
         //<editor-fold desc="Points">
 
         if(!pointsToProceed.isEmpty()) {
-            for (GeoUserDTO geo : points.entrySet().stream().filter(entry -> pointsToProceed.contains(entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())) {
+            for (GeoPointDTO geo : points.entrySet().stream().filter(entry -> pointsToProceed.contains(entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())) {
                 for (Map.Entry<Long, TaskDTO> task : tasks.entrySet()) {
                     if (Computer.geoInRadius(geo, task.getValue())) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
@@ -179,7 +178,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
 
         if(!tasksToProceed.isEmpty()) {
             for (TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue).filter(entryTask -> tasksToProceed.contains(entryTask.getId())).collect(Collectors.toList())) {
-                for (Map.Entry<Long, GeoUserDTO> geo : points.entrySet()) {
+                for (Map.Entry<Long, GeoPointDTO> geo : points.entrySet()) {
                     if (Computer.geoInRadius(geo.getValue(), task)) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
 

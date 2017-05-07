@@ -1,70 +1,64 @@
 package com.keeper.model.dto;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.keeper.util.validation.Deserializer;
-import org.hibernate.validator.constraints.NotEmpty;
-
-
-/**
- * Created by Alexandr Vasiliev on 29.03.2017.
- *
- * @author Alexandr Vasiliev
- *
+/*
+ * Created by @GoodforGod on 02.05.2017.
  */
 
+import com.keeper.util.validation.annotation.GeoCoordinate;
+
+import javax.validation.constraints.NotNull;
+
+/**
+ * Default Comment
+ */
 public class GeoPointDTO {
 
     public static final GeoPointDTO EMPTY = new GeoPointDTO();
 
     private Long id;
-    @NotEmpty
-    private String latitude;
-    @NotEmpty
-    private String longitude;
+    private Long userId;
 
-//    @JsonSerialize(using = ToStringSerializer.class)
-//    @JsonDeserialize(using = Deserializer.StringIntegerDeserializer.class)
-    @NotEmpty
-    String radiusD;
+    @GeoCoordinate private Double latitude;
+    @GeoCoordinate private Double longitude;
 
-    @NotEmpty
-    private String info;
+    @NotNull private Integer radius;
 
-    @JsonIgnore
-    private Integer radius;
+    private String descr;
 
-    public GeoPointDTO() {
-        this.id = 0L;
-        this.latitude = "";
-        this.longitude = "";
+    private GeoPointDTO() {
+        this.latitude = 0.;
+        this.longitude = 0.;
         this.radius = 5;
-        this.radiusD = String.valueOf(5);
-        this.info = "";
+        this.userId = 0L;
+        this.id     = 0L;
+        this.descr = "";
     }
 
-    public GeoPointDTO(Long id, String latitude, String longitude, String radiusD) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.radiusD = radiusD;
-        this.radius = Integer.parseInt(radiusD);
+    public GeoPointDTO(Long id, Long userId,
+                       @GeoCoordinate String latitude,
+                       @GeoCoordinate String longitude) {
+        this.latitude = Double.valueOf(latitude);
+        this.longitude = Double.valueOf(longitude);
+        this.radius = 5;
+        this.userId = userId;
         this.id = id;
+        this.descr = "";
     }
 
-    public GeoPointDTO(Long id, String latitude, String longitude, Integer radius) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public GeoPointDTO(Long id, Long userId,
+                       @GeoCoordinate String latitude,
+                       @GeoCoordinate String longitude,
+                       @NotNull Integer radius) {
+        this(id, userId, latitude, longitude);
         this.radius = radius;
-        this.id = id;
     }
 
-    public GeoPointDTO(Long id, String latitude, String longitude, Integer radius, String info) {
-        this(id, latitude, longitude, radius);
-        this.info = info;
+    public GeoPointDTO(Long id, Long userId,
+                       @GeoCoordinate String latitude,
+                       @GeoCoordinate String longitude,
+                       Integer radius, String descr) {
+        this(id, userId, latitude, longitude, radius);
+        this.descr = descr;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -73,50 +67,64 @@ public class GeoPointDTO {
         return id;
     }
 
-    public String getLatitude() {
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Double getLatitude() {
         return latitude;
     }
 
-    public String getLongitude() {
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
         return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public Integer getRadius() {
         return radius;
     }
 
-    public void setRadius(Number radius) {
-        this.radius = (Integer)radius;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getRadiusD() {
-        return radiusD;
-    }
-
-    public void setRadiusD(String radiusD) {
-        this.radiusD = radiusD;
-        this.radius = Integer.parseInt(radiusD);
-    }
-
     public void setRadius(Integer radius) {
         this.radius = radius;
     }
 
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
     //</editor-fold>
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GeoPointDTO that = (GeoPointDTO) o;
+
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

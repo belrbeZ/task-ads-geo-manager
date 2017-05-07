@@ -28,7 +28,6 @@ public class UserDTO {
 
     @NotNull
     private Long  id;
-    private UserState   state;
     private UserType    type;
 
     @NotEmpty
@@ -49,26 +48,24 @@ public class UserDTO {
     private LocalDateTime muteEnd;
 
     private ZoneDTO zone;
-    private PictureDTO     pic;
-    private List<GeoUserDTO> geoPoints;
+    private PictureDTO pic;
+    private List<GeoPointDTO> geoPoints;
     private List<RouteDTO> routes;
    /* private List<TaskDTO> participantedTasks;*/
 
     private UserDTO() {
         this.id         = (long) UserType.UNKNOWN.getValue();
-        this.state      = UserState.UNKNOWN;
         this.type       = UserType.UNKNOWN;
         this.name       = "";
         this.email      = "";
         this.phone      = "";
         this.password   = "";
         this.about      = "";
-        this.notified = false;
+        this.notified   = false;
         this.muteEnd    = LocalDateTime.MAX;
     }
 
-    public UserDTO(UserType type, String name, String email, String phone, String password, String about) {
-        this.state      = UserState.AWAIT_VERIFICATION;
+    public UserDTO(Long id, UserType type, String name, String email, String phone, String password, String about) {
         this.type       = type;
         this.name       = name;
         this.email      = email;
@@ -77,27 +74,20 @@ public class UserDTO {
         this.about      = about;
     }
 
-    public UserDTO(Long id, UserType type, UserState state, String name,
+    public UserDTO(Long id, UserType type, String name,
                    String email, String phone, String about, String password,
                    boolean notified, Timestamp muteEnd) {
-        this.id         = id;
-        this.state      = state;
-        this.type       = type;
-        this.name       = name;
-        this.email      = Converter.maskEmail(email);
-        this.phone      = Converter.maskStr(phone);
-        this.password   = password;
-        this.about      = about;
+        this(id, type, name, email, phone, password, about);
         this.notified   = notified;
         this.muteEnd    = (muteEnd == null) ? null : muteEnd.toLocalDateTime();
     }
 
-    public UserDTO(Long id, UserType type, UserState state, String name,
+    public UserDTO(Long id, UserType type, String name,
                    String email, String phone, String about, String password,
                    boolean notified, Timestamp muteEnd,
-                   PictureDTO pic, ZoneDTO zone, List<GeoUserDTO> geoPoints,
+                   PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints,
                    List<RouteDTO> routes) {
-        this(id, type, state, name, email, phone, about, password, notified, muteEnd);
+        this(id, type, name, email, phone, about, password, notified, muteEnd);
         this.pic = pic;
         this.zone = zone;
         this.geoPoints = geoPoints;
@@ -113,14 +103,6 @@ public class UserDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public UserState getState() {
-        return state;
-    }
-
-    public void setState(UserState state) {
-        this.state = state;
     }
 
     public UserType getType() {
@@ -203,11 +185,11 @@ public class UserDTO {
         this.routes = routes;
     }
 
-    public List<GeoUserDTO> getGeoPoints() {
+    public List<GeoPointDTO> getGeoPoints() {
         return geoPoints;
     }
 
-    public void setGeoPoints(List<GeoUserDTO> geoPoints) {
+    public void setGeoPoints(List<GeoPointDTO> geoPoints) {
         this.geoPoints = geoPoints;
     }
 

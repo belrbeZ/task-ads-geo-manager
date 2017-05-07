@@ -8,6 +8,7 @@ import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.Hasher;
 import com.keeper.util.resolve.DatabaseResolver;
+import org.apache.tomcat.jni.Local;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -55,21 +56,11 @@ public class User {
 //    @JoinColumn(name = "userId", referencedColumnName="id")
 //    private List<Comment> comments;
 
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinTable(name = DatabaseResolver.TABLE_GEOMANAGER, schema = DatabaseResolver.SCHEMA,
-//               joinColumns = {@JoinColumn(name = "userId", referencedColumnName = "id")},
-//               inverseJoinColumns = {@JoinColumn(name = "geopointId", referencedColumnName = "id")})
-//    private List<GeoPoint> geoPoints;
-
-
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name="userId", referencedColumnName="id")
-    private List<GeoUser> geoUsers;
-
+    private List<GeoPoint> geoPoints;
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
@@ -107,8 +98,8 @@ public class User {
         this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
         this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
-        this.phone      = phone;
-        this.password   =  password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
+        this.phone      = String.valueOf(email.hashCode());
+        this.password   = password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }
@@ -117,25 +108,19 @@ public class User {
                 String email, String phone,
                 String password, String about,
                 boolean isNotified, LocalDateTime muteEnd) {
-        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
-        this.state      = UserState.AWAIT_VERIFICATION;
-        this.type       = type != null ? type : UserType.UNKNOWN;
-        this.name       = name;
-        this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
-        this.phone      = phone;
-        this.password   =  password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
-        this.about      = about;
+        this(type, name, email, phone, password, about);
         this.isNotified = isNotified;
         this.muteEnd = Timestamp.valueOf(muteEnd);
     }
 
     public User(UserType type, String name, String email,
                 String phone, String password, String about,
-                Zone zone, Picture pic, List<GeoUser> geoUsers, List<Route> routes) {
-        this(type, name, email, phone, password, about);
+                boolean isNotified, LocalDateTime muteEnd,
+                Zone zone, Picture pic, List<GeoPoint> geoPoints, List<Route> routes) {
+        this(type, name, email, phone, password, about, isNotified, muteEnd);
         this.zone = zone;
         this.pic = pic;
-        this.geoUsers = geoUsers;
+        this.geoPoints = geoPoints;
         this.routes = routes;
     }
 
@@ -241,12 +226,12 @@ public class User {
         this.routes = routes;
     }
 
-    public List<GeoUser> getGeoUsers() {
-        return geoUsers;
+    public List<GeoPoint> getGeoPoints() {
+        return geoPoints;
     }
 
-    public void setGeoUsers(List<GeoUser> geoUsers) {
-        this.geoUsers = geoUsers;
+    public void setGeoPoints(List<GeoPoint> geoPoints) {
+        this.geoPoints = geoPoints;
     }
 
 /*
@@ -263,18 +248,18 @@ public class User {
 
 
     /*---GEOPOINTS---*/
-    public int hasGeoPoint(GeoUser geoPoint) {
-        return geoUsers.indexOf(geoPoint);
+    public int hasGeoPoint(GeoPoint geoPoint) {
+        return geoPoints.indexOf(geoPoint);
     }
 
-    public void addGeoPoint(GeoUser geoPoint) {
+    public void addGeoPoint(GeoPoint geoPoint) {
         //avoid circular calls : assumes equals and hashcode implemented
-        if (!geoUsers.contains(geoPoint )) {
-            geoUsers.add( geoPoint );
+        if (!geoPoints.contains(geoPoint )) {
+            geoPoints.add( geoPoint );
         }
     }
 
-    public void removeGeoPoint(GeoUser geoPoint) {
+    public void removeGeoPoint(GeoPoint geoPoint) {
 //        int index;
 //        //avoid circular calls : assumes equals and hashcode implemented
 //        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
@@ -282,8 +267,8 @@ public class User {
 //            return geoPoints.remove( index );
 //        }
 //        return geoPoint.getEMPTY();
-        if ( geoUsers.contains( geoPoint ))
-            geoUsers.remove( geoPoint );
+        if ( geoPoints.contains( geoPoint ))
+            geoPoints.remove( geoPoint );
         else
             throw new IllegalArgumentException("No such geoPoint associated with this User"); //"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
     }

@@ -19,7 +19,7 @@ public class GeoLocations {
         routes.add(route.getId());
     }
 
-    public void addPoint(GeoUserDTO point) {
+    public void addPoint(GeoPointDTO point) {
         points.add(point.getId());
     }
 
@@ -47,7 +47,7 @@ public class GeoLocations {
 
 
 
-    public void removePoint(GeoUserDTO point) {
+    public void removePoint(GeoPointDTO point) {
         removePoint(point.getId());
     }
 

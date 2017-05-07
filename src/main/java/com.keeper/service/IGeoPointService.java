@@ -1,15 +1,17 @@
 package com.keeper.service;
 
+/*
+ * Created by @GoodforGod on 02.05.2017.
+ */
+
 import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.Route;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by AlexVasil on 29.03.2017.
- *
- * @author AlexVasil
- *
+ * Default Comment
  */
 public interface IGeoPointService {
+    Optional<List<GeoPoint>> getAllByUserId(Long userId);
 }

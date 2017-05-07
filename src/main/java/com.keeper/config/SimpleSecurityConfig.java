@@ -61,7 +61,6 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-           .antMatchers( "/js/**", "/css/**", "/images/**", "/webjars/bootstrap/**");
+        web.ignoring().antMatchers( "/js/**", "/css/**", "/images/**", "/webjars/bootstrap/**");
     }
 }

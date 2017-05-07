@@ -8,12 +8,7 @@ import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.model.types.UserType;
-import com.keeper.test.model.dao.UserTest;
-import com.keeper.test.model.dao.ZoneTest;
-import com.keeper.test.model.dto.UserTestDTO;
-import com.keeper.test.model.dto.ZoneTestDTO;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,16 +45,6 @@ public class Translator {
         return (model == null)
                 ? GeoPointDTO.EMPTY
                 : new GeoPointDTO(model.getId(),
-                                model.getLatitude().toString(),
-                                model.getLongitude().toString(),
-                                model.getRadius(),
-                                model.getInfo());
-    }
-
-    public static GeoUserDTO toDTO(GeoUser model) {
-        return (model == null)
-                ? GeoUserDTO.EMPTY
-                : new GeoUserDTO(model.getId(),
                                 model.getUserId(),
                                 model.getLatitude().toString(),
                                 model.getLongitude().toString(),
@@ -72,7 +57,6 @@ public class Translator {
                 ? UserDTO.EMPTY
                 : new UserDTO(model.getId(),
                             model.getType(),
-                            model.getState(),
                             model.getName(),
                             model.getEmail(),
                             model.getPhone(),
@@ -82,7 +66,7 @@ public class Translator {
                             model.getMuteEnd(),
                             toDTO(model.getPic()),
                             toDTO(model.getZone()),
-                            geoUsersToDTO(model.getGeoUsers()),
+                            geoUsersToDTO(model.getGeoPoints()),
                             routesToDTO(model.getRoutes()));
     }
 
@@ -171,7 +155,7 @@ public class Translator {
                 : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<GeoUserDTO> geoUsersToDTO(List<GeoUser> models) {
+    public static List<GeoPointDTO> geoUsersToDTO(List<GeoPoint> models) {
         return (models == null)
                 ? Collections.emptyList()
                 : models.stream().map(Translator::toDTO).collect(Collectors.toList());
@@ -256,17 +240,7 @@ public class Translator {
         if(model == null)
             throw new NullPointerException();
 
-        return new GeoPoint(model.getLatitude(),
-                        model.getLongitude(),
-                        model.getRadius(),
-                        model.getInfo());
-    }
-
-    public static GeoUser toDAO(GeoUserDTO model) {
-        if(model == null)
-            throw new NullPointerException();
-
-        return new GeoUser(model.getUserId(),
+        return new GeoPoint(model.getUserId(),
                               model.getLatitude(),
                               model.getLongitude(),
                               model.getRadius(),
@@ -313,35 +287,6 @@ public class Translator {
                             model.getUserId(),
                             model.getMessage(),
                             model.getGeo());
-    }
-    //</editor-fold>
-
-
-
-    //<editor-fold desc="Testing">
-
-    public static UserTestDTO toDTO(UserTest model) {
-        return (model == null)
-                ? UserTestDTO.EMPTY
-                : new UserTestDTO(model.getId(),
-                model.getType(),
-                model.getState(),
-                model.getName(),
-                model.getMaskedEmail(),
-                model.getPhone(),
-                model.getAbout(),
-                model.getNotified(),
-                model.getMuteStart().toLocalDateTime(),
-                model.getMuteEnd().toLocalDateTime());
-    }
-
-    public static ZoneTestDTO toDTO(ZoneTest model) {
-        return (model == null)
-                ? ZoneTestDTO.EMPTY
-                : new ZoneTestDTO(model.getUserId(),
-                model.getCity(),
-                model.getCountry(),
-                model.getRegisterDate());
     }
     //</editor-fold>
 }

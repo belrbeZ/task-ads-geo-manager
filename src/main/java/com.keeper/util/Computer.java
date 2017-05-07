@@ -4,9 +4,7 @@ package com.keeper.util;
  * Created by GoodforGod on 20.03.2017.
  */
 
-import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.model.dto.GeoUserDTO;
 import com.keeper.model.dto.TaskDTO;
 
 /**
@@ -23,13 +21,12 @@ public class Computer {
                 + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
                 * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
-        double res = r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return res;
+        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
     public static boolean geoInRadius(Double lat1, Double lng1, Double lat2, Double lng2, Integer radius) {
-        boolean res = haversine(lat1, lng1, lat2, lng2) <= radius;
-        return res;
+        return (lat1 != null && lng1 != null && lat2 != null && lng2 != null && radius != null)
+                && haversine(lat1, lng1, lat2, lng2) <= radius;
     }
 
 //    public static boolean geoInRadius(String lat1, String lng1, SimpleGeoPoint geo, Integer radius) {
@@ -37,7 +34,7 @@ public class Computer {
 //                && geoInRadius(Double.valueOf(lat1), Double.valueOf(lng1), geo.getLatitude(), geo.getLongitude(), radius);
 //    }
 
-    public static boolean geoInRadius(GeoUserDTO geo, TaskDTO task) {
+    public static boolean geoInRadius(GeoPointDTO geo, TaskDTO task) {
         return geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getGeo().getLatitude(), task.getGeo().getLongitude(), geo.getRadius());
     }
 }
