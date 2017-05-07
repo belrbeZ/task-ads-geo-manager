@@ -4,17 +4,17 @@ server:
 spring:
   jpa:
     database: postgresql
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: validate
   datasource:
-    dbcp2:
-      driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://137.74.114.219:19009/keeperdb?sslmode=disable
     username: postgres
     password: myRea11ySecRett0Pass
     platform: postgres
     continue-on-error: true
+    dbcp2:
+      driver-class-name: org.postgresql.Driver
   resources:
     static-locations: classpath:/resources/static/, classpath:/META-INF/resources/, classpath:/META-INF/resources/webjars/
 
@@ -25,13 +25,13 @@ spring:
     cache: false
     mode: LEGACYHTML5
 
-#logging:
-#  level: error
+logging:
+  level: error
 
-#---
+---
 
-#spring:
-#    profiles: dev
+spring:
+    profiles: dev
 
 logging:
   level: warn

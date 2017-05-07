@@ -31,7 +31,7 @@
         <lz4-version>1.3.0</lz4-version>
 
         <!-- Drivers -->
-        <postgresql-jdbc-version>9.4-1200-jdbc4</postgresql-jdbc-version>
+        <postgresql-jdbc-version>42.0.0</postgresql-jdbc-version>
 
         <!-- Loggers -->
         <slf4j-version>1.7.5</slf4j-version>
