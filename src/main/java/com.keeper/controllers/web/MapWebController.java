@@ -57,7 +57,7 @@ public class MapWebController {
 
                 System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
 
-                modelAndView.addObject("geoPoints", Translator.geoUsersToDTO(user.get().getGeoPoints()));
+                modelAndView.addObject("geoPoints", Translator.geoPointsToDTO(user.get().getGeoPoints()));
 
             }
         }

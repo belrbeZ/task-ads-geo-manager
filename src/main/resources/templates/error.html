@@ -4,19 +4,21 @@
     <meta charset="UTF-8" content="text/html"/>
     <title>Error</title>
 </head>
-<!--<body>
-&lt;!&ndash; th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}"&ndash;&gt;
-    <h1>404</h1>&lt;!&ndash; <th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|"&ndash;&gt;
-    &lt;!&ndash;/*@thymesVar id="errorMessage" type="java.lang.String"*/&ndash;&gt;
+<body>
+<!-- th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}"-->
+    <h1>404</h1><!-- <th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|"-->
+    <!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
     <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
     <a href="welcome.html" th:href="@{/welcome.html}">Back to Welcome Page</a>
 
 
-</body>-->
+</body>
+<!--
 <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
 <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
 <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
 <a href="welcome.html" th:href="@{/welcome.html}">Back to Home Page</a>
 </body>
+-->
 
 </html>

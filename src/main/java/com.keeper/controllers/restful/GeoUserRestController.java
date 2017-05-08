@@ -38,7 +38,7 @@ public class GeoUserRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
-        return new ResponseEntity<>(Translator.geoUsersToDTO(repoService
+        return new ResponseEntity<>(Translator.geoPointsToDTO(repoService
                                                 .getAllByUserId(userId)
                                                 .orElse(Collections.emptyList())), HttpStatus.OK);
     }

@@ -94,7 +94,7 @@ public class FeedService implements IFeedService, IFeedSubmiter {
         if(pointLoader)
             return;
 
-        points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity())));
+        points.putAll(Translator.geoPointsToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity())));
         pointsToProceed.addAll(points.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
         pointLoader = true;
     }

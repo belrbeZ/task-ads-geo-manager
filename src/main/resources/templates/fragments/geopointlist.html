@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:fragment="geopointlist" th:unless="${#lists.isEmpty(geoPoints)}" id="geoPointList-fragment-block">
+        <ul>
+            <div th:each="geoPoint : ${geoPoints}">
+                <li>
+                    <span style="display: none;" th:text="${geoPoint.id}"></span>
+                    descr        <span th:text="${geoPoint.descr}"></span>
+                    <br>
+                    latitude    <span th:text="${geoPoint.latitude}"></span>
+                    <br>
+                    longitude   <span th:text="${geoPoint.longitude}"></span>
+                    <br>
+                    radius     <span th:text="${geoPoint.radius}"></span>
+                </li>
+            </div>
+        </ul>
+        <!--<table>
+            <thead>
+            <tr>
+                <th th:text="#{geopointlist.geoPoint.latitude}">latitude</th>
+                <th th:text="#{geopointlist.geoPoint.longitude}">longitude</th>
+                <th th:text="#{geopointlist.geoPoint.radiusD}">radiusD</th>
+                <th th:text="#{geopointlist.geoPoint.info}">info</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="geoPoint : ${geoPoints}">
+                <td th:text="${geoPoint.latitude}">latitude</td>
+                <td th:text="${geoPoint.longitude}">longitude</td>
+                <td th:text="${geoPoint.radiusD}">radiusD</td>
+                <td th:text="${geoPoint.info}">info</td>
+            </tr>
+            </tbody>
+        </table>-->
+
+
+
+        <!--OBJECTS TO MAP-->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+/*
+            var groups = [
+                {
+                    name: "GeoPoints",
+                    style: "islands#blueIcon",
+                    items: [
+                        {
+                            center: [59.93674, 30.3117],
+                            name: 'Тестовая точка м.Адмиралтейская'
+                        },
+                        {
+                            center: [59.925544, 30.389422],
+                            name: 'Тестовая точка м.Пл.А.Невского'
+                        }
+                    ]},
+                {
+                    name: "Tasks",
+                    style: "islands#greenIcon",
+                    items: [
+                        {
+                            center: [59.92858, 30.357068],
+                            name: 'Тестовая точка м.Пл.Восстания'
+                        },
+                        {
+                            center: [59.968226, 30.309588],
+                            name: 'Тестовая точка м.Петроградская'
+                        }
+                    ]}
+            ];*/
+            /*var geoPointJs = {
+                center: [59.92858, 30.357068],
+                info: 'Точка',
+                radius: 5
+            };
+
+            function geoPointsToJS() {
+                var arrGeos = [];
+                var theList = [[${geoPoints}]];
+                for (i = 0; i < theList.length; i++) {
+                    console.log(theList[i]);
+                }
+            }
+            function updateGeoPointsOnMap() {
+                geoPointsToJS();
+                groups[0].items.clear();
+                groups[0].items.push(geoPointJs);
+            }*/
+            /*]]>*/
+        </script>
+
+    </div>
+
+
+</body>
+</html>

@@ -163,7 +163,7 @@ public class UserService extends ModelRepoService<User> implements IUserService 
         User user;
         if((user = repository.findOne(userId))==null)
             throw new IllegalArgumentException("No such user!");
-        return Translator.geoUsersToDTO(user.getGeoPoints());
+        return Translator.geoPointsToDTO(user.getGeoPoints());
     }
 
     @Transactional

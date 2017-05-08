@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Control Profile Rest End points
@@ -113,13 +114,9 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
-//        if (user == null) {
-//            System.out.println("User with id " + id + " not found");
-//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-//        }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = repoService.getByEmail(auth.getName()).get();
-        return new ResponseEntity<>(Translator.geoUsersToDTO(user.getGeoPoints()), HttpStatus.OK);
+        Optional<User> user = repoService.getAuthorized();
+        System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
+        return new ResponseEntity<>(Translator.geoPointsToDTO(user.get().getGeoPoints()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/geoPoint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
