@@ -12,6 +12,33 @@
 
 </head>
 <body>
+
+
+<!--REFRESH LIST AND MAP-->
+<script th:inline="javascript">
+    // <![CDATA[
+
+    $(document).ready(function()
+    {
+
+//        $('#geo_point-create_update-button').click(function (e) {
+//            refreshGeoPointsList();
+//        });
+//
+//        $('#geo_point-delete_cancel-button').click(function (e) {
+//            refreshGeoPointsList();
+//        });
+
+    });
+//    geo_point-create_update-button
+    //    function retrieveGuests() {
+    //        var url = '/secure/geopoint/getlist';
+    //
+    //        $("#geoPointListBlock").load(url);
+    //    }
+    // ]]>
+</script>
+
 <div class="container-fluid" th:fragment="geopointform">
 
     <!--<div th:object="${geoPointShow}">-->
@@ -24,38 +51,135 @@
     <!--<td th:text="${geoPointShow.info}">Info</td>-->
     <!--</div>-->
     <!--</div>-->
+    <!--<th:block th:if="${message != null}">-->
+    <!--th:unless="${geoPoints==null}"-->
 
-    <form autocomplete="off" th:action="@{/secure/geopoint/create}"
+    <!--th:action="@{/secure/geopoint/create}"-->
+    <form id="geo_point-form" autocomplete="off" th:unless="${geoPoint==null}"
           th:object="${geoPoint}" method="post" class="form-registration" role="form">
 
+        <div style="display: none;">
+            <input id="input-geo_point-id" type="text" th:field="*{id}" placeholder="Id" class="form-control id" />
+            <label th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="validation-message"></label>
+        </div>
+
         <div>
-            <input id="input-latitude" type="text" th:field="*{latitude}" placeholder="Latitude" class="form-control latitude" />
+            <input id="input-geo_point-descr" type="text" th:field="*{descr}" placeholder="Info" class="form-control descr" />
+            <label th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}" class="validation-message"></label>
+        </div>
+
+        <div>
+            <input id="input-geo_point-latitude" type="text" th:field="*{latitude}" placeholder="Latitude" class="form-control latitude" />
             <label th:if="${#fields.hasErrors('latitude')}" th:errors="*{latitude}" class="validation-message"></label>
         </div>
 
         <div>
-            <input id="input-longitude" type="text" th:field="*{longitude}" placeholder="Longtitude" class="form-control longtitude" />
+            <input id="input-geo_point-longitude" type="text" th:field="*{longitude}" placeholder="Longitude" class="form-control longtitude" />
             <label th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}" class="validation-message"></label>
         </div>
 
         <div>
-            <input id="input-radius" type="number" th:field="*{radiusD}" placeholder="Radius" class="form-control radius" />
-            <label th:if="${#fields.hasErrors('radiusD')}" th:errors="*{radiusD}" class="validation-message"></label>
-        </div>
-
-        <div>
-            <input id="input-info" type="text" th:field="*{info}" placeholder="Info" class="form-control info" />
-            <label th:if="${#fields.hasErrors('info')}" th:errors="*{info}" class="validation-message"></label>
+            <input id="input-geo_point-radius" type="number" th:field="*{radius}" placeholder="Radius" class="form-control radius" />
+            <label th:if="${#fields.hasErrors('radius')}" th:errors="*{radius}" class="validation-message"></label>
         </div>
 
         <div style="display: inline-block;width:100%;">
-            <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button" type="submit" disabled>CreateUpdate</button>
-            <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="submit" disabled>CancelDelete</button>
+            <!--type="submit"-->
+            <!--onclick="submitGeoPointForm('/secure/geopoint/create','CREATE')"-->
+            <!--onclick="submitGeoPointForm('/secure/geopoint/remove','DELETE')"-->
+            <!--disabled-->
+            <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button" >CreateUpdate</button>
+            <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button" >CancelDelete</button>
         </div>
 
         <span th:utext="${successMessage}"></span>
-
+        <span id="responseMessage"></span>
     </form>
+    <!--</th:block>-->
+
+
+<!--
+    <script th:inline="javascript">
+        // <![CDATA[
+
+        function setCreateCancelButtons() {
+            createUpdateButton.textContent = "Create";
+            deleteCancelButton.textContent = "Cancel";
+
+            createUpdateButton.prop("type", "submit");
+            deleteCancelButton.prop("type", "button");
+
+            createUpdateButton.off("click").click(function (e) {
+                    submitGeoPointForm('/secure/geopoint/create','CREATE');
+                    refreshGeoPointsList();
+                });
+            deleteCancelButton.off("click").click(function (e) {
+                e.stopPropagation();
+                closeChangingGeoPoint();
+            });
+        }
+
+        function setUpdateDeleteButtons() {
+            createUpdateButton.textContent = "Update";
+            deleteCancelButton.textContent = "Delete";
+
+            createUpdateButton.prop("type", "submit");
+            deleteCancelButton.prop("type", "submit");
+
+            createUpdateButton.off("click").click(function (e) {
+                submitGeoPointForm('/secure/geopoint/update','PATCH');
+                refreshGeoPointsList();
+            });
+            deleteCancelButton.off("click").click(function (e) {
+                submitGeoPointForm('/secure/geopoint/remove','DELETE');
+                refreshGeoPointsList();
+            });
+        }
+
+        function submitGeoPointForm(action,type)
+        {
+//            var url = ''+action;
+            var form = $('#geo_point-form');
+            form.action = action;
+            $(form).attr("method", ""+type);
+//            document.getElementById('geo_point-form').submit();
+
+            console.log('ajax submitGeoPointForm()');
+
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('type'),
+                data: form.serialize(),
+                success: function (response) {
+                    // if the response contains any errors, replace the form
+                    if ($(response).find('.has-error').length) {
+                        $("#responseMessage").html(response);
+                    } else {
+                        // in this case we can actually replace the form
+                        // with the response as well, unless we want to
+                        // show the success message a different way
+                    }
+                },
+                error : function(data) {
+                    var msg = "Sorry but there was an error: ";
+                    alert(msg+data);
+                    $("#responseMessage").html(data);
+                }
+
+            });
+
+            refreshGeoPointsList();
+        }
+        $(document).ready(function() {
+            $('#input-radius').on('onchange',function (e) {
+                alert("onchange");
+
+            });
+        });
+        // ]]>
+    </script>
+-->
+
 </div>
 <!--</div>-->
 </body>

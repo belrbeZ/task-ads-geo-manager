@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -107,6 +109,17 @@ public class ProfileRestController {
 //            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
 //        }
         return new ResponseEntity<>(repoService.getGeoPoints(userId), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
+//        if (user == null) {
+//            System.out.println("User with id " + id + " not found");
+//            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+//        }
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = repoService.getByEmail(auth.getName()).get();
+        return new ResponseEntity<>(Translator.geoUsersToDTO(user.getGeoPoints()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/geoPoint", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

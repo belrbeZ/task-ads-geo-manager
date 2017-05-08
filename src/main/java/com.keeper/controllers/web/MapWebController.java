@@ -40,10 +40,27 @@ public class MapWebController {
     public ModelAndView mapGet(Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
-        GeoPointDTO geoPointDTO = GeoPointDTO.EMPTY;
 
-        modelAndView.addObject("geoPoint", geoPointDTO);
+		if(modelAndView.getModel().get("geoPoint") == null) {
 
+			GeoPointDTO geoPointDTO = GeoPointDTO.EMPTY;
+
+			modelAndView.addObject("geoPoint", geoPointDTO);
+
+        }
+
+        if(modelAndView.getModel().get("geoPoints") == null) {
+
+            Optional<User> user = userService.getAuthorized();
+
+            if(user.isPresent()) {
+
+                System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
+
+                modelAndView.addObject("geoPoints", Translator.geoUsersToDTO(user.get().getGeoPoints()));
+
+            }
+        }
         return modelAndView;
     }
 
@@ -56,25 +73,4 @@ public class MapWebController {
         return modelAndView;
     }
 
-    @RequestMapping(value = WebResolver.GEOPOINT_CREATE, method = RequestMethod.POST)
-    public ModelAndView geoPointCreateForm(@Valid GeoPointDTO geoPointDTO, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
-
-        Optional<User> user = userService.getAuthorized();
-
-        System.out.println(geoPointDTO.getRadius());
-
-        if(user.isPresent()) {
-            geoPointDTO.setUserId(user.get().getId());
-            geoPointService.add(Translator.toDAO(geoPointDTO));
-
-//            userService.addGeoPoint(user.getId(), geoPointDTO);
-            // БЫЛО, то что не закомменчено стало т.к. теперь GeoPointService & and should save geoPoints via GeoPointService, not UserService
-
-            modelAndView.addObject("geoPoint", geoPointDTO);
-        } else
-            modelAndView.addObject("errorMessage", "Session is expired!");
-
-        return modelAndView;
-    }
 }
