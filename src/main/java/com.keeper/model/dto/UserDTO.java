@@ -28,9 +28,9 @@ public class UserDTO {
 
     private UserType type;
 
-    @NotEmpty private String name;
-    @Email private String email;
-    @NotEmpty private String password;
+    private String name;
+    private String email;
+    private String password;
 
     private String phone;
 

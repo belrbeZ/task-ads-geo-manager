@@ -51,6 +51,26 @@ public class CommentDTO {
 
     //<editor-fold desc="GetterAndSetter">
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCreateDate(LocalDateTime createDate) {
+        this.createDate = createDate;
+    }
+
+    public void setLastModifyDate(LocalDateTime lastModifyDate) {
+        this.lastModifyDate = lastModifyDate;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     public SimpleGeoPoint getGeo() {
         return geo;
     }

@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.util;
 
 /*
  * Created by @GoodforGod on 01.05.2017.

@@ -6,8 +6,8 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.service.impl.GeoPointService;
-import com.keeper.service.impl.UserService;
+import com.keeper.service.modelbased.impl.GeoPointService;
+import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 /**

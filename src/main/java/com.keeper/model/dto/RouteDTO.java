@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Default Comment
@@ -50,6 +51,14 @@ public class RouteDTO {
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    public List<Double> getLongitudes() {
+        return points.stream().map(SimpleGeoPoint::getLongitude).collect(Collectors.toList());
+    }
+
+    public List<Double> getLatitudes() {
+        return points.stream().map(SimpleGeoPoint::getLatitude).collect(Collectors.toList());
+    }
 
     public Long getId() {
         return id;

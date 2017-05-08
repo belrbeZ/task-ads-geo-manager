@@ -6,7 +6,7 @@ package com.keeper.controllers.restful;
 
 import com.keeper.model.dao.Zone;
 import com.keeper.model.dto.ZoneDTO;
-import com.keeper.service.impl.ZoneService;
+import com.keeper.service.modelbased.impl.ZoneService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;

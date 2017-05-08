@@ -5,7 +5,7 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.service.impl.GeoPointService;
+import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;

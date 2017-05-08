@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 08.05.2017.
@@ -7,7 +7,8 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.Picture;
 import com.keeper.model.dto.PictureDTO;
 import com.keeper.repo.GeoPointRepository;
-import com.keeper.service.IPictureService;
+import com.keeper.repo.PictureRepository;
+import com.keeper.service.modelbased.IPictureService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,32 +20,42 @@ import java.util.Optional;
  */
 public class PictureService extends ModelService<Picture> implements IPictureService {
 
-    private final GeoPointRepository repository;
+    private final PictureRepository repository;
 
     @Autowired
-    public PictureService(GeoPointRepository repository) {
+    public PictureService(PictureRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public Optional<Picture> getByUserId(Long userId) {
-        return null;
+        return repository.findByUserId(userId);
     }
 
     @Override
     public Optional<Picture> getByTaskId(Long taskId) {
-        return null;
+        return repository.findByTaskId(taskId);
     }
 
     @Transactional
     @Override
     public Optional<Picture> saveDTO(PictureDTO model) {
+        if(model == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return super.save(Translator.toDAO(model));
     }
 
     @Transactional
     @Override
     public Optional<Picture> updateDTO(PictureDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
         return null;
     }
 

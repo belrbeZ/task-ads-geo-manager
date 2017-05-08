@@ -5,6 +5,7 @@ import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 import org.hibernate.validator.constraints.NotEmpty;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -52,20 +53,20 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     }
 
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
-                   Double latitude, Double longitude, Integer radius) {
+                   SimpleGeoPoint geo) {
         this.id     = id;
         this.topicStarterId = topicStarterId;
         this.type   = type;
         this.theme  = theme;
         this.descr  = descr;
-        this.geo    = new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
+        this.geo    = geo;
     }
 
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
-                   Double latitude, Double longitude, Integer radius, PictureDTO picture,
+                   SimpleGeoPoint geo, PictureDTO picture,
                    Timestamp createDate, Timestamp lastModifyDate,
                    List<CommentDTO> comments, List<UserDTO> participants, List<TagDTO> tags) {
-        this(id, topicStarterId, type, theme, descr, latitude, longitude, radius);
+        this(id, topicStarterId, type, theme, descr, geo);
         this.createDate     = (createDate != null) ? createDate.toLocalDateTime() : null;
         this.lastModifyDate = (lastModifyDate != null) ? lastModifyDate.toLocalDateTime() : null;
         this.picture        = picture;

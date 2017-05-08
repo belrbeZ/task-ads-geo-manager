@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 08.05.2017.
@@ -7,7 +7,8 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.Comment;
 import com.keeper.model.dto.CommentDTO;
 import com.keeper.repo.CommentRepository;
-import com.keeper.service.ICommentService;
+import com.keeper.service.modelbased.ICommentService;
+import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,28 +31,53 @@ public class CommentService extends ModelService<Comment> implements ICommentSer
     @Transactional
     @Override
     public Optional<Comment> saveDTO(CommentDTO model) {
-        return null;
+        if(model == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
+        return super.save(Translator.toDAO(model));
     }
 
     @Transactional
     @Override
     public Optional<Comment> updateDTO(CommentDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
         return null;
     }
 
     @Override
     public Optional<List<Comment>> getByTaskId(Long taskId) {
-        return null;
+        if(taskId == null) {
+            LOGGER.warn("Get with NULLABLE ID");
+            return Optional.empty();
+        }
+
+        return repository.findAllByTaskId(taskId);
     }
 
     @Override
-    public Optional<List<Comment>> getSpecificUser(Long taskId, Long userId) {
-        return null;
+    public Optional<List<Comment>> getTaskSpecificUserThread(Long taskId, Long userId) {
+        if(taskId == null || userId == null) {
+            LOGGER.warn("Get with NULLABLE ID");
+            return Optional.empty();
+        }
+
+        return repository.findAllByTaskIdAndUserId(taskId, userId);
     }
 
     @Transactional
     @Override
     public void removeByTaskId(Long taskId) {
+        if(taskId == null) {
+            LOGGER.warn("Remove with NULLABLE ID");
+            return;
+        }
 
+        repository.removeAllByTaskId(taskId);
     }
 }

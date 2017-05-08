@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.modelbased;
 
 /*
  * Created by @GoodforGod on 6.04.2017.
@@ -6,7 +6,6 @@ package com.keeper.service;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +13,7 @@ import java.util.Optional;
 /**
  * Default Comment
  */
-public interface IUserService extends IModelService<User> {
+public interface IUserService extends IModelDTOService<User, UserDTO> {
     boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
 
@@ -23,14 +22,10 @@ public interface IUserService extends IModelService<User> {
     Optional<User> getByEmail(String email);
     Optional<User> getByPhone(String phone);
 
-    /**
-     * TRANSACTIONAL
-     */
+    /** TRANSACTIONAL */
     Optional<User> removeByEmail(String email);
 
-    /**
-     * TRANSACTIONAL
-     */
+    /** TRANSACTIONAL */
     Optional<User> removeByPhone(String phone);
 
 

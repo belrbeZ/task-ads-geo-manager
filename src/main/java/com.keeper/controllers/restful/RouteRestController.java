@@ -6,7 +6,7 @@ package com.keeper.controllers.restful;
 
 import com.keeper.model.dao.Route;
 import com.keeper.model.dto.RouteDTO;
-import com.keeper.service.impl.RouteService;
+import com.keeper.service.modelbased.impl.RouteService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.slf4j.Logger;

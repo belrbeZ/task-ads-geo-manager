@@ -1,10 +1,10 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.service.IModelService;
+import com.keeper.service.modelbased.IModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;

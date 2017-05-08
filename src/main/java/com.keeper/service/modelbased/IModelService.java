@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.modelbased;
 
 /*
  * Created by @GoodforGod on 6.04.2017.
@@ -20,18 +20,12 @@ public interface IModelService<DAO> {
 
     Optional<List<DAO>> getAll();
 
-    /**
-     * TRANSACTIONAL
-     */
+    /** TRANSACTIONAL */
     Optional<DAO> save(DAO model);
 
-    /**
-     * TRANSACTIONAL
-     */
+    /** TRANSACTIONAL */
     Optional<DAO> update(DAO model);
 
-    /**
-     * TRANSACTIONAL
-     */
+    /** TRANSACTIONAL */
     void remove(Long id);
 }

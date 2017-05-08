@@ -5,7 +5,7 @@ package com.keeper.util.validation;
  */
 
 import com.keeper.model.dao.User;
-import com.keeper.service.impl.UserService;
+import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.resolve.SecureResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

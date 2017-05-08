@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.modelbased;
 
 /*
  * Created by GoodforGod on 23.03.2017.
@@ -11,7 +11,6 @@ import com.keeper.model.dao.Task;
 import com.keeper.model.dto.CommentDTO;
 import com.keeper.model.dto.PictureDTO;
 import com.keeper.model.dto.TaskDTO;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

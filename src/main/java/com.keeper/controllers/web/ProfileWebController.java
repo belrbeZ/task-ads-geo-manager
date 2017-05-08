@@ -6,7 +6,7 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
-import com.keeper.service.impl.UserService;
+import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;

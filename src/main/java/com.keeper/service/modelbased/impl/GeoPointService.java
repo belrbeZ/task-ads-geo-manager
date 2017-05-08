@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 02.05.2017.
@@ -7,8 +7,9 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.repo.GeoPointRepository;
-import com.keeper.service.IFeedSubmiter;
-import com.keeper.service.IGeoPointService;
+import com.keeper.service.util.IFeedSubmitService;
+import com.keeper.service.util.impl.FeedService;
+import com.keeper.service.modelbased.IGeoPointService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ import java.util.Optional;
 public class GeoPointService extends ModelService<GeoPoint> implements IGeoPointService {
 
     private final GeoPointRepository repository;
-    private final IFeedSubmiter feedSubmitService;
+    private final IFeedSubmitService feedSubmitService;
 
     @Autowired
     public GeoPointService(GeoPointRepository repository,
@@ -42,24 +43,44 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
 
     @Override
     public Optional<List<GeoPoint>> getByUserId(Long userId) {
+        if(userId == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return repository.findAllByUserId(userId);
     }
 
     @Transactional
     @Override
     public Optional<GeoPoint> saveDTO(GeoPointDTO model) {
+        if(model == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return save(Translator.toDAO(model));
     }
 
     @Transactional
     @Override
     public Optional<GeoPoint> updateDTO(GeoPointDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
         return null;
     }
 
     @Transactional
     @Override
     public Optional<GeoPoint> save(GeoPoint model) {
+        if(model == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         Optional<GeoPoint> geoUser = super.save(model);
         geoUser.ifPresent(feedSubmitService::submit);
         return geoUser;

@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 9.04.2017.
@@ -13,7 +13,7 @@ import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
 import com.keeper.repo.TaskRepository;
 import com.keeper.repo.UserRepository;
-import com.keeper.service.IUserService;
+import com.keeper.service.modelbased.IUserService;
 import com.keeper.util.Translator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +34,15 @@ public class UserService extends ModelService<User> implements IUserService {
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;
     private final RouteRepository routeRepository;
-    private final TaskRepository taskRepository;
 
     @Autowired
     public UserService(UserRepository repository,
                        GeoPointRepository geoPointRepository,
-                       RouteRepository routeRepository,
-                       TaskRepository taskRepository) {
+                       RouteRepository routeRepository) {
         this.repository = repository;
         this.primeRepository = repository;
         this.geoPointRepository = geoPointRepository;
         this.routeRepository = routeRepository;
-        this.taskRepository = taskRepository;
     }
 
     @Override
@@ -80,6 +77,28 @@ public class UserService extends ModelService<User> implements IUserService {
 
     @Transactional
     @Override
+    public Optional<User> saveDTO(UserDTO model) {
+        if(model == null) {
+            LOGGER.warn("save NULLABLE dto");
+            return Optional.empty();
+        }
+
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public Optional<User> updateDTO(UserDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
+        return null;
+    }
+
+    @Transactional
+    @Override
     public Optional<User> removeByEmail(@NotEmpty String email) {
         return repository.removeByEmail(email);
     }
@@ -89,6 +108,7 @@ public class UserService extends ModelService<User> implements IUserService {
     public Optional<User> removeByPhone(@NotEmpty String phone) {
         return repository.removeByPhone(phone);
     }
+
 
 
 

@@ -5,7 +5,7 @@ package com.keeper.util.validation;
  */
 
 import com.keeper.model.dto.UserFormDTO;
-import com.keeper.service.impl.UserService;
+import com.keeper.service.modelbased.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

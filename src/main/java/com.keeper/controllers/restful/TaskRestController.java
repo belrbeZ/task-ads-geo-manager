@@ -8,7 +8,7 @@ import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.*;
-import com.keeper.service.impl.TaskService;
+import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;

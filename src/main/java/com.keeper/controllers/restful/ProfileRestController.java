@@ -7,7 +7,7 @@ package com.keeper.controllers.restful;
 import com.keeper.model.ModelLoggerManager;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
-import com.keeper.service.impl.UserService;
+import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;

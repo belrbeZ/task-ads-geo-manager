@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by GoodforGod on 19.03.2017.
@@ -14,8 +14,9 @@ import com.keeper.repo.CommentRepository;
 import com.keeper.repo.TagRepository;
 import com.keeper.repo.TaskRepository;
 import com.keeper.repo.UserRepository;
-import com.keeper.service.IFeedSubmiter;
-import com.keeper.service.ITaskService;
+import com.keeper.service.util.IFeedSubmitService;
+import com.keeper.service.util.impl.FeedService;
+import com.keeper.service.modelbased.ITaskService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +39,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
     private final TagRepository tagRepository;
     private final UserRepository userRepository;
 
-    private final IFeedSubmiter feedSubmitService;
+    private final IFeedSubmitService feedSubmitService;
 
     @Autowired
     public TaskService(TaskRepository repository,
@@ -67,11 +67,21 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
     @Override
     public Optional<Task> saveDTO(TaskDTO model) {
+        if(model == null) {
+            LOGGER.warn("save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return save(Translator.toDAO(model));
     }
 
     @Override
     public Optional<Task> updateDTO(TaskDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
         return null;
     }
 

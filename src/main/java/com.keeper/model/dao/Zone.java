@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @Table(name = DatabaseResolver.TABLE_ZONES, schema = DatabaseResolver.SCHEMA)
 public class Zone {
 
-    public static final Zone EMPTY = new Zone((long)UserType.EMPTY.getValue());
+    public static final Zone EMPTY = new Zone();
 
     @Id
     @Column(name = "userId", unique = true, nullable = false)   private Long profileId;
@@ -30,15 +30,10 @@ public class Zone {
     @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
 
     private Zone() {
-        this.profileId      = (long) UserType.UNKNOWN.getValue();
+        this.profileId      = UserType.EMPTY.getValue();
         this.city           = "";
         this.country        = "";
         this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
-    }
-
-    private Zone(Long id) {
-        super();
-        this.profileId = id;
     }
 
     public Zone(Long profileId, String city, String country) throws NullPointerException {

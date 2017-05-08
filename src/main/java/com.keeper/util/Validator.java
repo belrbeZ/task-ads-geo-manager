@@ -16,12 +16,20 @@ public class Validator {
 
     static final int EMAIL_INCORRECT = -1;
 
+    public static boolean isStrEmpty(String str) {
+        return (str == null || str.trim().isEmpty());
+    }
+
+    public static boolean isPassValid(String pass) {
+        return (pass != null && pass.trim().isEmpty() && pass.length() > 6);
+    }
+
     public static boolean isEmailValid(String email) {
-        return (email != null && email.length() > 3 && email.indexOf('@') != EMAIL_INCORRECT);
+        return (email != null && !email.trim().isEmpty() && email.length() > 3 && email.indexOf('@') != EMAIL_INCORRECT);
     }
 
     public static int isEmailValidReturnIndex(String email) {
-        return (email != null && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
+        return (email != null && !email.trim().isEmpty() && email.length() > 3) ? email.indexOf('@') : EMAIL_INCORRECT;
     }
 
     private static Predicate<String> phoneFilter = (Validator::isPhoneValid);
@@ -45,6 +53,10 @@ public class Validator {
         return geos != null
                 && !geos.isEmpty()
                 && geos.matches("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
+    }
+
+    public static boolean isGeoDoubleValid(List<Double> geos) {
+        return geos.stream().map(Object::toString).noneMatch(Validator.geoFilter);
     }
 
     public static boolean isGeoValid(List<String> geos) {

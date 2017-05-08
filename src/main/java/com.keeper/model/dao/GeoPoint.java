@@ -4,6 +4,7 @@ package com.keeper.model.dao;
  * Created by @GoodforGod on 02.05.2017.
  */
 
+import com.keeper.model.SimpleGeoPoint;
 import com.keeper.util.resolve.DatabaseResolver;
 
 import javax.persistence.*;
@@ -48,6 +49,16 @@ public class GeoPoint {
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    public SimpleGeoPoint getGeo() {
+        return new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
+    }
+
+    public void setGeo(SimpleGeoPoint geo) {
+        this.longitude = geo.getLongitude();
+        this.latitude = geo.getLatitude();
+        this.radius = geo.getRadius();
+    }
 
     public Long getId() {
         return id;

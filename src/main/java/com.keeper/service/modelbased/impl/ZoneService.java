@@ -1,17 +1,17 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 9.04.2017.
  */
 
 import com.keeper.model.dao.Zone;
+import com.keeper.model.dto.ZoneDTO;
 import com.keeper.repo.ZoneRepository;
-import com.keeper.service.IZoneService;
+import com.keeper.service.modelbased.IZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +57,28 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
         }
 
         return repository.findByCity(city);
+    }
+
+    @Transactional
+    @Override
+    public Optional<Zone> saveDTO(ZoneDTO model) {
+        if(model == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public Optional<Zone> updateDTO(ZoneDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
+        return null;
     }
 
     @Transactional

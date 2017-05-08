@@ -10,6 +10,7 @@ package com.keeper.model.dao;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
+import com.keeper.model.types.UserType;
 import com.keeper.util.resolve.DatabaseResolver;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -34,7 +35,7 @@ public class Task {
     @Column(name = "id", unique = true, nullable = false)           private Long id;
     @Column(name = "topicStarterId")                                private Long topicStarterId;
     @Column(name = "type")                                          private TaskType type;
-    @Column(name = "state")                                         private TaskState state = TaskState.HIDEN;
+    @Column(name = "state")                                         private TaskState state = TaskState.OKAY;
     @Column(name = "theme")                                         private String theme;
     @Column(name = "descr")                                         private String descr;
     @Column(name = "latitude")                                      private Double latitude;
@@ -72,44 +73,38 @@ public class Task {
     private List<User> participants;
 
     private Task() {
-        this.id = 0L;
-        this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
+        this.id     = TaskType.EMPTY.getValue();
+        this.topicStarterId = UserType.EMPTY.getValue();
+        this.createDate     = Timestamp.valueOf(LocalDateTime.MIN);
         this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MAX);
-        this.topicStarterId = 0L;
-        this.type = TaskType.EMPTY;
-        this.state = TaskState.UNKNOWN;
-        this.theme = "";
-        this.descr = "";
+        this.type   = TaskType.EMPTY;
+        this.state  = TaskState.UNKNOWN;
+        this.theme  = "";
+        this.descr  = "";
     }
 
-    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr) {
+    public Task(Long topicStarterId, TaskType type, String theme, String descr) {
+        this.state = TaskState.OKAY;
         this.topicStarterId = topicStarterId;
         this.createDate = Timestamp.valueOf(LocalDateTime.now());
         this.lastModifyDate = Timestamp.valueOf(LocalDateTime.now());
         this.type = type;
-        this.state = state;
         this.theme = theme;
         this.descr = descr;
 
     }
 
-    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr, SimpleGeoPoint geo) {
-        this.topicStarterId = topicStarterId;
-        this.createDate = Timestamp.valueOf(LocalDateTime.now());
-        this.lastModifyDate = Timestamp.valueOf(LocalDateTime.now());
-        this.type = type;
-        this.state = state;
-        this.theme = theme;
-        this.descr = descr;
-        this.latitude = (geo != null) ? geo.getLatitude() : null;
-        this.longitude = (geo != null) ? geo.getLongitude() : null;
-        this.radius = (geo != null) ? geo.getRadius() : null;
+    public Task(Long topicStarterId, TaskType type, String theme, String descr, SimpleGeoPoint geo) {
+        this(topicStarterId, type, theme, descr);
+        this.latitude   = (geo != null) ? geo.getLatitude() : null;
+        this.longitude  = (geo != null) ? geo.getLongitude() : null;
+        this.radius     = (geo != null) ? geo.getRadius() : null;
     }
 
-    public Task(Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
+    public Task(Long topicStarterId, TaskType type, String theme, String descr,
                 Picture picture, List<Comment> comments, SimpleGeoPoint geo,
                 List<Tag> tags, List<User> participants) {
-        this(topicStarterId, type, state, theme, descr);
+        this(topicStarterId, type, theme, descr);
         this.picture = picture;
         this.comments = comments;
         this.latitude = geo.getLatitude();
@@ -137,30 +132,6 @@ public class Task {
 
     public Long getTopicStarterId() {
         return topicStarterId;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public Integer getRadius() {
-        return radius;
-    }
-
-    public void setRadius(Integer radius) {
-        this.radius = radius;
     }
 
     public TaskType getType() {

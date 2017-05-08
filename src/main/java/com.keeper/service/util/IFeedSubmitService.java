@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.util;
 
 /*
  * Created by @GoodforGod on 02.05.2017.
@@ -7,22 +7,23 @@ package com.keeper.service;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
+import com.keeper.util.validation.annotation.Geo;
 
 import java.util.List;
 
 /**
  * Default Comment
  */
-public interface IFeedSubmiter {
-    void submit(Task task);
-    void submit(GeoPoint point);
-    void submit(Route route);
+public interface IFeedSubmitService {
+    Task submit(Task task);
+    GeoPoint submit(GeoPoint point);
+    Route submit(Route route);
 
     void loadTasks(List<Task> task);
     void loadPoints(List<GeoPoint> point);
     void loadRoutes(List<Route> route);
 
-    void remove(Task task);
-    void remove(GeoPoint point);
-    void remove(Route route);
+    Task remove(Task task);
+    GeoPoint remove(GeoPoint point);
+    Route remove(Route route);
 }

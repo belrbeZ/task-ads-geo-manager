@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.modelbased.impl;
 
 /*
  * Created by @GoodforGod on 18.04.2017.
@@ -7,15 +7,15 @@ package com.keeper.service.impl;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.repo.RouteRepository;
-import com.keeper.service.IFeedSubmiter;
-import com.keeper.service.IRouteService;
+import com.keeper.service.util.IFeedSubmitService;
+import com.keeper.service.util.impl.FeedService;
+import com.keeper.service.modelbased.IRouteService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ import java.util.Optional;
 public class RouteService extends ModelService<Route> implements IRouteService {
 
     private final RouteRepository repository;
-    private final IFeedSubmiter feedSubmitService;
+    private final IFeedSubmitService feedSubmitService;
 
     @Autowired
     public RouteService(RouteRepository repository,
@@ -49,12 +49,22 @@ public class RouteService extends ModelService<Route> implements IRouteService {
     @Transactional
     @Override
     public Optional<Route> saveDTO(RouteDTO model) {
+        if(model == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return save(Translator.toDAO(model));
     }
 
     @Transactional
     @Override
     public Optional<Route> updateDTO(RouteDTO model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
         return null;
     }
 

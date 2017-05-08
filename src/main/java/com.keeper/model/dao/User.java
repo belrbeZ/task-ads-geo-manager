@@ -77,9 +77,9 @@ public class User {
     private List<Task> participantedTasks;*/
 
     private User() {
-        this.id         = (long) UserType.UNKNOWN.getValue();
+        this.id         = UserType.EMPTY.getValue();
         this.state      = UserState.UNKNOWN;
-        this.type       = UserType.UNKNOWN;
+        this.type       = UserType.EMPTY;
         this.name       = "";
         this.email      = "";
         this.phone      = "";

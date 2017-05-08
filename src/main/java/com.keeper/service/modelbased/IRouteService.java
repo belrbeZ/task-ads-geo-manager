@@ -1,4 +1,4 @@
-package com.keeper.service;
+package com.keeper.service.modelbased;
 
 /*
  * Created by @GoodforGod on 18.04.2017.

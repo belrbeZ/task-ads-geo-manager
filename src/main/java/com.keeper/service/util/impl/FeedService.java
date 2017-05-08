@@ -1,4 +1,4 @@
-package com.keeper.service.impl;
+package com.keeper.service.util.impl;
 
 /*
  * Created by @GoodforGod on 30.04.2017.
@@ -11,8 +11,8 @@ import com.keeper.model.dto.GeoLocations;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.service.IFeedService;
-import com.keeper.service.IFeedSubmiter;
+import com.keeper.service.util.IFeedService;
+import com.keeper.service.util.IFeedSubmitService;
 import com.keeper.util.Computer;
 import com.keeper.util.Translator;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
  * Default Comment
  */
 @Service
-public class FeedService implements IFeedService, IFeedSubmiter {
+public class FeedService implements IFeedService, IFeedSubmitService {
 
     private boolean taskLoader = false;
     private boolean pointLoader = false;
@@ -102,33 +102,39 @@ public class FeedService implements IFeedService, IFeedSubmiter {
     //<editor-fold desc="Submiter">
 
     @Override
-    public void submit(Task task) {
+    public Task submit(Task task) {
         tasksToProceed.add(tasks.putIfAbsent(task.getId(), Translator.toDTO(task)).getId());
+        return task;
     }
 
     @Override
-    public void submit(GeoPoint point) {
+    public GeoPoint submit(GeoPoint point) {
         pointsToProceed.add(points.putIfAbsent(point.getId(), Translator.toDTO(point)).getId());
+        return point;
     }
 
     @Override
-    public void submit(Route route) {
+    public Route submit(Route route) {
         routesToProceed.add(routes.putIfAbsent(route.getId(), Translator.toDTO(route)).getId());
+        return route;
     }
 
     @Override
-    public void remove(Task task) {
+    public Task remove(Task task) {
         removedTask.put(task.getId(), task.getTopicStarterId());
+        return task;
     }
 
     @Override
-    public void remove(GeoPoint point) {
+    public GeoPoint remove(GeoPoint point) {
         removedPoints.put(point.getId(), point.getUserId());
+        return point;
     }
 
     @Override
-    public void remove(Route route) {
+    public Route remove(Route route) {
         removedPoints.put(route.getId(), route.getUserId());
+        return route;
     }
     //</editor-fold>
 
