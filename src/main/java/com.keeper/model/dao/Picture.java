@@ -31,7 +31,7 @@ public class Picture {
     @Column(name = "userId")                                private Long userId;
     @Column(name = "taskId")                                private Long taskId;
     @Column(name = "pic", nullable = false)                 private String pic;
-    @Column(name = "info", nullable = false)                private String info;
+    @Column(name = "info")                                  private String info;
 
     private Picture() {
         this.id = (long)PicType.EMPTY.getValue();

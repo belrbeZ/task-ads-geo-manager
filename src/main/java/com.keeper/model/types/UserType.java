@@ -16,13 +16,13 @@ public enum UserType {
     ORGANIZATION(30),
     ENTERPRISE(40);
 
-    private final int value;
+    private final long value;
 
-    UserType(int value) {
+    UserType(long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 }

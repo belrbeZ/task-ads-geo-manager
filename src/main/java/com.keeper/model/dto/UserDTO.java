@@ -24,22 +24,18 @@ public class UserDTO {
 
     public static final UserDTO EMPTY = new UserDTO();
 
-    @NotNull
-    private Long  id;
-    private UserType    type;
+    @NotNull private Long  id;
 
-    @NotEmpty
-    private String      name;
+    private UserType type;
 
-    @Email
-    private String      email;
-    private String      phone;
+    @NotEmpty private String name;
+    @Email private String email;
+    @NotEmpty private String password;
 
-    @NotEmpty
-    private String      password;
+    private String phone;
 
-    private String      about;
-    private Boolean     notified;
+    private String about;
+    private Boolean notified;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -52,15 +48,15 @@ public class UserDTO {
    /* private List<TaskDTO> participantedTasks;*/
 
     private UserDTO() {
-        this.id         = (long) UserType.UNKNOWN.getValue();
-        this.type       = UserType.UNKNOWN;
+        this.id         = UserType.EMPTY.getValue();
+        this.type       = UserType.EMPTY;
         this.name       = "";
         this.email      = "";
         this.phone      = "";
         this.password   = "";
         this.about      = "";
         this.notified   = false;
-        this.muteEnd    = LocalDateTime.MAX;
+        this.muteEnd    = LocalDateTime.MIN;
     }
 
     public UserDTO(Long id, UserType type, String name, String email, String phone, String password, String about) {

@@ -13,13 +13,13 @@ public enum TaskType {
     CALL(2),
     ADVERTISE(3);
 
-    private final int value;
+    private final long value;
 
-    TaskType(int value) {
+    TaskType(long value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public long getValue() {
         return value;
     }
 }

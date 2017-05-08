@@ -16,22 +16,20 @@ import java.util.Optional;
 public class ModelManager<T> implements IModelManager<T> {
 
     @Override
-    public boolean isExists(Long id) {
+    public boolean exists(Long id) {
         return false;
     }
 
-    @Override
-    public T getEmpty() {
+    protected T getEmpty() {
         return null;
     }
 
-    @Override
-    public List<T> getEmptyList() {
+    protected List<T> getEmptyList() {
         return Collections.emptyList();
     }
 
     @Override
-    public Optional<T> add(T model) {
+    public Optional<T> save(T model) {
         return null;
     }
 

@@ -6,6 +6,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.types.UserType;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -14,35 +15,35 @@ import java.time.LocalDateTime;
  */
 public class ZoneDTO {
 
-    public static final ZoneDTO EMPTY = new ZoneDTO((long) UserType.EMPTY.getValue());
+    public static final ZoneDTO EMPTY = new ZoneDTO();
 
-    private final Long  profileId;
-    private String      city;
-    private String      country;
-    private Timestamp   registerDate;
+    @NotNull private Long  profileId;
+
+    private String city;
+    private String country;
+    private LocalDateTime registerDate;
 
     private ZoneDTO() {
-        this.profileId         = (long) UserType.UNKNOWN.getValue();
+        this.profileId      = UserType.EMPTY.getValue();
         this.city           = "";
         this.country        = "";
-        this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
-    }
-
-    private ZoneDTO(Long profileId) {
-        super();
-        this.profileId = profileId;
+        this.registerDate   = LocalDateTime.MIN;
     }
 
     public ZoneDTO(Long profileId, String city, String country, Timestamp timestamp) {
-        this.profileId         = (profileId == null) ? UserType.EMPTY.getValue() : profileId;
+        this.profileId      = profileId;
         this.city           = city;
         this.country        = country;
-        this.registerDate   = timestamp;
+        this.registerDate   = (timestamp != null) ? timestamp.toLocalDateTime() : null;
     }
 
     //<editor-fold desc="GetterAndSetter">
 
-    public Long getprofileId() {
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
+    }
+
+    public Long getProfileId() {
         return profileId;
     }
 
@@ -62,8 +63,12 @@ public class ZoneDTO {
         this.country = country;
     }
 
-    public Timestamp getRegisterDate() {
+    public LocalDateTime getRegisterDate() {
         return registerDate;
+    }
+
+    public void setRegisterDate(LocalDateTime registerDate) {
+        this.registerDate = registerDate;
     }
 
     //</editor-fold>

@@ -6,6 +6,8 @@ package com.keeper.model;
 
 import com.keeper.util.validation.annotation.Geo;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Default Comment
  */
@@ -17,7 +19,7 @@ public class SimpleGeoPoint {
     private Double latitude;
     private Integer radius;
 
-    private SimpleGeoPoint(){
+    private SimpleGeoPoint() {
         this.latitude = 0.;
         this.longitude = 0.;
         this.radius = 0;
@@ -32,7 +34,7 @@ public class SimpleGeoPoint {
 
     public SimpleGeoPoint(@Geo String latitude,
                           @Geo String longitude,
-                          Integer radius) {
+                          @NotNull Integer radius) {
         this(latitude, longitude);
         this.radius = radius;
     }
@@ -59,7 +61,7 @@ public class SimpleGeoPoint {
         return radius;
     }
 
-    public void setRadius(Integer radius) {
+    public void setRadius(@NotNull Integer radius) {
         this.radius = radius;
     }
     //</editor-fold>

@@ -4,6 +4,7 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 02.05.2017.
  */
 
+import com.keeper.model.types.UserType;
 import com.keeper.util.validation.annotation.Geo;
 
 import javax.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public class GeoPointDTO {
         this.latitude = 0.;
         this.longitude = 0.;
         this.radius = 5;
-        this.userId = 0L;
+        this.userId = UserType.EMPTY.getValue();
         this.id     = 0L;
         this.descr = "";
     }
@@ -48,7 +49,7 @@ public class GeoPointDTO {
     public GeoPointDTO(Long id, Long userId,
                        @Geo String latitude,
                        @Geo String longitude,
-                       @NotNull Integer radius) {
+                       Integer radius) {
         this(id, userId, latitude, longitude);
         this.radius = radius;
     }
@@ -56,7 +57,8 @@ public class GeoPointDTO {
     public GeoPointDTO(Long id, Long userId,
                        @Geo String latitude,
                        @Geo String longitude,
-                       @NotNull Integer radius, String descr) {
+                       Integer radius,
+                       String descr) {
         this(id, userId, latitude, longitude, radius);
         this.descr = descr;
     }

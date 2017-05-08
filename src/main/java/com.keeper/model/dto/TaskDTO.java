@@ -3,6 +3,7 @@ package com.keeper.model.dto;
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
+import com.keeper.model.types.UserType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -25,7 +26,6 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     @NotNull private Long topicStarterId;
 
     private TaskType type;
-    private TaskState state = TaskState.HIDEN;
 
     @NotEmpty private String theme;
     @NotEmpty private String descr;
@@ -44,36 +44,34 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.id = 0L;
         this.createDate     = LocalDateTime.MIN;
         this.lastModifyDate = LocalDateTime.MIN;
-        this.topicStarterId = 0L;
+        this.topicStarterId = UserType.EMPTY.getValue();
         this.type = TaskType.EMPTY;
-        this.state = TaskState.UNKNOWN;
         this.theme = "";
         this.descr = "";
         this.geo = SimpleGeoPoint.EMPTY;
     }
 
-    public TaskDTO(Long id, Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
+    public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
                    Double latitude, Double longitude, Integer radius) {
-        this.id = id;
+        this.id     = id;
         this.topicStarterId = topicStarterId;
-        this.type = type;
-        this.state = state;
-        this.theme = theme;
-        this.descr = descr;
-        this.geo = new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
+        this.type   = type;
+        this.theme  = theme;
+        this.descr  = descr;
+        this.geo    = new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
     }
 
-    public TaskDTO(Long id, Long topicStarterId, TaskType type, TaskState state, String theme, String descr,
+    public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
                    Double latitude, Double longitude, Integer radius, PictureDTO picture,
                    Timestamp createDate, Timestamp lastModifyDate,
                    List<CommentDTO> comments, List<UserDTO> participants, List<TagDTO> tags) {
-        this(id, topicStarterId, type, state, theme, descr, latitude, longitude, radius);
-        this.createDate = createDate.toLocalDateTime();
-        this.lastModifyDate = lastModifyDate.toLocalDateTime();
-        this.picture = picture;
-        this.comments = comments;
-        this.participants = participants;
-        this.tags = tags;
+        this(id, topicStarterId, type, theme, descr, latitude, longitude, radius);
+        this.createDate     = (createDate != null) ? createDate.toLocalDateTime() : null;
+        this.lastModifyDate = (lastModifyDate != null) ? lastModifyDate.toLocalDateTime() : null;
+        this.picture        = picture;
+        this.comments       = comments;
+        this.participants   = participants;
+        this.tags           = tags;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -120,14 +118,6 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     public TaskType getType() {
         return type;
-    }
-
-    public TaskState getState() {
-        return state;
-    }
-
-    public void setState(TaskState state) {
-        this.state = state;
     }
 
     public String getTheme() {

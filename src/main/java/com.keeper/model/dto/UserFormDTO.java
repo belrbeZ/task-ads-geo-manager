@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * Default Comment
  */
 public class UserFormDTO {
+
     @NotEmpty private String name;
     @Email private String email;
     @NotEmpty private String password;

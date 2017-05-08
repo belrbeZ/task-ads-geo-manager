@@ -29,7 +29,7 @@ import java.util.Optional;
  * Default Comment
  */
 @Service
-public class UserService extends ModelRepoService<User> implements IUserService {
+public class UserService extends ModelService<User> implements IUserService {
 
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;

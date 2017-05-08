@@ -45,7 +45,7 @@ public class ZoneRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody Zone model, BindingResult result) {
-        repoService.add(model);
+        repoService.save(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

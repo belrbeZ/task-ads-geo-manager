@@ -16,9 +16,12 @@ import java.util.Optional;
  * Default Comment
  */
 @Repository
-//@Qualifier(value = "zoneRepository")
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
+    Optional<Zone> findByUserId(@Param("userId") Long userId);
+
     Optional<List<Zone>> findByCity(@Param("city") String city);
 
     Optional<List<Zone>> findByCountry(@Param("country") String country);
+
+    void removeByUserId(@Param("userId") Long userId);
 }

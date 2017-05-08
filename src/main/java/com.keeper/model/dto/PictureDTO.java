@@ -1,5 +1,8 @@
 package com.keeper.model.dto;
 
+import com.keeper.model.types.TaskType;
+import com.keeper.model.types.UserType;
+
 /**
  * Created by Alexandr Vasiliev on 18.04.2017.
  *
@@ -9,15 +12,23 @@ public class PictureDTO {
 
     public static final PictureDTO EMPTY = new PictureDTO();
 
-
     private Long userId;
     private Long taskId;
+
     private String pic;
     private String info;
 
-    public PictureDTO(){}
+    private PictureDTO() {
+        this.userId = UserType.EMPTY.getValue();
+        this.taskId = TaskType.EMPTY.getValue();
+        this.pic = "";
+        this.info = "";
+    }
 
-    public PictureDTO(Long userId, Long taskId, String pic, String info){
+    public PictureDTO(Long userId, Long taskId, String pic, String info) {
+        if(taskId == null && userId == null)
+            throw new NullPointerException("Task or User ID Must be NotNull");
+
         this.userId = userId;
         this.taskId = taskId;
         this.pic = pic;

@@ -41,7 +41,7 @@ public class RouteRestController {
 
     @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RouteDTO>> getByUserId(@RequestParam("id") Long userId) {
-        List<Route> routes = repoService.getAllByUserId(userId);
+        List<Route> routes = repoService.getByUserId(userId);
 
 //        System.out.println("User First Route:"+routes.get(0).getLongtitudes() [0]+" "+routes.get(0).getLatitudes()[0]);
 //        LOGGER.debug("User First Route:"+routes.get(0).getLongtitudes() [0]+" "+routes.get(0).getLatitudes()[0]);
@@ -62,7 +62,7 @@ public class RouteRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody RouteDTO model, BindingResult result) {
-        repoService.add(Translator.toDAO(model));
+        repoService.save(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

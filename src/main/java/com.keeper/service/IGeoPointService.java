@@ -5,6 +5,7 @@ package com.keeper.service;
  */
 
 import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dto.GeoPointDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,6 @@ import java.util.Optional;
 /**
  * Default Comment
  */
-public interface IGeoPointService {
-    Optional<List<GeoPoint>> getAllByUserId(Long userId);
+public interface IGeoPointService extends IModelDTOService<GeoPoint, GeoPointDTO> {
+    Optional<List<GeoPoint>> getByUserId(Long userId);
 }

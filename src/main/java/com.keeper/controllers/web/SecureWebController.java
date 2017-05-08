@@ -62,7 +62,7 @@ public class SecureWebController {
         }
 
         if (!bindingResult.hasErrors()) {
-            userService.add(Translator.toDAO(user));
+            userService.save(Translator.toDAO(user));
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new UserFormDTO());
         }

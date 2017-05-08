@@ -5,11 +5,14 @@ package com.keeper.service.impl;
  */
 
 import com.keeper.model.dao.Route;
+import com.keeper.model.dto.RouteDTO;
 import com.keeper.repo.RouteRepository;
 import com.keeper.service.IFeedSubmiter;
 import com.keeper.service.IRouteService;
+import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -20,7 +23,7 @@ import java.util.Optional;
  * Default Comment
  */
 @Service
-public class RouteService extends ModelRepoService<Route> implements IRouteService {
+public class RouteService extends ModelService<Route> implements IRouteService {
 
     private final RouteRepository repository;
     private final IFeedSubmiter feedSubmitService;
@@ -39,19 +42,27 @@ public class RouteService extends ModelRepoService<Route> implements IRouteServi
     }
 
     @Override
-    public List<Route> getEmptyList() {
-        return Collections.emptyList();
+    public List<Route> getByUserId(Long userId) {
+        return repository.findAllByUserId(userId).orElse(getEmptyList());
     }
 
+    @Transactional
     @Override
-    public Optional<Route> add(Route model) {
-        Optional<Route> route = super.add(model);
+    public Optional<Route> saveDTO(RouteDTO model) {
+        return save(Translator.toDAO(model));
+    }
+
+    @Transactional
+    @Override
+    public Optional<Route> updateDTO(RouteDTO model) {
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public Optional<Route> save(Route model) {
+        Optional<Route> route = super.save(model);
         route.ifPresent(feedSubmitService::submit);
         return route;
-    }
-
-    @Override
-    public List<Route> getAllByUserId(Long userId) {
-        return repository.findAllByUserId(userId).orElse(getEmptyList());
     }
 }

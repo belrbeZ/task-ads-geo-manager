@@ -32,7 +32,7 @@ import java.util.Optional;
  * Repository Service to work with Tasks
  */
 @Service
-public class TaskService extends ModelRepoService<Task> implements ITaskService {
+public class TaskService extends ModelService<Task> implements ITaskService {
 
     private final TaskRepository repository;
     private final CommentRepository commentRepository;
@@ -66,13 +66,18 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
     }
 
     @Override
-    public List<Task> getEmptyList() {
-        return new ArrayList<Task>() {{ add(getEmpty()); }};
+    public Optional<Task> saveDTO(TaskDTO model) {
+        return save(Translator.toDAO(model));
     }
 
     @Override
-    public Optional<Task> add(Task model) {
-        Optional<Task> task = super.add(model);
+    public Optional<Task> updateDTO(TaskDTO model) {
+        return null;
+    }
+
+    @Override
+    public Optional<Task> save(Task model) {
+        Optional<Task> task = super.save(model);
         task.ifPresent(feedSubmitService::submit);
         return task;
     }
@@ -104,14 +109,6 @@ public class TaskService extends ModelRepoService<Task> implements ITaskService 
         return (userId != null && userId > 0L)
                 ? repository.findAllByTopicStarterId(userId).orElse(getEmptyList())
                 : getEmptyList();
-    }
-
-    @Transactional
-    @Override
-    public Task removeByUserId(Long topicStarterId) {
-        return (topicStarterId != null && topicStarterId > 0L)
-                ? repository.removeByTopicStarterId(topicStarterId).orElse(getEmpty())
-                : getEmpty();
     }
 
     @Transactional

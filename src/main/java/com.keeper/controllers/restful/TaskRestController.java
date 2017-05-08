@@ -89,15 +89,15 @@ public class TaskRestController {
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@RequestParam("userId") Long userId,@Valid @RequestBody TaskDTO modelTask, BindingResult result) {
             modelTask.setTopicStarterId(userId);
-            repoService.add(Translator.toDAO(modelTask));
+            repoService.save(Translator.toDAO(modelTask));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteByUserId(@RequestParam("userId") Long userId) {
-        repoService.removeByUserId(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.DELETE)
+//    public ResponseEntity<String> deleteByUserId(@RequestParam("userId") Long userId) {
+//        repoService.removeByUserId(userId);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") Long id) {

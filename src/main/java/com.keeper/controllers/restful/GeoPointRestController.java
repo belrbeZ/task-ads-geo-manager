@@ -45,7 +45,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
-        repoService.add(Translator.toDAO(model));
+        repoService.save(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -39,7 +39,7 @@ public class GeoUserRestController {
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
         return new ResponseEntity<>(Translator.geoUsersToDTO(repoService
-                                                .getAllByUserId(userId)
+                                                .getByUserId(userId)
                                                 .orElse(Collections.emptyList())), HttpStatus.OK);
     }
 
@@ -51,7 +51,7 @@ public class GeoUserRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
-        repoService.add(Translator.toDAO(model));
+        repoService.save(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

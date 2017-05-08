@@ -19,35 +19,32 @@ import java.util.Optional;
  * Basic model with ID as a LONG type PARAMETER!
  */
 @Service
-public class ModelRepoService<T> implements IModelService<T> {
+public class ModelService<T> implements IModelService<T> {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(ModelRepoService.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(ModelService.class);
 
     protected JpaRepository<T, Long> primeRepository;
 
-    @Override
-    public T getEmpty() {
+    protected T getEmpty() {
         return null;
     }
 
-    public List<T> getEmptyList() {
+    protected List<T> getEmptyList() {
         return Collections.emptyList();
     }
 
     @Override
-    public boolean isExists(Long id) {
+    public boolean exists(Long id) {
         return (id != null) && primeRepository.exists(id);
-    }
-
-    // Ask what to return, exception or empty/null in case of NULL
-    @Transactional
-    @Override
-    public Optional<T> add(T model) {
-        return  Optional.of(primeRepository.save(model));
     }
 
     @Override
     public Optional<T> get(Long id) {
+        if(id == null) {
+            LOGGER.warn("Get with NULLABLE ID");
+            return Optional.empty();
+        }
+
         return Optional.of(primeRepository.findOne(id));
     }
 
@@ -59,7 +56,24 @@ public class ModelRepoService<T> implements IModelService<T> {
     // Ask what to return, exception or empty/null in case of NULL
     @Transactional
     @Override
+    public Optional<T> save(T model) {
+        if(model == null) {
+            LOGGER.warn("NULLABLE model request SAVE");
+            return Optional.empty();
+        }
+
+        return Optional.of(primeRepository.save(model));
+    }
+
+    // Ask what to return, exception or empty/null in case of NULL
+    @Transactional
+    @Override
     public Optional<T> update(T model) {
+        if(model == null) {
+            LOGGER.warn("NULLABLE model request UPDATE");
+            return Optional.empty();
+        }
+
         return Optional.of(primeRepository.save(model));
     }
 

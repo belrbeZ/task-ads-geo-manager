@@ -5,8 +5,10 @@ package com.keeper.service.impl;
  */
 
 import com.keeper.model.dao.Tag;
+import com.keeper.model.dto.TagDTO;
 import com.keeper.repo.TagRepository;
 import com.keeper.service.ITagService;
+import com.keeper.util.Translator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +22,14 @@ import java.util.Optional;
  * Default Comment
  */
 @Service
-public class TagService extends ModelRepoService<Tag> implements ITagService {
+public class TagService extends ModelService<Tag> implements ITagService {
 
     private final TagRepository repository;
 
     @Autowired
     public TagService(TagRepository repository) {
         this.repository = repository;
-//        this.primeRepository = repository;
+        this.primeRepository = repository;
     }
 
     @Override
@@ -45,5 +47,15 @@ public class TagService extends ModelRepoService<Tag> implements ITagService {
         return repository.findOneByTag(tag);
     }
 
+    @Transactional
+    @Override
+    public Optional<Tag> saveDTO(TagDTO model) {
+        return super.save(Translator.toDAO(model));
+    }
 
+    @Transactional
+    @Override
+    public Optional<Tag> updateDTO(TagDTO model) {
+        return null;
+    }
 }

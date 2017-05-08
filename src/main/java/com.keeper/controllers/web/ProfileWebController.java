@@ -60,7 +60,7 @@ public class ProfileWebController {
         user.setName((userForm.getName() != null && !userForm.getName().isEmpty()) ? userForm.getName() : user.getName());
         user.setNotified((userForm.getNotified() == null) ? false : userForm.getNotified());
 
-        userService.add(user);
+        userService.save(user);
 
         UserDTO userDTO = Translator.toDTO(user);
         userDTO.setEmail(user.getEmail());

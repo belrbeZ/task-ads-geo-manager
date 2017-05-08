@@ -65,7 +65,7 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
-        repoService.add(Translator.toDAO(model));
+        repoService.save(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

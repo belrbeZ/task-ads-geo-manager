@@ -6,6 +6,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.RouteType;
+import com.keeper.model.types.UserType;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -19,11 +20,9 @@ public class RouteDTO {
 
     public static final RouteDTO EMPTY = new RouteDTO();
 
-    @NotNull
-    private Long id;
+    @NotNull private Long id;
+    @NotNull private Long userId;
 
-    @NotNull
-    private Long userId;
     private RouteType type;
     private String info;
     private Integer radius;
@@ -31,25 +30,23 @@ public class RouteDTO {
 
     private RouteDTO() {
         this.id     = 0L;
-        this.userId = 0L;
+        this.userId = UserType.EMPTY.getValue();
         this.type   = RouteType.EMPTY;
         this.info   = "";
-        this.radius = radius;
+        this.radius = 0;
         this.points = Collections.emptyList();
     }
 
-    public RouteDTO(Long id, Long userId, RouteType type, String info, Integer radius, String[] latitudes, String[] longtitudes) {
-        this.id = id;
+    public RouteDTO(Long id, Long userId, RouteType type, String info, Integer radius, String[] latitudes, String[] longitudes) {
+        this.id     = id;
         this.userId = userId;
-        this.type = type;
-        this.info = info;
+        this.type   = type;
+        this.info   = info;
         this.radius = radius;
 
-        for(int i = 0; i < latitudes.length; i++){
-            points.add(new SimpleGeoPoint(latitudes[i], longtitudes[i]));
-//            System.out.println("RouteDTO"+this.getPoints().get(i));
+        for(int i = 0; i < latitudes.length; i++) {
+            points.add(new SimpleGeoPoint(latitudes[i], longitudes[i]));
         }
-
     }
 
     //<editor-fold desc="GetterAndSetter">

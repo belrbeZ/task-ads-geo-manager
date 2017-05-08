@@ -4,6 +4,10 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 17.04.2017.
  */
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * Default Comment
  */
@@ -11,12 +15,16 @@ public class TagDTO {
 
     public static final TagDTO EMPTY = new TagDTO();
 
-    private Long id;
-    private String tag;
+    @NotNull private Long id;
+
+    @NotEmpty private String tag;
+
     private Integer counter;
 
-    public TagDTO(){
-        counter = 0;
+    private TagDTO(){
+        this.id = 0L;
+        this.tag = "";
+        this.counter = 0;
     }
 
     public TagDTO(Long id, String tag, Integer counter){
@@ -25,9 +33,7 @@ public class TagDTO {
         this.counter = counter;
     }
 
-    public static TagDTO getEMPTY() {
-        return EMPTY;
-    }
+    //<editor-fold desc="GetterAndSetter">
 
     public Long getId() {
         return id;
@@ -41,6 +47,10 @@ public class TagDTO {
         return tag;
     }
 
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     public Integer getCounter() {
         return counter;
     }
@@ -48,4 +58,6 @@ public class TagDTO {
     public void setCounter(Integer counter) {
         this.counter = counter;
     }
+    //</editor-fold>
+
 }

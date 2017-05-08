@@ -5,11 +5,14 @@ package com.keeper.service.impl;
  */
 
 import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.repo.GeoPointRepository;
 import com.keeper.service.IFeedSubmiter;
 import com.keeper.service.IGeoPointService;
+import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -19,7 +22,7 @@ import java.util.Optional;
  * Default Comment
  */
 @Service
-public class GeoPointService extends ModelRepoService<GeoPoint> implements IGeoPointService {
+public class GeoPointService extends ModelService<GeoPoint> implements IGeoPointService {
 
     private final GeoPointRepository repository;
     private final IFeedSubmiter feedSubmitService;
@@ -38,13 +41,26 @@ public class GeoPointService extends ModelRepoService<GeoPoint> implements IGeoP
     }
 
     @Override
-    public Optional<List<GeoPoint>> getAllByUserId(Long userId) {
+    public Optional<List<GeoPoint>> getByUserId(Long userId) {
         return repository.findAllByUserId(userId);
     }
 
+    @Transactional
     @Override
-    public Optional<GeoPoint> add(GeoPoint model) {
-        Optional<GeoPoint> geoUser = super.add(model);
+    public Optional<GeoPoint> saveDTO(GeoPointDTO model) {
+        return save(Translator.toDAO(model));
+    }
+
+    @Transactional
+    @Override
+    public Optional<GeoPoint> updateDTO(GeoPointDTO model) {
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public Optional<GeoPoint> save(GeoPoint model) {
+        Optional<GeoPoint> geoUser = super.save(model);
         geoUser.ifPresent(feedSubmitService::submit);
         return geoUser;
     }

@@ -311,7 +311,7 @@ public class User {
     public void addParticipantedTask( Task task ) {
         //avoid circular calls : assumes equals and hashcode implemented
         if ( !routes.contains( task ) ) {
-            participantedTasks.add( task );
+            participantedTasks.save( task );
         }
     }
 

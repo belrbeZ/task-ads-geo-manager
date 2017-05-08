@@ -9,15 +9,17 @@ import com.keeper.repo.ZoneRepository;
 import com.keeper.service.IZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
  */
 @Service
-public class ZoneService extends ModelRepoService<Zone> implements IZoneService {
+public class ZoneService extends ModelService<Zone> implements IZoneService {
 
     private final ZoneRepository repository;
 
@@ -28,21 +30,43 @@ public class ZoneService extends ModelRepoService<Zone> implements IZoneService 
     }
 
     @Override
-    public List<Zone> getEmptyList() {
-        return Collections.emptyList();
+    public Optional<Zone> getByUserId(Long userId) {
+        if (userId == null) {
+            LOGGER.warn("Get by NULLABLE userId");
+            return Optional.empty();
+        }
+
+        return repository.findByUserId(userId);
     }
 
     @Override
-    public List<Zone> getByCountry(String country) {
-        return (country != null && !country.isEmpty())
-                ? repository.findByCountry(country).orElse(getEmptyList())
-                : Collections.emptyList();
+    public Optional<List<Zone>> getByCountry(String country) {
+        if (country == null || country.isEmpty()) {
+            LOGGER.warn("Get by NULLABLE country");
+            return Optional.empty();
+        }
+
+        return repository.findByCountry(country);
     }
 
     @Override
-    public List<Zone> getByCity(String city) {
-        return (city != null && !city.isEmpty())
-                ? repository.findByCity(city).orElse(getEmptyList())
-                : Collections.emptyList();
+    public Optional<List<Zone>> getByCity(String city) {
+        if (city == null || city.isEmpty()) {
+            LOGGER.warn("Get by NULLABLE city");
+            return Optional.empty();
+        }
+
+        return repository.findByCity(city);
+    }
+
+    @Transactional
+    @Override
+    public void removeByUserId(Long userId) {
+        if (userId == null) {
+            LOGGER.warn("Get by NULLABLE country");
+            return;
+        }
+
+        repository.removeByUserId(userId);
     }
 }

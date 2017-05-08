@@ -5,14 +5,23 @@ package com.keeper.service;
  */
 
 import com.keeper.model.dao.Zone;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
  */
 public interface IZoneService extends IModelService<Zone> {
-    List<Zone> getByCountry(String country);
+    Optional<Zone> getByUserId(Long userId);
 
-    List<Zone> getByCity(String city);
+    Optional<List<Zone>> getByCountry(String country);
+
+    Optional<List<Zone>> getByCity(String city);
+
+    /**
+     * TRANSACTIONAL
+     */
+    void removeByUserId(Long userId);
 }

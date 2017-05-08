@@ -6,6 +6,7 @@ package com.keeper.service;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,14 @@ public interface IUserService extends IModelService<User> {
     Optional<User> getByEmail(String email);
     Optional<User> getByPhone(String phone);
 
+    /**
+     * TRANSACTIONAL
+     */
     Optional<User> removeByEmail(String email);
+
+    /**
+     * TRANSACTIONAL
+     */
     Optional<User> removeByPhone(String phone);
 
 

@@ -4,27 +4,34 @@ package com.keeper.service;
  * Created by @GoodforGod on 6.04.2017.
  */
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Default Comment
  */
-public interface IModelService<T> {
+public interface IModelService<DAO> {
 
-    T getEmpty();
+    boolean exists(Long id);
 
-    List<T> getEmptyList();
+    Optional<DAO> get(Long id);
 
-    boolean isExists(Long id);
+    Optional<List<DAO>> getAll();
 
-    Optional<T> add(T model);
+    /**
+     * TRANSACTIONAL
+     */
+    Optional<DAO> save(DAO model);
 
-    Optional<T> get(Long id);
+    /**
+     * TRANSACTIONAL
+     */
+    Optional<DAO> update(DAO model);
 
-    Optional<List<T>> getAll();
-
-    Optional<T> update(T model);
-
+    /**
+     * TRANSACTIONAL
+     */
     void remove(Long id);
 }

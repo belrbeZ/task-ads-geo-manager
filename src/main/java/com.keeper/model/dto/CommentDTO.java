@@ -1,7 +1,10 @@
 package com.keeper.model.dto;
 
 import com.keeper.model.SimpleGeoPoint;
+import com.keeper.model.types.TaskType;
+import com.keeper.model.types.UserType;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -16,15 +19,24 @@ public class CommentDTO {
 
     public static final CommentDTO EMPTY = new CommentDTO();
 
-    private Long id;
-    private Long taskId;
-    private Long userId;
+    @NotNull private Long id;
+    @NotNull private Long taskId;
+    @NotNull private Long userId;
+
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
     private String message;
     private SimpleGeoPoint geo;
 
-    public CommentDTO(){}
+    private CommentDTO() {
+        this.id = -1L;
+        this.taskId = TaskType.EMPTY.getValue();
+        this.userId = UserType.EMPTY.getValue();
+        this.createDate = LocalDateTime.MIN;
+        this.lastModifyDate = LocalDateTime.MIN;
+        this.message = "";
+        this.geo = SimpleGeoPoint.EMPTY;
+    }
 
     public CommentDTO(Long id, Long taskId, Long userId, Timestamp createDate, Timestamp lastModifyDate,
                       String message, Double latitude, Double longitude){

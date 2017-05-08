@@ -88,7 +88,7 @@ public class TaskWebController {
         task.setTopicStarterId(user.getId());
         task.setGeo(new SimpleGeoPoint("150.4214", "24.12412", 15));
 
-        taskService.add(Translator.toDAO(task));
+        taskService.save(Translator.toDAO(task));
 
         modelAndView.addObject("user", user);
         modelAndView.addObject("task", task);
