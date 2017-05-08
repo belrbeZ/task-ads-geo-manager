@@ -68,7 +68,7 @@ public class Translator {
                             model.getMuteEnd(),
                             toDTO(model.getPic()),
                             toDTO(model.getZone()),
-                            geoUsersToDTO(model.getGeoPoints()),
+                            geoPointsToDTO(model.getGeoPoints()),
                             routesToDTO(model.getRoutes()));
     }
 
@@ -158,7 +158,7 @@ public class Translator {
                 : models.stream().map(Translator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<GeoPointDTO> geoUsersToDTO(List<GeoPoint> models) {
+    public static List<GeoPointDTO> geoPointsToDTO(List<GeoPoint> models) {
         return (models == null)
                 ? Collections.emptyList()
                 : models.stream().map(Translator::toDTO).collect(Collectors.toList());

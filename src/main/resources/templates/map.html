@@ -472,6 +472,7 @@
                     {
                         id:1,
                         name: 'Тестовая точка м.Адмиралтейская',
+                        type: "GeoPoints",
                         latitude: 59.93674,
                         longitude: 30.3117,
                         radius: 200
@@ -479,6 +480,7 @@
                     {
                         id:2,
                         name: 'Тестовая точка м.Пл.А.Невского',
+                        type: "GeoPoints",
                         latitude: 59.925544,
                         longitude: 30.389422,
                         radius: 80
@@ -495,6 +497,7 @@
                     {
                         id:3,
                         name: 'Тестовая точка м.Пл.Восстания',
+                        type: "Tasks",
                         latitude: 59.92858,
                         longitude: 30.357068,
                         radius: 150
@@ -502,6 +505,7 @@
                     {
                         id:4,
                         name: 'Тестовая точка м.Петроградская',
+                        type: "Tasks",
                         latitude: 59.968226,
                         longitude: 30.309588,
                         radius: 100
@@ -513,12 +517,19 @@
         ];
 
         function updateGeoPointsOnMap(list) {
+            try{
+
+            } catch(e) {
+                console.log(e);
+            }
             if(groups!=null && groups.length!=0) {
                 groups[0].items.length=0;
                 myMap.geoObjects.remove(groups[0].placemarkCollection);
+                myMap.geoObjects.remove(groups[0].circleCollection);
             }
             for(var i=0; i<list.length; i++) {
                 groups[0].items.push(list[i]);
+                groups[0][i].type = "GeoPoints";
             }
             refreshMAP();
         }
@@ -531,7 +542,7 @@
 
         var createUpdateButton;
         var deleteCancelButton;
-        var defaultRadius = 5;
+        var defaultRadius = 300;
 
         $(document).ready(function() {
             createUpdateButton = document.getElementById("geo_point-create_update-button");
@@ -541,10 +552,26 @@
         var myMap;
 
         function recenterMap(xA,yA,zoom) {
-            myMap.setCenter([xA,yA], zoom, {
-                checkZoomRange: true,
-                duration: 1000
-            });
+            try{
+                myMap.setCenter([xA,yA], zoom, {
+                    checkZoomRange: true,
+                    duration: 1000
+                });
+            } catch(e) {
+                console.log(e);
+            }
+        }
+
+        function getGeoObjectById(geoid, groupName) {
+            switch(groupName){
+                case "GeoPoints":
+
+                    break;
+                case "Tasks":
+
+                    break;
+            }
+
         }
 
         function refreshMAP() {
@@ -553,17 +580,21 @@
             }
             function createMenuGroup (group) {
                 // Коллекция для геообъектов группы.
-                group.placemarkCollection = new ymaps.GeoObjectCollection(null, { preset: group.style });
-                // Добавляем коллекцию на карту.
-                myMap.geoObjects.add(group.placemarkCollection);
 
-                // Коллекция для геообъектов группы.
-                group.placemarkCollection = new ymaps.GeoObjectCollection(null, { preset: group.style });
+                group.placemarkCollection = new ymaps.GeoObjectCollection({}, {
+                    preset: group.style,
+                    /*strokeWidth: 4,
+                    geodesic: true*/
+                });
                 // Добавляем коллекцию на карту.
                 myMap.geoObjects.add(group.placemarkCollection);
 
                 // Коллекция для окружностей группы.
-                group.circleCollection = new ymaps.GeoObjectCollection(null);/*, { color: group.styleCircle }*/
+                group.circleCollection = new ymaps.GeoObjectCollection({}/*, {
+                    preset: group.style,
+                    strokeWidth: 4,
+                    geodesic: true
+                }*/);
                 // Добавляем коллекцию на карту.
                 myMap.geoObjects.add(group.circleCollection);
 
@@ -587,16 +618,30 @@
                         });
                         break;
                 }
-
+                switch(group.name){
+                    case "GeoPoints":
+                        group.placemarkCollection.events.add('mouseenter', function (e) {
+                            // Ссылку на объект, вызвавший событие,
+                            // можно получить из поля 'target'.
+                            e.get('target').options.set('preset', 'twirl#storehouseIcon');
+                        });
+                        break;
+                    case "Tasks":
+                        group.placemarkCollection.events.add('mouseenter', function (e) {
+                            // Ссылку на объект, вызвавший событие,
+                            // можно получить из поля 'target'.
+                            e.get('target').options.set('preset', 'twirl#skiingIcon');
+                        });
+                        break;
+                }
                 group.placemarkCollection.events.add('mouseleave', function (e) {
                     e.get('target').options.unset('preset');
                 });
             }
 
             function createSubMenu (item, placemarkCollection, circleCollection) {
-
                 //// ID FROM item.id  CHECK
-                var placemark = new ymaps.Placemark([item.latitude, item.longitude], { balloonContent: item.name, id: item.id });
+                var placemark = new ymaps.Placemark([item.latitude, item.longitude],{id: item.id}, { balloonContent: item.name});
 
                 var newContent;
                 try{
@@ -619,12 +664,6 @@
                 // Создаем экземпляр класса геообъекта и передаем нашу геометрию в конструктор.
                     circleGeoObject = new ymaps.GeoObject({ geometry: circleGeometry });
 
-                // Изменяем радиус геометрии через свойство geometry геообъекта.
-//                circleGeoObject.geometry.setRadius(item.radius)
-                // Или напрямую.
-//                circleGeometry.setRadius(item.radius);
-                // Также доступ к circleGeometry можно получить через circleGeoObject.geometry.
-
                 // Добавляем окружность в коллекцию.
                 circleCollection.add(circleGeoObject);
 
@@ -641,10 +680,11 @@
                     searchControlProvider: 'yandex#search'
                 });
             //Getting list of geopoints ???
+            if($('#geoPointListBlock').children().length==0) {
                 refreshGeoPointsList();
 
                 refreshMAP();
-
+            }
 
         /*    var yellowCollection = new ymaps.GeoObjectCollection(null, {
                     preset: 'islands#yellowIcon'
@@ -714,17 +754,30 @@
                 // event.get('target').ballon.open();
 //                this.coords;
 //                var coords = event.get('coords');
-                var coords;
-                var balloonText;
+                var coords,
+                    durPlaceMark,
+                    circle;
                 try{
-                    coords = event.originalEvent.target.geometry._coordinates;
+                    durPlaceMark = event.originalEvent.target;
+                    coords = durPlaceMark.geometry._coordinates;
 
-                    balloonText = event.get('target').properties.get('balloonContent');
-                    if(balloonText==null){
-                        balloonText = event.get('target')['properties'].get('balloonContent');
-                    }
+                    try{
+                        var iterator = groups[0].circleCollection.getIterator(),
+                            object;
+                        while (object = iterator.getNext()) {
+                            if (object.geometry.getCoordinates() === [item.latitude, item.longitude]) {
+                                circle = groups[0].circleCollection[i];
+                            }
+                        }
+                    } catch (e){console.log(e.toString());}
 
-                    refreshChangeGeoPointForm(id,coords[0],coords[1],defaultRadius,balloonText, true);
+
+                    refreshChangeGeoPointForm(
+                        durPlaceMark['properties'].get('id'),
+                        coords[0], coords[1],
+                        circle == null ? defaultRadius : circle.geometry.getRadius(),
+                        durPlaceMark['properties'].get('balloonContent'),
+                        true);
 
                 } catch (e){console.log(e.toString());}
 
@@ -742,14 +795,9 @@
 //                document.getElementById();
             });
 
-            var placemarkYour;
+            var placemarkYour, circleYour;
 
             myMap.balloon.events.add('close', function (event) {
-                // ваши действия
-                // myMap.balloon.close();
-                // event.get('target').ballon.open();
-                //myMap.geoObjects.remove(placemarkYour);
-
                 closeChangingGeoPoint();
             });
 
@@ -759,9 +807,58 @@
                     placemarkYour.options.set('visible', false);
                     placemarkYour.properties.set('balloonContent',  "");
 
-//                    closeChangingGeoPoint();
-
+                    circleYour.geometry.setRadius(defaultRadius);
+                    circleYour.options.set('visible', false);
                 }catch(e){console.log(e.toString())}
+            }
+
+            function createYourTappedPoint(e) {
+                var coords = e.get('coords');
+                // Создаем метку.
+                placemarkYour = new ymaps.Placemark([coords[0].toPrecision(6), coords[1].toPrecision(6)], {
+                    // balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
+                    iconContent: "Новое"
+                }, {
+                    preset: "islands#greenStretchyIcon",
+                    // Отключаем кнопку закрытия балуна.
+//                            balloonCloseButton: false,
+                    // Балун будем открывать и закрывать кликом по иконке метки.
+                    hideIconOnBalloonOpen: false
+                });
+
+                // Создаем экземпляр класса геометрии круга (указываем координаты и радиус в метрах).
+                var circleGeometry = new ymaps.geometry.Circle([coords[0].toPrecision(6), coords[1].toPrecision(6)], defaultRadius);
+                // Создаем экземпляр класса геообъекта и передаем нашу геометрию в конструктор.
+                circleYour = new ymaps.GeoObject({ geometry: circleGeometry });
+
+
+                /*HIDE PLACEMARK ON OPENING BALOON*/
+                placemarkYour.events.add('balloonopen',function (e) {
+                    e.preventDefault();
+                    console.log("your baloon opened");
+                    var coords = placemarkYour.geometry.getCoordinates();
+                    try {
+                        refreshChangeGeoPointForm(-1,
+                            coords[0],
+                            coords[1],
+                            circleYour == null ? defaultRadius :circleYour.geometry.getRadius(),
+                            placemarkYour['properties'].get('balloonContent'),
+                            true);
+                    } catch (e) {
+                        console.log(e);
+                    }
+                    recenterMap(coords[0],coords[1],14);
+                });
+
+                /*HIDE PLACEMARK ON CLOSING BALOON*/
+                placemarkYour.events.add('balloonclose',function (e) {
+                    console.log("your baloon closed");
+                    hideYourPlaceholder();
+                });
+
+                myMap.geoObjects.add(placemarkYour);
+                myMap.geoObjects.add(circleYour);
+                messageToAddPlace();
             }
 
             // Обработка события, возникающего при щелчке
@@ -769,30 +866,12 @@
             // При возникновении такого события откроем балун.
             myMap.events.add('click', function (e) {
                 if (!myMap.balloon.isOpen() && (placemarkYour == null || placemarkYour.options._options.visible == false)) {
-                    var coords = e.get('coords');
 
-                    if(placemarkYour==null){
-                        // Создаем метку.
-                        placemarkYour = new ymaps.Placemark([coords[0].toPrecision(6), coords[1].toPrecision(6)], {
-                            // balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
-                            iconContent: "Новое"
-                        }, {
-                            preset: "islands#greenStretchyIcon",
-                            // Отключаем кнопку закрытия балуна.
-//                            balloonCloseButton: false,
-                            // Балун будем открывать и закрывать кликом по иконке метки.
-                            hideIconOnBalloonOpen: false
-                        });
 
-                        /*HIDE PLACEMARK ON CLOSING BALOON*/
-                        placemarkYour.events.add('balloonclose',function (e) {
-                            console.log("your baloon closed");
-                            hideYourPlaceholder();
-                        });
+                    if(placemarkYour==null&&circleYour==null){
 
-                        // myMap.geoObjects.get(collection)
-                        myMap.geoObjects.add(placemarkYour);
-                        messageToAddPlace();
+                        createYourTappedPoint(e);
+
                     }else{
                         placemarkYour.geometry.setCoordinates([coords[0].toPrecision(6), coords[1].toPrecision(6)]);
                         placemarkYour.options.set('visible', true)
@@ -854,7 +933,7 @@
         document.getElementById('input-geo_point-latitude').value = x;
         document.getElementById('input-geo_point-longitude').value = y;
         document.getElementById('input-geo_point-radius').value = R;
-        document.getElementById('input-geo_point-info').value = T;
+        document.getElementById('input-geo_point-descr').value = T;
 
         $("#sidebar-wrapper-right").toggleClass("active", bool);
 
@@ -885,13 +964,23 @@
                 var geoListBlock = $('#geoPointListBlock');
 
                 var responseAsObject = $.parseJSON(response);
+                var htmlResponse;
                 if(responseAsObject.length>0){
-                    var htmlResponse = "<ul>";
+                    htmlResponse = "<ul>";
                     for(var i=0; i<responseAsObject.length; i++) {
-                        htmlResponse+="<li>"+"<span id='geo_point-id-in-list-"+i+"' style='display:none;'>"+responseAsObject[i].id+"</span>"+"Info "+responseAsObject[i].info+"<br>"+"latitude "+responseAsObject[i].latitude+"<br>"+"longitude "+responseAsObject[i].longitude+"<br>"+"radius "+responseAsObject[i].radius;
+                        htmlResponse+="<li class='elem-geoPointFromList'>"+
+                            "<span id='geo_point-id-in-list-"+i+"' style='display:none;'>"+
+                            responseAsObject[i].id+"</span>"+
+                            "Info "+responseAsObject[i].info+"<br>"+
+                            "latitude "+responseAsObject[i].latitude+"<br>"+
+                            "longitude "+responseAsObject[i].longitude+"<br>"+
+                            "radius "+responseAsObject[i].radius;
                     }
-                    htmlResponse+="</ul>"
+                    htmlResponse+="</ul>";
+                } else {
+                    htmlResponse = "<div class='empty_list'>Добавьте часто посещаемые места</div>"
                 }
+
 
                 updateGeoPointsOnMap(responseAsObject);
 
@@ -902,7 +991,13 @@
             type: "GET",
             dataType: "json",
             // Disable caching of AJAX responses for example only
-            cache: false
+            cache: false,
+
+             beforeSend: function(){},
+
+             complete: function() {
+             this.success.call(this, json);
+             }
             */
         });
 
@@ -919,11 +1014,11 @@
             }
         });
 
-        $.ajaxSetup({
+        /*$.ajaxSetup({
             dataFilter: function (response) {
                 return response;
             }
-        });
+        });*/
 
         /*$("#ajax").click(function (evt) {
             evt.preventDefault();
@@ -1026,21 +1121,10 @@
         //CREATE CANCEL
         setCreateCancelButtons();
 
-//        createUpdateButton.disabled = true;
-//        deleteCancelButton.disabled = true;
-
         setDisplayList("addGeoPointForm",false);
     }
 
     $(document).ready(function() {
-        try{
-            if($('#geoPointListBlock').children().length==0){
-                refreshGeoPointsList();
-            }
-        } catch(e) {
-            console.log(e);
-        }
-
         $('#changeGeoPointsButton').click(function (e) {
             toggleList("addGeoPointForm");
         });

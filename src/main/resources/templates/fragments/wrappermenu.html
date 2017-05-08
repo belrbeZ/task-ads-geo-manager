@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <script type="text/javascript"
+            src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div th:fragment="wrappermenu">
+    <!--RIGHT MENU-->
+    <nav id="sidebar-wrapper-right" class="sidebar-wrapper">
+        <ul class="sidebar-nav wrapper-right">
+            <a id="menu-close-right" class="btn btn-danger pull-right hidden-md hidden-lg toggle menu-close-but"><i class="fa fa-times"></i></a>
+            <li class="sidebar-brand">
+                <a>Element <strong>DETAILS</strong></a>
+            </li>
+            <!--<li>
+                <a href="/profile" title="Go to Top">Profile </a>
+            </li>
+            <li>
+                <a href="/about" title="Go to About Us section">About</a>
+            </li>
+            <li>
+                <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
+            </li>
+            <li>
+                <a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>
+            </li>
+            &lt;!&ndash; Future Development
+            <li>
+                <a href="#portfolio">Portfolio</a>
+            </li> &ndash;&gt;
+            <li>
+                <a href="/blog" title="Our Blog">Blog</a>
+            </li>
+            <li>
+                <a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>
+            </li>-->
+            <li>
+                <a id="changeGeoPointsButton" title="Create or Change GeoPoint">GeoPoints</a>
+                <!--<div layout:include="fragments/geopointform"> </div>-->
+                <div id="add-geo_point-form" style="display: none;">
+                    <div th:replace="fragments/geopointform"> </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <!--LEFT MENU-->
+    <nav id="sidebar-wrapper-left" class="sidebar-wrapper">
+        <ul class="sidebar-nav wrapper-left">
+            <a id="menu-close-left" class="btn btn-danger pull-right hidden-md hidden-lg toggle menu-close-but"><i class="fa fa-times"></i></a>
+            <li class="sidebar-brand">
+                <a>YOUR <strong>ELEMENTS</strong></a>
+            </li>
+            <li>
+                <a title="List of Tasks">List of Tasks</a>
+            </li>
+            <li>
+                <a id="getGeoPointsButton" title="List of GeoPoints">List of GeoPoints</a>
+                <!--<div th:replace="fragments/geopointlist :: geopointlist"> </div>-->
+                <!--<button id="getGeoPointsButton" name="getGeoPointsButton" th:onclick="'javascript:retrieveGeoPoints()'" type="button">List of GeoPoints</button>-->
+                <!-- Results block -->
+                <div style="display: none;" id="geoPointListBlock">
+
+                </div>
+
+            </li>
+            <!--<li>
+            <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
+            </li>
+            <li>
+            <a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>
+            </li>
+            &lt;!&ndash; Future Development
+            <li>
+            <a href="#portfolio">Portfolio</a>
+            </li> &ndash;&gt;
+            <li>
+            <a href="/blog" title="Our Blog">Blog</a>
+            </li>
+            <li>
+            <a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>
+            </li>-->
+            <li>
+                <a title="List of Routes">List of Routes</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!--SIDES MENU EVENTS-->
+    <script th:inline="javascript">
+        // <![CDATA[
+        $(document).ready(function()
+        {
+            // Closes the sidebar menu on menu-close button click event
+            $(".menu-close-but").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
+            {
+                // - will not work otherwise")
+                $(".sidebar-wrapper").toggleClass("active");			//instead on click event toggle active CSS element
+                e.preventDefault(); 									//prevent the default action ("Do not remove as the code
+
+                /*!
+                 ======================= Notes ===============================
+                 * see: .sidebar-wrapper.active in: style.css
+                 ==================== END Notes ==============================
+                 */
+            });															//Close 'function()'
+
+    //        // Open the Sidebar-wrapper on Hover
+    //        $(".menu-toggle").hover(function(e)							//declare the element event ...'(e)' = event (shorthand)
+    //        {
+    //            if($(this)[0].id==="left-menu-toggle"){
+    //                $("#sidebar-wrapper-left").toggleClass("active",true);		//instead on click event toggle active CSS element
+    //            }
+    //            else if($(this)[0].id==="right-menu-toggle") {
+    //                $("#sidebar-wrapper-right").toggleClass("active",true);
+    //            }
+    //            e.preventDefault();										//prevent the default action ("Do not remove as the code
+    //        });
+    //
+    //        $(".menu-toggle").bind('click',function(e)					//declare the element event ...'(e)' = event (shorthand)
+    //        {
+    //            $(".sidebar-wrapper").toggleClass("active",true);		//instead on click event toggle active CSS element
+    //            e.preventDefault();										//prevent the default action ("Do not remove as the code
+    //        });
+    //
+    //        $('.sidebar-wrapper').mouseleave(function(e)				//declare the jQuery: mouseleave() event
+    //            // - see: ('//api.jquery.com/mouseleave/' for details)
+    //        {
+    //            /*! .toggleClass( className, state ) */
+    //            $(this).toggleClass('active',false);		/* toggleClass: Add or remove one or more classes from each element
+    //         in the set of matched elements, depending on either the class's
+    //         presence or the value of the state argument */
+    //            e.stopPropagation();									//Prevents the event from bubbling up the DOM tree
+    //            // - see: ('//api.jquery.com/event.stopPropagation/' for details)
+    //
+    //            e.preventDefault();										// Prevent the default action of the event will not be triggered
+    //            // - see: ('//api.jquery.com/event.preventDefault/' for details)
+    //        });
+
+            // Open the Sidebar-wrapper on Hover
+            $(".menu-toggle").on("click", function(e)							//declare the element event ...'(e)' = event (shorthand)
+            {
+                if($(this)[0].id==="left-menu-toggle"){
+                    $("#sidebar-wrapper-left").toggleClass("active");		//instead on click event toggle active CSS element
+                }
+                else if($(this)[0].id==="right-menu-toggle") {
+                    $("#sidebar-wrapper-right").toggleClass("active");
+                }
+                e.preventDefault();										//prevent the default action ("Do not remove as the code
+            });
+            //Close 'function()'
+
+            // Closes the sidebar menu on menu-close button click event
+            $(".menu-close-but").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
+            {
+                // - will not work otherwise")
+                $(".sidebar-wrapper").toggleClass("active");			//instead on click event toggle active CSS element
+                e.preventDefault(); 									//prevent the default action ("Do not remove as the code
+
+                /*!
+                 ======================= Notes ===============================
+                 * see: .sidebar-wrapper.active in: style.css
+                 ==================== END Notes ==============================
+                 */
+            });
+        });
+                                                                //Close 'function()'
+        // ]]>
+    </script>
+
+</div>
+</body>
+</html>
