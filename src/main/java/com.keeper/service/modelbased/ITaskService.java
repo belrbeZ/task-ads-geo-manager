@@ -8,29 +8,13 @@ package com.keeper.service.modelbased;
  */
 
 import com.keeper.model.dao.Task;
-import com.keeper.model.dto.CommentDTO;
-import com.keeper.model.dto.PictureDTO;
 import com.keeper.model.dto.TaskDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ITaskService extends IModelDTOService<Task, TaskDTO> {
-
-    List<Task> getByTheme(String theme);
-    List<Task> getByTags(List<String> tags);
-    List<Task> getByEmail(String email);
-    List<Task> getByPhone(String phone);
-    List<Task> getByUserId(Long userId);
-
-    /*---PICTURE---*/
-    PictureDTO getPicture(Long taskId);
-    TaskDTO setPicture(Long taskId, PictureDTO picture);
-    /*---END PICTURE---*/
-
-    /*---COMMENTS---*/
-    List<CommentDTO> getComments(Long taskId);
-    TaskDTO addComment(Long taskId, Long userId, CommentDTO comment);
-    TaskDTO removeComment(Long taskId, CommentDTO comment);
-    TaskDTO removeCommentById(Long taskId, Long commentId);
-    /*---END COMMENTS---*/
+    Optional<List<Task>> getByTheme(String theme);
+    Optional<List<Task>> getByTags(List<String> tags);
+    Optional<List<Task>> getByUserId(Long userId);
 }

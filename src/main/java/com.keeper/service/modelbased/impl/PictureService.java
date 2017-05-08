@@ -29,11 +29,21 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
 
     @Override
     public Optional<Picture> getByUserId(Long userId) {
+        if(userId == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return repository.findByUserId(userId);
     }
 
     @Override
     public Optional<Picture> getByTaskId(Long taskId) {
+        if(taskId == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
         return repository.findByTaskId(taskId);
     }
 
@@ -56,7 +66,14 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
             return Optional.empty();
         }
 
-        return null;
+        Optional<Picture> toSave = get(model.getId());
+
+        if(!toSave.isPresent()) {
+            LOGGER.warn("Update model which doesn't exist");
+            return Optional.empty();
+        }
+
+        return super.save(Translator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

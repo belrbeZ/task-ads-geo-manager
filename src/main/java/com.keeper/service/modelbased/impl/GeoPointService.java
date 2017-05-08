@@ -7,8 +7,8 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.repo.GeoPointRepository;
-import com.keeper.service.util.IFeedSubmitService;
-import com.keeper.service.util.impl.FeedService;
+import com.keeper.service.core.IFeedSubmitService;
+import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.IGeoPointService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +70,14 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
             return Optional.empty();
         }
 
-        return null;
+        Optional<GeoPoint> toSave = get(model.getId());
+
+        if(!toSave.isPresent()) {
+            LOGGER.warn("Update model which doesn't exist");
+            return Optional.empty();
+        }
+
+        return super.save(Translator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

@@ -8,6 +8,7 @@ import com.keeper.model.dao.Zone;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.repo.ZoneRepository;
 import com.keeper.service.modelbased.IZoneService;
+import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,7 +68,7 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
             return Optional.empty();
         }
 
-        return null;
+        return super.save(Translator.toDAO(model));
     }
 
     @Transactional
@@ -77,8 +78,14 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
             LOGGER.warn("Update NULLABLE dto");
             return Optional.empty();
         }
+        Optional<Zone> toSave = get(model.getProfileId());
 
-        return null;
+        if(!toSave.isPresent()) {
+            LOGGER.warn("Update model which doesn't exist");
+            return Optional.empty();
+        }
+
+        return super.save(Translator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

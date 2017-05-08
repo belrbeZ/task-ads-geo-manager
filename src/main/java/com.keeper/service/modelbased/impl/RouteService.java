@@ -7,8 +7,8 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.repo.RouteRepository;
-import com.keeper.service.util.IFeedSubmitService;
-import com.keeper.service.util.impl.FeedService;
+import com.keeper.service.core.IFeedSubmitService;
+import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.IRouteService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +42,13 @@ public class RouteService extends ModelService<Route> implements IRouteService {
     }
 
     @Override
-    public List<Route> getByUserId(Long userId) {
-        return repository.findAllByUserId(userId).orElse(getEmptyList());
+    public Optional<List<Route>> getByUserId(Long userId) {
+        if(userId == null) {
+            LOGGER.warn("Save NULLABLE dto");
+            return Optional.empty();
+        }
+
+        return repository.findAllByUserId(userId);
     }
 
     @Transactional
@@ -65,7 +70,14 @@ public class RouteService extends ModelService<Route> implements IRouteService {
             return Optional.empty();
         }
 
-        return null;
+        Optional<Route> toSave = get(model.getId());
+
+        if(!toSave.isPresent()) {
+            LOGGER.warn("Update model which doesn't exist");
+            return Optional.empty();
+        }
+
+        return super.save(Translator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

@@ -21,18 +21,9 @@ import java.util.Optional;
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-//    Optional<List<Task>> findAllByTags(@Param("tagId") List<String> tagsId);
-
     Optional<List<Task>> findAllByTopicStarterId(@Param("userId") Long userId);
-
-//    Optional<List<Task>> findAllByEmail(@Param("email") String email);
-//
-//    Optional<List<Task>> findAllByPhone(@Param("phone") String email);
 
     Optional<List<Task>> findAllByTheme(@Param("theme") String theme);
 
-    @Transactional Optional<Task> removeByTopicStarterId(@Param("topicStarterId") Long topicStarterId);
-
-
-
+    Optional<Task> removeByTopicStarterId(@Param("topicStarterId") Long topicStarterId);
 }

@@ -6,7 +6,7 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.service.util.impl.FeedService;
+import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;

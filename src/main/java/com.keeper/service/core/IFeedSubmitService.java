@@ -1,4 +1,4 @@
-package com.keeper.service.util;
+package com.keeper.service.core;
 
 /*
  * Created by @GoodforGod on 02.05.2017.
@@ -7,7 +7,6 @@ package com.keeper.service.util;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
-import com.keeper.util.validation.annotation.Geo;
 
 import java.util.List;
 

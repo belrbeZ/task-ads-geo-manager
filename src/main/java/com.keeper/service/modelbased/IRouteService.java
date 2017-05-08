@@ -8,10 +8,11 @@ import com.keeper.model.dao.Route;
 import com.keeper.model.dto.RouteDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Default Comment
  */
 public interface IRouteService extends IModelDTOService<Route, RouteDTO> {
-    List<Route> getByUserId(Long userId);
+    Optional<List<Route>> getByUserId(Long userId);
 }

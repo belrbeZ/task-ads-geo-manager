@@ -47,7 +47,14 @@ public class CommentService extends ModelService<Comment> implements ICommentSer
             return Optional.empty();
         }
 
-        return null;
+        Optional<Comment> toSave = get(model.getId());
+
+        if(!toSave.isPresent()) {
+            LOGGER.warn("Update model which doesn't exist");
+            return Optional.empty();
+        }
+
+        return super.save(Translator.updateDAO(toSave.get(), model));
     }
 
     @Override

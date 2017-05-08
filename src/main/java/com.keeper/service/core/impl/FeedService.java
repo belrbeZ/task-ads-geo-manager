@@ -1,4 +1,4 @@
-package com.keeper.service.util.impl;
+package com.keeper.service.core.impl;
 
 /*
  * Created by @GoodforGod on 30.04.2017.
@@ -11,8 +11,8 @@ import com.keeper.model.dto.GeoLocations;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.service.util.IFeedService;
-import com.keeper.service.util.IFeedSubmitService;
+import com.keeper.service.core.IFeedService;
+import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.util.Computer;
 import com.keeper.util.Translator;
 import org.springframework.scheduling.annotation.Scheduled;
