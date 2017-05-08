@@ -462,34 +462,66 @@
     <!--OBJECTS TO MAP-->
     <script th:inline="javascript">
         /*<![CDATA[*/
+
         var groups = [
             {
-                name: "Наши салоны красоты",
-                style: "islands#blueIcon",
+                name: "GeoPoints",
+                style: 'twirl#houseIcon',
+                styleCircle: "blue",
                 items: [
                     {
-                        center: [59.93674, 30.3117],
-                        name: 'Салон "YourMakeup" м.Адмиралтейская'
+                        id:1,
+                        name: 'Тестовая точка м.Адмиралтейская',
+                        latitude: 59.93674,
+                        longitude: 30.3117,
+                        radius: 200
                     },
                     {
-                        center: [59.925544, 30.389422],
-                        name: 'Салон "YourMakeup" м.Пл.А.Невского'
+                        id:2,
+                        name: 'Тестовая точка м.Пл.А.Невского',
+                        latitude: 59.925544,
+                        longitude: 30.389422,
+                        radius: 80
                     }
-                ]},
+                ],
+                placemarkCollection: null,
+                circleCollection: null
+            },
             {
-                name: "Покупайки",
-                style: "islands#greenIcon",
+                name: "Tasks",
+                style: 'twirl#bankIcon',
+                styleCircle: "green",
                 items: [
                     {
-                        center: [59.92858, 30.357068],
-                        name: 'Магазин "YourMakeupShop" м.Пл.Восстания'
+                        id:3,
+                        name: 'Тестовая точка м.Пл.Восстания',
+                        latitude: 59.92858,
+                        longitude: 30.357068,
+                        radius: 150
                     },
                     {
-                        center: [59.968226, 30.309588],
-                        name: 'Магазин "YourMakeupShop" м.Петроградская'
+                        id:4,
+                        name: 'Тестовая точка м.Петроградская',
+                        latitude: 59.968226,
+                        longitude: 30.309588,
+                        radius: 100
                     }
-                ]}
+                ],
+                placemarkCollection: null,
+                circleCollection: null
+            }
         ];
+
+        function updateGeoPointsOnMap(list) {
+            if(groups!=null && groups.length!=0) {
+                groups[0].items.length=0;
+                myMap.geoObjects.remove(groups[0].placemarkCollection);
+            }
+            for(var i=0; i<list.length; i++) {
+                groups[0].items.push(list[i]);
+            }
+            refreshMAP();
+        }
         /*]]>*/
     </script>
 
@@ -499,17 +531,122 @@
 
         var createUpdateButton;
         var deleteCancelButton;
+        var defaultRadius = 5;
 
-        ymaps.ready(function () {
+        $(document).ready(function() {
             createUpdateButton = document.getElementById("geo_point-create_update-button");
             deleteCancelButton = document.getElementById("geo_point-delete_cancel-button");
-            var myMap = new ymaps.Map('map', {
-                    center: [55.751574, 37.573856],
-                    zoom: 9
+        });
+
+        var myMap;
+
+        function recenterMap(xA,yA,zoom) {
+            myMap.setCenter([xA,yA], zoom, {
+                checkZoomRange: true,
+                duration: 1000
+            });
+        }
+
+        function refreshMAP() {
+            for (var i = 0, l = groups.length; i < l; i++) {
+                createMenuGroup(groups[i]);
+            }
+            function createMenuGroup (group) {
+                // Коллекция для геообъектов группы.
+                group.placemarkCollection = new ymaps.GeoObjectCollection(null, { preset: group.style });
+                // Добавляем коллекцию на карту.
+                myMap.geoObjects.add(group.placemarkCollection);
+
+                // Коллекция для геообъектов группы.
+                group.placemarkCollection = new ymaps.GeoObjectCollection(null, { preset: group.style });
+                // Добавляем коллекцию на карту.
+                myMap.geoObjects.add(group.placemarkCollection);
+
+                // Коллекция для окружностей группы.
+                group.circleCollection = new ymaps.GeoObjectCollection(null);/*, { color: group.styleCircle }*/
+                // Добавляем коллекцию на карту.
+                myMap.geoObjects.add(group.circleCollection);
+
+                for (var j = 0, m = group.items.length; j < m; j++) {
+                    createSubMenu(group.items[j], group.placemarkCollection,group.circleCollection);
+                }
+
+                switch(group.name){
+                    case "GeoPoints":
+                        group.placemarkCollection.events.add('mouseenter', function (e) {
+                            // Ссылку на объект, вызвавший событие,
+                            // можно получить из поля 'target'.
+                            e.get('target').options.set('preset', 'twirl#storehouseIcon');
+                        });
+                        break;
+                    case "Tasks":
+                        group.placemarkCollection.events.add('mouseenter', function (e) {
+                            // Ссылку на объект, вызвавший событие,
+                            // можно получить из поля 'target'.
+                            e.get('target').options.set('preset', 'twirl#skiingIcon');
+                        });
+                        break;
+                }
+
+                group.placemarkCollection.events.add('mouseleave', function (e) {
+                    e.get('target').options.unset('preset');
+                });
+            }
+
+            function createSubMenu (item, placemarkCollection, circleCollection) {
+
+                //// ID FROM item.id  CHECK
+                var placemark = new ymaps.Placemark([item.latitude, item.longitude], { balloonContent: item.name, id: item.id });
+
+                var newContent;
+                try{
+                    ymaps.geocode(placemark.geometry.getCoordinates(), {
+                        results: 1
+                    }).then(function (res) {
+                        newContent = res.geoObjects.get(0) ?
+                            res.geoObjects.get(0).properties.get('name') :
+                            'Не удалось определить адрес.';
+
+                        // Задаем новое содержимое балуна в соответствующее свойство метки.
+                        placemark.properties.set('balloonContent', item.name+ ". Адрес: " + newContent);
+                    });
+                }catch(e){console.log(e.toString())}
+                // Добавляем метку в коллекцию.
+                placemarkCollection.add(placemark);
+
+                // Создаем экземпляр класса геометрии круга (указываем координаты и радиус в метрах).
+                var circleGeometry = new ymaps.geometry.Circle([item.latitude, item.longitude], item.radius),
+                // Создаем экземпляр класса геообъекта и передаем нашу геометрию в конструктор.
+                    circleGeoObject = new ymaps.GeoObject({ geometry: circleGeometry });
+
+                // Изменяем радиус геометрии через свойство geometry геообъекта.
+//                circleGeoObject.geometry.setRadius(item.radius)
+                // Или напрямую.
+//                circleGeometry.setRadius(item.radius);
+                // Также доступ к circleGeometry можно получить через circleGeoObject.geometry.
+
+                // Добавляем окружность в коллекцию.
+                circleCollection.add(circleGeoObject);
+
+            }
+        }
+
+        ymaps.ready(function () {
+            // Создание экземпляра карты.
+            if(ymaps==null){alert("Can't connect to maps")}
+            myMap = new ymaps.Map('map', {
+                    center: [59.93, 30.32],
+                    zoom: 13
                 }, {
                     searchControlProvider: 'yandex#search'
-                }),
-                yellowCollection = new ymaps.GeoObjectCollection(null, {
+                });
+            //Getting list of geopoints ???
+                refreshGeoPointsList();
+
+                refreshMAP();
+
+
+        /*    var yellowCollection = new ymaps.GeoObjectCollection(null, {
                     preset: 'islands#yellowIcon'
                 }),
                 blueCollection = new ymaps.GeoObjectCollection(null, {
@@ -518,9 +655,9 @@
                 // Создаём макет содержимого.
                 MyIconContentLayout = ymaps.templateLayoutFactory.createClass(
                     '<div style="color: #FFFFFF; font-weight: bold;">$[properties.iconContent]</div>'
-                ),
+                ),*/
 
-                myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
+                var myPlacemark = new ymaps.Placemark(myMap.getCenter(), {
                     hintContent: 'Собственный значок метки',
                     balloonContent: 'Это красивая метка'
                 }, {
@@ -535,7 +672,7 @@
                     // Смещение левого верхнего угла иконки относительно
                     // её "ножки" (точки привязки).
                     //                        iconImageOffset: [-5, -38]
-                })
+                });
             /*,
                 myPlacemarkWithContent = new ymaps.Placemark([55.661574, 37.573856], {
                     hintContent: 'Собственный значок метки с контентом',
@@ -556,10 +693,11 @@
                     //                        iconContentOffset: [15, 15],
                     // Макет содержимого.
                     iconContentLayout: MyIconContentLayout
-                })*/
+                })
                 ,
                 yellowCoords = [[55.73, 37.75], [55.81, 37.75]],
                 blueCoords = [[55.73, 37.65], [55.81, 37.65]];
+
 
             for (var i = 0, l = yellowCoords.length; i < l; i++) {
                 yellowCollection.add(new ymaps.Placemark(yellowCoords[i]));
@@ -569,7 +707,7 @@
             }
 
             myMap.geoObjects.add(yellowCollection).add(blueCollection);
-
+            */
             myMap.balloon.events.add('open', function (event) {
                 // ваши действия
                 // myMap.balloon.close();
@@ -577,27 +715,30 @@
 //                this.coords;
 //                var coords = event.get('coords');
                 var coords;
+                var balloonText;
                 try{
                     coords = event.originalEvent.target.geometry._coordinates;
 
-                    document.getElementById('input-latitude').value = coords[0];
-                    document.getElementById('input-longitude').value = coords[1];
+                    balloonText = event.get('target').properties.get('balloonContent');
+                    if(balloonText==null){
+                        balloonText = event.get('target')['properties'].get('balloonContent');
+                    }
+
+                    refreshChangeGeoPointForm(id,coords[0],coords[1],defaultRadius,balloonText, true);
 
                 } catch (e){console.log(e.toString());}
 
-                var balloonText = event.get('target').properties.get('balloonContent');
-                if(balloonText==null){
-                    balloonText = event.get('target')['properties'].get('balloonContent');
-                }
-                document.getElementById('input-info').value = balloonText;
+                recenterMap(coords[0],coords[1],14);
 
                 if(event.get('target')['properties'].get('iconContent')!="Новое"){
                     hideYourPlaceholder();
-                    createUpdateButton.textContent = "Update";
-                    deleteCancelButton.textContent = "Delete";
+                    //UPDATE DELETE
+                    setUpdateDeleteButtons();
+                } else if(event.get('target')['properties'].get('iconContent')=="Новое") {
+                    setCreateCancelButtons();
                 }
-                    createUpdateButton.disabled = false;
-                    deleteCancelButton.disabled = false;
+//                    createUpdateButton.disabled = false;
+//                    deleteCancelButton.disabled = false;
 //                document.getElementById();
             });
 
@@ -608,15 +749,8 @@
                 // myMap.balloon.close();
                 // event.get('target').ballon.open();
                 //myMap.geoObjects.remove(placemarkYour);
-                document.getElementById('input-info').value = "";
 
-                document.getElementById('input-latitude').value = null;
-                document.getElementById('input-longitude').value = null;
-
-                    createUpdateButton.disabled = true;
-                    createUpdateButton.textContent = "Create";
-                    deleteCancelButton.disabled = true;
-                    deleteCancelButton.textContent = "Cancel";
+                closeChangingGeoPoint();
             });
 
             function hideYourPlaceholder() {
@@ -625,15 +759,7 @@
                     placemarkYour.options.set('visible', false);
                     placemarkYour.properties.set('balloonContent',  "");
 
-                    document.getElementById('input-info').value = "";
-
-                    document.getElementById('input-latitude').value = null;
-                    document.getElementById('input-longitude').value = null;
-
-                        createUpdateButton.disabled = true;
-                        createUpdateButton.textContent = "Create";
-                        deleteCancelButton.disabled = true;
-                        deleteCancelButton.textContent = "Cancel";
+//                    closeChangingGeoPoint();
 
                 }catch(e){console.log(e.toString())}
             }
@@ -705,156 +831,231 @@
     </script>
 </div>
 
-<!--RIGHT MENU-->
-<nav id="sidebar-wrapper-right" class="sidebar-wrapper">
-    <ul class="sidebar-nav wrapper-right">
-        <a id="menu-close" href="#" class="btn btn-danger pull-right hidden-md hidden-lg toggle"><i class="fa fa-times"></i></a>
-        <li class="sidebar-brand">
-            <a href="#top">Element <strong>DETAILS</strong></a>
-        </li>
-        <!--<li>-->
-            <!--<a href="/profile" title="Go to Top">Profile </a>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--<a href="/about" title="Go to About Us section">About</a>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--<a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--<a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>-->
-        <!--</li>-->
-        <!--&lt;!&ndash; Future Development-->
-        <!--<li>-->
-            <!--<a href="#portfolio">Portfolio</a>-->
-        <!--</li> &ndash;&gt;-->
-        <!--<li>-->
-            <!--<a href="/blog" title="Our Blog">Blog</a>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--<a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>-->
-        <!--</li>-->
-        <li>
-            <a  title="Create or Change GeoPoint">GeoPoints</a>
-            <div th:replace="fragments/geopointform :: geopointform"> </div>
-        </li>
-    </ul>
-</nav>
+<!--WRAPPER MENUS-->
+<div th:replace="fragments/wrappermenu :: wrappermenu"> </div>
 
-<!--LEFT MENU-->
-<nav id="sidebar-wrapper-left" class="sidebar-wrapper">
-    <ul class="sidebar-nav wrapper-left">
-        <a id="menu-close" href="#" class="btn btn-danger pull-right hidden-md hidden-lg toggle"><i class="fa fa-times"></i></a>
-        <li class="sidebar-brand">
-            <a href="#top">YOUR <strong>ELEMENTS</strong></a>
-        </li>
-        <li>
-            <a href="/about" title="List of Tasks">List of Tasks</a>
-        </li>
-        <li>
-            <a href="/profile" title="List of GeoPoints">List of GeoPoints</a>
-        </li>
-        <!--<li>-->
-        <!--<a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>-->
-        <!--</li>-->
-        <!--&lt;!&ndash; Future Development-->
-        <!--<li>-->
-        <!--<a href="#portfolio">Portfolio</a>-->
-        <!--</li> &ndash;&gt;-->
-        <!--<li>-->
-        <!--<a href="/blog" title="Our Blog">Blog</a>-->
-        <!--</li>-->
-        <!--<li>-->
-        <!--<a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>-->
-        <!--</li>-->
-        <li>
-            <a  title="List of Routes">List of Routes</a>
-        </li>
-    </ul>
-</nav>
 
-<!--SIDES MENU EVENTS-->
 <script th:inline="javascript">
     // <![CDATA[
-    $(document).ready(function()
-    {
-        // Closes the sidebar menu on menu-close button click event
-        $("#menu-close").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
-        {
-            // - will not work otherwise")
-            $(".sidebar-wrapper").toggleClass("active");			//instead on click event toggle active CSS element
-            e.preventDefault(); 									//prevent the default action ("Do not remove as the code
-
-            /*!
-             ======================= Notes ===============================
-             * see: .sidebar-wrapper.active in: style.css
-             ==================== END Notes ==============================
-             */
-        });															//Close 'function()'
-
-//        // Open the Sidebar-wrapper on Hover
-//        $(".menu-toggle").hover(function(e)							//declare the element event ...'(e)' = event (shorthand)
-//        {
-//            if($(this)[0].id==="left-menu-toggle"){
-//                $("#sidebar-wrapper-left").toggleClass("active",true);		//instead on click event toggle active CSS element
-//            }
-//            else if($(this)[0].id==="right-menu-toggle") {
-//                $("#sidebar-wrapper-right").toggleClass("active",true);
-//            }
-//            e.preventDefault();										//prevent the default action ("Do not remove as the code
-//        });
+//    function retrieveGuests() {
+//        var url = '/secure/geopoint/getlist';
 //
-//        $(".menu-toggle").bind('click',function(e)					//declare the element event ...'(e)' = event (shorthand)
-//        {
-//            $(".sidebar-wrapper").toggleClass("active",true);		//instead on click event toggle active CSS element
-//            e.preventDefault();										//prevent the default action ("Do not remove as the code
-//        });
-//
-//        $('.sidebar-wrapper').mouseleave(function(e)				//declare the jQuery: mouseleave() event
-//            // - see: ('//api.jquery.com/mouseleave/' for details)
-//        {
-//            /*! .toggleClass( className, state ) */
-//            $(this).toggleClass('active',false);		/* toggleClass: Add or remove one or more classes from each element
-//         in the set of matched elements, depending on either the class's
-//         presence or the value of the state argument */
-//            e.stopPropagation();									//Prevents the event from bubbling up the DOM tree
-//            // - see: ('//api.jquery.com/event.stopPropagation/' for details)
-//
-//            e.preventDefault();										// Prevent the default action of the event will not be triggered
-//            // - see: ('//api.jquery.com/event.preventDefault/' for details)
-//        });
-
-        // Open the Sidebar-wrapper on Hover
-        $(".menu-toggle").on("click", function(e)							//declare the element event ...'(e)' = event (shorthand)
-        {
-            if($(this)[0].id==="left-menu-toggle"){
-                $("#sidebar-wrapper-left").toggleClass("active");		//instead on click event toggle active CSS element
-            }
-            else if($(this)[0].id==="right-menu-toggle") {
-                $("#sidebar-wrapper-right").toggleClass("active");
-            }
-            e.preventDefault();										//prevent the default action ("Do not remove as the code
-        });
-													//Close 'function()'
-
-    });
-    // Closes the sidebar menu on menu-close button click event
-    $("#menu-close").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
-    {
-        // - will not work otherwise")
-        $(".sidebar-wrapper").toggleClass("active");			//instead on click event toggle active CSS element
-        e.preventDefault(); 									//prevent the default action ("Do not remove as the code
-
-        /*!
-         ======================= Notes ===============================
-         * see: .sidebar-wrapper.active in: style.css
-         ==================== END Notes ==============================
-         */
-    });															//Close 'function()'
+//        $("#geoPointListBlock").load(url);
+//    }
     // ]]>
+</script>
+
+<!--EVENTS EVENTS-->
+<script th:inline="javascript">
+    // <![CDATA[
+
+    function refreshChangeGeoPointForm(id,x,y,R,T,bool) {
+        document.getElementById('input-geo_point-id').value = id;
+        document.getElementById('input-geo_point-latitude').value = x;
+        document.getElementById('input-geo_point-longitude').value = y;
+        document.getElementById('input-geo_point-radius').value = R;
+        document.getElementById('input-geo_point-info').value = T;
+
+        $("#sidebar-wrapper-right").toggleClass("active", bool);
+
+        setDisplayList("addGeoPointForm",true);
+    }
+
+    function refreshGeoPointsList() {
+        //Simple .load() of fragment
+        /*
+        var url = '/secure/geopoint/getlist';
+//        returns fragment
+        $("#geoPointListBlock").load(url, function( response, status, xhr ) {
+            if ( status == "error" ) {
+                var msg = "Sorry but there was an error: ";
+                $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+            } else if( status == "success" ) {
+                updateGeoPointsOnMap(responseAsObject);
+            }
+        });
+        */
+
+//returns json
+        var url = '/secure/api/profile/geoPointList';
+
+        // Will override all ajax requests on this page including load
+        $.ajaxSetup({
+            dataFilter: function (response) {
+                var geoListBlock = $('#geoPointListBlock');
+
+                var responseAsObject = $.parseJSON(response);
+                if(responseAsObject.length>0){
+                    var htmlResponse = "<ul>";
+                    for(var i=0; i<responseAsObject.length; i++) {
+                        htmlResponse+="<li>"+"<span id='geo_point-id-in-list-"+i+"' style='display:none;'>"+responseAsObject[i].id+"</span>"+"Info "+responseAsObject[i].info+"<br>"+"latitude "+responseAsObject[i].latitude+"<br>"+"longitude "+responseAsObject[i].longitude+"<br>"+"radius "+responseAsObject[i].radius;
+                    }
+                    htmlResponse+="</ul>"
+                }
+
+                updateGeoPointsOnMap(responseAsObject);
+
+                return htmlResponse;
+
+            }
+            /*,
+            type: "GET",
+            dataType: "json",
+            // Disable caching of AJAX responses for example only
+            cache: false
+            */
+        });
+
+        $("#geoPointListBlock").load(url, function (response, status, xhr) {
+            console.log('ajax refreshGeoPointsList()');
+            if (status == "error") {
+                var msg = "Sorry but there was an error: ";
+                alert(msg + xhr.status + " " + xhr.statusText);
+//                $("#error").html(msg + xhr.status + " " + xhr.statusText);
+            } else if (status == "success") {
+//                alert("success");
+//                updateGeoPointsOnMap(responseAsObject);
+                console.log("refreshGeoPointsList");
+            }
+        });
+
+        $.ajaxSetup({
+            dataFilter: function (response) {
+                return response;
+            }
+        });
+
+        /*$("#ajax").click(function (evt) {
+            evt.preventDefault();
+
+            $.ajax({
+                url: "html.htm",
+                success: function (res) {
+                    $("#content").html("#lightBoxForm" ?
+                        $("<div>").append(
+                            res.replace(rscript, ""))
+                            .find("#lightBoxForm") : res);
+                }
+            });
+
+        });*/
+
+        /*jQuery.support.cors = true;
+        $.ajax(
+            {
+                type: "GET",
+                url: url,
+                data: "{}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                beforeSend: function(request) {
+                    request.setRequestHeader([[${_csrf.headerName}]], [[${_csrf.token}]]);
+                },
+                success: function (data) {
+                    var geoListBlock = $('#geoPointListBlock');
+
+                    var responseAsObject = $.parseJSON(response);
+                    if(responseAsObject.length>0){
+                        var htmlResponse = $('<ul>').appendTo(geoListBlock);
+                        for(var i=0; i<responseAsObject.length; i++) {
+                            ul.append(
+                                $(document.createElement('li')).text(responseAsObject[i].info+"<br>"+responseAsObject[i].latitude+"<br>"+responseAsObject[i].longitude+"<br>"+responseAsObject[i].radius)
+                            );
+                        }
+                    }
+
+                    updateGeoPointsOnMap(responseAsObject);
+                },
+                error: function (msg) {
+                    alert(msg.responseText);
+                }
+            });*/
+
+    }
+
+    function toggleList(elemName) {
+        switch (elemName){
+            case "geoPointList":
+                $('#geoPointListBlock').toggle("fast");
+                break;
+            case "routeList":
+                break;
+            case "myTaskList":
+                break;
+            case "addGeoPointForm":
+                $('#add-geo_point-form').toggle("fast");
+                break;
+        }
+    }
+
+    function setDisplayList(elemName,bool) {
+        if(bool===true){
+            switch (elemName){
+                case "geoPointList":
+                    $('#geoPointListBlock').show("fast");
+                    break;
+                case "routeList":
+                    break;
+                case "myTaskList":
+                    break;
+                case "addGeoPointForm":
+                    $('#add-geo_point-form').show("fast");
+                    break;
+            }
+        } else if(bool===false) {
+            switch (elemName){
+                case "geoPointList":
+                    $('#geoPointListBlock').hide("fast");
+                    break;
+                case "routeList":
+                    break;
+                case "myTaskList":
+                    break;
+                case "addGeoPointForm":
+                    $('#add-geo_point-form').hide("fast");
+                    break;
+            }
+        }
+
+    }
+
+    function closeChangingGeoPoint() {
+        refreshChangeGeoPointForm(null,null,null,defaultRadius,"",false);
+
+        //CREATE CANCEL
+        setCreateCancelButtons();
+
+//        createUpdateButton.disabled = true;
+//        deleteCancelButton.disabled = true;
+
+        setDisplayList("addGeoPointForm",false);
+    }
+
+    $(document).ready(function() {
+        try{
+            if($('#geoPointListBlock').children().length==0){
+                refreshGeoPointsList();
+            }
+        } catch(e) {
+            console.log(e);
+        }
+
+        $('#changeGeoPointsButton').click(function (e) {
+            toggleList("addGeoPointForm");
+        });
+
+        $('#getGeoPointsButton').click(function (e) {
+
+            if($('#geoPointListBlock').children().length==0){
+                refreshGeoPointsList();
+            }
+            $(this).off("click").click(function (e) {
+                toggleList("geoPointList");
+            });
+        });
+    });
+
 </script>
 
 <!--MESSAGES-->
@@ -865,7 +1066,7 @@
     <div class="Message-body">
         <p>CHECK PLACE FOR CREATE OR CHANGING
             <small><br>Do you want to add new Place in which area you can see tasks?</small></p>
-        <button class="Message-button" id="js-showMe">Show me how to add your new Place</button>
+        <button class="Message-button" id="js-showMe">Show how to add!</button>
         <button class="Message-button js-messageClose">Nah, not interested</button>
     </div>
     <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
@@ -877,17 +1078,6 @@
         el.addClass('is-hidden');
     }
 
-    $('.js-messageClose').on('click', function(e) {
-        closeMessage($(this).closest('.Message'));
-    });
-
-    $('#js-showMe').on('click', function(e) {
-//        th:onclick="'javascript:getContactId(\'' + ${contact.id} + '\');'"
-//        alert("You're off to our help section. See you later!");
-        $("#sidebar-wrapper-right").toggleClass("active", true);
-        closeMessage($(this).closest('.Message'));
-    });
-
     function messageToAddPlace() {
         var mes = $('#message-add_place');
         mes.removeClass('is-hidden');
@@ -896,7 +1086,102 @@
         }, 10000);
     }
 
+    $(document).ready(function() {
+        $('.js-messageClose').on('click', function(e) {
+            closeMessage($(this).closest('.Message'));
+        });
+
+        $('#js-showMe').on('click', function(e) {
+    //        th:onclick="'javascript:getContactId(\'' + ${contact.id} + '\');'"
+    //        alert("You're off to our help section. See you later!");
+            $("#sidebar-wrapper-right").toggleClass("active", true);
+            setDisplayList("addGeoPointForm",true);
+            closeMessage($(this).closest('.Message'));
+        });
+    });
     /*]]*/
+</script>
+
+
+<!--BUTTONS GEOFORM-->
+<script th:inline="javascript">
+    // <![CDATA[
+
+    function setCreateCancelButtons() {
+        createUpdateButton.textContent = "Create";
+        deleteCancelButton.textContent = "Cancel";
+
+        $(createUpdateButton).prop("type", "submit");
+        $(deleteCancelButton).prop("type", "button");
+
+        $(createUpdateButton).off("click").click(function (e) {
+            submitGeoPointForm('/secure/geopoint/create','CREATE');
+//            refreshGeoPointsList();
+        });
+        $(deleteCancelButton).off("click").click(function (e) {
+            e.stopPropagation();
+            closeChangingGeoPoint();
+        });
+    }
+
+    function setUpdateDeleteButtons() {
+        createUpdateButton.textContent = "Update";
+        deleteCancelButton.textContent = "Delete";
+
+        $(createUpdateButton).prop("type", "submit");
+        $(deleteCancelButton).prop("type", "submit");
+
+        $(createUpdateButton).off("click").click(function (e) {
+            submitGeoPointForm('/secure/geopoint/update','PATCH');
+//            refreshGeoPointsList();
+        });
+        $(deleteCancelButton).off("click").click(function (e) {
+            submitGeoPointForm('/secure/geopoint/remove','DELETE');
+//            refreshGeoPointsList();
+        });
+    }
+
+    function submitGeoPointForm(action,type)
+    {
+//            var url = ''+action;
+        var form = $('#geo_point-form');
+        form.action = action;
+        $(form).attr("method", ""+type);
+//            document.getElementById('geo_point-form').submit();
+
+        console.log('ajax submitGeoPointForm()');
+
+        $.ajax({
+            url: form.attr('action'),
+            type: form.attr('type'),
+            data: form.serialize(),
+            success: function (response) {
+                // if the response contains any errors, replace the form
+                if ($(response).find('.has-error').length) {
+                    $("#responseMessage").html(response);
+                } else {
+                    // in this case we can actually replace the form
+                    // with the response as well, unless we want to
+                    // show the success message a different way
+                }
+            },
+            error : function(data) {
+                var msg = "Sorry but there was an error: ";
+                alert(msg+data);
+                $("#responseMessage").html(data);
+            }
+
+        });
+
+//        refreshGeoPointsList();
+    }
+    $(document).ready(function() {
+        $('#input-radius').on('onchange',function (e) {
+            alert("onchange");
+
+        });
+    });
+    // ]]>
 </script>
 
 
