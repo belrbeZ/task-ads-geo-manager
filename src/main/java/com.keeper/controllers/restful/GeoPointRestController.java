@@ -1,10 +1,9 @@
 package com.keeper.controllers.restful;
 
 /*
- * Created by @GoodforGod on 28.03.2017.
+ * Created by @GoodforGod on 02.05.2017.
  */
 
-import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.util.Translator;
@@ -14,16 +13,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Default Comment
  */
-@RestController
 public class GeoPointRestController {
-    private final String PATH = ApiResolver.GEOPOINT;
+
+    private final String PATH = ApiResolver.GEO;
 
     private final GeoPointService repoService;
 
@@ -33,13 +36,13 @@ public class GeoPointRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<GeoPointDTO> get(@RequestParam("id") Long id) {
-        return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(GeoPoint.EMPTY)), HttpStatus.OK);
+    public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
+        return new ResponseEntity<>(Translator.geoUsersToDTO(repoService .getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
-        repoService.update(Translator.toDAO(model));
+        repoService.updateDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -49,15 +52,9 @@ public class GeoPointRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-//    @RequestMapping(value = PATH+"/byRouteId", method = RequestMethod.DELETE)
-//    public ResponseEntity<String> deleteByRouteId(@RequestParam("routeId") Long routeId) {
-//        repoService.remove(routeId);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@RequestParam("id") Long routeId) {
-        repoService.remove(routeId);
+    public ResponseEntity<String> delete(@RequestParam("id") Long pointId) {
+        repoService.remove(pointId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

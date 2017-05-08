@@ -1,11 +1,9 @@
 package com.keeper.model.dto;
 
 import com.keeper.model.SimpleGeoPoint;
-import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 import org.hibernate.validator.constraints.NotEmpty;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -37,10 +38,13 @@ public class ProfileWebController {
     public ModelAndView profileGet(Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
-        User user = userService.getAuthorized().get();
-        UserDTO userDTO = Translator.toDTO(user);
+        Optional<User> user = userService.getAuthorized();
+        UserDTO userDTO = null;
 
-        userDTO.setEmail(user.getEmail());
+        if(user.isPresent()) {
+            userDTO = Translator.toDTO(user.get());
+            userDTO.setEmail(user.get().getEmail());
+        }
 
         modelAndView.addObject("user", userDTO);
 
@@ -48,22 +52,16 @@ public class ProfileWebController {
     }
 
     @RequestMapping(value = WebResolver.PROFILE, method = RequestMethod.POST)
-    public ModelAndView profileUpdate(@Valid UserDTO userForm, BindingResult bindingResult) {
+    public ModelAndView profileUpdate(@Valid UserDTO model, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
-        User user = userService.get(userForm.getId()).get();
+        Optional<User> user = userService.updateDTO(model);
+        UserDTO userDTO = null;
 
-        user.setEmail((userForm.getEmail() != null && !userForm.getEmail().isEmpty()) ? userForm.getEmail() : user.getEmail());
-        user.setPassword((userForm.getPassword() != null && !userForm.getPassword().isEmpty()) ? userForm.getPassword() : user.getPassword());
-        user.setPhone((userForm.getPhone() != null && !userForm.getPhone().isEmpty()) ? userForm.getPhone() : user.getPhone());
-        user.setAbout((userForm.getAbout() != null && !userForm.getAbout().isEmpty()) ? userForm.getAbout() : user.getAbout());
-        user.setName((userForm.getName() != null && !userForm.getName().isEmpty()) ? userForm.getName() : user.getName());
-        user.setNotified((userForm.getNotified() == null) ? false : userForm.getNotified());
-
-        userService.save(user);
-
-        UserDTO userDTO = Translator.toDTO(user);
-        userDTO.setEmail(user.getEmail());
+        if(user.isPresent()) {
+            userDTO = Translator.toDTO(user.get());
+            userDTO.setEmail(user.get().getEmail());
+        }
 
         modelAndView.addObject("user", userDTO);
 

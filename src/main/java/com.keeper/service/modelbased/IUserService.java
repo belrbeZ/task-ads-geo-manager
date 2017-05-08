@@ -5,9 +5,8 @@ package com.keeper.service.modelbased;
  */
 
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.*;
+import com.keeper.model.dto.UserDTO;
 
-import java.util.List;
 import java.util.Optional;
 
 /**

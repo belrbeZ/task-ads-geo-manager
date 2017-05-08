@@ -4,8 +4,6 @@ package com.keeper.service.modelbased;
  * Created by @GoodforGod on 6.04.2017.
  */
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 

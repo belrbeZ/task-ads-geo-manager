@@ -15,6 +15,7 @@ import com.keeper.service.core.IFeedService;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.util.Computer;
 import com.keeper.util.Translator;
+import com.keeper.util.Validator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -269,32 +270,59 @@ public class FeedService implements IFeedService, IFeedSubmitService {
 
     @Override
     public Optional<List<TaskDTO>> getHot(Long userId) {
+        if(userId == null)
+            return Optional.empty();
+
         return Optional.of(tasks.entrySet().stream().filter(task -> hotTasks.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override
     public Optional<List<TaskDTO>> getRecent(Long userId) {
+        if(userId == null)
+            return Optional.empty();
+
         return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(TaskDTO::getLastModifyDate)).limit(RECENT_FEED_SIZE).collect(Collectors.toList()));
     }
 
     @Override
     public Optional<List<TaskDTO>> getLocal(Long userId) {
-        List<Long> taskIds = userLocalTasks.get(userId).entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
+        if(userId == null)
+            return Optional.empty();
+
+        Map<Long, GeoLocations> userLocals = userLocalTasks.get(userId);
+
+        if(userLocals == null)
+            return Optional.empty();
+
+        List<Long> taskIds = userLocals.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList());
+
+        if(taskIds == null || taskIds.isEmpty())
+            return Optional.empty();
+
         return Optional.of(tasks.entrySet().stream().filter(task -> taskIds.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override
     public Optional<List<TaskDTO>> getOwned(Long userId) {
+        if(userId == null)
+            return Optional.empty();
+
         return Optional.of(tasks.entrySet().stream().filter(task -> task.getValue().getTopicStarterId().equals(userId)).map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override
     public Optional<List<TaskDTO>> getAll(Long userId) {
+        if(userId == null)
+            return Optional.empty();
+
         return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override
     public Optional<List<TaskDTO>> getByTheme(String theme) {
+        if(Validator.isStrEmpty(theme))
+            return Optional.empty();
+
         return Optional.of(tasks.entrySet().stream().filter(task -> satisfiesSearch(task.getValue().getTheme(), theme)).map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 

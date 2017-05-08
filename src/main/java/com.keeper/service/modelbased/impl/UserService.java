@@ -4,24 +4,20 @@ package com.keeper.service.modelbased.impl;
  * Created by @GoodforGod on 9.04.2017.
  */
 
-import com.keeper.model.dao.GeoPoint;
-import com.keeper.model.dao.Picture;
-import com.keeper.model.dao.Route;
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.*;
+import com.keeper.model.dto.UserDTO;
 import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
-import com.keeper.repo.TaskRepository;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.modelbased.IUserService;
 import com.keeper.util.Translator;
+import com.keeper.util.Validator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 
@@ -51,12 +47,22 @@ public class UserService extends ModelService<User> implements IUserService {
     }
 
     @Override
-    public boolean existsByEmail(@NotEmpty String email) {
+    public boolean existsByEmail(String email) {
+        if(Validator.isStrEmpty(email)) {
+            LOGGER.warn("NULLABLE PARAMETER");
+            return false;
+        }
+
         return repository.existsByEmail(email);
     }
 
     @Override
-    public boolean existsByPhone(@NotEmpty String phone) {
+    public boolean existsByPhone(String phone) {
+        if(Validator.isStrEmpty(phone)) {
+            LOGGER.warn("NULLABLE PARAMETER");
+            return false;
+        }
+
         return repository.existsByPhone(phone);
     }
 
@@ -66,12 +72,22 @@ public class UserService extends ModelService<User> implements IUserService {
     }
 
     @Override
-    public Optional<User> getByEmail(@NotEmpty String email) {
+    public Optional<User> getByEmail(String email) {
+        if(Validator.isStrEmpty(email)) {
+            LOGGER.warn("NULLABLE PARAMETER");
+            return Optional.empty();
+        }
+
         return repository.findOneByEmail(email);
     }
 
     @Override
-    public Optional<User> getByPhone(@NotEmpty String phone) {
+    public Optional<User> getByPhone(String phone) {
+        if(Validator.isStrEmpty(phone)) {
+            LOGGER.warn("NULLABLE PARAMETER");
+            return Optional.empty();
+        }
+
         return repository.findOneByPhone(phone);
     }
 
@@ -91,7 +107,7 @@ public class UserService extends ModelService<User> implements IUserService {
     public Optional<User> updateDTO(UserDTO model) {
         if(model == null) {
             LOGGER.warn("Update NULLABLE dto");
-            return Optional.empty();
+            throw new NullPointerException("");
         }
         Optional<User> toSave = get(model.getId());
 

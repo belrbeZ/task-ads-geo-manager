@@ -7,8 +7,8 @@ package com.keeper.service.modelbased.impl;
  *
  */
 
-import com.keeper.model.dao.*;
-import com.keeper.model.dto.*;
+import com.keeper.model.dao.Task;
+import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.TaskRepository;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.service.core.impl.FeedService;
@@ -102,6 +102,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
         Optional<Task> toSave = get(model.getId());
 
+        // OR SAVE AS A NEW ONE, THAT IS A QUESTION
         if(!toSave.isPresent()) {
             LOGGER.warn("Update model which doesn't exist");
             return Optional.empty();

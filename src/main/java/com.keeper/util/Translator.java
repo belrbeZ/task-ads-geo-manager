@@ -11,15 +11,13 @@ import com.keeper.model.types.UserType;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.keeper.util.Validator.isEmailValid;
-import static com.keeper.util.Validator.isStrEmpty;
-import static com.keeper.util.Validator.isPhoneValid;
-import static com.keeper.util.Validator.isPassValid;
-import static com.keeper.util.Validator.isGeoValid;
-import static com.keeper.util.Validator.isGeoDoubleValid;
+import static com.keeper.util.Validator.*;
 
 /**
  * Translate and full fill DTO object to DAO object and revert
@@ -77,7 +75,7 @@ public class Translator {
     public static ZoneDTO toDTO(Zone model) {
         return (model == null)
                 ? ZoneDTO.EMPTY
-                : new ZoneDTO(model.getProfileId(),
+                : new ZoneDTO(model.getUserId(),
                             model.getCity(),
                             model.getCountry(),
                             model.getRegisterDate());
@@ -296,7 +294,7 @@ public class Translator {
 
     //<editor-fold desc="DAO update strategy">
 
-    public static User updateDAO(User dao, UserDTO dto) {
+    public static User updateDAO(User dao, UserDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
@@ -318,7 +316,7 @@ public class Translator {
         return dao;
     }
 
-    public static Tag updateDAO(Tag dao, TagDTO dto) {
+    public static Tag updateDAO(Tag dao, TagDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
@@ -334,7 +332,7 @@ public class Translator {
         return dao;
     }
 
-    public static Task updateDAO(Task dao, TaskDTO dto) {
+    public static Task updateDAO(Task dao, TaskDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
@@ -355,7 +353,7 @@ public class Translator {
         return dao;
     }
 
-    public static GeoPoint updateDAO(GeoPoint dao, GeoPointDTO dto) {
+    public static GeoPoint updateDAO(GeoPoint dao, GeoPointDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
@@ -373,7 +371,7 @@ public class Translator {
         return dao;
     }
 
-    public static Route updateDAO(Route dao, RouteDTO dto) {
+    public static Route updateDAO(Route dao, RouteDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
@@ -395,14 +393,14 @@ public class Translator {
         return dao;
     }
 
-    public static Zone updateDAO(Zone dao, ZoneDTO dto) {
+    public static Zone updateDAO(Zone dao, ZoneDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
         if(dao == null)
             throw new NullPointerException("NULLABLE dao");
 
-        if(!Objects.equals(dao.getProfileId(), dto.getProfileId()))
+        if(!Objects.equals(dao.getUserId(), dto.getProfileId()))
             throw new NumberFormatException("DAO id differ from DTO id");
 
         dao.setCity(!isStrEmpty(dto.getCity()) ? dto.getCity() : dao.getCity());
@@ -411,7 +409,7 @@ public class Translator {
         return dao;
     }
 
-    public static Picture updateDAO(Picture dao, PictureDTO dto) {
+    public static Picture updateDAO(Picture dao, PictureDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 
@@ -433,7 +431,7 @@ public class Translator {
         return dao;
     }
 
-    public static Comment updateDAO(Comment dao, CommentDTO dto) {
+    public static Comment updateDAO(Comment dao, CommentDTO dto) throws NullPointerException, NumberFormatException {
         if(dto == null)
             throw new NullPointerException("NULLABLE dto");
 

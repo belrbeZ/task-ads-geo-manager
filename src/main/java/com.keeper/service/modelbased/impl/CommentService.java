@@ -10,6 +10,7 @@ import com.keeper.repo.CommentRepository;
 import com.keeper.service.modelbased.ICommentService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Optional;
 /**
  * Default Comment
  */
+@Service
 public class CommentService extends ModelService<Comment> implements ICommentService {
 
     public final CommentRepository repository;

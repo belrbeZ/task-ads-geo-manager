@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * Default Comment
@@ -44,8 +45,7 @@ public class TaskWebController {
 
         if(taskId != null) {
             modelAndView.addObject("task", taskService.get(taskId));
-            User user = userService.getAuthorized().get();
-            modelAndView.addObject("user", Translator.toDTO(user));
+            userService.getAuthorized().ifPresent(user1 -> modelAndView.addObject("user", Translator.toDTO(user1)));
         }
         else
             modelAndView.setViewName(TemplateResolver.FEED);
@@ -82,15 +82,14 @@ public class TaskWebController {
     public ModelAndView taskUpdateOrCreate(@Valid TaskDTO task, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
-        User user = userService.getAuthorized().get();
-        task.setCreateDate(LocalDateTime.now());
-        task.setLastModifyDate(LocalDateTime.now());
-        task.setTopicStarterId(user.getId());
-        task.setGeo(new SimpleGeoPoint("150.4214", "24.12412", 15));
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent()) {
+            task.setTopicStarterId(user.get().getId());
+            task.setGeo(new SimpleGeoPoint("150.4214", "24.12412", 15));
+            taskService.saveDTO(task);
+        }
 
-        taskService.save(Translator.toDAO(task));
-
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("user", user.get());
         modelAndView.addObject("task", task);
 
         return modelAndView;

@@ -6,11 +6,11 @@ package com.keeper.service.modelbased.impl;
 
 import com.keeper.model.dao.Picture;
 import com.keeper.model.dto.PictureDTO;
-import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.PictureRepository;
 import com.keeper.service.modelbased.IPictureService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -18,6 +18,7 @@ import java.util.Optional;
 /**
  * Default Comment
  */
+@Service
 public class PictureService extends ModelService<Picture> implements IPictureService {
 
     private final PictureRepository repository;

@@ -39,24 +39,20 @@ public class RouteRestController {
         this.repoService = repoService;
     }
 
-    @RequestMapping(value = PATH+"/byUserId", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RouteDTO>> getByUserId(@RequestParam("id") Long userId) {
-        List<Route> routes = repoService.getByUserId(userId);
-
-//        System.out.println("User First Route:"+routes.get(0).getLongtitudes() [0]+" "+routes.get(0).getLatitudes()[0]);
-//        LOGGER.debug("User First Route:"+routes.get(0).getLongtitudes() [0]+" "+routes.get(0).getLatitudes()[0]);
-
-        return new ResponseEntity<>(Translator.routesToDTO(routes), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.routesToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<RouteDTO> get(@RequestParam("id") Long id) {
+    public ResponseEntity<RouteDTO> get(@RequestParam(value = "id", required = false) Long id,
+                                        @RequestParam(value = "userId", required = false) Long userId) {
         return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(Route.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody RouteDTO model, BindingResult result) {
-        repoService.update(Translator.toDAO(model));
+        repoService.updateDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -7,10 +7,10 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.Tag;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.TagDTO;
-import com.keeper.repo.TaskRepository;
 import com.keeper.service.modelbased.ITagService;
 import com.keeper.util.Translator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +19,7 @@ import java.util.Optional;
 /**
  * Default Comment
  */
+@Service
 public class TagService implements ITagService {
 
     private final TaskService taskService;

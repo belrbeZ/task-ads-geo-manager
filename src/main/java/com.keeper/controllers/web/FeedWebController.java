@@ -8,6 +8,7 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.impl.UserService;
+import com.keeper.util.Validator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,24 +58,25 @@ public class FeedWebController {
                                    @RequestParam(value = "type", required = false) Integer type, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        Long userId = userService.getAuthorized().get().getId();
-
+        Optional<User> userId = userService.getAuthorized();
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
-        if(type == null && !theme.isEmpty())
+        if(type == null && userId.isPresent())
             tasks = feedService.getByTheme(theme);
-        else if(type != null && userId != null)
+        else if(type != null && userId.isPresent() && userId.get().getId() != null)
             switch (type) {
-                case 10: tasks = feedService.getOwned(userId);  break;
-                case 20: tasks = feedService.getRecent(userId); break;
-                case 30: tasks = feedService.getLocal(userId);  break;
-                case 40: tasks = feedService.getHot(userId);    break;
+                case 10: tasks = feedService.getOwned(userId.get().getId());  break;
+                case 20: tasks = feedService.getRecent(userId.get().getId()); break;
+                case 30: tasks = feedService.getLocal(userId.get().getId());  break;
+                case 40: tasks = feedService.getHot(userId.get().getId());    break;
                 case 0:
-                    default: tasks = feedService.getAll(userId); break;
+                    default: tasks = feedService.getAll(userId.get().getId()); break;
             }
 
-        if(!tasks.isPresent())
+        if(!tasks.isPresent() || tasks.get().isEmpty()) {
             modelAndView.addObject("emptyMessage", "There no tasks for you.. Sorry..");
+            tasks = Optional.of(Collections.emptyList());
+        }
 
         modelAndView.addObject("tasks", tasks.get());
 
