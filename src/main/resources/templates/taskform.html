@@ -18,17 +18,18 @@
     <br/>
 
     <div class="container">
+
+        <span th:utext="${message}"></span>
+
         <div th:object="${task}">
             <div>
                 <span th:text="${task?.createDate}">Created</span>
-            </div>
-            <div>
                 <span th:text="${task?.lastModifyDate}">Modified</span>
             </div>
         </div>
 
         <div>
-            <form autocomplete="off" th:action="@{/secure/task/create}"
+            <form autocomplete="off" th:action="@{/secure/task/form}"
                   th:object="${task}" method="post" class="form-registration" role="form">
 
                 <div>
@@ -51,10 +52,8 @@
                 </div>
 
                 <div>
-                    <button type="submit">Update</button>
+                    <button type="submit">Save</button>
                 </div>
-
-                <span th:utext="${successMessage}"></span>
 
             </form>
         </div>

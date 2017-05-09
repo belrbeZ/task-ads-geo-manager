@@ -45,30 +45,43 @@ public class TaskWebController {
     public ModelAndView taskGet(@RequestParam(value = "id", required = false) Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
-        userService.getAuthorized().ifPresent(usr ->  {
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent()){
             if(Validator.isIdValid(taskId)) {
-                modelAndView.addObject("user", Translator.toDTO(usr));
-                modelAndView.addObject("task", taskService.get(taskId));
+                Optional<Task> daoTask = taskService.get(taskId);
+                if(daoTask.isPresent()) {
+                    modelAndView.addObject("user", Translator.toDTO(user.get()));
+                    modelAndView.addObject("task", Translator.toDTO(daoTask.get()));
+                    return modelAndView;
+                }
+                else
+                    modelAndView.addObject("message", "No Such Task!");
             }
             else
-                modelAndView.setViewName(TemplateResolver.FEED);
-        });
+                modelAndView.addObject("message", "Invalid Task ID!");
+        }
+        else
+            modelAndView.addObject("message", "ReLogin First!");
+
+        modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebResolver.TASK, method = RequestMethod.DELETE)
     public ModelAndView taskDelete(@RequestParam(value = "id", required = false) Long taskId, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.FEED));
 
-        userService.getAuthorized().ifPresent(usr ->  {
-            if(Validator.isIdValid(taskId)) {
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent()) {
+            try {
                 taskService.remove(taskId);
-                modelAndView.setViewName(TemplateResolver.FEED);
-            }
-            else
+            } catch (Exception e) {
                 modelAndView.addObject("message", "No Such Task!");
-        });
+            }
+        }
+        else
+            modelAndView.addObject("message", "ReLogin First");
 
         return modelAndView;
     }
@@ -77,18 +90,23 @@ public class TaskWebController {
     public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
 
-        userService.getAuthorized().ifPresent(usr ->  {
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            TaskDTO dto = new TaskDTO();
             if(Validator.isIdValid(id)) {
-                TaskDTO dto = new TaskDTO();
                 Optional<Task> updateTask = taskService.get(id);
+
                 if(updateTask.isPresent())
                     dto = Translator.toDTO(updateTask.get());
-
-                modelAndView.addObject("task", dto);
             }
-            else
-                modelAndView.addObject("message", "Login Please!");
-        });
+            modelAndView.addObject("task", dto);
+            return modelAndView;
+        }
+        else
+            modelAndView.addObject("message", "ReLogin First!");
+
+        modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
 
         return modelAndView;
     }
@@ -98,20 +116,29 @@ public class TaskWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
         Optional<User> user = userService.getAuthorized();
+
         if(user.isPresent()) {
             task.setTopicStarterId(user.get().getId());
+            // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
             task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
 
-            if(task.getId() == null || task.getId().equals(TaskType.EMPTY.getValue()))
-                taskService.saveDTO(task);
-            else
-                taskService.updateDTO(task);
+            try {
+                if (Validator.isIdValid(task.getId()))
+                    taskService.updateDTO(task);
+                else
+                    taskService.saveDTO(task);
 
-            modelAndView.addObject("user", user.get());
-            modelAndView.addObject("task", task);
+                modelAndView.addObject("user", user.get());
+                modelAndView.addObject("task", task);
+                return modelAndView;
+            }
+            catch (Exception e) {
+                modelAndView.addObject("message", "No Such Task!");
+                modelAndView.setViewName(TemplateResolver.FEED);
+            }
         }
-        else
-            modelAndView.setViewName(TemplateResolver.FEED);
+
+        modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
 
         return modelAndView;
     }

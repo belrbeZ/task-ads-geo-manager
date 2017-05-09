@@ -26,6 +26,6 @@ public class TemplateResolver {
     public static final String GEOPOINT_FORM = "geopointform";
 
     public static String redirect(String viewName) {
-        return "redirect:/" + viewName;
+        return "redirect:" + viewName;
     }
 }

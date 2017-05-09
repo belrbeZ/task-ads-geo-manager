@@ -142,21 +142,27 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     }
 
     @Override
-    public Task remove(Task task) {
-        removedTask.put(task.getId(), task.getTopicStarterId());
-        return task;
+    public void removeTask(Long id) {
+        TaskDTO modelToDelete = tasks.get(id);
+
+        if(modelToDelete != null)
+            removedTask.put(id, modelToDelete.getTopicStarterId());
     }
 
     @Override
-    public GeoPoint remove(GeoPoint point) {
-        removedPoints.put(point.getId(), point.getUserId());
-        return point;
+    public void removeGeo(Long id) {
+        GeoPointDTO modelToDelete = points.get(id);
+
+        if(modelToDelete != null)
+            removedTask.put(id, modelToDelete.getUserId());
     }
 
     @Override
-    public Route remove(Route route) {
-        removedPoints.put(route.getId(), route.getUserId());
-        return route;
+    public void removeRoute(Long id) {
+        RouteDTO modelToDelete = routes.get(id);
+
+        if(modelToDelete != null)
+            removedRoutes.put(id, modelToDelete.getUserId());
     }
     //</editor-fold>
 
@@ -233,6 +239,9 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         //<editor-fold desc="Points">
 
         if(!removedPoints.isEmpty()) {
+            for(Map.Entry<Long, Long> entry : removedPoints.entrySet())
+                points.remove(entry.getKey());
+
             for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
                     .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
                     .map(Map.Entry::getValue).collect(Collectors.toSet())) {
@@ -250,13 +259,14 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         //<editor-fold desc="Tasks">
 
         if(!removedTask.isEmpty()) {
-            for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
-                    .stream().parallel().filter(entry -> removedTask.containsValue(entry.getKey()))
-                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                for (Long taskId : taskMap.entrySet().stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
-                        .map(Map.Entry::getKey).collect(Collectors.toSet())) {
-                    taskMap.remove(taskId);
-                    tasks.remove(taskId);
+            for(Map.Entry<Long, Long> entry : removedTask.entrySet())
+                tasks.remove(entry.getKey());
+
+            for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : userLocalTasks.entrySet()) {
+                for(Map.Entry<Long, Long> taskIdToRemove : removedTask.entrySet()) {
+                    if (taskMap.getValue().containsKey(taskIdToRemove.getKey())) {
+                        taskMap.getValue().remove(taskIdToRemove.getKey());
+                    }
                 }
             }
             removedTask.clear();
@@ -267,6 +277,9 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         //<editor-fold desc="Routes">
 
         if(!removedRoutes.isEmpty()) {
+            for(Map.Entry<Long, Long> entry : removedRoutes.entrySet())
+                routes.remove(entry.getKey());
+
             for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
                     .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
                     .map(Map.Entry::getValue).collect(Collectors.toSet())) {

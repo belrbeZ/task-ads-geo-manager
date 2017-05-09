@@ -22,7 +22,7 @@ public interface IFeedSubmitService {
     void loadPoints(List<GeoPoint> point);
     void loadRoutes(List<Route> route);
 
-    Task remove(Task task);
-    GeoPoint remove(GeoPoint point);
-    Route remove(Route route);
+    void removeTask(Long taskId);
+    void removeGeo(Long geoId);
+    void removeRoute(Long routeId);
 }

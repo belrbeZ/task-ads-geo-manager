@@ -90,9 +90,6 @@ public class TaskService extends ModelService<Task> implements ITaskService {
             return Optional.empty();
         }
 
-        model.setCreateDate(LocalDateTime.now());
-        model.setLastModifyDate(model.getCreateDate());
-
         return save(Translator.toDAO(model));
     }
 
@@ -125,17 +122,28 @@ public class TaskService extends ModelService<Task> implements ITaskService {
             return Optional.empty();
         }
 
-        model.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
-        model.setLastModifyDate(model.getCreateDate());
+        model.setCreateDate((model.getCreateDate() == null || model.getCreateDate().before(Timestamp.valueOf(LocalDateTime.now())))
+                ? Timestamp.valueOf(LocalDateTime.now())
+                : model.getCreateDate());
+        model.setLastModifyDate((model.getLastModifyDate() == null || model.getLastModifyDate().before(Timestamp.valueOf(LocalDateTime.now())))
+                ? Timestamp.valueOf(LocalDateTime.now())
+                : model.getCreateDate());
 
         Optional<Task> task = super.save(model);
         task.ifPresent(feedSubmitService::submit);
         return task;
     }
 
+    @Transactional
     @Override
     public Optional<Task> update(Task model) {
-        model.setLastModifyDate(Timestamp.valueOf(LocalDateTime.now()));
         return save(model);
+    }
+
+    @Transactional
+    @Override
+    public void remove(Long id) {
+        super.remove(id);
+        feedSubmitService.removeTask(id);
     }
 }

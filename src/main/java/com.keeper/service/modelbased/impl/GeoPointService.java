@@ -92,4 +92,16 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
         geoUser.ifPresent(feedSubmitService::submit);
         return geoUser;
     }
+
+    @Override
+    public Optional<GeoPoint> update(GeoPoint model) {
+        return save(model);
+    }
+
+    @Transactional
+    @Override
+    public void remove(Long id) {
+        super.remove(id);
+        feedSubmitService.removeGeo(id);
+    }
 }

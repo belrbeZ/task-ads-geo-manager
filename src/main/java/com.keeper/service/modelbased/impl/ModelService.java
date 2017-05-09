@@ -5,6 +5,7 @@ package com.keeper.service.modelbased.impl;
  */
 
 import com.keeper.service.modelbased.IModelService;
+import com.keeper.util.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -35,12 +36,12 @@ public class ModelService<T> implements IModelService<T> {
 
     @Override
     public boolean exists(Long id) {
-        return (id != null) && primeRepository.exists(id);
+        return (Validator.isIdValid(id)) && primeRepository.exists(id);
     }
 
     @Override
     public Optional<T> get(Long id) {
-        if(id == null) {
+        if(!Validator.isIdValid(id)) {
             LOGGER.warn("Get with NULLABLE ID");
             return Optional.empty();
         }
@@ -80,6 +81,11 @@ public class ModelService<T> implements IModelService<T> {
     @Transactional
     @Override
     public void remove(Long id) {
+        if(!Validator.isIdValid(id)) {
+            LOGGER.warn("NULLABLE id request DELETE");
+            throw new NullPointerException("NULLABLE id request DELETE");
+        }
+
         primeRepository.delete(id);
     }
 }

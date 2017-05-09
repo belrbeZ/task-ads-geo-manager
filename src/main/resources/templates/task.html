@@ -21,20 +21,26 @@
 
     <div class="row" th:object="${task}">
         <div class="row-fluid" th:object="${user}" style="margin: 5px">
-            <span th:text="${user?.name}" style="margin: 5px"></span>
-            <span th:text="${user?.email}" style="margin: 5px"></span>
+            <h2>User</h2>
+            <span th:text="${user?.name}" style="margin: 5px">Name: </span>
+            <span th:text="${user?.email}" style="margin: 5px">Email: </span>
         </div>
 
+        <br/> <br/>
+
         <div class="row-fluid" style="margin: 5px">
+            <h2>Task</h2>
             <span th:text="${task.theme}"></span>
             <div style="margin: 5px">>
-                <span th:text="${task.createDate}"></span>
-                <span th:text="${task?.type.toString()}"></span>
+                <span th:text="${task?.createDate}">Created: </span>
+                <span th:text="${task?.type.toString()}">Type: </span>
             </div>
         </div>
 
+        <br/>
+
         <div class="row-fluid">
-            <span th:text="${task.descr}"></span>
+            <span th:text="${task.descr}">Description: </span>
         </div>
     </div>
 </div>

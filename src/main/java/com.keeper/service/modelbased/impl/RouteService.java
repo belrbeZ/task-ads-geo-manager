@@ -83,8 +83,19 @@ public class RouteService extends ModelService<Route> implements IRouteService {
     @Transactional
     @Override
     public Optional<Route> save(Route model) {
+        if(model == null) {
+            LOGGER.warn("Update NULLABLE dto");
+            return Optional.empty();
+        }
+
         Optional<Route> route = super.save(model);
         route.ifPresent(feedSubmitService::submit);
         return route;
+    }
+
+    @Transactional
+    @Override
+    public Optional<Route> update(Route model) {
+        return save(model);
     }
 }
