@@ -145,24 +145,31 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     public void removeTask(Long id) {
         TaskDTO modelToDelete = tasks.get(id);
 
-        if(modelToDelete != null)
+        if(modelToDelete != null) {
+            tasks.remove(id);
             removedTask.put(id, modelToDelete.getTopicStarterId());
+        }
     }
 
     @Override
     public void removeGeo(Long id) {
         GeoPointDTO modelToDelete = points.get(id);
 
-        if(modelToDelete != null)
+
+        if(modelToDelete != null) {
+            points.remove(id);
             removedTask.put(id, modelToDelete.getUserId());
+        }
     }
 
     @Override
     public void removeRoute(Long id) {
         RouteDTO modelToDelete = routes.get(id);
 
-        if(modelToDelete != null)
+        if(modelToDelete != null) {
+            routes.remove(id);
             removedRoutes.put(id, modelToDelete.getUserId());
+        }
     }
     //</editor-fold>
 
@@ -239,8 +246,8 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         //<editor-fold desc="Points">
 
         if(!removedPoints.isEmpty()) {
-            for(Map.Entry<Long, Long> entry : removedPoints.entrySet())
-                points.remove(entry.getKey());
+//            for(Map.Entry<Long, Long> entry : removedPoints.entrySet())
+//                points.remove(entry.getKey());
 
             for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
                     .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
@@ -259,8 +266,8 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         //<editor-fold desc="Tasks">
 
         if(!removedTask.isEmpty()) {
-            for(Map.Entry<Long, Long> entry : removedTask.entrySet())
-                tasks.remove(entry.getKey());
+//            for(Map.Entry<Long, Long> entry : removedTask.entrySet())
+//                tasks.remove(entry.getKey());
 
             for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : userLocalTasks.entrySet()) {
                 for(Map.Entry<Long, Long> taskIdToRemove : removedTask.entrySet()) {
@@ -277,8 +284,8 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         //<editor-fold desc="Routes">
 
         if(!removedRoutes.isEmpty()) {
-            for(Map.Entry<Long, Long> entry : removedRoutes.entrySet())
-                routes.remove(entry.getKey());
+//            for(Map.Entry<Long, Long> entry : removedRoutes.entrySet())
+//                routes.remove(entry.getKey());
 
             for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
                     .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
