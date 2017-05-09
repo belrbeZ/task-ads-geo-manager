@@ -16,6 +16,10 @@ public class Validator {
 
     static final int EMAIL_INCORRECT = -1;
 
+    public static boolean isIdValid(Long id) {
+        return id != null && id > 0;
+    }
+
     public static boolean isStrEmpty(String str) {
         return (str == null || str.trim().isEmpty());
     }

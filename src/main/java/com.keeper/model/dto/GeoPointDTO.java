@@ -16,8 +16,8 @@ public class GeoPointDTO {
 
     public static final GeoPointDTO EMPTY = new GeoPointDTO();
 
-    private Long id;
-    private Long userId;
+    @NotNull private Long id;
+    @NotNull private Long userId;
 
     private Double latitude;
     private Double longitude;

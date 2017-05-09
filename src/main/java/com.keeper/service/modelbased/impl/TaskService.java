@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,9 @@ public class TaskService extends ModelService<Task> implements ITaskService {
             return Optional.empty();
         }
 
+        model.setCreateDate(LocalDateTime.now());
+        model.setLastModifyDate(model.getCreateDate());
+
         return save(Translator.toDAO(model));
     }
 
@@ -110,7 +114,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
         model.setLastModifyDate(LocalDateTime.now());
 
-        return super.save(Translator.updateDAO(toSave.get(), model));
+        return save(Translator.updateDAO(toSave.get(), model));
     }
 
     @Transactional
@@ -121,9 +125,17 @@ public class TaskService extends ModelService<Task> implements ITaskService {
             return Optional.empty();
         }
 
+        model.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        model.setLastModifyDate(model.getCreateDate());
+
         Optional<Task> task = super.save(model);
         task.ifPresent(feedSubmitService::submit);
         return task;
     }
 
+    @Override
+    public Optional<Task> update(Task model) {
+        model.setLastModifyDate(Timestamp.valueOf(LocalDateTime.now()));
+        return save(model);
+    }
 }

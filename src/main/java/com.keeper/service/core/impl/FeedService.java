@@ -104,19 +104,40 @@ public class FeedService implements IFeedService, IFeedSubmitService {
 
     @Override
     public Task submit(Task task) {
-        tasksToProceed.add(tasks.putIfAbsent(task.getId(), Translator.toDTO(task)).getId());
+        TaskDTO dto = tasks.get(task.getId());
+
+        if(dto == null)
+            tasks.put(task.getId(), Translator.toDTO(task));
+        else
+            tasks.replace(task.getId(), Translator.toDTO(task));
+
+        tasksToProceed.add(task.getId());
         return task;
     }
 
     @Override
     public GeoPoint submit(GeoPoint point) {
-        pointsToProceed.add(points.putIfAbsent(point.getId(), Translator.toDTO(point)).getId());
+        GeoPointDTO geo = points.get(point.getId());
+
+        if(geo == null)
+            points.put(point.getId(), Translator.toDTO(point));
+        else
+            points.replace(point.getId(), Translator.toDTO(point));
+
+        pointsToProceed.add(point.getId());
         return point;
     }
 
     @Override
     public Route submit(Route route) {
-        routesToProceed.add(routes.putIfAbsent(route.getId(), Translator.toDTO(route)).getId());
+        RouteDTO dto = routes.get(route.getId());
+
+        if(dto == null)
+            routes.put(route.getId(), Translator.toDTO(route));
+        else
+            routes.replace(route.getId(), Translator.toDTO(route));
+
+        routesToProceed.add(route.getId());
         return route;
     }
 

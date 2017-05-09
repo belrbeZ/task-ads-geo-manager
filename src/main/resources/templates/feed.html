@@ -19,42 +19,51 @@
         <h1>Feed</h1>
     </div>
 
-    <br/>
-
-    <div>
-        <form th:action="@{/secure/feed}" method="post">
-            <input type="text" name="search" placeholder="Theme Query"/>
-            <button name="Submit" value="search" type="Submit" th:text="Search"></button>
-
-            <!--<select>-->
-                <!--<option th:each="state : ${T(com.keeper.model.states.FeedType).values()}"-->
-                        <!--th:value="${type}"-->
-                        <!--th:text="${type}">-->
-                <!--</option>-->
-            <!--</select>-->
-        </form>
-        <form th:action="@{/secure/feed}" method="post">
-            <input type="hidden" th:value="0" name="type"/>
-            <button name="Submit" value="type" type="Submit" th:text="All"></button>
-        </form>
-        <form th:action="@{/secure/feed}" method="post">
-            <input type="hidden" value="40" name="type"/>
-            <button name="Submit" value="type" type="Submit" th:text="Hot"></button>
-        </form>
-        <form th:action="@{/secure/feed}" method="post">
-            <input type="hidden" value="30" name="type"/>
-            <button name="Submit" value="type" type="Submit" th:text="Local"></button>
-        </form>
-        <form th:action="@{/secure/feed}" method="post">
-            <input type="hidden" th:value="20" name="type"/>
-            <button name="Submit" value="type" type="Submit" th:text="New"></button>
-        </form>
-        <form th:action="@{/secure/feed}" method="post">
-            <input type="hidden" value="10" name="type"/>
-            <button name="Submit" value="type" type="Submit" th:text="My"></button>
-        </form>
-
-        <a href="/secure/tasks/create" th:href="@{/secure/task/create}">Create Task</a>
+    <div class="row" style="margin: 5px">
+        <div class="row-fluid">
+            <form th:action="@{/secure/feed}" method="post">
+                <input type="text" name="search" placeholder="Theme Query"/>
+                <button name="Submit" value="search" type="Submit" th:text="Search"></button>
+            </form>
+        </div>
+        <div class="row-fluid" style="margin: 5px">
+            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                <form th:action="@{/secure/feed}" method="post">
+                    <input type="hidden" th:value="0" name="type"/>
+                    <button name="Submit" value="type" type="Submit" th:text="All"></button>
+                </form>
+            </div>
+            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                <form th:action="@{/secure/feed}" method="post">
+                    <input type="hidden" value="40" name="type"/>
+                    <button name="Submit" value="type" type="Submit" th:text="Hot"></button>
+                </form>
+            </div>
+            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                <form th:action="@{/secure/feed}" method="post">
+                    <input type="hidden" value="30" name="type"/>
+                    <button name="Submit" value="type" type="Submit" th:text="Local"></button>
+                </form>
+            </div>
+            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                <form th:action="@{/secure/feed}" method="post">
+                    <input type="hidden" th:value="20" name="type"/>
+                    <button name="Submit" value="type" type="Submit" th:text="New"></button>
+                </form>
+            </div>
+            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                <form th:action="@{/secure/feed}" method="post">
+                    <input type="hidden" value="10" name="type"/>
+                    <button name="Submit" value="type" type="Submit" th:text="My"></button>
+                </form>
+            </div>
+        </div>
+        <div class="row-fluid" style="margin: 5px">
+            <!--<form th:action="@{/secure/task/form}" method="GET">-->
+                <!--<button type="Submit" name="id" th:text="Create Task"></button>-->
+            <!--</form>-->
+            <a href="/secure/tasks/form" th:href="@{/secure/task/form}">Create Task</a>
+        </div>
     </div>
 
     <br/>
@@ -64,20 +73,24 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <td></td>
-                <td>Title</td>
-                <td>Text</td>
+                <td>Posted</td>
+                <td>Theme</td>
+                <td>Description</td>
                 <td></td>
                 <td></td>
             </tr>
             </thead>
             <tbody>
                 <tr th:each="task : ${tasks}">
-                    <td th:text="${task.createDate}">Posted on: </td>
-                    <td th:text="${task.theme}">Theme: </td>
-                    <td th:text="${task.descr}">Description</td>
+                    <td th:text="${task.createDate}"></td>
                     <td>
-                        <form th:action="@{/secure/task/create}" method="GET">
+                        <form th:action="@{/secure/task}" method="GET">
+                            <button name="id" th:value="${task.id}" type="Submit" th:text="${task.theme}"></button>
+                        </form>
+                    </td>
+                    <td th:text="${task.descr}"></td>
+                    <td>
+                        <form th:action="@{/secure/task/form}" method="GET">
                             <button name="id" th:value="${task.id}" type="Submit" th:text="Update"></button>
                         </form>
                     </td>
@@ -91,31 +104,6 @@
                 </tr>
             </tbody>
         </table>
-
-        <!--<div th:each="task : ${tasks}">-->
-            <!--<div>-->
-                <!--<span th:text="${task.createDate}">Posted on: </span>-->
-                <!--<span th:text="${task.theme}">Theme: </span>-->
-            <!--</div>-->
-
-            <!--<div>-->
-                <!--<span th:text="${task.descr}">Description</span>-->
-            <!--</div>-->
-
-            <!--<div>-->
-                <!--<div>-->
-                    <!--<form th:action="@{/secure/tasks?id=task.id}" method="GET">-->
-                        <!--<button name="Submit" value="Delete" type="Submit" th:text="Update"></button>-->
-                    <!--</form>-->
-                <!--</div>-->
-                <!--<div>-->
-                    <!--<form th:action="@{/secure/tasks}" th:method="DELETE">-->
-                        <!--<input type="hidden" name="_method" value="delete"/>-->
-                        <!--<button name="Submit" value="Delete" type="Submit" th:text="Delete"></button>-->
-                    <!--</form>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
     </div>
 </div>
 </body>

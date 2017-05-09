@@ -12,6 +12,7 @@ public class ApiResolver {
     private static final String API_PUBLIC   = "/api";
     private static final String API_VERSION  = "/v1.0";
 
+    public static final String PUBLIC_PROFILE = API_PUBLIC + "/profile";
     public static final String PROFILE  = API_PRIVATE + "/profile";
     public static final String TASK     = API_PRIVATE + "/tasks";
     public static final String COMMENTS = TASK + "/comments";

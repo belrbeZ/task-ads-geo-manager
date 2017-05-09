@@ -37,7 +37,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
-        return new ResponseEntity<>(Translator.geoUsersToDTO(repoService .getByUserId(userId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.geoPointsToDTO(repoService .getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
@@ -48,7 +48,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
-        repoService.save(Translator.toDAO(model));
+        repoService.saveDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

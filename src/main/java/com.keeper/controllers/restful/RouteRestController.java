@@ -58,7 +58,7 @@ public class RouteRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody RouteDTO model, BindingResult result) {
-        repoService.save(Translator.toDAO(model));
+        repoService.saveDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

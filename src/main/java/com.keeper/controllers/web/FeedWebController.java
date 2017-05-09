@@ -8,7 +8,6 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Validator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;

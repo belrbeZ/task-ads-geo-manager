@@ -45,7 +45,7 @@ public class ProfileRestController {
         String info = "";
         try {
             if(!repoService.updateDTO(model).isPresent()) {
-                info = "NOPE";
+                info = "NULLABLE";
                 code = HttpStatus.NOT_MODIFIED;
             }
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public class ProfileRestController {
     }
 
 
-    @RequestMapping(value = PATH, method = RequestMethod.POST)
+    @RequestMapping(value = ApiResolver.PUBLIC_PROFILE, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
         repoService.save(Translator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);

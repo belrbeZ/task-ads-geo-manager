@@ -5,11 +5,14 @@ package com.keeper.controllers.web;
  */
 
 import com.keeper.model.SimpleGeoPoint;
+import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.types.TaskType;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;
+import com.keeper.util.Validator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -43,12 +45,14 @@ public class TaskWebController {
     public ModelAndView taskGet(@RequestParam(value = "id", required = false) Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
-        if(taskId != null) {
-            modelAndView.addObject("task", taskService.get(taskId));
-            userService.getAuthorized().ifPresent(user1 -> modelAndView.addObject("user", Translator.toDTO(user1)));
-        }
-        else
-            modelAndView.setViewName(TemplateResolver.FEED);
+        userService.getAuthorized().ifPresent(usr ->  {
+            if(Validator.isIdValid(taskId)) {
+                modelAndView.addObject("user", Translator.toDTO(usr));
+                modelAndView.addObject("task", taskService.get(taskId));
+            }
+            else
+                modelAndView.setViewName(TemplateResolver.FEED);
+        });
 
         return modelAndView;
     }
@@ -57,40 +61,57 @@ public class TaskWebController {
     public ModelAndView taskDelete(@RequestParam(value = "id", required = false) Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        if(taskId != null) {
-            taskService.remove(taskId);
-            modelAndView.setViewName(TemplateResolver.FEED);
-        }
-        else
-            modelAndView.addObject("message", "No such task!");
+        userService.getAuthorized().ifPresent(usr ->  {
+            if(Validator.isIdValid(taskId)) {
+                taskService.remove(taskId);
+                modelAndView.setViewName(TemplateResolver.FEED);
+            }
+            else
+                modelAndView.addObject("message", "No Such Task!");
+        });
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebResolver.TASK_CREATE, method = RequestMethod.GET)
+    @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.GET)
     public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
 
-        TaskDTO taskDTO = (id == null) ? new TaskDTO() : Translator.toDTO(taskService.get(id).get());
+        userService.getAuthorized().ifPresent(usr ->  {
+            if(Validator.isIdValid(id)) {
+                TaskDTO dto = new TaskDTO();
+                Optional<Task> updateTask = taskService.get(id);
+                if(updateTask.isPresent())
+                    dto = Translator.toDTO(updateTask.get());
 
-        modelAndView.addObject("task", taskDTO);
+                modelAndView.addObject("task", dto);
+            }
+            else
+                modelAndView.addObject("message", "Login Please!");
+        });
 
         return modelAndView;
     }
 
-    @RequestMapping(value = WebResolver.TASK_CREATE, method = RequestMethod.POST)
+    @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.POST)
     public ModelAndView taskUpdateOrCreate(@Valid TaskDTO task, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent()) {
             task.setTopicStarterId(user.get().getId());
-            task.setGeo(new SimpleGeoPoint("150.4214", "24.12412", 15));
-            taskService.saveDTO(task);
-        }
+            task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
 
-        modelAndView.addObject("user", user.get());
-        modelAndView.addObject("task", task);
+            if(task.getId() == null || task.getId().equals(TaskType.EMPTY.getValue()))
+                taskService.saveDTO(task);
+            else
+                taskService.updateDTO(task);
+
+            modelAndView.addObject("user", user.get());
+            modelAndView.addObject("task", task);
+        }
+        else
+            modelAndView.setViewName(TemplateResolver.FEED);
 
         return modelAndView;
     }

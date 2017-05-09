@@ -21,7 +21,7 @@ public class WebResolver {
     public static final String HOME     = SECURED + "/home";
     public static final String PROFILE  = SECURED + "/profile";
     public static final String TASK     = SECURED + "/task";
-    public static final String TASK_CREATE = TASK + "/create";
+    public static final String TASK_FORM = TASK + "/form";
     public static final String FEED     = SECURED + "/feed";
     public static final String MAP      = SECURED + "/map";
     public static final String GEOPOINT = SECURED + "/geopoint";

@@ -38,14 +38,14 @@ public class ZoneRestController {
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid @RequestBody Zone model, BindingResult result) {
-        repoService.update(model);
+    public ResponseEntity<String> update(@Valid @RequestBody ZoneDTO model, BindingResult result) {
+        repoService.updateDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid @RequestBody Zone model, BindingResult result) {
-        repoService.save(model);
+    public ResponseEntity<String> create(@Valid @RequestBody ZoneDTO model, BindingResult result) {
+        repoService.saveDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
