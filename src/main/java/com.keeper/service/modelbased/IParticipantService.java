@@ -18,7 +18,7 @@ public interface IParticipantService {
     Optional<Participant> getSpecificParticipant(Long userId, Long taskId);
 
     /** TRANSACTIONAL */
-    Optional<Participant> saveParticipant(Long taskId, Long userId);
+    Optional<Participant> saveParticipant(Long userId, Long taskId);
 
     /** TRANSACTIONAL */
     Optional<Participant> updateParticipant(Participant model);

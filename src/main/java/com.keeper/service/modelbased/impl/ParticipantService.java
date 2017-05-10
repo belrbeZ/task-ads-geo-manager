@@ -4,6 +4,7 @@ import com.keeper.model.dao.Participant;
 import com.keeper.repo.ParticipantRepository;
 import com.keeper.service.modelbased.IParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import static com.keeper.util.resolve.ErrorMessageResolver.*;
  * @author @GoodforGod
  * @since 09.05.2017
  */
+@Service
 public class ParticipantService extends ModelService<Participant> implements IParticipantService {
 
     public final ParticipantRepository repository;
@@ -46,15 +48,15 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         if(invalidId(taskId, GET_NULLABLE_ID + "TASK") || invalidId(userId, GET_NULLABLE_ID + "USER"))
             return Optional.empty();
 
-        return null;
+        return repository.findOneByTaskIdAndUserId(userId, taskId);
     }
 
     @Override
-    public Optional<Participant> saveParticipant(Long taskId, Long userId) {
+    public Optional<Participant> saveParticipant(Long userId, Long taskId) {
         if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK") || invalidId(userId, CREATE_NULLABLE_ID + "USER"))
             return Optional.empty();
 
-        return null;
+        return Optional.of(repository.save(new Participant(userId, taskId)));
     }
 
     @Override
@@ -62,7 +64,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         if(invalidModel(model, UPDATE_MODEL_NULLABLE))
             return Optional.empty();
 
-        return null;
+        return Optional.of(repository.save(model));
     }
 
     @Override
@@ -70,7 +72,8 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
             return Optional.empty();
 
-        return null;
+        repository.removeByTaskId(taskId);
+        return Optional.of(taskId);
     }
 
     @Override
@@ -78,7 +81,8 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         if(invalidId(userId, REMOVE_NULLABLE_ID + "USER"))
             return Optional.empty();
 
-        return null;
+        repository.removeByUserId(userId);
+        return Optional.of(userId);
     }
 
     @Override
@@ -86,6 +90,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK") || invalidId(userId, REMOVE_NULLABLE_ID + "USER"))
             return Optional.empty();
 
-        return null;
+        repository.removeByTaskIdAndUserId(userId, taskId);
+        return Optional.of(taskId);
     }
 }

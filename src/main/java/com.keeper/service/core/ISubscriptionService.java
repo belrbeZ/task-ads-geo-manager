@@ -16,13 +16,13 @@ public interface ISubscriptionService {
 
     Optional<List<Long>> getTaskSubscribers(Long taskId);
 
-    Optional<Map<Long, LocalDateTime>> getUserSubscribtions(Long userId);
+    Optional<Map<Long, LocalDateTime>> getUserSubscriptions(Long userId);
 
     /** TRANSACTIONAL */
-    Optional<Long> viewedTask(Long userId);
+    Optional<Long> viewTask(Long userId, Long taskId);
 
     /** TRANSACTIONAL */
-    Optional<Long> modifyTask(Long taskId);
+    Optional<Long> modifyTask(Long userId, Long taskId);
 
     /** TRANSACTIONAL */
     Optional<Long> subscribe(Long userId, Long taskId);

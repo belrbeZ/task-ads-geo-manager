@@ -14,13 +14,18 @@ import java.util.Optional;
  * @since 10.05.2017
  */
 public interface ParticipantRepository extends JpaRepository<Participant, Long> {
-    Optional<Participant> findByTaskIdAndUserId(@Param("taskId") Long taskId,
-                                                @Param("userId") Long userId);
+    Optional<Participant> findOneByTaskIdAndUserId(@Param("userId") Long userId,
+                                                @Param("taskId") Long taskId);
 
     Optional<List<Participant>> findAllByTaskId(@Param("taskId") Long taskId);
 
     Optional<List<Participant>> findAllByUserId(@Param("userId") Long userId);
 
-    void removeByTaskIdAndUserId(@Param("taskId") Long taskId,
-                                 @Param("userId") Long userId);
+    void removeByTaskIdAndUserId(@Param("userId") Long userId,
+                                 @Param("taskId") Long taskId);
+
+    void removeByUserId(@Param("userId") Long userId);
+
+    void removeByTaskId(@Param("taskId") Long taskId);
+
 }
