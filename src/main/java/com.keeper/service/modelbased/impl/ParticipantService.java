@@ -5,6 +5,7 @@ import com.keeper.repo.ParticipantRepository;
 import com.keeper.service.modelbased.IParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ import static com.keeper.util.resolve.ErrorMessageResolver.*;
 @Service
 public class ParticipantService extends ModelService<Participant> implements IParticipantService {
 
-    public final ParticipantRepository repository;
+    private final ParticipantRepository repository;
 
     @Autowired
     public ParticipantService(ParticipantRepository repository) {
@@ -51,6 +52,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         return repository.findOneByTaskIdAndUserId(userId, taskId);
     }
 
+    @Transactional
     @Override
     public Optional<Participant> saveParticipant(Long userId, Long taskId) {
         if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK") || invalidId(userId, CREATE_NULLABLE_ID + "USER"))
@@ -59,6 +61,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         return Optional.of(repository.save(new Participant(userId, taskId)));
     }
 
+    @Transactional
     @Override
     public Optional<Participant> updateParticipant(Participant model) {
         if(invalidModel(model, UPDATE_MODEL_NULLABLE))
@@ -67,6 +70,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         return Optional.of(repository.save(model));
     }
 
+    @Transactional
     @Override
     public Optional<Long> removeParticipantsByTask(Long taskId) {
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
@@ -76,6 +80,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         return Optional.of(taskId);
     }
 
+    @Transactional
     @Override
     public Optional<Long> removeParticipantsByUser(Long userId) {
         if(invalidId(userId, REMOVE_NULLABLE_ID + "USER"))
@@ -85,6 +90,7 @@ public class ParticipantService extends ModelService<Participant> implements IPa
         return Optional.of(userId);
     }
 
+    @Transactional
     @Override
     public Optional<Long> removeSpecificParticipant(Long userId, Long taskId) {
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK") || invalidId(userId, REMOVE_NULLABLE_ID + "USER"))

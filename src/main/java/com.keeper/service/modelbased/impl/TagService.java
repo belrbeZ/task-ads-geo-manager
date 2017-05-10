@@ -9,7 +9,6 @@ import com.keeper.model.dao.Task;
 import com.keeper.model.dto.TagDTO;
 import com.keeper.service.modelbased.ITagService;
 import com.keeper.util.Translator;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

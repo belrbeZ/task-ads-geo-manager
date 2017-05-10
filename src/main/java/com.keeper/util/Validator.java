@@ -14,10 +14,11 @@ import java.util.stream.Collectors;
  */
 public class Validator {
 
+    // VALIDATOR MULTIPLE CLASSES
     static final int EMAIL_INCORRECT = -1;
 
     public static boolean isIdValid(Long id) {
-        return id != null && id > 0;
+        return id != null && id > 1;
     }
 
     public static boolean isStrEmpty(String str) {

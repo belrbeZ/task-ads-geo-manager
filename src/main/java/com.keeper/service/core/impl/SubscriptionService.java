@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -25,6 +23,8 @@ public class SubscriptionService implements ISubscriptionService {
 
     private final ParticipantService participantService;
 
+    private final Map<Long, Set<Long>> userSubscriptions = new ConcurrentHashMap<>();
+
     @Autowired
     public SubscriptionService(ParticipantService participantService) {
         this.participantService = participantService;
@@ -32,6 +32,17 @@ public class SubscriptionService implements ISubscriptionService {
 
     @Override
     public Optional<List<Long>> getTaskSubscribers(Long taskId) {
+//        List<Long> result = null;
+//        if(taskId != null)
+//            result = userSubscriptions.entrySet().stream()
+//                    .filter(entry -> entry.getValue().contains(taskId))
+//                    .map(Map.Entry::getKey).collect(Collectors.toList());
+//
+//        if(result != null)
+//            return Optional.of(result);
+//
+//        return Optional.empty();
+
         Optional<List<Participant>> participants = participantService.getParticipantByTask(taskId);
         if(participants.isPresent())
             return Optional.of(participants.get().stream().map(Participant::getUserId).collect(Collectors.toList()));

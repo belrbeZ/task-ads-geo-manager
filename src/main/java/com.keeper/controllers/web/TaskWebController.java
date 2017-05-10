@@ -8,7 +8,6 @@ import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.model.types.TaskType;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;

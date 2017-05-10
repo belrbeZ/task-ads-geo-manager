@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.CREATE_MODEL_NULLABLE;
-import static com.keeper.util.resolve.ErrorMessageResolver.UPDATE_MODEL_NULLABLE;
-import static com.keeper.util.resolve.ErrorMessageResolver.UPDATE_NOT_FOUND;
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
 
 
 /**
