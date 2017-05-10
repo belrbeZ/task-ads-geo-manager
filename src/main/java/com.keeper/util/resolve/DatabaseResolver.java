@@ -12,14 +12,14 @@ public class DatabaseResolver {
     private static final String DATABASE         = "keeperdb";
     public static final String SCHEMA           = "production";
 
-    public static final String TABLE_USERS              = "users";
-    public static final String TABLE_TASKS              = "tasks";
-    public static final String TABLE_GEO_POINTS         = "geopoints";
-    public static final String TABLE_ROUTES             = "routes";
-    public static final String TABLE_PICS               = "pictures";
-    public static final String TABLE_TAGS               = "tags";
-    public static final String TABLE_COMMENTS           = "comments";
-    public static final String TABLE_ZONES              = "zones";
-    public static final String TABLE_PARTICIPANT_MANAGER = "participantmanager";
-    public static final String TABLE_TAG_MANAGER        = "tagmanager";
+    public static final String TABLE_USERS          = "users";
+    public static final String TABLE_TASKS          = "tasks";
+    public static final String TABLE_GEO_POINTS     = "geopoints";
+    public static final String TABLE_ROUTES         = "routes";
+    public static final String TABLE_PICS           = "pictures";
+    public static final String TABLE_TAGS           = "tags";
+    public static final String TABLE_COMMENTS       = "comments";
+    public static final String TABLE_ZONES          = "zones";
+    public static final String TABLE_PARTICIPANTS   = "participants";
+    public static final String TABLE_TAG_MANAGER    = "tagmanager";
 }

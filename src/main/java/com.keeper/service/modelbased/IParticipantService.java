@@ -1,5 +1,10 @@
 package com.keeper.service.modelbased;
 
+import com.keeper.model.dao.Participant;
+
+import java.util.List;
+import java.util.Optional;
+
 /**
  * Default Comment
  *
@@ -7,5 +12,8 @@ package com.keeper.service.modelbased;
  * @author @GoodforGod
  */
 public interface IParticipantService {
+    Optional<List<Participant>> getParticipantByTask();
+    Optional<List<Participant>> getParticipantByUser();
+
 
 }

@@ -39,7 +39,6 @@ public class Translator {
                             model.getCreateDate(),
                             model.getLastModifyDate(),
                             commentsToDTO(model.getComments()),
-                            usersToDTO(model.getParticipants()),
                             tagsToDTO(model.getTags()));
     }
 
