@@ -1,20 +1,28 @@
 package com.keeper.controllers.web;
 
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.service.modelbased.impl.UserService;
+import com.keeper.util.Converter;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.Convert;
+import javax.validation.Valid;
 import java.util.Optional;
 
 /**
@@ -34,6 +42,8 @@ public class GeoPointWebController {
         this.userService = userService;
     }
 
+
+
     @RequestMapping(value = WebResolver.GEOPOINT_GETLIST, method = RequestMethod.GET)
     public String geoPointGetList(Model model) {
 
@@ -51,14 +61,14 @@ public class GeoPointWebController {
     }
 
     @RequestMapping(value = WebResolver.GEOPOINT_CREATE, method = RequestMethod.POST)
-    public ModelAndView geoPointCreateForm(GeoPointDTO geoPointDTO, Model model) {
+    public ModelAndView geoPointCreateForm(@Valid GeoPointDTO geoPointDTO, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
         Optional<User> user = userService.getAuthorized();
 
-        System.out.println(geoPointDTO.getRadius());
-
         if(user.isPresent()) {
+            System.out.println(user.get().getEmail() + " Web Creating " + geoPointDTO.toString());
+
             geoPointDTO.setUserId(user.get().getId());
             geoPointService.saveDTO(geoPointDTO);
 
@@ -66,31 +76,86 @@ public class GeoPointWebController {
             // БЫЛО, то что не закомменчено стало т.к. теперь GeoPointService & and should save geoPoints via GeoPointService, not UserService
 
             modelAndView.addObject("geoPoint", geoPointDTO);
-        } else
+        } else {
             modelAndView.addObject("errorMessage", "Session is expired!");
+        }
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebResolver.GEOPOINT_REMOVE, method = RequestMethod.DELETE)
-    public String geoPointRemoveForm(@RequestParam(value = "id", required = false) Long geoPointId, Model model) {
+    public String geoPointRemoveForm(@RequestParam(value = "id", required = false) String geoPointId, Model model) {
+        System.out.println(" Web Removing point id:" + geoPointId);
 
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
-            System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
-            geoPointService.remove(geoPointId);
-            System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
+            System.out.println(""+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
+
+            GeoPoint geoFroDelete = geoPointService.get(Long.parseLong(geoPointId)).get();
+            System.out.println("    getted for delete:"+geoFroDelete);
+            user.get().removeGeoPoint(geoFroDelete);
+
+            geoPointService.remove(Long.parseLong(geoPointId));
+            System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
         }
 
-        return "Removed!";
+        return "fragments/ajaxrequest :: info-success";
+    }
+
+//    ,
+//    produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE
+//@RequestBody
+//@ResponseBody
+@RequestMapping(value = WebResolver.GEOPOINT_REMOVE+"/byObj", method = RequestMethod.DELETE)
+    public String deleteByObj(@Valid GeoPointDTO geo, BindingResult result, Model model) {
+        System.out.println("Web Deleting " + geo.toString());
+
+    // if any errors, re-render the user info edit form
+    if (result.hasErrors()) {
+        System.out.println("ERROR in deleting geo by id" + geo.getId());
+        return "fragments/user :: info-error";
+    }
+
+    if(geo.getId()<1) {
+        System.out.println("ERROR in deleting geo by id" + geo.getId());
+        return "fragments/ajaxrequest :: info-error";
+    }
+
+    Optional<User> user = userService.getAuthorized();
+
+    if(user.isPresent()) {
+        System.out.println(""+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
+
+        user.get().removeGeoPoint(geoPointService.get(geo.getId()).get());
+
+        geoPointService.remove(geo.getId());
+        System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
+    }
+
+        return "fragments/ajaxrequest :: info-success";
     }
 
     @RequestMapping(value = WebResolver.GEOPOINT_UPDATE, method = RequestMethod.PATCH)
-    public String geoPointUpdateForm(Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
+    public String geoPointUpdateForm(@Valid GeoPointDTO geo, BindingResult result, Model model) {
+//        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
-        return "updated";
+        Optional<User> user = userService.getAuthorized();
+
+        if(geo.getId()<1) {
+            System.out.println("Error of Web updating by id"+geo.getId());
+            return "fragments/ajaxrequest :: info-error";
+        }
+
+        if(user.isPresent()) {
+            System.out.println(user.get().getEmail() + " Web Updating " + geo.toString());
+
+            geo.setUserId(user.get().getId());
+
+            geoPointService.updateDTO(geo);
+        }
+
+        return "fragments/ajaxrequest :: info-success";
     }
 
 

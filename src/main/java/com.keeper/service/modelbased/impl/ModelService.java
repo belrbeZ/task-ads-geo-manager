@@ -86,6 +86,11 @@ public class ModelService<T> implements IModelService<T> {
             throw new NullPointerException("NULLABLE id request DELETE");
         }
 
+        System.out.println("Removing "+id.toString());
+
         primeRepository.delete(id);
+
+        System.out.println("Removed? "+id.toString());
+
     }
 }

@@ -77,6 +77,8 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
             return Optional.empty();
         }
 
+        System.out.println("    getted for update:"+toSave.get());
+
         return super.save(Translator.updateDAO(toSave.get(), model));
     }
 
@@ -102,6 +104,8 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
     @Override
     public void remove(Long id) {
         super.remove(id);
+        System.out.println("feedSubmitService remove");
         feedSubmitService.removeGeo(id);
+        System.out.println("end feedSubmitService remove");
     }
 }

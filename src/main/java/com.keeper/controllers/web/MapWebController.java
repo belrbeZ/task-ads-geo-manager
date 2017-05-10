@@ -4,6 +4,7 @@ package com.keeper.controllers.web;
  * Created by @GoodforGod on 25.04.2017.
  */
 
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -48,18 +50,24 @@ public class MapWebController {
 
         }
 
-        if(modelAndView.getModel().get("geoPoints") == null) {
+        /*if(modelAndView.getModel().get("geoPoints") == null) {
 
             Optional<User> user = userService.getAuthorized();
 
             if(user.isPresent()) {
 
-                System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
+                System.out.println(""+user.get().getEmail()+"map WebControl getMAP ListGeoPoints size:"+user.get().getGeoPoints().size());
 
-                modelAndView.addObject("geoPoints", Translator.geoPointsToDTO(user.get().getGeoPoints()));
+                List<GeoPoint> geodao = user.get().getGeoPoints();
+                System.out.println(" gettedlist "+geodao.size());
+
+                List<GeoPointDTO> geos = Translator.geoPointsToDTO(geodao);
+                System.out.println(" gettedlis to dto "+geos.size());
+
+                modelAndView.addObject("geoPoints", geos);
 
             }
-        }
+        }*/
         return modelAndView;
     }
 

@@ -39,6 +39,7 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                         WebResolver.LOGIN,
                         WebResolver.REGISTER,
                         "/css/**",
+                        "/js/**",
                         "/webjars/bootstrap/**").permitAll()
                 .antMatchers(WebResolver.SECURED + "/**").hasAuthority(ROLE).anyRequest()
                 .authenticated()
@@ -50,6 +51,8 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl(WebResolver.HOME)
                 .usernameParameter("email")
                 .passwordParameter("password");
+
+//        http.csrf().disable();
     }
 
     @Override

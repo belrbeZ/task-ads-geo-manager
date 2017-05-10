@@ -34,10 +34,20 @@ public class GeoPoint {
 
     private GeoPoint() {
         this.id         = 0L;
+        this.userId = 0L;
         this.latitude   = 0.;
         this.longitude  = 0.;
         this.radius     = 0;
         this.descr      = "";
+    }
+
+    public GeoPoint(Long id, Long userId, Double latitude, Double longitude, Integer radius, String descr) {
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
+        this.userId = userId;
+        this.descr = descr;
     }
 
     public GeoPoint(Long userId, Double latitude, Double longitude, Integer radius, String descr) {
@@ -66,6 +76,14 @@ public class GeoPoint {
 
     public Long getUserId() {
         return userId;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public Double getLatitude() {
@@ -100,4 +118,16 @@ public class GeoPoint {
         this.descr = descr;
     }
     //</editor-fold>
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder().append("GEOPOPINT: ").append(this.getId())
+                .append(" UserID ").append(this.getUserId())
+                .append(" Descr ").append(this.getDescr())
+                .append("Latitude ").append(this.getLatitude())
+                .append("Longitude ").append(this.getLongitude())
+                .append("Radius ").append(this.getRadius())
+                .append(super.toString());
+        return str.toString();
+    }
 }

@@ -16,6 +16,7 @@ public class GeoPointDTO {
 
     public static final GeoPointDTO EMPTY = new GeoPointDTO();
 
+
     @NotNull private Long id;
     @NotNull private Long userId;
 
@@ -127,5 +128,17 @@ public class GeoPointDTO {
     @Override
     public int hashCode() {
         return id.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder().append("GEOPOPINT: ").append(this.getId())
+                .append(" UserID ").append(this.getUserId())
+                .append(" Descr ").append(this.getDescr())
+                .append("Latitude ").append(this.getLatitude())
+                .append("Longitude ").append(this.getLongitude())
+                .append("Radius ").append(this.getRadius())
+                .append(super.toString());
+        return str.toString();
     }
 }

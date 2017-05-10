@@ -10,7 +10,7 @@
             <div th:each="geoPoint : ${geoPoints}">
                 <li>
                     <span style="display: none;" th:text="${geoPoint.id}"></span>
-                    descr        <span th:text="${geoPoint.descr}"></span>
+                    descr        <span th:text="${geoPoint.descr}">Моё место</span>
                     <br>
                     latitude    <span th:text="${geoPoint.latitude}"></span>
                     <br>
