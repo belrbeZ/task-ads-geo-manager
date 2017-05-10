@@ -92,9 +92,9 @@ public class GeoPointWebController {
         if(user.isPresent()) {
             System.out.println(""+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
 
-            GeoPoint geoFroDelete = geoPointService.get(Long.parseLong(geoPointId)).get();
-            System.out.println("    getted for delete:"+geoFroDelete);
-            user.get().removeGeoPoint(geoFroDelete);
+//            GeoPoint geoFroDelete = geoPointService.get(Long.parseLong(geoPointId)).get();
+//            System.out.println("    getted for delete:"+geoFroDelete);
+//            user.get().removeGeoPoint(geoFroDelete);
 
             geoPointService.remove(Long.parseLong(geoPointId));
             System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
