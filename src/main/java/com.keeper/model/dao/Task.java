@@ -199,6 +199,25 @@ public class Task {
 
     //</editor-fold>
 
+    public boolean hasTag( Tag tag ) {
+        return tags.contains(tag);
+    }
+
+    public void addTag(Tag tag) {
+        if (!hasTag(tag)) {
+            tag.incCounter();
+            tags.add(tag);
+        }
+    }
+
+    public void removeTag(Tag tag) {
+        if (hasTag(tag)) {
+            tags.remove(tag);
+            tag.decCounter();
+        } else
+            System.err.println("No such tag associated with this Task");
+    }
+
     @Override
     public String toString() {
         return "Task{ id=" + id

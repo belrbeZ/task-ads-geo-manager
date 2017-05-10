@@ -83,11 +83,11 @@ public class Tag {
 
         Tag tag = (Tag) o;
 
-        return tag.equals(tag.tag);
+        return id != null ? id.equals(tag.id) : tag.id == null;
     }
 
     @Override
     public int hashCode() {
-        return tag != null ? tag.hashCode() : 0;
+        return id != null ? id.hashCode() : 0;
     }
 }

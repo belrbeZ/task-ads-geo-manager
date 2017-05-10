@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Default Comment
  */
@@ -32,10 +34,8 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
 
     @Override
     public Optional<Zone> getByUserId(Long userId) {
-        if (userId == null) {
-            LOGGER.warn("Get by NULLABLE userId");
+        if(invalidId(userId, GET_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
         return repository.findByUserId(userId);
     }
@@ -64,7 +64,7 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
     @Override
     public Optional<Zone> saveDTO(ZoneDTO model) {
         if(model == null) {
-            LOGGER.warn("Save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -75,13 +75,13 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
     @Override
     public Optional<Zone> updateDTO(ZoneDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
         Optional<Zone> toSave = get(model.getProfileId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -91,10 +91,8 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
     @Transactional
     @Override
     public void removeByUserId(Long userId) {
-        if (userId == null) {
-            LOGGER.warn("Get by NULLABLE country");
+        if(invalidId(userId, REMOVE_NULLABLE_ID + "TASK"))
             return;
-        }
 
         repository.removeByUserId(userId);
     }

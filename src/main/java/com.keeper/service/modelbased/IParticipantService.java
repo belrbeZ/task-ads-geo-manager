@@ -12,8 +12,21 @@ import java.util.Optional;
  * @author @GoodforGod
  */
 public interface IParticipantService {
-    Optional<List<Participant>> getParticipantByTask();
-    Optional<List<Participant>> getParticipantByUser();
+    Optional<List<Participant>> getParticipantByTask(Long taskId);
+    Optional<List<Participant>> getParticipantByUser(Long userId);
 
+    Optional<Participant> getSpecificParticipant(Long userId, Long taskId);
 
+    /** TRANSACTIONAL */
+    Optional<Participant> saveParticipant(Long taskId, Long userId);
+
+    /** TRANSACTIONAL */
+    Optional<Participant> updateParticipant(Participant model);
+
+    /** TRANSACTIONAL */
+    Optional<Long> removeParticipantsByTask(Long taskId);
+    /** TRANSACTIONAL */
+    Optional<Long> removeParticipantsByUser(Long userId);
+    /** TRANSACTIONAL AND RETURN TASK_ID*/
+    Optional<Long> removeSpecificParticipant(Long userId, Long taskId);
 }

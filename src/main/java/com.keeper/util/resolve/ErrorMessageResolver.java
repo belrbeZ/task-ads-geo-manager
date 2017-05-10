@@ -9,12 +9,16 @@ package com.keeper.util.resolve;
  */
 public class ErrorMessageResolver {
 
-    public static final String NOT_FOUND = "";
-    public static final String MODEL_NOT_EXIST = "Such model doesn't EXIST";
-    public static final String MODEL_NULLABLE = "Model is NULLABLE ";
-    public static final String UPDATE_MODEL_NOT_EXIST = "During UPDATE, " + MODEL_NOT_EXIST;
-    public static final String CREATE_MODEL_NOT_EXIST = "During SAVE, " + MODEL_NOT_EXIST;
-    public static final String UPDATE_MODEL_NULLABLE = "During UPDATE param, " + MODEL_NULLABLE;
-    public static final String CREATE_MODEL_NULLABLE = "During SAVE param, " + MODEL_NULLABLE;
+    public static final String NOT_FOUND = "model NOT EXIST ";
+    public static final String NULLABLE_ID = "NULLABLE ID ";
+    public static final String NULLABLE_MODEL = "model is NULLABLE ";
+
+    public static final String UPDATE_NOT_FOUND = "During UPDATE, " + NOT_FOUND;
+    public static final String GET_NULLABLE_ID = "During GET, " + NULLABLE_ID;
+    public static final String UPDATE_NULLABLE_ID   = "During UPDATE, " + NULLABLE_ID;
+    public static final String CREATE_NULLABLE_ID   = "During CREATE, " + NULLABLE_ID;
+    public static final String REMOVE_NULLABLE_ID = "During REMOVE, " + NULLABLE_ID;
+    public static final String UPDATE_MODEL_NULLABLE = "During UPDATE param, " + NULLABLE_MODEL;
+    public static final String CREATE_MODEL_NULLABLE = "During CREATE param, " + NULLABLE_MODEL;
 
 }

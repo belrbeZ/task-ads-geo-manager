@@ -20,6 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.CREATE_MODEL_NULLABLE;
+import static com.keeper.util.resolve.ErrorMessageResolver.UPDATE_MODEL_NULLABLE;
+import static com.keeper.util.resolve.ErrorMessageResolver.UPDATE_NOT_FOUND;
+
 
 /**
  * Default Comment
@@ -95,7 +99,7 @@ public class UserService extends ModelService<User> implements IUserService {
     @Override
     public Optional<User> saveDTO(UserDTO model) {
         if(model == null) {
-            LOGGER.warn("save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -106,13 +110,13 @@ public class UserService extends ModelService<User> implements IUserService {
     @Override
     public Optional<User> updateDTO(UserDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             throw new NullPointerException("");
         }
         Optional<User> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

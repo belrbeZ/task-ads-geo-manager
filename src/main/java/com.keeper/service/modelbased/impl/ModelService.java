@@ -6,6 +6,7 @@ package com.keeper.service.modelbased.impl;
 
 import com.keeper.service.modelbased.IModelService;
 import com.keeper.util.Validator;
+import com.keeper.util.resolve.ErrorMessageResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,12 +40,26 @@ public class ModelService<T> implements IModelService<T> {
         return (Validator.isIdValid(id)) && primeRepository.exists(id);
     }
 
+    protected boolean invalidId(Long id, String msg) {
+        if(!Validator.isIdValid(id)) {
+            LOGGER.warn(msg);
+            return true;
+        }
+        return false;
+    }
+
+    protected boolean invalidModel(T model, String msg) {
+        if(model == null) {
+            LOGGER.warn(msg);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public Optional<T> get(Long id) {
-        if(!Validator.isIdValid(id)) {
-            LOGGER.warn("Get with NULLABLE ID");
+        if(invalidId(id, ErrorMessageResolver.GET_NULLABLE_ID))
             return Optional.empty();
-        }
 
         return Optional.of(primeRepository.findOne(id));
     }
@@ -58,10 +73,8 @@ public class ModelService<T> implements IModelService<T> {
     @Transactional
     @Override
     public Optional<T> save(T model) {
-        if(model == null) {
-            LOGGER.warn("NULLABLE model request SAVE");
+        if(invalidModel(model, ErrorMessageResolver.CREATE_MODEL_NULLABLE))
             return Optional.empty();
-        }
 
         return Optional.of(primeRepository.save(model));
     }
@@ -70,10 +83,8 @@ public class ModelService<T> implements IModelService<T> {
     @Transactional
     @Override
     public Optional<T> update(T model) {
-        if(model == null) {
-            LOGGER.warn("NULLABLE model request UPDATE");
+        if(invalidModel(model, ErrorMessageResolver.UPDATE_MODEL_NULLABLE))
             return Optional.empty();
-        }
 
         return Optional.of(primeRepository.save(model));
     }
@@ -81,10 +92,8 @@ public class ModelService<T> implements IModelService<T> {
     @Transactional
     @Override
     public void remove(Long id) {
-        if(!Validator.isIdValid(id)) {
-            LOGGER.warn("NULLABLE id request DELETE");
+        if(invalidId(id, ErrorMessageResolver.REMOVE_NULLABLE_ID))
             throw new NullPointerException("NULLABLE id request DELETE");
-        }
 
         primeRepository.delete(id);
     }
