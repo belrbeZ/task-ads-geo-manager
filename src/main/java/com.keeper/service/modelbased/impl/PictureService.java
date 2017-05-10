@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Default Comment
  */
@@ -30,20 +32,16 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
 
     @Override
     public Optional<Picture> getByUserId(Long userId) {
-        if(userId == null) {
-            LOGGER.warn("Save NULLABLE dto");
+        if(invalidId(userId, REMOVE_NULLABLE_ID))
             return Optional.empty();
-        }
 
         return repository.findByUserId(userId);
     }
 
     @Override
     public Optional<Picture> getByTaskId(Long taskId) {
-        if(taskId == null) {
-            LOGGER.warn("Save NULLABLE dto");
+        if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
         return repository.findByTaskId(taskId);
     }
@@ -52,7 +50,7 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
     @Override
     public Optional<Picture> saveDTO(PictureDTO model) {
         if(model == null) {
-            LOGGER.warn("Save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -63,14 +61,14 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
     @Override
     public Optional<Picture> updateDTO(PictureDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<Picture> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -80,12 +78,18 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
     @Transactional
     @Override
     public Optional<Picture> removeByUserId(Long userId) {
+        if(invalidId(userId, REMOVE_NULLABLE_ID + "USER"))
+            return Optional.empty();
+
         return null;
     }
 
     @Transactional
     @Override
     public Optional<Picture> removeByTaskId(Long taskId) {
+        if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
+            return Optional.empty();
+
         return null;
     }
 }

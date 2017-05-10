@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Repository Service to work with Tasks
  */
@@ -74,10 +76,8 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
     @Override
     public Optional<List<Task>> getByUserId(Long userId) {
-        if(userId == null) {
-            LOGGER.warn("UserID is NULLABLE");
+        if(invalidId(userId, GET_NULLABLE_ID + "USER"))
             return Optional.empty();
-        }
 
         return repository.findAllByTopicStarterId(userId);
     }
@@ -86,7 +86,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
     @Override
     public Optional<Task> saveDTO(TaskDTO model) {
         if(model == null) {
-            LOGGER.warn("save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -97,7 +97,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
     @Override
     public Optional<Task> updateDTO(TaskDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -105,7 +105,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
         // OR SAVE AS A NEW ONE, THAT IS A QUESTION
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -118,7 +118,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
     @Override
     public Optional<Task> save(Task model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 

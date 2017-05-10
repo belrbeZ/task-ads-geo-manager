@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Default Comment
  */
@@ -29,12 +31,26 @@ public class TagService implements ITagService {
         this.taskService = taskService;
     }
 
+    private boolean invalidId(Long id, String msg) {
+        if(id == null) {
+            taskService.LOGGER.warn(msg);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean invalidModel(Tag tag) {
+        if(tag == null) {
+            taskService.LOGGER.warn(NULLABLE_MODEL + "TAG");
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public Optional<List<Tag>> getTaskTags(Long taskId) {
-        if(taskId == null) {
-            taskService.LOGGER.warn("Task ID is NULL");
+        if(invalidId(taskId, GET_NULLABLE_ID +"TASK"))
             return Optional.empty();
-        }
 
         Optional<Task> task = taskService.get(taskId);
         if(task.isPresent())
@@ -45,15 +61,11 @@ public class TagService implements ITagService {
 
     @Override
     public Optional<Tag> save(Long taskId, Tag tag) {
-        if(taskId == null) {
-            taskService.LOGGER.warn("Task ID is NULL");
+        if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
-        if(tag == null) {
-            taskService.LOGGER.warn("Save NULLABLE dto");
+        if(invalidModel(tag))
             return Optional.empty();
-        }
 
         Optional<Task> task = taskService.get(taskId);
         if(task.isPresent()) {
@@ -67,13 +79,11 @@ public class TagService implements ITagService {
 
     @Override
     public Optional<Tag> save(Long taskId, TagDTO tag) {
-        if(taskId == null) {
-            taskService.LOGGER.warn("Task ID is NULL");
+        if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
         if(tag == null) {
-            taskService.LOGGER.warn("Save NULLABLE dto");
+            taskService.LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -90,15 +100,11 @@ public class TagService implements ITagService {
 
     @Override
     public Optional<Tag> incrementTag(Long taskId, Long tagId) {
-        if(taskId == null) {
-            taskService.LOGGER.warn("Task ID is NULL");
+        if(invalidId(taskId, NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
-        if(tagId == null) {
-            taskService.LOGGER.warn("Tag ID is NULL");
+        if(invalidId(taskId, NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
         Optional<Task> task = taskService.get(taskId);
         if(task.isPresent()) {
@@ -123,15 +129,11 @@ public class TagService implements ITagService {
 
     @Override
     public Optional<Tag> remove(Long taskId, Tag tag) {
-        if(taskId == null) {
-            taskService.LOGGER.warn("Task ID is NULL");
+        if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
-        if(tag == null) {
-            taskService.LOGGER.warn("Save NULLABLE dto");
+        if(invalidModel(tag))
             return Optional.empty();
-        }
 
         Optional<Task> task = taskService.get(taskId);
         if(task.isPresent()) {
@@ -145,13 +147,11 @@ public class TagService implements ITagService {
 
     @Override
     public Optional<Tag> remove(Long taskId, TagDTO tag) {
-        if(taskId == null) {
-            taskService.LOGGER.warn("Task ID is NULL");
+        if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
         if(tag == null) {
-            taskService.LOGGER.warn("Save NULLABLE dto");
+            taskService.LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 

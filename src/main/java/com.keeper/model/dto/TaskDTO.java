@@ -36,7 +36,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     private PictureDTO picture;
     private List<CommentDTO> comments;
-    private List<UserDTO> participants;
+    private List<Long> participants;
     private List<TagDTO> tags;
 
     public TaskDTO() {
@@ -63,7 +63,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
                    SimpleGeoPoint geo, PictureDTO picture,
                    Timestamp createDate, Timestamp lastModifyDate,
-                   List<CommentDTO> comments, List<UserDTO> participants, List<TagDTO> tags) {
+                   List<CommentDTO> comments, List<TagDTO> tags) {
         this(id, topicStarterId, type, theme, descr, geo);
         this.createDate     = (createDate != null) ? createDate.toLocalDateTime() : null;
         this.lastModifyDate = (lastModifyDate != null) ? lastModifyDate.toLocalDateTime() : null;
@@ -147,11 +147,11 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.topicStarterId = topicStarterId;
     }
 
-    public List<UserDTO> getParticipants() {
+    public List<Long> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(List<UserDTO> participants) {
+    public void setParticipants(List<Long> participants) {
         this.participants = participants;
     }
 

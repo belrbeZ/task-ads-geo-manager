@@ -19,6 +19,8 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Default Comment
  */
@@ -43,10 +45,8 @@ public class RouteService extends ModelService<Route> implements IRouteService {
 
     @Override
     public Optional<List<Route>> getByUserId(Long userId) {
-        if(userId == null) {
-            LOGGER.warn("Save NULLABLE dto");
+        if(invalidId(userId, REMOVE_NULLABLE_ID))
             return Optional.empty();
-        }
 
         return repository.findAllByUserId(userId);
     }
@@ -55,7 +55,7 @@ public class RouteService extends ModelService<Route> implements IRouteService {
     @Override
     public Optional<Route> saveDTO(RouteDTO model) {
         if(model == null) {
-            LOGGER.warn("Save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -66,14 +66,14 @@ public class RouteService extends ModelService<Route> implements IRouteService {
     @Override
     public Optional<Route> updateDTO(RouteDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<Route> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -83,10 +83,8 @@ public class RouteService extends ModelService<Route> implements IRouteService {
     @Transactional
     @Override
     public Optional<Route> save(Route model) {
-        if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+        if(invalidModel(model, CREATE_MODEL_NULLABLE))
             return Optional.empty();
-        }
 
         Optional<Route> route = super.save(model);
         route.ifPresent(feedSubmitService::submit);

@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Default Comment
  */
@@ -34,7 +36,7 @@ public class CommentService extends ModelService<Comment> implements ICommentSer
     @Override
     public Optional<Comment> saveDTO(CommentDTO model) {
         if(model == null) {
-            LOGGER.warn("Save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -45,14 +47,14 @@ public class CommentService extends ModelService<Comment> implements ICommentSer
     @Override
     public Optional<Comment> updateDTO(CommentDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<Comment> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -61,20 +63,16 @@ public class CommentService extends ModelService<Comment> implements ICommentSer
 
     @Override
     public Optional<List<Comment>> getByTaskId(Long taskId) {
-        if(taskId == null) {
-            LOGGER.warn("Get with NULLABLE ID");
+        if(invalidId(taskId, GET_NULLABLE_ID + "TASK"))
             return Optional.empty();
-        }
 
         return repository.findAllByTaskId(taskId);
     }
 
     @Override
     public Optional<List<Comment>> getTaskSpecificUserThread(Long taskId, Long userId) {
-        if(taskId == null || userId == null) {
-            LOGGER.warn("Get with NULLABLE ID");
+        if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK") || invalidId(userId, CREATE_NULLABLE_ID + "USER"))
             return Optional.empty();
-        }
 
         return repository.findAllByTaskIdAndUserId(taskId, userId);
     }
@@ -82,10 +80,8 @@ public class CommentService extends ModelService<Comment> implements ICommentSer
     @Transactional
     @Override
     public void removeByTaskId(Long taskId) {
-        if(taskId == null) {
-            LOGGER.warn("Remove with NULLABLE ID");
+        if(invalidId(taskId, GET_NULLABLE_ID + "TASK"))
             return;
-        }
 
         repository.removeAllByTaskId(taskId);
     }

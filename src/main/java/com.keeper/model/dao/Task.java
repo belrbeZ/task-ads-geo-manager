@@ -64,14 +64,6 @@ public class Task {
             inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
     private List<Tag> tags;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = DatabaseResolver.TABLE_PARTICIPANT_MANAGER, schema = DatabaseResolver.SCHEMA,
-               joinColumns = {@JoinColumn(name = "taskId", referencedColumnName = "id")},
-               inverseJoinColumns= {@JoinColumn(name = "userId", referencedColumnName = "id")})
-    private List<User> participants;
-
     private Task() {
         this.id     = TaskType.EMPTY.getValue();
         this.topicStarterId = UserType.EMPTY.getValue();
@@ -103,7 +95,7 @@ public class Task {
 
     public Task(Long topicStarterId, TaskType type, String theme, String descr,
                 Picture picture, List<Comment> comments, SimpleGeoPoint geo,
-                List<Tag> tags, List<User> participants) {
+                List<Tag> tags) {
         this(topicStarterId, type, theme, descr);
         this.picture = picture;
         this.comments = comments;
@@ -111,7 +103,6 @@ public class Task {
         this.longitude = geo.getLongitude();
         this.radius = geo.getRadius();
         this.tags = tags;
-        this.participants = participants;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -206,102 +197,26 @@ public class Task {
         this.tags = tags;
     }
 
-    public List<User> getParticipants() {
-        return participants;
-    }
-
-    public void setParticipants(List<User> participants) {
-        this.participants = participants;
-    }
-
     //</editor-fold>
 
-    /*---COMMENTS---*/
-    public int hasComment( Comment comment ) {
-        return comments.indexOf(comment);
+    public boolean hasTag( Tag tag ) {
+        return tags.contains(tag);
     }
 
-    public void addComment( Comment comment ) {
-        //avoid circular calls : assumes equals and hashcode implemented
-        if ( !comments.contains( comment ) ) {
-            comments.add( comment );
-        }
-    }
-
-    public void removeComment( Comment comment ) {
-//        int index;
-//        //avoid circular calls : assumes equals and hashcode implemented
-//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
-//            geoPoints.get(index);
-//            return geoPoints.remove( index );
-//        }
-//        return geoPoint.getEMPTY();
-        if ( comments.contains( comment )) {
-            comments.remove( comment );
-        } else {
-            System.err.println("No such comment associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
-        }
-    }
-    /*---END COMMENTS---*/
-
-
-    /*---TAGS---*/
-    public int hasTag( Tag tag ) {
-        return tags.indexOf(tag);
-    }
-
-    public void addTag( Tag tag ) {
-        //avoid circular calls : assumes equals and hashcode implemented
-        if ( !tags.contains( tag ) ) {
-            tags.add( tag );
+    public void addTag(Tag tag) {
+        if (!hasTag(tag)) {
             tag.incCounter();
+            tags.add(tag);
         }
     }
 
-    public void removeTag( Tag tag ) {
-//        int index;
-//        //avoid circular calls : assumes equals and hashcode implemented
-//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
-//            geoPoints.get(index);
-//            return geoPoints.remove( index );
-//        }
-//        return geoPoint.getEMPTY();
-        if ( tags.contains( tag )) {
-            tags.remove( tag );
+    public void removeTag(Tag tag) {
+        if (hasTag(tag)) {
+            tags.remove(tag);
             tag.decCounter();
-        } else {
-            System.err.println("No such tag associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
-        }
+        } else
+            System.err.println("No such tag associated with this Task");
     }
-    /*---END TAGS---*/
-
-    /*---PARTICIPANTS---*/
-    public int hasParticipant( User participant ) {
-        return participants.indexOf(participant);
-    }
-
-    public void addParticipant( User participant ) {
-        //avoid circular calls : assumes equals and hashcode implemented
-        if ( !participants.contains( participant ) ) {
-            participants.add( participant );
-        }
-    }
-
-    public void removeParticipant( User participant ) {
-//        int index;
-//        //avoid circular calls : assumes equals and hashcode implemented
-//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
-//            geoPoints.get(index);
-//            return geoPoints.remove( index );
-//        }
-//        return geoPoint.getEMPTY();
-        if ( participants.contains( participant )) {
-            participants.remove( participant );
-        } else {
-            System.err.println("No such participant associated with this Task");//"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
-        }
-    }
-    /*---END PARTICIPANTS---*/
 
     @Override
     public String toString() {

@@ -19,6 +19,8 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
+import static com.keeper.util.resolve.ErrorMessageResolver.*;
+
 /**
  * Default Comment
  */
@@ -43,10 +45,8 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
 
     @Override
     public Optional<List<GeoPoint>> getByUserId(Long userId) {
-        if(userId == null) {
-            LOGGER.warn("Save NULLABLE dto");
+        if(invalidId(userId, GET_NULLABLE_ID + "USER"))
             return Optional.empty();
-        }
 
         return repository.findAllByUserId(userId);
     }
@@ -55,7 +55,7 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
     @Override
     public Optional<GeoPoint> saveDTO(GeoPointDTO model) {
         if(model == null) {
-            LOGGER.warn("Save NULLABLE dto");
+            LOGGER.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -66,14 +66,14 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
     @Override
     public Optional<GeoPoint> updateDTO(GeoPointDTO model) {
         if(model == null) {
-            LOGGER.warn("Update NULLABLE dto");
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<GeoPoint> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn("Update model which doesn't exist");
+            LOGGER.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -85,10 +85,8 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
     @Transactional
     @Override
     public Optional<GeoPoint> save(GeoPoint model) {
-        if(model == null) {
-            LOGGER.warn("Save NULLABLE dto");
+        if(invalidModel(model, CREATE_MODEL_NULLABLE))
             return Optional.empty();
-        }
 
         Optional<GeoPoint> geoUser = super.save(model);
         geoUser.ifPresent(feedSubmitService::submit);
@@ -97,12 +95,18 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
 
     @Override
     public Optional<GeoPoint> update(GeoPoint model) {
+        if(invalidModel(model, UPDATE_MODEL_NULLABLE))
+            return Optional.empty();
+
         return save(model);
     }
 
     @Transactional
     @Override
     public void remove(Long id) {
+        if(invalidId(id, REMOVE_NULLABLE_ID))
+            return;
+
         super.remove(id);
         System.out.println("feedSubmitService remove");
         feedSubmitService.removeGeo(id);

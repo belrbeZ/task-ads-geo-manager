@@ -33,7 +33,7 @@ public class GeoPointDTO {
         this.radius = 5;
         this.userId = UserType.EMPTY.getValue();
         this.id     = 0L;
-        this.descr = "";
+        this.descr  = "";
     }
 
     public GeoPointDTO(Long id, Long userId,

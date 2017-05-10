@@ -8,8 +8,9 @@ package com.keeper.util.resolve;
  * Default Comment
  */
 public class ApiResolver {
-    private static final String API_PRIVATE  = WebResolver.SECURED + "/api";
-    private static final String API_PUBLIC   = "/api";
+    private static final String API = "/api";
+    private static final String API_PRIVATE  = WebResolver.SECURED + API;
+    private static final String API_PUBLIC   = "/public" + API;
     private static final String API_VERSION  = "/v1.0";
 
     public static final String PUBLIC_PROFILE = API_PUBLIC + "/profile";

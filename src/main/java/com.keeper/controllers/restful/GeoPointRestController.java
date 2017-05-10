@@ -43,7 +43,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
-        return new ResponseEntity<>(Translator.geoPointsToDTO(repoService .getByUserId(userId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(Translator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
