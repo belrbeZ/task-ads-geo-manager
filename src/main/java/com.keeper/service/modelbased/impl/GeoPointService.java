@@ -108,8 +108,6 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
             return;
 
         super.remove(id);
-        System.out.println("feedSubmitService remove");
         feedSubmitService.removeGeo(id);
-        System.out.println("end feedSubmitService remove");
     }
 }

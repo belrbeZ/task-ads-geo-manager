@@ -1,27 +1,21 @@
 package com.keeper.controllers.web;
 
-import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Converter;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.TemplateResolver;
 import com.keeper.util.resolve.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.Convert;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -127,7 +121,7 @@ public class GeoPointWebController {
     if(user.isPresent()) {
         System.out.println(""+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
 
-        user.get().removeGeoPoint(geoPointService.get(geo.getId()).get());
+//        user.get().removeGeoPoint(geoPointService.get(geo.getId()).get());
 
         geoPointService.remove(geo.getId());
         System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
