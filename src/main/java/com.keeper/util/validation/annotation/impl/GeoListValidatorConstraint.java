@@ -14,7 +14,7 @@ import java.util.Arrays;
 /**
  * Default Comment
  */
-public class GeoListValidator implements ConstraintValidator<GeoList, String[]> {
+public class GeoListValidatorConstraint implements ConstraintValidator<GeoList, String[]> {
 
     @Override
     public void initialize(GeoList geo) { }

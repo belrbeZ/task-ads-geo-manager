@@ -1,4 +1,4 @@
-package com.keeper.util.validation;
+package com.keeper.util;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;

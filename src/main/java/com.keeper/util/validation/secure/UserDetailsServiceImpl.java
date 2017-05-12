@@ -1,4 +1,4 @@
-package com.keeper.util.validation;
+package com.keeper.util.validation.secure;
 
 /*
  * Created by @GoodforGod on 19.04.2017.

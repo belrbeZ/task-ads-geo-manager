@@ -13,7 +13,7 @@ import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.IFeedService;
 import com.keeper.service.core.IFeedSubmitService;
-import com.keeper.util.Computer;
+import com.keeper.util.GeoComputer;
 import com.keeper.util.Translator;
 import com.keeper.util.Validator;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -194,7 +194,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(!pointsToProceed.isEmpty()) {
             for (GeoPointDTO geo : points.entrySet().stream().filter(entry -> pointsToProceed.contains(entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())) {
                 for (Map.Entry<Long, TaskDTO> task : tasks.entrySet()) {
-                    if (Computer.geoInRadius(geo, task.getValue())) {
+                    if (GeoComputer.geoInRadius(geo, task.getValue())) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
 
                         if(taskLocations == null)
@@ -226,7 +226,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(!tasksToProceed.isEmpty()) {
             for (TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue).filter(entryTask -> tasksToProceed.contains(entryTask.getId())).collect(Collectors.toList())) {
                 for (Map.Entry<Long, GeoPointDTO> geo : points.entrySet()) {
-                    if (Computer.geoInRadius(geo.getValue(), task)) {
+                    if (GeoComputer.geoInRadius(geo.getValue(), task)) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
 
                         if(taskLocations == null)

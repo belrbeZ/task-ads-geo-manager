@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Used to Validate and Generate Hashes (for password as example)
  */
-public class Hasher {
+public class StringHashFactory {
 
     // Values are SALT used for hash generation
     public enum HashType {

@@ -7,7 +7,7 @@ package com.keeper.config;
 
 import com.keeper.model.types.UserType;
 import com.keeper.util.resolve.WebResolver;
-import com.keeper.util.validation.UserDetailsServiceImpl;
+import com.keeper.util.validation.secure.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

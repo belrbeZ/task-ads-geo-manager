@@ -6,7 +6,7 @@ package com.keeper.model.dao;
 
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
-import com.keeper.util.Hasher;
+import com.keeper.util.StringHashFactory;
 import com.keeper.util.resolve.DatabaseResolver;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
@@ -92,13 +92,13 @@ public class User {
     public User(UserType type, String name,
                 String email, String phone,
                 String password, String about) {
-        this.id         = Hasher.generateHashSimple(email, Hasher.HashType.EMAIL);
+        this.id         = StringHashFactory.generateHashSimple(email, StringHashFactory.HashType.EMAIL);
         this.state      = UserState.AWAIT_VERIFICATION;
         this.type       = type != null ? type : UserType.UNKNOWN;
         this.name       = name;
-        this.email      = email; //Hasher.generateHashCrypto(email, Hasher.HashType.EMAIL);
+        this.email      = email; //StringHashFactory.generateHashCrypto(email, StringHashFactory.HashType.EMAIL);
         this.phone      = String.valueOf(email.hashCode());
-        this.password   = password; //Hasher.generateHashCrypto(password, Hasher.HashType.PASS);
+        this.password   = password; //StringHashFactory.generateHashCrypto(password, StringHashFactory.HashType.PASS);
         this.about      = about;
         this.isNotified = false;
     }

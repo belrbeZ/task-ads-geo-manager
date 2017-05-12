@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Default Comment
  */
-public class PhoneValidator implements ConstraintValidator<Phone, String> {
+public class PhoneValidatorConstraint implements ConstraintValidator<Phone, String> {
     @Override
     public void initialize(Phone phone) { }
 

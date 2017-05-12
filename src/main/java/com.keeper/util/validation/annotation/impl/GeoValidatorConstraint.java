@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
 /**
  * Default Comment
  */
-public class GeoValidator implements ConstraintValidator<Geo, String> {
+public class GeoValidatorConstraint implements ConstraintValidator<Geo, String> {
     @Override
     public void initialize(Geo geo) { }
 

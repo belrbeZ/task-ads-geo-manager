@@ -10,7 +10,7 @@ import com.keeper.model.dto.TaskDTO;
 /**
  * Computes Marks for Hot Coords and Routes
  */
-public class Computer {
+public class GeoComputer {
 
     private static double haversine(double lat1, double lng1, double lat2, double lng2) {
         double r = 63711370.; // average radius of the earth in Meters , 6371.1370 in KM

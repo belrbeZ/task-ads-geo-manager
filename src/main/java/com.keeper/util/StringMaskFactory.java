@@ -11,7 +11,7 @@ import java.util.Arrays;
 /**
  * Used to convert entities to JSON and other format representation
  */
-public class Converter
+public class StringMaskFactory
 {
     private static final String     EMPTY_EMAIL     = "";
     private static final Character  MASK_SYMBOL     = '*';

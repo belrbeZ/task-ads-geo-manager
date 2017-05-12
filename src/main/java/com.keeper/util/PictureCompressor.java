@@ -8,7 +8,7 @@ package com.keeper.util;
  * Helps to compress Images to store them in Database using smaller amount bytes
  * Uses LZ4
  */
-public class Compressor {
+public class PictureCompressor {
 
     public static byte[] compressPic() {
         return null;
