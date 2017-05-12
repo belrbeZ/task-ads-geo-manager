@@ -9,9 +9,9 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dto.UserFormDTO;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.TemplateResolver;
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.TemplateResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -62,7 +62,7 @@ public class SecureWebController {
         }
 
         if (!bindingResult.hasErrors()) {
-            userService.save(Translator.toDAO(user));
+            userService.save(ModelTranslator.toDAO(user));
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new UserFormDTO());
         }

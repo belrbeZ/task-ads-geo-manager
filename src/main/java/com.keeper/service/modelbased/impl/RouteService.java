@@ -10,7 +10,7 @@ import com.keeper.repo.RouteRepository;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.IRouteService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 /**
  * Default Comment
@@ -59,7 +59,7 @@ public class RouteService extends ModelService<Route> implements IRouteService {
             return Optional.empty();
         }
 
-        return save(Translator.toDAO(model));
+        return save(ModelTranslator.toDAO(model));
     }
 
     @Transactional
@@ -77,7 +77,7 @@ public class RouteService extends ModelService<Route> implements IRouteService {
             return Optional.empty();
         }
 
-        return super.save(Translator.updateDAO(toSave.get(), model));
+        return super.save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

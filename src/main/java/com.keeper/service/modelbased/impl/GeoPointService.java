@@ -10,7 +10,7 @@ import com.keeper.repo.GeoPointRepository;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.IGeoPointService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 /**
  * Default Comment
@@ -59,7 +59,7 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
             return Optional.empty();
         }
 
-        return save(Translator.toDAO(model));
+        return save(ModelTranslator.toDAO(model));
     }
 
     @Transactional
@@ -79,7 +79,7 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
 
         System.out.println("    getted for update:"+toSave.get());
 
-        return super.save(Translator.updateDAO(toSave.get(), model));
+        return super.save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

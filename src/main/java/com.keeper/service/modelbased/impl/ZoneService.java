@@ -8,7 +8,7 @@ import com.keeper.model.dao.Zone;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.repo.ZoneRepository;
 import com.keeper.service.modelbased.IZoneService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 /**
  * Default Comment
@@ -68,7 +68,7 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
             return Optional.empty();
         }
 
-        return super.save(Translator.toDAO(model));
+        return super.save(ModelTranslator.toDAO(model));
     }
 
     @Transactional
@@ -85,7 +85,7 @@ public class ZoneService extends ModelService<Zone> implements IZoneService {
             return Optional.empty();
         }
 
-        return super.save(Translator.updateDAO(toSave.get(), model));
+        return super.save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

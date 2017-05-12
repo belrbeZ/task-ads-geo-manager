@@ -13,7 +13,7 @@ import com.keeper.repo.TaskRepository;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.ITaskService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 /**
  * Repository Service to work with Tasks
@@ -90,7 +90,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
             return Optional.empty();
         }
 
-        return save(Translator.toDAO(model));
+        return save(ModelTranslator.toDAO(model));
     }
 
     @Transactional
@@ -111,7 +111,7 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
         model.setLastModifyDate(LocalDateTime.now());
 
-        return save(Translator.updateDAO(toSave.get(), model));
+        return save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

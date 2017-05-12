@@ -4,8 +4,8 @@ package com.keeper.controllers.web;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.util.resolve.TemplateResolver;
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.resolvers.TemplateResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

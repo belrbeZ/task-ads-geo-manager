@@ -9,5 +9,7 @@ package com.keeper.util.validation.util;
 public interface IValid<T> {
     boolean validate(T t);
 
-    void support(Class<? extends IValidator>[] classes);
+    boolean validate(T t, Class<? extends IValidator> executor);
+
+    void support(Class<? extends IValidator>... classes );
 }

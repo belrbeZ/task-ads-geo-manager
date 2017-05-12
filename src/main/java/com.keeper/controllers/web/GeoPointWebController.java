@@ -4,9 +4,9 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.TemplateResolver;
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.TemplateResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +47,7 @@ public class GeoPointWebController {
 
             System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
 
-            model.addAttribute("geoPoints", Translator.geoPointsToDTO(user.get().getGeoPoints()));
+            model.addAttribute("geoPoints", ModelTranslator.geoPointsToDTO(user.get().getGeoPoints()));
 
         }
 

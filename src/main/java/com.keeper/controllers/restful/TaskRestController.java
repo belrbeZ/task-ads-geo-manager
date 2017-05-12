@@ -9,9 +9,9 @@ import com.keeper.model.dto.CommentDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.modelbased.impl.CommentService;
 import com.keeper.service.modelbased.impl.TaskService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.resolvers.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -50,20 +50,20 @@ public class TaskRestController {
                                              @RequestParam(value = "search", required = false) String search,
                                              @RequestParam(value = "tags", required = false) List<String> tags) {
         if(id != null && id > 0)
-            return new ResponseEntity<>(new ArrayList<TaskDTO>() {{ add(Translator.toDTO(repoService.get(id).get())); }}, HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList<TaskDTO>() {{ add(ModelTranslator.toDTO(repoService.get(id).get())); }}, HttpStatus.OK);
         if(userId != null && userId > 0)
-            return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByUserId(id).get()), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.tasksToDTO(repoService.getByUserId(id).get()), HttpStatus.OK);
         if(!Validator.isStrEmpty(search))
-            return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByTheme(search).get()), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.tasksToDTO(repoService.getByTheme(search).get()), HttpStatus.OK);
         if(tags != null && !tags.isEmpty())
-            return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByTags(tags).get()), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.tasksToDTO(repoService.getByTags(tags).get()), HttpStatus.OK);
         else
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.BAD_REQUEST);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody TaskDTO model, BindingResult result) {
-        repoService.update(Translator.toDAO(model));
+        repoService.update(ModelTranslator.toDAO(model));
 
         HttpStatus code = HttpStatus.OK;
         String info = "";
@@ -95,7 +95,7 @@ public class TaskRestController {
     /*---COMMENTS---*/
     @RequestMapping(value = PATH_COMMENT + "/{taskId}}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("taskId") Long taskId) {
-        return new ResponseEntity<>(Translator.commentsToDTO(commentService.getByTaskId(taskId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.commentsToDTO(commentService.getByTaskId(taskId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH_COMMENT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -142,7 +142,7 @@ public class TaskRestController {
 
 //    /*@RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 //    public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
-//        return new ResponseEntity<>(Translator.commentsToDTO(repoService.get(id).orElse(Task.EMPTY).getParticipants(), HttpStatus.OK);
+//        return new ResponseEntity<>(ModelTranslator.commentsToDTO(repoService.get(id).orElse(Task.EMPTY).getParticipants(), HttpStatus.OK);
 //    }*/
 //
 //    /*---PARTICIPANTS---*/

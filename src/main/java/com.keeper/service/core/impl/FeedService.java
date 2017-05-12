@@ -14,7 +14,7 @@ import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.IFeedService;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.util.GeoComputer;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -59,9 +59,9 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     @PostConstruct
     private void setup() {
 
-//        taskService.getAll().ifPresent(repoTasks -> tasks.putAll(Translator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity()))));
-//        routeService.getAll().ifPresent(repoRoutes -> routes.putAll(Translator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity()))));
-//        pointService.getAll().ifPresent(repoPoints -> points.putAll(Translator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity()))));
+//        taskService.getAll().ifPresent(repoTasks -> tasks.putAll(ModelTranslator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity()))));
+//        routeService.getAll().ifPresent(repoRoutes -> routes.putAll(ModelTranslator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity()))));
+//        pointService.getAll().ifPresent(repoPoints -> points.putAll(ModelTranslator.geoUsersToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity()))));
 //
 //        tasksToProceed.addAll(tasks.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
 //        routesToProceed.addAll(routes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
@@ -75,7 +75,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(taskLoader)
             return;
 
-        tasks.putAll(Translator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity())));
+        tasks.putAll(ModelTranslator.tasksToDTO(repoTasks).stream().collect(Collectors.toMap(TaskDTO::getId, Function.identity())));
         tasksToProceed.addAll(tasks.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
         taskLoader = true;
     }
@@ -84,7 +84,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(routeLoader)
             return;
 
-        routes.putAll(Translator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity())));
+        routes.putAll(ModelTranslator.routesToDTO(repoRoutes).stream().collect(Collectors.toMap(RouteDTO::getId, Function.identity())));
         routesToProceed.addAll(routes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
         routeLoader = true;
     }
@@ -93,7 +93,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(pointLoader)
             return;
 
-        points.putAll(Translator.geoPointsToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity())));
+        points.putAll(ModelTranslator.geoPointsToDTO(repoPoints).stream().collect(Collectors.toMap(GeoPointDTO::getId, Function.identity())));
         pointsToProceed.addAll(points.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toList()));
         pointLoader = true;
     }
@@ -107,9 +107,9 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         TaskDTO dto = tasks.get(task.getId());
 
         if(dto == null)
-            tasks.put(task.getId(), Translator.toDTO(task));
+            tasks.put(task.getId(), ModelTranslator.toDTO(task));
         else
-            tasks.replace(task.getId(), Translator.toDTO(task));
+            tasks.replace(task.getId(), ModelTranslator.toDTO(task));
 
         tasksToProceed.add(task.getId());
         return task;
@@ -120,9 +120,9 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         GeoPointDTO geo = points.get(point.getId());
 
         if(geo == null)
-            points.put(point.getId(), Translator.toDTO(point));
+            points.put(point.getId(), ModelTranslator.toDTO(point));
         else
-            points.replace(point.getId(), Translator.toDTO(point));
+            points.replace(point.getId(), ModelTranslator.toDTO(point));
 
         pointsToProceed.add(point.getId());
         return point;
@@ -133,9 +133,9 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         RouteDTO dto = routes.get(route.getId());
 
         if(dto == null)
-            routes.put(route.getId(), Translator.toDTO(route));
+            routes.put(route.getId(), ModelTranslator.toDTO(route));
         else
-            routes.replace(route.getId(), Translator.toDTO(route));
+            routes.replace(route.getId(), ModelTranslator.toDTO(route));
 
         routesToProceed.add(route.getId());
         return route;

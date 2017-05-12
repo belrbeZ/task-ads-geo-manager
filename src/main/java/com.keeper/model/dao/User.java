@@ -7,7 +7,7 @@ package com.keeper.model.dao;
 import com.keeper.model.types.UserState;
 import com.keeper.model.types.UserType;
 import com.keeper.util.StringHashFactory;
-import com.keeper.util.resolve.DatabaseResolver;
+import com.keeper.util.resolvers.DatabaseResolver;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;

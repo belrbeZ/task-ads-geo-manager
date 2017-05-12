@@ -4,7 +4,6 @@ package com.keeper.util;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.model.types.UserType;
@@ -22,7 +21,7 @@ import static com.keeper.util.Validator.*;
 /**
  * Translate and full fill DTO object to DAO object and revert
  */
-public class Translator {
+public class ModelTranslator {
 
     //<editor-fold desc="toDTO">
 
@@ -130,49 +129,49 @@ public class Translator {
     public static List<PictureDTO> picsToDTO(List<Picture> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<CommentDTO> commentsToDTO(List<Comment> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<TagDTO> tagsToDTO(List<Tag> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<UserDTO> usersToDTO(List<User> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<TaskDTO> tasksToDTO(List<Task> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<GeoPointDTO> geoPointsToDTO(List<GeoPoint> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<RouteDTO> routesToDTO(List<Route> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDTO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
     public static List<Comment> commentsToDAO(List<CommentDTO> models) {
         return (models == null)
                 ? Collections.emptyList()
-                : models.stream().map(Translator::toDAO).collect(Collectors.toList());
+                : models.stream().map(ModelTranslator::toDAO).collect(Collectors.toList());
     }
 
     public static List<SimpleGeoPoint> toSimpleGeoPoints(String[] latitude, String[] longtitude) {

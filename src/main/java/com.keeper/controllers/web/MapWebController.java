@@ -7,8 +7,8 @@ package com.keeper.controllers.web;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.resolve.TemplateResolver;
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.resolvers.TemplateResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -55,7 +55,7 @@ public class MapWebController {
                 List<GeoPoint> geodao = user.get().getGeoPoints();
                 System.out.println(" gettedlist "+geodao.size());
 
-                List<GeoPointDTO> geos = Translator.geoPointsToDTO(geodao);
+                List<GeoPointDTO> geos = ModelTranslator.geoPointsToDTO(geodao);
                 System.out.println(" gettedlis to dto "+geos.size());
 
                 modelAndView.addObject("geoPoints", geos);

@@ -10,7 +10,7 @@ import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.modelbased.IUserService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 
 /**
@@ -101,7 +101,7 @@ public class UserService extends ModelService<User> implements IUserService {
             return Optional.empty();
         }
 
-        return super.save(Translator.toDAO(model));
+        return super.save(ModelTranslator.toDAO(model));
     }
 
     @Transactional
@@ -118,7 +118,7 @@ public class UserService extends ModelService<User> implements IUserService {
             return Optional.empty();
         }
 
-        return super.save(Translator.updateDAO(toSave.get(), model));
+        return super.save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

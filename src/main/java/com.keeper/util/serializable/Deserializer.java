@@ -1,9 +1,11 @@
-package com.keeper.util;
+package com.keeper.util.serializable;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -14,6 +16,8 @@ import java.io.IOException;
  */
 public class Deserializer {
 
+    private static final Logger logger = LoggerFactory.getLogger(Deserializer.class);
+
     public static class StringIntegerDeserializer extends JsonDeserializer<Integer> {
         @Override
         public Integer deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
@@ -21,10 +25,9 @@ public class Deserializer {
             try {
                 valueAsString = jsonParser.getValueAsString();
             } catch (Exception e) {
-                System.out.println(e);
+                logger.warn(e.getMessage());
             }
-            int integer = (int) Double.parseDouble(valueAsString);
-            return integer;
+            return (int) Double.parseDouble(valueAsString);
         }
     }
 

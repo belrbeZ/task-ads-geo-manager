@@ -1,11 +1,14 @@
 package com.keeper.util.validation.util.executors;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Default Comment
  *
  * @author @GoodforGod
  * @since 12.05.2017
  */
+@Component
 public class PhoneValidator extends StringValidator {
 
     @Override

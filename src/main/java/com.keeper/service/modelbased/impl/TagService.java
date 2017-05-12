@@ -8,7 +8,7 @@ import com.keeper.model.dao.Tag;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.TagDTO;
 import com.keeper.service.modelbased.ITagService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 /**
  * Default Comment
@@ -89,7 +89,7 @@ public class TagService implements ITagService {
 
         Optional<Task> task = taskService.get(taskId);
         if(task.isPresent()) {
-            Tag toSave = Translator.toDAO(tag);
+            Tag toSave = ModelTranslator.toDAO(tag);
             task.get().addTag(toSave);
             taskService.update(task.get());
             return Optional.of(toSave);
@@ -157,7 +157,7 @@ public class TagService implements ITagService {
 
         Optional<Task> task = taskService.get(taskId);
         if(task.isPresent()) {
-            Tag toSave = Translator.toDAO(tag);
+            Tag toSave = ModelTranslator.toDAO(tag);
             task.get().removeTag(toSave);
             taskService.update(task.get());
             return Optional.of(toSave);

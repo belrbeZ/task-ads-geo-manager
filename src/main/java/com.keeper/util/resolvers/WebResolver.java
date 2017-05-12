@@ -1,4 +1,4 @@
-package com.keeper.util.resolve;
+package com.keeper.util.resolvers;
 
 /*
  * Created by GoodforGod on 26.03.2017.

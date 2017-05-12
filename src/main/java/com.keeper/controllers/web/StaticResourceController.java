@@ -1,6 +1,6 @@
 package com.keeper.controllers.web;
 
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

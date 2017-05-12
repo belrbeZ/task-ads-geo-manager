@@ -4,7 +4,6 @@ package com.keeper.model.dto;
  * Created by @GoodforGod on 17.04.2017.
  */
 
-import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.RouteType;
 import com.keeper.model.types.UserType;
 

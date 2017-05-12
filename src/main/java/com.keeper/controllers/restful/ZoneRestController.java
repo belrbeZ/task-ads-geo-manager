@@ -7,8 +7,8 @@ package com.keeper.controllers.restful;
 import com.keeper.model.dao.Zone;
 import com.keeper.model.dto.ZoneDTO;
 import com.keeper.service.modelbased.impl.ZoneService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,7 +34,7 @@ public class ZoneRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ZoneDTO> get(@RequestParam("userId") Long userId) {
-        return new ResponseEntity<>(Translator.toDTO(repoService.get(userId).orElse(Zone.EMPTY)), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(userId).orElse(Zone.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)

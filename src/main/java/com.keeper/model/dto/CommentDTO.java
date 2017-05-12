@@ -1,6 +1,5 @@
 package com.keeper.model.dto;
 
-import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 

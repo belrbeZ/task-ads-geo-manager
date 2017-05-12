@@ -1,4 +1,4 @@
-package com.keeper.util.resolve;
+package com.keeper.util.resolvers;
 
 /*
  * Created by @GoodforGod on 08.05.2017.

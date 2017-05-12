@@ -1,4 +1,4 @@
-package com.keeper.util.dao;
+package com.keeper.util.serializable;
 
 /*
  * Created by @GoodforGod on 17.04.2017.

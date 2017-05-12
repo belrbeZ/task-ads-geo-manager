@@ -9,8 +9,8 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -44,7 +44,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
-        return new ResponseEntity<>(Translator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -55,7 +55,7 @@ public class GeoPointRestController {
         }
         List<GeoPoint> geodao = user.get().getGeoPoints();
         System.out.println(" gettedlist "+geodao.size());
-        List<GeoPointDTO> geos = Translator.geoPointsToDTO(geodao);
+        List<GeoPointDTO> geos = ModelTranslator.geoPointsToDTO(geodao);
         System.out.println(" gettedlis to dto "+geos.size());
         return new ResponseEntity<>(geos, HttpStatus.OK);
     }

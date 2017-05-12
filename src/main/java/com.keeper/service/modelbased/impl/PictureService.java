@@ -8,14 +8,14 @@ import com.keeper.model.dao.Picture;
 import com.keeper.model.dto.PictureDTO;
 import com.keeper.repo.PictureRepository;
 import com.keeper.service.modelbased.IPictureService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.keeper.util.resolve.ErrorMessageResolver.*;
+import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
 /**
  * Default Comment
@@ -54,7 +54,7 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
             return Optional.empty();
         }
 
-        return super.save(Translator.toDAO(model));
+        return super.save(ModelTranslator.toDAO(model));
     }
 
     @Transactional
@@ -72,7 +72,7 @@ public class PictureService extends ModelService<Picture> implements IPictureSer
             return Optional.empty();
         }
 
-        return super.save(Translator.updateDAO(toSave.get(), model));
+        return super.save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
     @Transactional

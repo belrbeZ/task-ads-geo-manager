@@ -7,8 +7,8 @@ package com.keeper.controllers.restful;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.service.modelbased.impl.RouteService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.ApiResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +41,13 @@ public class RouteRestController {
 
     @RequestMapping(value = PATH + "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RouteDTO>> getByUserId(@RequestParam("id") Long userId) {
-        return new ResponseEntity<>(Translator.routesToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.routesToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RouteDTO> get(@RequestParam(value = "id", required = false) Long id,
                                         @RequestParam(value = "userId", required = false) Long userId) {
-        return new ResponseEntity<>(Translator.toDTO(repoService.get(id).orElse(Route.EMPTY)), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(id).orElse(Route.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)

@@ -7,10 +7,10 @@ package com.keeper.model.dao;
  *
  */
 
-import com.keeper.model.SimpleGeoPoint;
-import com.keeper.model.SimpleRoute;
+import com.keeper.model.dto.SimpleGeoPoint;
+import com.keeper.model.dto.SimpleRoute;
 import com.keeper.model.types.RouteType;
-import com.keeper.util.resolve.DatabaseResolver;
+import com.keeper.util.resolvers.DatabaseResolver;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;

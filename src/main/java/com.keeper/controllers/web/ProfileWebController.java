@@ -7,9 +7,9 @@ package com.keeper.controllers.web;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.TemplateResolver;
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.TemplateResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,7 +42,7 @@ public class ProfileWebController {
         UserDTO userDTO = null;
 
         if(user.isPresent()) {
-            userDTO = Translator.toDTO(user.get());
+            userDTO = ModelTranslator.toDTO(user.get());
             userDTO.setEmail(user.get().getEmail());
         }
 
@@ -59,7 +59,7 @@ public class ProfileWebController {
         UserDTO userDTO = null;
 
         if(user.isPresent()) {
-            userDTO = Translator.toDTO(user.get());
+            userDTO = ModelTranslator.toDTO(user.get());
             userDTO.setEmail(user.get().getEmail());
         }
 

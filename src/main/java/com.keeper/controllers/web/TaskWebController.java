@@ -4,16 +4,16 @@ package com.keeper.controllers.web;
  * Created by @GoodforGod on 25.04.2017.
  */
 
-import com.keeper.model.SimpleGeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.SimpleGeoPoint;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
-import com.keeper.util.resolve.TemplateResolver;
-import com.keeper.util.resolve.WebResolver;
+import com.keeper.util.resolvers.TemplateResolver;
+import com.keeper.util.resolvers.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,8 +49,8 @@ public class TaskWebController {
             if(Validator.isIdValid(taskId)) {
                 Optional<Task> daoTask = taskService.get(taskId);
                 if(daoTask.isPresent()) {
-                    modelAndView.addObject("user", Translator.toDTO(user.get()));
-                    modelAndView.addObject("task", Translator.toDTO(daoTask.get()));
+                    modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
+                    modelAndView.addObject("task", ModelTranslator.toDTO(daoTask.get()));
                     return modelAndView;
                 }
                 else
@@ -97,7 +97,7 @@ public class TaskWebController {
                 Optional<Task> updateTask = taskService.get(id);
 
                 if(updateTask.isPresent())
-                    dto = Translator.toDTO(updateTask.get());
+                    dto = ModelTranslator.toDTO(updateTask.get());
             }
             modelAndView.addObject("task", dto);
             return modelAndView;

@@ -8,8 +8,8 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.model.dto.UserFormDTO;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.ApiResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -36,7 +36,7 @@ public class ProfileRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
-        return new ResponseEntity<>(Translator.toDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH)
@@ -59,7 +59,7 @@ public class ProfileRestController {
 
     @RequestMapping(value = ApiResolver.PUBLIC_PROFILE, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
-        repoService.save(Translator.toDAO(model));
+        repoService.save(ModelTranslator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

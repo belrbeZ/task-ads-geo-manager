@@ -5,7 +5,7 @@ package com.keeper.model.dao;
  */
 
 import com.keeper.model.types.UserType;
-import com.keeper.util.resolve.DatabaseResolver;
+import com.keeper.util.resolvers.DatabaseResolver;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
