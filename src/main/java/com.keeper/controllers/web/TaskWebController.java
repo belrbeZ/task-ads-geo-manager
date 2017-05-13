@@ -34,6 +34,8 @@ public class TaskWebController {
     private final TaskService taskService;
     private final UserService userService;
 
+    private final String MSG = "msg";
+
     @Autowired
     public TaskWebController(TaskService taskService, UserService userService) {
         this.taskService = taskService;
@@ -53,14 +55,11 @@ public class TaskWebController {
                     modelAndView.addObject("task", ModelTranslator.toDTO(daoTask.get()));
                     return modelAndView;
                 }
-                else
-                    modelAndView.addObject("message", "No Such Task!");
+                else modelAndView.addObject(MSG, "No Such Task!");
             }
-            else
-                modelAndView.addObject("message", "Invalid Task ID!");
+            else modelAndView.addObject(MSG, "Invalid Task ID!");
         }
-        else
-            modelAndView.addObject("message", "ReLogin First!");
+        else modelAndView.addObject(MSG, "ReLogin First!");
 
         modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
 
@@ -73,18 +72,24 @@ public class TaskWebController {
 
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent()) {
-            try {
-                taskService.remove(taskId);
-            } catch (Exception e) {
-                modelAndView.addObject("message", "No Such Task!");
+            if(Validator.isIdValid(taskId)) {
+                try {
+                    taskService.remove(taskId);
+                } catch (Exception e) {
+                    modelAndView.addObject(MSG, "No Such Task!");
+                }
             }
+            else modelAndView.addObject(MSG, "Invalid Task ID!");
         }
-        else
-            modelAndView.addObject("message", "ReLogin First");
+        else modelAndView.addObject(MSG, "ReLogin First");
 
         return modelAndView;
     }
 
+
+    /**
+     * Task Form Page Mapping
+     */
     @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.GET)
     public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
@@ -102,8 +107,7 @@ public class TaskWebController {
             modelAndView.addObject("task", dto);
             return modelAndView;
         }
-        else
-            modelAndView.addObject("message", "ReLogin First!");
+        else modelAndView.addObject(MSG, "ReLogin First!");
 
         modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
 
@@ -132,10 +136,11 @@ public class TaskWebController {
                 return modelAndView;
             }
             catch (Exception e) {
-                modelAndView.addObject("message", "No Such Task!");
+                modelAndView.addObject(MSG, "No Such Task!");
                 modelAndView.setViewName(TemplateResolver.FEED);
             }
         }
+        else modelAndView.addObject(MSG, "ReLogin First!");
 
         modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
 

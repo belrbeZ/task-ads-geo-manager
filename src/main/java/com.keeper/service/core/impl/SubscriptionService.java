@@ -8,9 +8,12 @@ import com.keeper.model.dao.Participant;
 import com.keeper.model.dao.Task;
 import com.keeper.service.core.ISubscriptionService;
 import com.keeper.service.modelbased.impl.ParticipantService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,8 +25,11 @@ import java.util.stream.Collectors;
 @Service
 public class SubscriptionService implements ISubscriptionService {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(SubscriptionService.class);
+
     private final ParticipantService participantService;
 
+    // UserID | Set<TaskID>
     private final Map<Long, Set<Long>> userSubscriptions = new ConcurrentHashMap<>();
 
     @Autowired
@@ -31,24 +37,49 @@ public class SubscriptionService implements ISubscriptionService {
         this.participantService = participantService;
     }
 
-    public void setup(List<Task> tasks) {
-        for(Task task : tasks) {
-//            Map.Entry<Long, Set<Long>> userSubs = userSubscriptions.get(task.getTopicStarterId());
+    private Set<Long> getTaskSet(Long taskId) {
+        return new HashSet<Long>() {{ add(taskId); }};
+    }
+
+    @PostConstruct
+    public void setup() {
+        Optional<List<Participant>> participants = Optional.empty();
+
+        try {
+            participants = participantService.getAll();
+        }
+        catch (Exception e) {
+            participants = participantService.getAll();
+            LOGGER.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]", e);
+        }
+        finally {
+            if(participants.isPresent()) {
+                for(Participant participant : participants.get()) {
+                    Set<Long> userSubs = userSubscriptions.putIfAbsent(participant.getUserId(), getTaskSet(participant.getTaskId()));
+
+                    if(userSubs != null) {
+                        userSubs.add(participant.getTaskId());
+                        userSubscriptions.replace(participant.getUserId(), userSubs);
+                    }
+                }
+            }
+            else LOGGER.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]");
         }
     }
 
     @Override
     public Optional<List<Long>> getTaskSubscribers(Long taskId) {
 //        List<Long> result = null;
-//        if(taskId != null)
+
+//        if(Validator.isIdValid(taskId))
 //            result = userSubscriptions.entrySet().stream()
 //                    .filter(entry -> entry.getValue().contains(taskId))
 //                    .map(Map.Entry::getKey).collect(Collectors.toList());
+//        else
+//            return Optional.empty();
 //
-//        if(result != null)
+//        if(result != null && !result.isEmpty())
 //            return Optional.of(result);
-//
-//        return Optional.empty();
 
         Optional<List<Participant>> participants = participantService.getParticipantByTask(taskId);
         if(participants.isPresent())

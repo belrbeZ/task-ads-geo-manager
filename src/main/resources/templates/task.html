@@ -17,7 +17,7 @@
 
     <h2>Task Info</h2>
 
-    <span th:utext="${message}" style="margin: 5px"></span>
+    <span th:utext="${?msg}" style="margin: 5px"></span>
 
     <div class="row" th:object="${task}">
         <div class="row-fluid" th:object="${user}" style="margin: 5px">

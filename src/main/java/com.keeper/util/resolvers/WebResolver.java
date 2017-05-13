@@ -14,16 +14,23 @@ public class WebResolver {
 
     public static final String ERROR    = "/error";
     public static final String DENIED   = "/denied";
+
     public static final String LOGIN    = "/login";
     public static final String LOGOUT   = "/logout";
+    public static final String REGISTER = "/register";
     public static final String WELCOME  = "/welcome";
-    public static final String REGISTER = "/registration";
+
     public static final String HOME     = SECURED + "/home";
     public static final String PROFILE  = SECURED + "/profile";
+    public static final String MAP      = SECURED + "/map";
     public static final String TASK     = SECURED + "/task";
     public static final String TASK_FORM = TASK + "/form";
+    public static final String TASK_SUBS = TASK + "/subscribe";
+
     public static final String FEED     = SECURED + "/feed";
-    public static final String MAP      = SECURED + "/map";
+    public static final String FEED_FILTER = FEED + "/feed";
+    public static final String FEED_SEARCH = FEED + "/feed";
+
     public static final String GEOPOINT = SECURED + "/geopoint";
     public static final String GEOPOINT_CREATE = GEOPOINT + "/create";
     public static final String GEOPOINT_GETLIST = GEOPOINT + "/getlist";

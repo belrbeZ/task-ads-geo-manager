@@ -12,6 +12,7 @@ import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.TaskRepository;
 import com.keeper.service.core.IFeedSubmitService;
 import com.keeper.service.core.impl.FeedService;
+import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.ITaskService;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
@@ -46,7 +47,17 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
     @PostConstruct
     public void setup() {
-        feedSubmitService.loadTasks(getAll().orElse(getEmptyList()));
+        try {
+            getAll().ifPresent(feedSubmitService::loadTasks);
+        }
+        catch (Exception e) {
+            getAll().ifPresent(feedSubmitService::loadTasks);
+            LOGGER.error("NO TASKS LOADED! [FEED SERVICE]", e);
+        }
+        finally {
+            LOGGER.error("NO TASKS LOADED! [FEED SERVICE]");
+            feedSubmitService.loadTasks(getEmptyList());
+        }
     }
 
     @Override

@@ -36,11 +36,9 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/",
+                        WebResolver.WELCOME,
                         WebResolver.LOGIN,
-                        WebResolver.REGISTER,
-                        "/css/**",
-                        "/js/**",
-                        "/webjars/bootstrap/**").permitAll()
+                        WebResolver.REGISTER, "/css/**", "/js/**", "/webjars/bootstrap/**").permitAll()
                 .antMatchers(WebResolver.SECURED + "/**").hasAuthority(ROLE).anyRequest()
                 .authenticated()
                 .and().csrf()
@@ -50,7 +48,9 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl(WebResolver.HOME)
                 .defaultSuccessUrl(WebResolver.HOME)
                 .usernameParameter("email")
-                .passwordParameter("password");
+                .passwordParameter("password")
+        .and()
+        .logout().;
 
 //        http.csrf().disable();
     }
