@@ -7,7 +7,7 @@ package com.keeper.model.dao;
  *
  */
 
-import com.keeper.model.dto.SimpleGeoPoint;
+import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.model.types.TaskState;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;

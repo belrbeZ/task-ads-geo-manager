@@ -1,4 +1,4 @@
-package com.keeper.model.dto;
+package com.keeper.model.util;
 
 /*
  * Created by @GoodforGod on 16.04.2017.

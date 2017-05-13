@@ -36,13 +36,16 @@ public class TaskService extends ModelService<Task> implements ITaskService {
 
     private final TaskRepository repository;
     private final IFeedSubmitService feedSubmitService;
+    private final SubscriptionService subscriptionService;
 
     @Autowired
     public TaskService(TaskRepository repository,
-                       FeedService feedSubmitService) {
+                       FeedService feedSubmitService,
+                       SubscriptionService subscriptionService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.feedSubmitService = feedSubmitService;
+        this.subscriptionService = subscriptionService;
     }
 
     @PostConstruct

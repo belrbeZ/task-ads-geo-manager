@@ -2,6 +2,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
+import com.keeper.model.util.SimpleGeoPoint;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;

@@ -2,6 +2,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.types.UserType;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
@@ -16,6 +17,7 @@ public class UserSubscriptionsDTO {
 
     public static final UserSubscriptionsDTO EMPTY = new UserSubscriptionsDTO();
 
+    @NotNull
     private Long userId;
     private Map<Long, LocalDateTime> subscriptions;
 
@@ -55,4 +57,19 @@ public class UserSubscriptionsDTO {
         this.subscriptions = subscriptions;
     }
     //</editor-fold>
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserSubscriptionsDTO that = (UserSubscriptionsDTO) o;
+
+        return userId.equals(that.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return userId.hashCode();
+    }
 }

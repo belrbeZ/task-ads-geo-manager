@@ -56,6 +56,14 @@ public class ModelService<T> implements IModelService<T> {
         return false;
     }
 
+    protected boolean invalidListModel(List<T> model, String msg) {
+        if(model == null || model.isEmpty()) {
+            LOGGER.warn(msg);
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public Optional<T> get(Long id) {
         if(invalidId(id, ErrorMessageResolver.GET_NULLABLE_ID))
@@ -74,6 +82,15 @@ public class ModelService<T> implements IModelService<T> {
     @Override
     public Optional<T> save(T model) {
         if(invalidModel(model, ErrorMessageResolver.CREATE_MODEL_NULLABLE))
+            return Optional.empty();
+
+        return Optional.of(primeRepository.save(model));
+    }
+
+    @Transactional
+    @Override
+    public Optional<List<T>> save(List<T> model) {
+        if(invalidListModel(model, ErrorMessageResolver.CREATE_MODEL_NULLABLE))
             return Optional.empty();
 
         return Optional.of(primeRepository.save(model));

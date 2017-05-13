@@ -2,6 +2,7 @@ package com.keeper.model.dto;
 
 import com.keeper.model.types.TaskType;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class TaskSubscribersDTO {
 
     public static final TaskSubscribersDTO EMPTY = new TaskSubscribersDTO();
 
+    @NotNull
     private Long taskId;
     private LocalDateTime lastModificationDate;
     private Set<Long> subscribers;
@@ -58,4 +60,19 @@ public class TaskSubscribersDTO {
         this.subscribers = subscribers;
     }
     //</editor-fold>
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TaskSubscribersDTO that = (TaskSubscribersDTO) o;
+
+        return taskId.equals(that.taskId);
+    }
+
+    @Override
+    public int hashCode() {
+        return taskId.hashCode();
+    }
 }

@@ -4,7 +4,7 @@ package com.keeper.model.dao;
  * Created by @GoodforGod on 16.04.2017.
  */
 
-import com.keeper.model.dto.SimpleGeoPoint;
+import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.util.resolvers.DatabaseResolver;
 
 import javax.persistence.*;

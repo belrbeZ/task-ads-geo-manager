@@ -7,6 +7,8 @@ package com.keeper.util;
 import com.keeper.model.dao.*;
 import com.keeper.model.dto.*;
 import com.keeper.model.types.UserType;
+import com.keeper.model.util.SimpleGeoPoint;
+import com.keeper.model.util.TaskModification;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -24,6 +26,15 @@ import static com.keeper.util.Validator.*;
 public class ModelTranslator {
 
     //<editor-fold desc="toDTO">
+
+    public static TaskModification toDTO(Participant model) {
+        return (model == null)
+                ? TaskModification.EMPTY
+                : new TaskModification(model.getId(),
+                                        model.getTaskId(),
+                                        model.getModifyCounter(),
+                                        model.getLastModifyDate().toLocalDateTime());
+    }
 
     public static TaskDTO toDTO(Task model) {
         return (model == null)
@@ -189,6 +200,17 @@ public class ModelTranslator {
     //</editor-fold>
 
     //<editor-fold desc="toDAO">
+
+    public static Participant toDAO(TaskModification model, Long userId) {
+        if(model == null)
+            throw new NullPointerException("MODEL");
+
+        if(Validator.isIdValid(userId))
+            throw new NullPointerException("USER ID");
+
+        return new Participant(model, userId);
+
+    }
 
     public static User toDAO(UserDTO model) {
         if(model == null)

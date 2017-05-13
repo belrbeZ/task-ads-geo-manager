@@ -7,7 +7,7 @@ package com.keeper.service.core.impl;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
-import com.keeper.model.dto.GeoLocations;
+import com.keeper.model.util.GeoLocations;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;

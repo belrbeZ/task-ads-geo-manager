@@ -6,7 +6,7 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.SimpleGeoPoint;
+import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
@@ -42,6 +42,9 @@ public class TaskWebController {
         this.userService = userService;
     }
 
+    /**
+     * Task View Template
+     */
     @RequestMapping(value = WebResolver.TASK, method = RequestMethod.GET)
     public ModelAndView taskGet(@RequestParam(value = "id", required = false) Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
@@ -88,7 +91,7 @@ public class TaskWebController {
 
 
     /**
-     * Task Form Page Mapping
+     * Task Update/Create Form Template
      */
     @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.GET)
     public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id, Model model) {
@@ -143,6 +146,24 @@ public class TaskWebController {
         else modelAndView.addObject(MSG, "ReLogin First!");
 
         modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
+
+        return modelAndView;
+    }
+
+
+    /**
+     * Task Subscribe Mapping
+     */
+    @RequestMapping(value = WebResolver.TASK_SUBS, method = RequestMethod.POST)
+    public ModelAndView taskSubscribe(@RequestParam(value = "id") Long taskId, Model model) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = WebResolver.TASK_SUBS, method = RequestMethod.DELETE)
+    public ModelAndView taskUnSubscribe(@RequestParam(value = "id") Long taskId, Model model) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
         return modelAndView;
     }

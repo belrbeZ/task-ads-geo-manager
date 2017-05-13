@@ -1,8 +1,11 @@
-package com.keeper.model.dto;
+package com.keeper.model.util;
 
 /*
  * Created by @GoodforGod on 03.05.2017.
  */
+
+import com.keeper.model.dto.GeoPointDTO;
+import com.keeper.model.dto.RouteDTO;
 
 import java.util.HashSet;
 import java.util.Set;

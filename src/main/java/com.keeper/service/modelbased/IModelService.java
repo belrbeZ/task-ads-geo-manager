@@ -22,6 +22,9 @@ public interface IModelService<DAO> {
     Optional<DAO> save(DAO model);
 
     /** TRANSACTIONAL */
+    Optional<List<DAO>> save(List<DAO> model);
+
+    /** TRANSACTIONAL */
     Optional<DAO> update(DAO model);
 
     /** TRANSACTIONAL */

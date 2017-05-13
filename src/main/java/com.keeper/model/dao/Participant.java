@@ -2,6 +2,7 @@ package com.keeper.model.dao;
 
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
+import com.keeper.model.util.TaskModification;
 import com.keeper.util.resolvers.DatabaseResolver;
 
 import javax.persistence.*;
@@ -44,6 +45,15 @@ public class Participant {
         this.lastModifyDate = createDate;
     }
 
+    // FOR Cached Service
+    public Participant(TaskModification modification, Long userId) {
+        this.id = modification.getId();
+        this.userId = userId;
+        this.taskId = modification.getTaskId();
+        this.modifyCounter = 0L;
+        this.lastModifyDate = Timestamp.valueOf(modification.getLastModifyDate());
+    }
+
     public void modify() {
         this.modifyCounter++;
         this.lastModifyDate = Timestamp.valueOf(LocalDateTime.now());
@@ -54,6 +64,10 @@ public class Participant {
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    private void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -99,4 +113,6 @@ public class Participant {
         this.lastModifyDate = lastModifyDate;
     }
     //</editor-fold>
+
+
 }
