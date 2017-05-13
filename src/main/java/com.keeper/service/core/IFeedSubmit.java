@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * Default Comment
  */
-public interface IFeedSubmitService {
-    Task submit(Task task);
+public interface IFeedSubmit {
+    Task    submit(Task task);
+    Route   submit(Route route);
     GeoPoint submit(GeoPoint point);
-    Route submit(Route route);
 
     void loadTasks(List<Task> task);
     void loadPoints(List<GeoPoint> point);

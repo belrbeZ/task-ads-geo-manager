@@ -10,7 +10,7 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.TaskRepository;
-import com.keeper.service.core.IFeedSubmitService;
+import com.keeper.service.core.IFeedSubmit;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.ITaskService;
@@ -35,7 +35,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 public class TaskService extends PrimeModelService<Task> implements ITaskService {
 
     private final TaskRepository repository;
-    private final IFeedSubmitService feedSubmitService;
+    private final IFeedSubmit feedSubmitService;
     private final SubscriptionService subscriptionService;
 
     @Autowired
@@ -123,8 +123,6 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
             return Optional.empty();
         }
 
-        model.setLastModifyDate(LocalDateTime.now());
-
         return save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 
@@ -136,21 +134,42 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
             return Optional.empty();
         }
 
-        model.setCreateDate((model.getCreateDate() == null || model.getCreateDate().before(Timestamp.valueOf(LocalDateTime.now())))
-                ? Timestamp.valueOf(LocalDateTime.now())
-                : model.getCreateDate());
-        model.setLastModifyDate((model.getLastModifyDate() == null || model.getLastModifyDate().before(Timestamp.valueOf(LocalDateTime.now())))
+        model.setCreateDate((model.getCreateDate() == null)
                 ? Timestamp.valueOf(LocalDateTime.now())
                 : model.getCreateDate());
 
+        model.setLastModifyDate((model.getLastModifyDate() == null || model.getLastModifyDate().before(Timestamp.valueOf(LocalDateTime.now())))
+                ? Timestamp.valueOf(LocalDateTime.now())
+                : model.getLastModifyDate());
+
         Optional<Task> task = super.save(model);
-        task.ifPresent(feedSubmitService::submit);
+
+        task.ifPresent(t -> {
+            feedSubmitService.submit(t);
+            subscriptionService.modifyTask(task.get().getId());
+        });
+
         return task;
     }
 
     @Transactional
     @Override
     public Optional<Task> update(Task model) {
+        if(model == null) {
+            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            return Optional.empty();
+        }
+
+        Optional<Task> toSave = get(model.getId());
+
+        // OR SAVE AS A NEW ONE, THAT IS A QUESTION
+        if(!toSave.isPresent()) {
+            LOGGER.warn(UPDATE_NOT_FOUND);
+            return Optional.empty();
+        }
+
+        model.setLastModifyDate(Timestamp.valueOf(LocalDateTime.now()));
+
         return save(model);
     }
 
@@ -159,5 +178,6 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     public void remove(Long id) {
         super.remove(id);
         feedSubmitService.removeTask(id);
+        subscriptionService.removeTaskSubscribers(id);
     }
 }

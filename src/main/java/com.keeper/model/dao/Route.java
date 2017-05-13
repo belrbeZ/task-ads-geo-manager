@@ -7,9 +7,9 @@ package com.keeper.model.dao;
  *
  */
 
+import com.keeper.model.types.RouteType;
 import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.model.util.SimpleRoute;
-import com.keeper.model.types.RouteType;
 import com.keeper.util.resolvers.DatabaseResolver;
 import org.hibernate.annotations.Type;
 

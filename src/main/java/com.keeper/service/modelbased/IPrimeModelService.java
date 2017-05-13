@@ -18,6 +18,8 @@ public interface IPrimeModelService<DAO> {
 
     Optional<List<DAO>> getAll();
 
+    Optional<List<DAO>> getAllByIds(List<Long> ids);
+
     /** TRANSACTIONAL */
     Optional<DAO> save(DAO model);
 

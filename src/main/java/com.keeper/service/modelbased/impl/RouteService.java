@@ -7,7 +7,7 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.repo.RouteRepository;
-import com.keeper.service.core.IFeedSubmitService;
+import com.keeper.service.core.IFeedSubmit;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.IRouteService;
 import com.keeper.util.ModelTranslator;
@@ -28,7 +28,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 public class RouteService extends PrimeModelService<Route> implements IRouteService {
 
     private final RouteRepository repository;
-    private final IFeedSubmitService feedSubmitService;
+    private final IFeedSubmit feedSubmitService;
 
     @Autowired
     public RouteService(RouteRepository repository,

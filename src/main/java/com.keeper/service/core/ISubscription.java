@@ -11,17 +11,17 @@ import java.util.Set;
 /**
  * Default Comment
  */
-public interface ISubscriptionService {
+public interface ISubscription {
 
     Optional<List<Long>> getTaskSubscribers(Long taskId);
 
     Optional<Set<Long>> getUserSubscriptions(Long userId);
 
-    /** TRANSACTIONAL */
-    Optional<Long> viewTask(Long userId, Long taskId);
-
-    /** TRANSACTIONAL */
-    Optional<Long> modifyTask(Long taskId);
+//    /** TRANSACTIONAL */
+//    Optional<Long> viewTask(Long userId, Long taskId);
+//
+//    /** TRANSACTIONAL */
+//    Optional<Long> modifyTask(Long taskId);
 
     /** TRANSACTIONAL */
     Optional<Long> subscribe(Long userId, Long taskId);

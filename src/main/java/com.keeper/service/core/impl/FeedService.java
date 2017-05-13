@@ -7,15 +7,16 @@ package com.keeper.service.core.impl;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
-import com.keeper.model.util.GeoLocations;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.RouteDTO;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.service.core.IFeedService;
-import com.keeper.service.core.IFeedSubmitService;
+import com.keeper.model.util.GeoLocations;
+import com.keeper.service.core.IFeed;
+import com.keeper.service.core.IFeedSubmit;
 import com.keeper.util.GeoComputer;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,14 @@ import java.util.stream.Collectors;
  * Default Comment
  */
 @Service
-public class FeedService implements IFeedService, IFeedSubmitService {
+public class FeedService implements IFeed, IFeedSubmit {
 
     private boolean taskLoader = false;
     private boolean pointLoader = false;
     private boolean routeLoader = false;
 
-    private final Map<Long, GeoPointDTO> points = new ConcurrentHashMap<>(); // All user geopoints
-    private final Map<Long, RouteDTO>   routes = new ConcurrentHashMap<>(); // All user routes
+    private final Map<Long, GeoPointDTO> points = new ConcurrentHashMap<>(); // All geopoints
+    private final Map<Long, RouteDTO>   routes = new ConcurrentHashMap<>(); // All routes
     private final Map<Long, TaskDTO>    tasks  = new ConcurrentHashMap<>(); // All tasks
 
     private final int HOT_FEED_SIZE = 20;
@@ -55,6 +56,13 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     private final Map<Long, Long> removedRoutes = new ConcurrentHashMap<>();
     private final Map<Long, Long> removedPoints = new ConcurrentHashMap<>();
     private final Map<Long, Long> removedTask   = new ConcurrentHashMap<>();
+
+    private final SubscriptionService subsService;
+
+    @Autowired
+    public FeedService(SubscriptionService subsService) {
+        this.subsService = subsService;
+    }
 
     @PostConstruct
     private void setup() {
@@ -320,7 +328,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(tasks.entrySet().stream().filter(task -> hotTasks.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
+        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> hotTasks.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -328,7 +336,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(TaskDTO::getLastModifyDate)).limit(RECENT_FEED_SIZE).collect(Collectors.toList()));
+        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(TaskDTO::getLastModifyDate)).limit(RECENT_FEED_SIZE).collect(Collectors.toList())));
     }
 
     @Override
@@ -346,7 +354,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(taskIds == null || taskIds.isEmpty())
             return Optional.empty();
 
-        return Optional.of(tasks.entrySet().stream().filter(task -> taskIds.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList()));
+        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> taskIds.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -354,7 +362,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(tasks.entrySet().stream().filter(task -> task.getValue().getTopicStarterId().equals(userId)).map(Map.Entry::getValue).collect(Collectors.toList()));
+        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> task.getValue().getTopicStarterId().equals(userId)).map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -362,7 +370,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(tasks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
+        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -370,7 +378,7 @@ public class FeedService implements IFeedService, IFeedSubmitService {
         if(Validator.isStrEmpty(theme))
             return Optional.empty();
 
-        return Optional.of(tasks.entrySet().stream().filter(task -> satisfiesSearch(task.getValue().getTheme(), theme)).map(Map.Entry::getValue).collect(Collectors.toList()));
+        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> satisfiesSearch(task.getValue().getTheme(), theme)).map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     // Search

@@ -35,11 +35,6 @@ public class PrimeModelService<T> implements IPrimeModelService<T> {
         return Collections.emptyList();
     }
 
-    @Override
-    public boolean exists(Long id) {
-        return (Validator.isIdValid(id)) && primeRepository.exists(id);
-    }
-
     protected boolean invalidId(Long id, String msg) {
         if(!Validator.isIdValid(id)) {
             LOGGER.warn(msg);
@@ -65,6 +60,11 @@ public class PrimeModelService<T> implements IPrimeModelService<T> {
     }
 
     @Override
+    public boolean exists(Long id) {
+        return (Validator.isIdValid(id)) && primeRepository.exists(id);
+    }
+
+    @Override
     public Optional<T> get(Long id) {
         if(invalidId(id, ErrorMessageResolver.GET_NULLABLE_ID))
             return Optional.empty();
@@ -75,6 +75,11 @@ public class PrimeModelService<T> implements IPrimeModelService<T> {
     @Override
     public Optional<List<T>> getAll() {
         return Optional.of(primeRepository.findAll());
+    }
+
+    @Override
+    public Optional<List<T>> getAllByIds(List<Long> ids) {
+        return Optional.of(primeRepository.findAll(ids));
     }
 
     // Ask what to return, exception or empty/null in case of NULL

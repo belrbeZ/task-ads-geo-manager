@@ -9,9 +9,12 @@ import com.keeper.model.dto.UserDTO;
 import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
 import com.keeper.repo.UserRepository;
+import com.keeper.service.core.ISubscriptionSubmit;
+import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.IUserService;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
+import com.keeper.util.resolvers.ErrorMessageResolver;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,15 +35,18 @@ public class UserService extends PrimeModelService<User> implements IUserService
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;
     private final RouteRepository routeRepository;
+    private final ISubscriptionSubmit subscriptionService;
 
     @Autowired
     public UserService(UserRepository repository,
                        GeoPointRepository geoPointRepository,
-                       RouteRepository routeRepository) {
+                       RouteRepository routeRepository,
+                       SubscriptionService subscriptionService) {
         this.repository = repository;
         this.primeRepository = repository;
         this.geoPointRepository = geoPointRepository;
         this.routeRepository = routeRepository;
+        this.subscriptionService = subscriptionService;
     }
 
     @Override
@@ -51,7 +57,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public boolean existsByEmail(String email) {
         if(Validator.isStrEmpty(email)) {
-            LOGGER.warn("NULLABLE PARAMETER");
+            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return false;
         }
 
@@ -61,7 +67,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public boolean existsByPhone(String phone) {
         if(Validator.isStrEmpty(phone)) {
-            LOGGER.warn("NULLABLE PARAMETER");
+            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return false;
         }
 
@@ -76,7 +82,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public Optional<User> getByEmail(String email) {
         if(Validator.isStrEmpty(email)) {
-            LOGGER.warn("NULLABLE PARAMETER");
+            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return Optional.empty();
         }
 
@@ -86,7 +92,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public Optional<User> getByPhone(String phone) {
         if(Validator.isStrEmpty(phone)) {
-            LOGGER.warn("NULLABLE PARAMETER");
+            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return Optional.empty();
         }
 
@@ -124,12 +130,22 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Transactional
     @Override
     public Optional<User> removeByEmail(@NotEmpty String email) {
-        return repository.removeByEmail(email);
+        Optional<User> user = repository.removeByEmail(email);
+        user.ifPresent(usr -> subscriptionService.removeUserSubscriptions(usr.getId()));
+        return user;
     }
 
     @Transactional
     @Override
     public Optional<User> removeByPhone(@NotEmpty String phone) {
-        return repository.removeByPhone(phone);
+        Optional<User> user = repository.removeByEmail(phone);
+        user.ifPresent(usr -> subscriptionService.removeUserSubscriptions(usr.getId()));
+        return user;
+    }
+
+    @Override
+    public void remove(Long id) {
+        super.remove(id);
+        subscriptionService.removeUserSubscriptions(id);
     }
 }

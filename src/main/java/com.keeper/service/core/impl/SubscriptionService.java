@@ -5,7 +5,11 @@ package com.keeper.service.core.impl;
  */
 
 import com.keeper.model.dao.Participant;
-import com.keeper.service.core.ISubscriptionService;
+import com.keeper.model.dao.Task;
+import com.keeper.model.dto.TaskDTO;
+import com.keeper.service.core.ISubscription;
+import com.keeper.service.core.ISubscriptionModify;
+import com.keeper.service.core.ISubscriptionSubmit;
 import com.keeper.service.modelbased.impl.ParticipantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,9 +27,9 @@ import java.util.stream.Collectors;
  * Default Comment
  */
 @Service
-public class SubscriptionService implements ISubscriptionService {
+public class SubscriptionService implements ISubscription, ISubscriptionSubmit, ISubscriptionModify {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SubscriptionService.class);
+    private final Logger logger = LoggerFactory.getLogger(SubscriptionService.class);
     private final ParticipantService partService;
 
     @Autowired
@@ -46,6 +51,18 @@ public class SubscriptionService implements ISubscriptionService {
         return (participants.isPresent())
                 ? Optional.of(participants.get().stream().map(Participant::getTaskId).collect(Collectors.toSet()))
                 : Optional.empty();
+    }
+
+    public List<Task> withTaskModifications(List<Task> tasks) {
+        for(Task task : tasks) {
+            try {
+
+            }
+            catch (Exception e) {
+
+            }
+        }
+        return tasks;
     }
 
     @Transactional
@@ -78,6 +95,20 @@ public class SubscriptionService implements ISubscriptionService {
 
     @Transactional
     @Override
+    public List<TaskDTO> modifyTasksCounter(final List<TaskDTO> tasks) {
+        partService.getAllByIds(tasks.stream()
+                .map(TaskDTO::getId)
+                .collect(Collectors.toList())).ifPresent(part ->  {
+            Map<Long, Long> partiCounters = part.stream()
+                    .collect(Collectors.toMap(Participant::getTaskId, Participant::getModifyCounter));
+            tasks.forEach(t -> t.setModifyCount(partiCounters.get(t.getId())));
+        });
+
+        return tasks;
+    }
+
+    @Transactional
+    @Override
     public Optional<Long> subscribe(Long userId, Long taskId) {
         return (partService.saveParticipant(userId, taskId).isPresent())
                 ? Optional.of(taskId)
@@ -88,6 +119,22 @@ public class SubscriptionService implements ISubscriptionService {
     @Override
     public Optional<Long> unSubscribe(Long userId, Long taskId) {
         return (partService.removeSpecificParticipant(userId, taskId).isPresent())
+                ? Optional.of(taskId)
+                : Optional.empty();
+    }
+
+    @Transactional
+    @Override
+    public Optional<Long> removeUserSubscriptions(Long userId) {
+        return (partService.removeParticipantsByUser(userId).isPresent())
+                ? Optional.of(userId)
+                : Optional.empty();
+    }
+
+    @Transactional
+    @Override
+    public Optional<Long> removeTaskSubscribers(Long taskId) {
+        return (partService.removeParticipantsByTask(taskId).isPresent())
                 ? Optional.of(taskId)
                 : Optional.empty();
     }

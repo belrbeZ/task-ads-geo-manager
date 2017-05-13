@@ -6,8 +6,9 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
-import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.util.SimpleGeoPoint;
+import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.ModelTranslator;
@@ -33,13 +34,15 @@ public class TaskWebController {
 
     private final TaskService taskService;
     private final UserService userService;
+    private final SubscriptionService subscriptionService;
 
     private final String MSG = "msg";
 
     @Autowired
-    public TaskWebController(TaskService taskService, UserService userService) {
+    public TaskWebController(TaskService taskService, UserService userService, SubscriptionService subscriptionService) {
         this.taskService = taskService;
         this.userService = userService;
+        this.subscriptionService = subscriptionService;
     }
 
     /**
@@ -56,6 +59,7 @@ public class TaskWebController {
                 if(daoTask.isPresent()) {
                     modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
                     modelAndView.addObject("task", ModelTranslator.toDTO(daoTask.get()));
+                    subscriptionService.viewTask(user.get().getId(), daoTask.get().getId());
                     return modelAndView;
                 }
                 else modelAndView.addObject(MSG, "No Such Task!");

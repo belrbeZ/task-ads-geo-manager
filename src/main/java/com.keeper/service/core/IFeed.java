@@ -12,7 +12,7 @@ import java.util.Optional;
 /**
  * Default Comment
  */
-public interface IFeedService {
+public interface IFeed {
     Optional<List<TaskDTO>> getAll(Long userId);
     Optional<List<TaskDTO>> getRecent(Long userId);
     Optional<List<TaskDTO>> getHot(Long userId);

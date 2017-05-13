@@ -7,7 +7,7 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.repo.GeoPointRepository;
-import com.keeper.service.core.IFeedSubmitService;
+import com.keeper.service.core.IFeedSubmit;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.IGeoPointService;
 import com.keeper.util.ModelTranslator;
@@ -28,7 +28,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeoPointService {
 
     private final GeoPointRepository repository;
-    private final IFeedSubmitService feedSubmitService;
+    private final IFeedSubmit feedSubmitService;
 
     @Autowired
     public GeoPointService(GeoPointRepository repository,

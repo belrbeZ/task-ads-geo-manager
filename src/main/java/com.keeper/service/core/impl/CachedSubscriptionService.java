@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class CachedSubscriptionService extends SubscriptionService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CachedSubscriptionService.class);
+    private final Logger logger = LoggerFactory.getLogger(CachedSubscriptionService.class);
 
     private final Map<Long, Set<TaskModification>> userSubscriptions = new ConcurrentHashMap<>();
 
@@ -49,7 +49,7 @@ public class CachedSubscriptionService extends SubscriptionService {
         }
         catch (Exception e) {
             participants = partService.getAll();
-            LOGGER.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]", e);
+            logger.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]", e);
         }
         finally {
             if(participants.isPresent()) {
@@ -62,7 +62,7 @@ public class CachedSubscriptionService extends SubscriptionService {
                     }
                 }
             }
-            else LOGGER.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]");
+            else logger.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]");
         }
     }
 
