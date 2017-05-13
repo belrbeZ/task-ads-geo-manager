@@ -27,14 +27,16 @@
 
     <div class="container">
 
-        <span th:utext="${?logout}" style="margin: 5px"></span>
+        <div align="center" th:if="${logout != null}">
+            <p style="font-size: 20px; color: #FF1C19;">You have successfully logged out</p>
+        </div>
 
         <form th:action="@{/login}" method="POST" class="form-login">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <input type="text" id="email" name="email" th:placeholder="Email" class="form-control"/>
             <input type="password" id="password" name="password" th:placeholder="Password" class="form-control"/>
 
-            <div align="center" th:if="${?param.error}">
+            <div align="center" th:if="${error != null}">
                 <p style="font-size: 20px; color: #FF1C19;">Email or Password invalid, please verify</p>
             </div>
 

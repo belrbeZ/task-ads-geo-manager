@@ -46,7 +46,7 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage(WebResolver.LOGIN)
                 .failureUrl(WebResolver.LOGIN + "?error=true")
                 .successForwardUrl(WebResolver.HOME)
-                .defaultSuccessUrl(WebResolver.HOME)
+                .defaultSuccessUrl(WebResolver.HOME, true)
                 .usernameParameter("email")
                 .passwordParameter("password");
 

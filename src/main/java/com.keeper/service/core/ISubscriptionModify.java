@@ -19,5 +19,9 @@ public interface ISubscriptionModify {
     /** TRANSACTIONAL */
     Optional<Long> modifyTask(Long taskId);
 
-    List<TaskDTO> modifyTasksCounter(List<TaskDTO> tasks);
+    /** TRANSACTIONAL */
+    TaskDTO modifyTasksCounter(Long userId, TaskDTO tasks);
+
+    /** TRANSACTIONAL */
+    List<TaskDTO> modifyTasksCounter(Long userId, List<TaskDTO> tasks);
 }

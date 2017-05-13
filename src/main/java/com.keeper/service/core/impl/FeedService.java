@@ -17,6 +17,7 @@ import com.keeper.util.GeoComputer;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
  * Default Comment
  */
 @Service
+@Primary
 public class FeedService implements IFeed, IFeedSubmit {
 
     private boolean taskLoader = false;
@@ -57,7 +59,7 @@ public class FeedService implements IFeed, IFeedSubmit {
     private final Map<Long, Long> removedPoints = new ConcurrentHashMap<>();
     private final Map<Long, Long> removedTask   = new ConcurrentHashMap<>();
 
-    private final SubscriptionService subsService;
+    protected final SubscriptionService subsService;
 
     @Autowired
     public FeedService(SubscriptionService subsService) {
@@ -191,16 +193,24 @@ public class FeedService implements IFeed, IFeedSubmit {
     private void update() {
 
         // Remove unnecessary models, where there is no need to proceed them
-        pointsToProceed.removeAll(pointsToProceed.stream().filter(removedPoints::containsKey).collect(Collectors.toSet()));
-        routesToProceed.removeAll(routesToProceed.stream().filter(removedRoutes::containsKey).collect(Collectors.toSet()));
-        tasksToProceed.removeAll(tasksToProceed.stream().filter(removedTask::containsKey).collect(Collectors.toSet()));
+        pointsToProceed.removeAll(pointsToProceed.stream()
+                .filter(removedPoints::containsKey)
+                .collect(Collectors.toSet()));
+        routesToProceed.removeAll(routesToProceed.stream()
+                .filter(removedRoutes::containsKey)
+                .collect(Collectors.toSet()));
+        tasksToProceed.removeAll(tasksToProceed.stream()
+                .filter(removedTask::containsKey)
+                .collect(Collectors.toSet()));
 
         //<editor-fold desc="Proceed">
 
         //<editor-fold desc="Points">
 
         if(!pointsToProceed.isEmpty()) {
-            for (GeoPointDTO geo : points.entrySet().stream().filter(entry -> pointsToProceed.contains(entry.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())) {
+            for (GeoPointDTO geo : points.entrySet().stream()
+                    .filter(entry -> pointsToProceed.contains(entry.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toList())) {
                 for (Map.Entry<Long, TaskDTO> task : tasks.entrySet()) {
                     if (GeoComputer.geoInRadius(geo, task.getValue())) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
@@ -232,7 +242,9 @@ public class FeedService implements IFeed, IFeedSubmit {
         //<editor-fold desc="Tasks">
 
         if(!tasksToProceed.isEmpty()) {
-            for (TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue).filter(entryTask -> tasksToProceed.contains(entryTask.getId())).collect(Collectors.toList())) {
+            for (TaskDTO task : tasks.entrySet().stream().map(Map.Entry::getValue)
+                    .filter(entryTask -> tasksToProceed.contains(entryTask.getId()))
+                    .collect(Collectors.toList())) {
                 for (Map.Entry<Long, GeoPointDTO> geo : points.entrySet()) {
                     if (GeoComputer.geoInRadius(geo.getValue(), task)) {
                         Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
@@ -328,7 +340,9 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> hotTasks.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())));
+        return Optional.of(subsService.modifyTasksCounter(userId, tasks.entrySet().stream()
+                .filter(task -> hotTasks.contains(task.getKey()))
+                .map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -336,7 +350,9 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().map(Map.Entry::getValue).sorted(Comparator.comparing(TaskDTO::getLastModifyDate)).limit(RECENT_FEED_SIZE).collect(Collectors.toList())));
+        return Optional.of(subsService.modifyTasksCounter(userId, tasks.entrySet().stream()
+                .map(Map.Entry::getValue).sorted(Comparator.comparing(TaskDTO::getLastModifyDate))
+                .limit(RECENT_FEED_SIZE).collect(Collectors.toList())));
     }
 
     @Override
@@ -354,7 +370,9 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(taskIds == null || taskIds.isEmpty())
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> taskIds.contains(task.getKey())).map(Map.Entry::getValue).collect(Collectors.toList())));
+        return Optional.of(subsService.modifyTasksCounter(userId, tasks.entrySet()
+                .stream().filter(task -> taskIds.contains(task.getKey()))
+                .map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -362,7 +380,9 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> task.getValue().getTopicStarterId().equals(userId)).map(Map.Entry::getValue).collect(Collectors.toList())));
+        return Optional.of(subsService.modifyTasksCounter(userId, tasks.entrySet()
+                .stream().filter(task -> task.getValue().getTopicStarterId().equals(userId))
+                .map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
@@ -370,15 +390,18 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList())));
+        return Optional.of(subsService.modifyTasksCounter(userId, tasks.entrySet().stream()
+                .map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     @Override
-    public Optional<List<TaskDTO>> getByTheme(String theme) {
+    public Optional<List<TaskDTO>> getByTheme(Long userId, String theme) {
         if(Validator.isStrEmpty(theme))
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(tasks.entrySet().stream().filter(task -> satisfiesSearch(task.getValue().getTheme(), theme)).map(Map.Entry::getValue).collect(Collectors.toList())));
+        return Optional.of(subsService.modifyTasksCounter(userId, tasks.entrySet().stream()
+                .filter(task -> satisfiesSearch(task.getValue().getTheme(), theme))
+                .map(Map.Entry::getValue).collect(Collectors.toList())));
     }
 
     // Search

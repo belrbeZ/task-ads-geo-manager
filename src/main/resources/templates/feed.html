@@ -21,53 +21,60 @@
 
     <div class="row" style="margin: 5px">
         <div class="row-fluid">
-            <form th:action="@{/secure/feed}" method="post">
+            <form th:action="@{/secure/feed/search}" method="post">
                 <input type="text" name="search" placeholder="Theme Query"/>
                 <button name="Submit" value="search" type="Submit" th:text="Search"></button>
             </form>
         </div>
+
         <div class="row-fluid" style="margin: 5px">
             <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed}" method="post">
-                    <input type="hidden" th:value="0" name="type"/>
-                    <button name="Submit" value="filter" type="Submit" th:text="All"></button>
+                <form th:action="@{/secure/feed/filter}" method="post"
+                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                    <input type="hidden" th:value="0" name="filter"/>
+                    <button name="filter" th:value="0" type="Submit" th:text="All"></button>
                 </form>
             </div>
             <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed}" method="post">
-                    <input type="hidden" value="40" name="type"/>
-                    <button name="Submit" value="filter" type="Submit" th:text="Hot"></button>
+                <form th:action="@{/secure/feed/filter}" method="post"
+                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                    <input type="hidden" th:value="40" name="filter"/>
+                    <button name="filter" th:value="40" type="Submit" th:text="Hot"></button>
                 </form>
             </div>
             <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed}" method="post">
-                    <input type="hidden" value="30" name="type"/>
-                    <button name="Submit" value="filter" type="Submit" th:text="Local"></button>
+                <form th:action="@{/secure/feed/filter}" method="post"
+                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                    <input type="hidden" th:value="30" name="filter"/>
+                    <button name="filter" th:value="30" type="Submit" th:text="Local"></button>
                 </form>
             </div>
             <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed}" method="post">
-                    <input type="hidden" th:value="20" name="type"/>
-                    <button name="Submit" value="filter" type="Submit" th:text="New"></button>
+                <form th:action="@{/secure/feed/filter}" method="post"
+                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                    <input type="hidden" th:value="20" name="filter"/>
+                    <button name="filter" th:value="20" type="Submit" th:text="New"></button>
                 </form>
             </div>
             <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed}" method="post">
-                    <input type="hidden" value="10" name="type"/>
-                    <button name="Submit" value="filter" type="Submit" th:text="My"></button>
+                <form th:action="@{/secure/feed/filter}" method="post"
+                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                    <input type="hidden" th:value="10" name="filter"/>
+                    <button name="filter" th:value="10" type="Submit" th:text="My"></button>
                 </form>
             </div>
         </div>
+
         <div class="row-fluid" style="margin: 5px">
-            <!--<form th:action="@{/secure/task/form}" method="GET">-->
-                <!--<button type="Submit" name="id" th:text="Create Task"></button>-->
-            <!--</form>-->
-            <a href="/secure/tasks/form" th:href="@{/secure/task/form}">Create Task</a>
+            <a th:href="@{/secure/task/form}">Create Task</a>
         </div>
     </div>
 
     <br/>
-    <span th:utext="${emptyMessage}"></span>
+
+    <div>
+        <span th:utext="#{msg}"></span>
+    </div>
 
     <div th:unless="${#lists.isEmpty(tasks)}">
         <table class="table table-bordered table-striped">
@@ -76,6 +83,7 @@
                 <td>Posted</td>
                 <td>Theme</td>
                 <td>Description</td>
+                <td>Notifies</td>
                 <td></td>
                 <td></td>
             </tr>
@@ -89,6 +97,7 @@
                         </form>
                     </td>
                     <td th:text="${task.descr}"></td>
+                    <td th:text="${task?.modifyCount}"> </td>
                     <td>
                         <form th:action="@{/secure/task/form}" method="GET">
                             <button name="id" th:value="${task.id}" type="Submit" th:text="Update"></button>

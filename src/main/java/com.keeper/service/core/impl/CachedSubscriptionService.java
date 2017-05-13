@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
  * @author @GoodforGod
  * @since 13.05.2017
  */
-@Service
 public class CachedSubscriptionService extends SubscriptionService {
 
     private final Logger logger = LoggerFactory.getLogger(CachedSubscriptionService.class);
@@ -48,7 +47,7 @@ public class CachedSubscriptionService extends SubscriptionService {
             participants = partService.getAll();
         }
         catch (Exception e) {
-            participants = partService.getAll();
+            participants = Optional.empty();
             logger.error("NO PARTICIPANTS LOADED! [SUBSCRIPTION SERVICE]", e);
         }
         finally {

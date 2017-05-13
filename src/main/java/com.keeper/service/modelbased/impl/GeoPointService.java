@@ -40,7 +40,11 @@ public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeo
 
     @PostConstruct
     public void setup() {
-        feedSubmitService.loadPoints(getAll().orElse(getEmptyList()));
+        try {
+            getAll().ifPresent(feedSubmitService::loadPoints);
+        } catch (Exception e) {
+            LOGGER.error("NO POINTS LOADED! [FEED SERVICE]", e);
+        }
     }
 
     @Override

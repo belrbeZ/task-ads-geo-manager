@@ -65,14 +65,17 @@ public class FeedWebController {
         return modelAndView;
     }
 
+    /**
+     * Feed Search By Theme
+     */
     @RequestMapping(value = WebResolver.FEED_SEARCH, method = RequestMethod.POST)
     public ModelAndView feedSearch(@RequestParam(value = ATTR_SEARCH) String theme, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
         Optional<List<TaskDTO>> tasks = Optional.empty();
-
-        if(userService.getAuthorized().isPresent())
-            tasks = feedService.getByTheme(theme);
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent())
+            tasks = feedService.getByTheme(user.get().getId(), theme);
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 
@@ -84,6 +87,9 @@ public class FeedWebController {
         return modelAndView;
     }
 
+    /**
+     * Feed Filter
+     */
     @RequestMapping(value = WebResolver.FEED_FILTER, method = RequestMethod.POST)
     public ModelAndView feedFilter(@RequestParam(value = ATTR_FILTER) Integer type, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);

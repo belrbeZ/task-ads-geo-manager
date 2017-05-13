@@ -43,6 +43,7 @@ public class Participant {
         this.taskId = taskId;
         this.createDate = Timestamp.valueOf(LocalDateTime.now());
         this.lastModifyDate = createDate;
+        this.modifyCounter = 0L;
     }
 
     // FOR Cached Service

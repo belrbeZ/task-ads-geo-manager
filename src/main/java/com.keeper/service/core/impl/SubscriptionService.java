@@ -14,19 +14,18 @@ import com.keeper.service.modelbased.impl.ParticipantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * Default Comment
  */
 @Service
+@Primary
 public class SubscriptionService implements ISubscription, ISubscriptionSubmit, ISubscriptionModify {
 
     private final Logger logger = LoggerFactory.getLogger(SubscriptionService.class);
@@ -51,18 +50,6 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit, 
         return (participants.isPresent())
                 ? Optional.of(participants.get().stream().map(Participant::getTaskId).collect(Collectors.toSet()))
                 : Optional.empty();
-    }
-
-    public List<Task> withTaskModifications(List<Task> tasks) {
-        for(Task task : tasks) {
-            try {
-
-            }
-            catch (Exception e) {
-
-            }
-        }
-        return tasks;
     }
 
     @Transactional
@@ -93,18 +80,48 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit, 
                 : Optional.empty();
     }
 
-    @Transactional
     @Override
-    public List<TaskDTO> modifyTasksCounter(final List<TaskDTO> tasks) {
-        partService.getAllByIds(tasks.stream()
-                .map(TaskDTO::getId)
-                .collect(Collectors.toList())).ifPresent(part ->  {
-            Map<Long, Long> partiCounters = part.stream()
-                    .collect(Collectors.toMap(Participant::getTaskId, Participant::getModifyCounter));
-            tasks.forEach(t -> t.setModifyCount(partiCounters.get(t.getId())));
-        });
+    public List<TaskDTO> modifyTasksCounter(Long userId, List<TaskDTO> tasks) {
+        try {
+            tasks.forEach(t -> partService.getSpecificParticipant(userId, t.getId())
+                    .ifPresent(p -> t.setModifyCount(p.getModifyCounter())));
+
+//            Optional<Participant> participants = partService.getParticipantByTask(tasks.stream()
+//                    .map(TaskDTO::getId)
+//                    .collect(Collectors.toList()));
+//
+//            if(participants.isPresent() && !participants.get().isEmpty()) {
+//                Map<Long, Long> partiCounters = participants.get().stream()
+//                        .collect(Collectors.toMap(Participant::getTaskId, Participant::getModifyCounter));
+//                tasks.forEach(t -> t.setModifyCount(partiCounters.get(t.getId())));
+//            }
+
+//            partService.getAllByIds(tasks.stream()
+//                    .map(TaskDTO::getId)
+//                    .collect(Collectors.toList())).ifPresent(part ->  {
+//                Map<Long, Long> partiCounters = part.stream()
+//                        .collect(Collectors.toMap(Participant::getTaskId, Participant::getModifyCounter));
+//                tasks.forEach(t -> t.setModifyCount(partiCounters.get(t.getId())));
+//            });
+
+        } catch (Exception e) {
+            logger.warn("NO SUBSCRIPTIONS [ERROR]");
+        }
 
         return tasks;
+    }
+
+    @Override
+    public TaskDTO modifyTasksCounter(Long userId, TaskDTO task) {
+        try {
+            Optional<Participant> participant = partService.getSpecificParticipant(userId, task.getId());
+            partService.getSpecificParticipant(userId, task.getId())
+                    .ifPresent(p -> task.setModifyCount(p.getModifyCounter()));
+        } catch (Exception e) {
+            logger.warn("NO SUBSCRIPTION [ERROR]");
+        }
+
+        return task;
     }
 
     @Transactional

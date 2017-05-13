@@ -25,6 +25,7 @@ public class ParticipantService extends PrimeModelService<Participant> implement
 
     @Autowired
     public ParticipantService(ParticipantRepository repository) {
+        this.primeRepository = repository;
         this.repository = repository;
     }
 

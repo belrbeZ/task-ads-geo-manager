@@ -30,7 +30,8 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     @NotEmpty private String descr;
 
     private SimpleGeoPoint geo;
-    private Long modifyCount = 0L;
+    private Long modifyCount = null;
+    private Boolean subscribed = null;
 
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
@@ -76,11 +77,22 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     //<editor-fold desc="GetterAndSetter">
 
+    public Boolean getSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(Boolean subscribed) {
+        this.subscribed = subscribed;
+    }
+
     public Long getModifyCount() {
         return modifyCount;
     }
 
     public void setModifyCount(Long modifyCount) {
+        if(modifyCount != null && modifyCount > 0)
+            subscribed = true;
+
         this.modifyCount = modifyCount;
     }
 

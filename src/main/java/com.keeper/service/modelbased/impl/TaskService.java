@@ -54,12 +54,7 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
             getAll().ifPresent(feedSubmitService::loadTasks);
         }
         catch (Exception e) {
-            getAll().ifPresent(feedSubmitService::loadTasks);
             LOGGER.error("NO TASKS LOADED! [FEED SERVICE]", e);
-        }
-        finally {
-            LOGGER.error("NO TASKS LOADED! [FEED SERVICE]");
-            feedSubmitService.loadTasks(getEmptyList());
         }
     }
 

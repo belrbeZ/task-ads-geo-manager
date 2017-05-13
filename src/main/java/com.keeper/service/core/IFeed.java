@@ -19,5 +19,5 @@ public interface IFeed {
     Optional<List<TaskDTO>> getLocal(Long userId);
     Optional<List<TaskDTO>> getOwned(Long userId);
 
-    Optional<List<TaskDTO>> getByTheme(String theme);
+    Optional<List<TaskDTO>> getByTheme(Long userId, String theme);
 }

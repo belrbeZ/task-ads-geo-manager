@@ -48,7 +48,7 @@ public class SecureWebController {
 
     @RequestMapping(value = WebResolver.LOGOUT, method = RequestMethod.GET)
     public ModelAndView logoutGet (HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.LOGIN + "?logout"));
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.LOGIN + "?logout=true"));
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null)

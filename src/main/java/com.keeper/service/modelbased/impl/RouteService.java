@@ -40,7 +40,11 @@ public class RouteService extends PrimeModelService<Route> implements IRouteServ
 
     @PostConstruct
     public void setup() {
-        feedSubmitService.loadRoutes(getAll().orElse(getEmptyList()));
+        try {
+            getAll().ifPresent(feedSubmitService::loadRoutes);
+        } catch (Exception e) {
+            LOGGER.error("NO ROUTES LOADED! [FEED SERVICE]", e);
+        }
     }
 
     @Override

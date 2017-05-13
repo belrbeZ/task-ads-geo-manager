@@ -15,6 +15,8 @@ import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import com.keeper.util.resolvers.TemplateResolver;
 import com.keeper.util.resolvers.WebResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,8 @@ import java.util.Optional;
  */
 @Controller
 public class TaskWebController {
+
+    private final Logger logger = LoggerFactory.getLogger(TaskWebController.class);
 
     private final TaskService taskService;
     private final UserService userService;
@@ -58,7 +62,9 @@ public class TaskWebController {
                 Optional<Task> daoTask = taskService.get(taskId);
                 if(daoTask.isPresent()) {
                     modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
-                    modelAndView.addObject("task", ModelTranslator.toDTO(daoTask.get()));
+                    TaskDTO taskDTO = subscriptionService.modifyTasksCounter(user.get().getId(),
+                                                        ModelTranslator.toDTO(daoTask.get()));
+                    modelAndView.addObject("task", taskDTO);
                     subscriptionService.viewTask(user.get().getId(), daoTask.get().getId());
                     return modelAndView;
                 }
@@ -160,14 +166,34 @@ public class TaskWebController {
      */
     @RequestMapping(value = WebResolver.TASK_SUBS, method = RequestMethod.POST)
     public ModelAndView taskSubscribe(@RequestParam(value = "id") Long taskId, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.FEED));
+
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent() && Validator.isIdValid(taskId)) {
+            try {
+                subscriptionService.subscribe(user.get().getId(), taskId);
+            } catch (Exception e) {
+                logger.warn(e.getMessage() + " | " + "You can't Subscribe to " + taskId);
+                modelAndView.addObject(MSG, "You can't Subscribe");
+            }
+        }
 
         return modelAndView;
     }
 
     @RequestMapping(value = WebResolver.TASK_SUBS, method = RequestMethod.DELETE)
     public ModelAndView taskUnSubscribe(@RequestParam(value = "id") Long taskId, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.FEED));
+
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent() && Validator.isIdValid(taskId)) {
+            try {
+                subscriptionService.unSubscribe(user.get().getId(), taskId);
+            } catch (Exception e) {
+                logger.warn(e.getMessage() + " | " + "You are not Subscribed to " + taskId);
+                modelAndView.addObject(MSG, "You are not Subscribed to " + taskId);
+            }
+        }
 
         return modelAndView;
     }

@@ -33,9 +33,9 @@ public class Route {
     @Column(name = "type")                                  private RouteType type;
     @Column(name = "info")                                  private String info;
     @Column(name = "radius")                                private Integer radius;
-    @Type(type = "com.keeper.util.dao.StringArrayUserType")
+    @Type(type = "com.keeper.util.serializable.StringArrayUserType")
     @Column(name = "latitudes")                             private String[] latitudes;
-    @Type(type = "com.keeper.util.dao.StringArrayUserType")
+    @Type(type = "com.keeper.util.serializable.StringArrayUserType")
     @Column(name = "longtitudes")                           private String[] longtitudes;
 
     private Route() {
