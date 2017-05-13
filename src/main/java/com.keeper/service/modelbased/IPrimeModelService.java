@@ -10,7 +10,7 @@ import java.util.Optional;
 /**
  * Default Comment
  */
-public interface IModelService<DAO> {
+public interface IPrimeModelService<DAO> {
 
     boolean exists(Long id);
 

@@ -25,7 +25,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class RouteService extends ModelService<Route> implements IRouteService {
+public class RouteService extends PrimeModelService<Route> implements IRouteService {
 
     private final RouteRepository repository;
     private final IFeedSubmitService feedSubmitService;

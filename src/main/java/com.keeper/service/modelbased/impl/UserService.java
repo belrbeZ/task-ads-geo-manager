@@ -27,7 +27,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class UserService extends ModelService<User> implements IUserService {
+public class UserService extends PrimeModelService<User> implements IUserService {
 
     private final UserRepository repository;
     private final GeoPointRepository geoPointRepository;

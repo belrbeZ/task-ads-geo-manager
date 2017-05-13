@@ -19,7 +19,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * @since 09.05.2017
  */
 @Service
-public class ParticipantService extends ModelService<Participant> implements IParticipantService {
+public class ParticipantService extends PrimeModelService<Participant> implements IParticipantService {
 
     private final ParticipantRepository repository;
 

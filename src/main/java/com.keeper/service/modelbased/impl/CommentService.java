@@ -22,7 +22,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class CommentService extends ModelService<Comment> implements ICommentService {
+public class CommentService extends PrimeModelService<Comment> implements ICommentService {
 
     public final CommentRepository repository;
 

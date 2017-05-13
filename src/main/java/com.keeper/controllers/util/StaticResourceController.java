@@ -1,4 +1,4 @@
-package com.keeper.controllers.web;
+package com.keeper.controllers.util;
 
 import com.keeper.util.resolvers.WebResolver;
 import org.springframework.stereotype.Controller;

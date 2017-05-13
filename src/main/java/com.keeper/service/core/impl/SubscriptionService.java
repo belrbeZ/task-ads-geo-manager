@@ -5,7 +5,6 @@ package com.keeper.service.core.impl;
  */
 
 import com.keeper.model.dao.Participant;
-import com.keeper.model.util.TaskModification;
 import com.keeper.service.core.ISubscriptionService;
 import com.keeper.service.modelbased.impl.ParticipantService;
 import org.slf4j.Logger;
@@ -15,10 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**

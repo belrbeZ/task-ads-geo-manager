@@ -4,7 +4,7 @@ package com.keeper.service.modelbased.impl;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.service.modelbased.IModelService;
+import com.keeper.service.modelbased.IPrimeModelService;
 import com.keeper.util.Validator;
 import com.keeper.util.resolvers.ErrorMessageResolver;
 import org.slf4j.Logger;
@@ -21,9 +21,9 @@ import java.util.Optional;
  * Basic model with ID as a LONG type PARAMETER!
  */
 @Service
-public class ModelService<T> implements IModelService<T> {
+public class PrimeModelService<T> implements IPrimeModelService<T> {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(ModelService.class);
+    protected final Logger LOGGER = LoggerFactory.getLogger(PrimeModelService.class);
 
     protected JpaRepository<T, Long> primeRepository;
 

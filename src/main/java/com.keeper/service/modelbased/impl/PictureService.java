@@ -21,7 +21,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class PictureService extends ModelService<Picture> implements IPictureService {
+public class PictureService extends PrimeModelService<Picture> implements IPictureService {
 
     private final PictureRepository repository;
 

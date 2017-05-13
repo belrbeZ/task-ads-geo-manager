@@ -1,4 +1,4 @@
-package com.keeper.controllers.web;
+package com.keeper.controllers.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -25,7 +25,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class GeoPointService extends ModelService<GeoPoint> implements IGeoPointService {
+public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeoPointService {
 
     private final GeoPointRepository repository;
     private final IFeedSubmitService feedSubmitService;

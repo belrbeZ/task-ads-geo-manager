@@ -48,9 +48,7 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successForwardUrl(WebResolver.HOME)
                 .defaultSuccessUrl(WebResolver.HOME)
                 .usernameParameter("email")
-                .passwordParameter("password")
-        .and()
-        .logout().;
+                .passwordParameter("password");
 
 //        http.csrf().disable();
     }

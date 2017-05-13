@@ -22,7 +22,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class ZoneService extends ModelService<Zone> implements IZoneService {
+public class ZoneService extends PrimeModelService<Zone> implements IZoneService {
 
     private final ZoneRepository repository;
 

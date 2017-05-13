@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class CachedSubscriptionService extends SubscriptionService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SubscriptionService.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CachedSubscriptionService.class);
 
     private final Map<Long, Set<TaskModification>> userSubscriptions = new ConcurrentHashMap<>();
 

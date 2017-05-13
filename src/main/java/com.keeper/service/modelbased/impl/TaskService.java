@@ -32,7 +32,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Repository Service to work with Tasks
  */
 @Service
-public class TaskService extends ModelService<Task> implements ITaskService {
+public class TaskService extends PrimeModelService<Task> implements ITaskService {
 
     private final TaskRepository repository;
     private final IFeedSubmitService feedSubmitService;
