@@ -4,7 +4,7 @@ package com.keeper.service.modelbased.impl;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.service.modelbased.*;
+import com.keeper.service.modelbased.IPrimeModelService;
 import com.keeper.util.resolvers.ErrorMessageResolver;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;

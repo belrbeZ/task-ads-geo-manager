@@ -9,7 +9,6 @@ package com.keeper.repo;
 
 import com.keeper.model.dao.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,5 +23,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<List<Task>> findAllByTheme(String theme);
 
-    void removeByIdAndTopicStarterIdIs(Long id, Long topicStarterId);
+    void removeByIdAndTopicStarterId(Long id, Long topicStarterId);
 }

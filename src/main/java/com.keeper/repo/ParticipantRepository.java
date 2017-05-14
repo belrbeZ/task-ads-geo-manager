@@ -2,7 +2,6 @@ package com.keeper.repo;
 
 import com.keeper.model.dao.Participant;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;

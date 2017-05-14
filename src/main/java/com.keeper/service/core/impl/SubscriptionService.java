@@ -16,7 +16,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -80,28 +83,10 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit {
 
     @Override
     public List<TaskDTO> modifyTasksCounter(Long userId, List<TaskDTO> tasks) {
+        final List<TaskDTO> tasksToCounter = new ArrayList<>(tasks);
         try {
-            tasks.forEach(t -> partService.getSpecificParticipant(userId, t.getId())
+            tasksToCounter.forEach(t -> partService.getSpecificParticipant(userId, t.getId())
                     .ifPresent(p -> t.setModifyCount(p.getModifyCounter())));
-
-//            Optional<Participant> participants = partService.getParticipantByTask(tasks.stream()
-//                    .map(TaskDTO::getId)
-//                    .collect(Collectors.toList()));
-//
-//            if(participants.isPresent() && !participants.get().isEmpty()) {
-//                Map<Long, Long> partiCounters = participants.get().stream()
-//                        .collect(Collectors.toMap(Participant::getTaskId, Participant::getModifyCounter));
-//                tasks.forEach(t -> t.setModifyCount(partiCounters.get(t.getId())));
-//            }
-
-//            partService.getAllByIds(tasks.stream()
-//                    .map(TaskDTO::getId)
-//                    .collect(Collectors.toList())).ifPresent(part ->  {
-//                Map<Long, Long> partiCounters = part.stream()
-//                        .collect(Collectors.toMap(Participant::getTaskId, Participant::getModifyCounter));
-//                tasks.forEach(t -> t.setModifyCount(partiCounters.get(t.getId())));
-//            });
-
         } catch (Exception e) {
             logger.warn("NO SUBSCRIPTIONS [ERROR]");
         }

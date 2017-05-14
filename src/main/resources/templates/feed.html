@@ -100,18 +100,45 @@
                     </td>
                     <td th:text="${task.descr}"></td>
                     <td th:text="${task?.modifyCount}"> </td>
-                    <td>
-                        <form th:action="@{/secure/task/form}" method="GET">
-                            <button name="id" th:value="${task.id}" type="Submit" th:text="Update"></button>
-                        </form>
+
+                    <td style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                        <div th:if="${task.topicStarterId} == ${userId}">
+                            <form th:action="@{/secure/task/form}" method="GET">
+                                <button name="id" th:value="${task.id}" type="Submit" th:text="Update"></button>
+                            </form>
+                        </div>
                     </td>
 
-                    <td>
-                        <form th:action="@{/secure/task}" th:method="DELETE">
-                            <input type="hidden" name="_method" value="DELETE"/>
-                            <button name="id" th:value="${task.id}" type="Submit" th:text="Delete"></button>
-                        </form>
+                    <td style="margin: 5px; padding-left: 5px; padding-right: 5px">
+                        <div th:if="${task.topicStarterId} == ${userId}">
+                            <form th:action="@{/secure/task}" th:method="DELETE">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button name="id" th:value="${task.id}" type="Submit" th:text="Delete"></button>
+                            </form>
+                        </div>
                     </td>
+
+                    <!--<td th:unless="${task.topicStarterId} == ${userId}"-->
+                        <!--style="margin: 5px; padding-left: 5px; padding-right: 5px">-->
+
+                    <!--</td>-->
+
+                    <!--<td th:unless="${task.topicStarterId} == ${userId}"-->
+                        <!--style="margin: 5px; padding-left: 5px; padding-right: 5px">-->
+                    <!--</td>-->
+
+                    <!--<td>-->
+                        <!--<form th:action="@{/secure/task/form}" method="GET">-->
+                            <!--<button name="id" th:value="${task.id}" type="Submit" th:text="Update"></button>-->
+                        <!--</form>-->
+                    <!--</td>-->
+
+                    <!--<td>-->
+                        <!--<form th:action="@{/secure/task}" th:method="DELETE">-->
+                            <!--<input type="hidden" name="_method" value="DELETE"/>-->
+                            <!--<button name="id" th:value="${task.id}" type="Submit" th:text="Delete"></button>-->
+                        <!--</form>-->
+                    <!--</td>-->
                 </tr>
             </tbody>
         </table>

@@ -34,6 +34,7 @@ public class FeedWebController {
     private final SubscriptionService subscriptionService;
 
     private final String TASKS_OBJ = "tasks";
+    private final String USER_ID_OBJ = "userId";
     private final String MSG = "msg";
 
     private final String ATTR_SEARCH = "search";
@@ -56,10 +57,11 @@ public class FeedWebController {
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
         if(!user.isPresent())
-            modelAndView.addObject(MSG, "ReLogin First!");
+            modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
         else if(!(tasks = feedService.getRecent(user.get().getId())).isPresent())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
 
+        modelAndView.addObject(USER_ID_OBJ, (user.isPresent()) ? user.get().getId() : 0);
         modelAndView.addObject(TASKS_OBJ, (tasks.isPresent()) ? tasks.get() : Collections.emptyList());
 
         return modelAndView;
@@ -82,6 +84,7 @@ public class FeedWebController {
         if(!tasks.isPresent() || tasks.get().isEmpty())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
 
+        modelAndView.addObject(USER_ID_OBJ, (user.isPresent()) ? user.get().getId() : 0);
         modelAndView.addObject(TASKS_OBJ, (tasks.isPresent()) ? tasks.get() : Collections.emptyList());
 
         return modelAndView;
@@ -94,18 +97,18 @@ public class FeedWebController {
     public ModelAndView feedFilter(@RequestParam(value = ATTR_FILTER) Integer type, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
-        Optional<User> userId = userService.getAuthorized();
+        Optional<User> user = userService.getAuthorized();
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
-        if(userId.isPresent()) {
+        if(user.isPresent()) {
                 switch (type) {
-                    case 10: tasks = feedService.getOwned(userId.get().getId()); break;
-                    case 20: tasks = feedService.getRecent(userId.get().getId()); break;
-                    case 30: tasks = feedService.getLocal(userId.get().getId()); break;
-                    case 40: tasks = feedService.getHot(userId.get().getId()); break;
+                    case 10: tasks = feedService.getOwned(user.get().getId()); break;
+                    case 20: tasks = feedService.getRecent(user.get().getId()); break;
+                    case 30: tasks = feedService.getLocal(user.get().getId()); break;
+                    case 40: tasks = feedService.getHot(user.get().getId()); break;
                     case 0:
                     default:
-                        tasks = feedService.getAll(userId.get().getId());
+                        tasks = feedService.getAll(user.get().getId());
                         break;
                 }
         }
@@ -114,6 +117,7 @@ public class FeedWebController {
         if(!tasks.isPresent() || tasks.get().isEmpty())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
 
+        modelAndView.addObject(USER_ID_OBJ, (user.isPresent()) ? user.get().getId() : 0);
         modelAndView.addObject(TASKS_OBJ, (tasks.isPresent()) ? tasks.get() : Collections.emptyList());
 
         return modelAndView;

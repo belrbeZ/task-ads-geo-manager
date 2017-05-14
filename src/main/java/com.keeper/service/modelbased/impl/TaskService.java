@@ -12,13 +12,13 @@ import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.TaskRepository;
 import com.keeper.service.core.IFeedSubmit;
+import com.keeper.service.core.ISubscription;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.ITaskService;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,14 +40,16 @@ public class TaskService extends PrimeModelService<Task, Long>
     private final UserService userService;
     private final TaskRepository repository;
     private final IFeedSubmit feedSubmitService;
-    private final SubscriptionService subscriptionService;
+    private final ISubscription subscriptionService;
 
     @Autowired
     public TaskService(TaskRepository repository,
                        FeedService feedSubmitService,
-                       SubscriptionService subscriptionService, UserService userService) {
+                       SubscriptionService subscriptionService,
+                       UserService userService) {
 
         this.repository = repository;
+        this.primeRepository = repository;
         this.feedSubmitService = feedSubmitService;
         this.subscriptionService = subscriptionService;
         this.userService = userService;
@@ -145,7 +147,7 @@ public class TaskService extends PrimeModelService<Task, Long>
                 ? Timestamp.valueOf(LocalDateTime.now())
                 : model.getLastModifyDate());
 
-        Optional<Task> task = save(model);
+        Optional<Task> task = super.save(model);
 
         task.ifPresent(t -> {
             feedSubmitService.submit(t);
@@ -183,7 +185,8 @@ public class TaskService extends PrimeModelService<Task, Long>
     @Transactional
     @Override
     public void removeByCheckUserId(Long id, Long userId) {
-        repository.removeByIdAndTopicStarterIdIs(id, userId);
+        repository.removeByIdAndTopicStarterId(id, userId);
+        feedSubmitService.removeTask(id);
     }
 
     @Transactional
@@ -192,7 +195,7 @@ public class TaskService extends PrimeModelService<Task, Long>
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent())
-            repository.removeByIdAndTopicStarterIdIs(id, user.get().getId());
+            repository.removeByIdAndTopicStarterId(id, user.get().getId());
         else
             throw new NullPointerException("USER ID NOT MATCH TOPIC STARTER ID");
     }

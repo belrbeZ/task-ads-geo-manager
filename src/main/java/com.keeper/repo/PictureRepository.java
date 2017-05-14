@@ -6,7 +6,6 @@ package com.keeper.repo;
 
 import com.keeper.model.dao.Picture;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 

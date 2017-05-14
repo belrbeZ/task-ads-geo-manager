@@ -367,7 +367,7 @@ public class ModelTranslator {
 
         dao.setGeo((dto.getGeo() != null) ? dto.getGeo() : dao.getGeo());
         dao.setDescr((!isStrEmpty(dto.getDescr())) ? dto.getDescr() : dao.getDescr());
-        dao.setTheme((isStrEmpty(dto.getTheme())) ? dto.getTheme() : dao.getDescr());
+        dao.setTheme((!isStrEmpty(dto.getTheme())) ? dto.getTheme() : dao.getDescr());
         dao.setType((dto.getType() != null) ? dto.getType() : dao.getType());
 
         return dao;

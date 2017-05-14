@@ -6,8 +6,6 @@ package com.keeper.service.modelbased.impl;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
-import com.keeper.repo.GeoPointRepository;
-import com.keeper.repo.RouteRepository;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.core.ISubscriptionSubmit;
 import com.keeper.service.core.impl.SubscriptionService;

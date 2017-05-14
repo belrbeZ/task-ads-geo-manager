@@ -1,7 +1,5 @@
 package com.keeper.service.modelbased;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
