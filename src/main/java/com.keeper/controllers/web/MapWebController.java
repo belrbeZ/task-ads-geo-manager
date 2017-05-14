@@ -42,13 +42,13 @@ public class MapWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
 
 
-		if(modelAndView.getModel().get("geoPoint") == null) {
+		/*if(modelAndView.getModel().get("geoPoint") == null) {
 
 			GeoPointDTO geoPointDTO = GeoPointDTO.EMPTY;
 
 			modelAndView.addObject("geoPoint", geoPointDTO);
 
-        }
+        }*/
 
         /*if(modelAndView.getModel().get("geoPoints") == null) {
 

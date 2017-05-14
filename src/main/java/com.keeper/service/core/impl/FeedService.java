@@ -155,16 +155,10 @@ public class FeedService implements IFeedService, IFeedSubmitService {
     public void removeGeo(Long id) {
         GeoPointDTO modelToDelete = points.get(id);
 
-        System.out.println("feed remove geo");
-
-
         if(modelToDelete != null) {
             points.remove(id);
 
-            System.out.println("points.remove");
             removedPoints.put(id, modelToDelete.getUserId());
-
-            System.out.println("removedPoints.put");
         }
     }
 

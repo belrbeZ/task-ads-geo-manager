@@ -956,20 +956,6 @@
     }
 
     function refreshGeoPointsList() {
-        //Simple .load() of fragment
-        /*
-        var url = '/secure/geopoint/getlist';
-//        returns fragment
-        $("#geoPointListBlock").load(url, function( response, status, xhr ) {
-            if ( status == "error" ) {
-                var msg = "Sorry but there was an error: ";
-                $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
-            } else if( status == "success" ) {
-                updateGeoPointsOnMap(responseAsObject);
-            }
-        });
-        */
-
 //returns json
         var url = /*[[@{/secure/api/geo/geoPointList}]]*/'/secure/api/geo/geoPointList';
         var responseAsObject;
@@ -999,18 +985,6 @@
                 return htmlResponse;
 
             }
-            /*,
-            type: "GET",
-            dataType: "json",
-            // Disable caching of AJAX responses for example only
-            cache: false,
-
-             beforeSend: function(){},
-
-             complete: function() {
-             this.success.call(this, json);
-             }
-            */
         });
 
         $("#geoPointListBlock").load(url, function (response, status, xhr) {
@@ -1020,37 +994,12 @@
                 alert(msg + xhr.status + " " + xhr.statusText);
 //                $("#error").html(msg + xhr.status + " " + xhr.statusText);
             } else if (status == "success") {
-//                alert("success");
-//                updateGeoPointsOnMap(responseAsObject);
                 console.log("refreshGeoPointsList");
-
                 updateGeoPointsOnMap(responseAsObject);
-
             }
         });
 
-        /*$.ajaxSetup({
-            dataFilter: function (response) {
-                return response;
-            }
-        });*/
-
-        /*$("#ajax").click(function (evt) {
-            evt.preventDefault();
-
-            $.ajax({
-                url: "html.htm",
-                success: function (res) {
-                    $("#content").html("#lightBoxForm" ?
-                        $("<div>").append(
-                            res.replace(rscript, ""))
-                            .find("#lightBoxForm") : res);
-                }
-            });
-
-        });*/
-
-        /*jQuery.support.cors = true;
+        /*
         $.ajax(
             {
                 type: "GET",
@@ -1254,25 +1203,18 @@
 //            refreshGeoPointsList();
         });
     }
-    /*function getData() {
+    function getData() {
         var data = {}
-        data["id"] = $("#id").val();
-        data["domain"] = $("#domain").val();
-        data["name"] = $("#name").val();
-        data["desc"] = $("#desc").val();
-        data["tags"] = $("#tags").val();
-        data["afflink"] = $("#afflink").val();
-        data["cdn"] = $("#cdn").prop("checked") ? true : false;
-        data["hosting"] = $("#hosting").prop("checked") ? true : false;
-        data["paas"] = $("#paas").prop("checked") ? true : false;
-        data["display"] = $("#display").prop("checked") ? true : false;
-        data["imageUrl"] = $("#imageUrl").val();
-        data["favUrl"] = $("#favUrl").val();
-        data["whoisPattern"] = $("#whoisPattern").val();
-    }*/
+        data["id"] = $("#input-geo_point-id").val();
+        data["descr"] = $("#input-geo_point-descr").val();
+        data["latitude"] = $("#input-geo_point-latitude").val();
+        data["longitude"] = $("#input-geo_point-longitude").val();
+        data["radius"] = $("#input-geo_point-radius").val();
+        return data;
+    }
 
     function submitCreateGeoPoint() {
-        var action =/*[[@{/secure/geopoint/create}]]*/'/secure/geopoint/create';
+        var action =/*[[@{/secure/api/geo}]]*/'/secure/api/geo';
 
         var form = $('#geo_point-form');
 //        $(form).attr("action", action);
@@ -1281,13 +1223,18 @@
         console.log('ajax submitGeoPointForm()');
 
         var frmjs = form.serialize();
-//var data = getData();
+        var data = getData();
+try{
+    frmjs = JSON.stringify(data);
+    frmjs = data.serialize();
+}catch(e){console.log(e)}
+
         $.ajax({
             url: action,
             type: 'POST',
-            contentType: "application/json",
-            data: form.serialize(),
-            dataType: 'json',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             timeout: 600000,
             async: true,
             beforeSend: function(request) {
@@ -1299,7 +1246,9 @@
                     $("#responseMessage").replaceWith(response);
                 } else {
                     $("#responseMessage").replaceWith(response);
+                    refreshGeoPointsList();
                 }
+
             },
             error :function(response) {
                 var msg = "Sorry but there was an error: ";
@@ -1311,7 +1260,7 @@
     }
 
     function submitUpdateGeoPoint() {
-        var url = /*[[@{/secure/geopoint/update}]]*/'/secure/geopoint/update';
+        var url = /*[[@{/secure/api/geo}]]*/'/secure/api/geo';
 
         var form = $('#geo_point-form');
 //        $(form).attr("action", url);
@@ -1321,12 +1270,19 @@
 
         var frmjs = form.serialize();
 
+        var data = getData();
+        try{
+            frmjs = JSON.stringify(data);
+            frmjs = data.serialize();
+        }catch(e){console.log(e)}
+
+        /*data: {status: JSON.stringify(data), _method: "PATCH"},*/
         $.ajax({
             url: url,
             type: 'PATCH',
-            contentType: "application/json",
-            data: {status: form.serialize(), _method: "PATCH"},
-            dataType: 'json',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             timeout: 600000,
             async: true,
             beforeSend: function(request) {
@@ -1338,6 +1294,7 @@
                     $("#responseMessage").replaceWith(response);
                 } else {
                     $("#responseMessage").replaceWith(response);
+                    refreshGeoPointsList();
                 }
             },
             error :function(response) {
@@ -1349,7 +1306,7 @@
 
     }
     function submitDeleteGeoPoint() {
-        var url = /*[[@{/secure/geopoint/remove?id=}]]*/'/secure/geopoint/remove?id=';
+        var url = /*[[@{/secure/api/geo?id=}]]*/'/secure/api/geo?id=';
             url += $('#input-geo_point-id').val();
 
         var form = $('#geo_point-form');
@@ -1357,11 +1314,21 @@
         $.ajax({
             type : "DELETE",
             url : url,
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            timeout: 600000,
+            async: true,
             beforeSend: function(request) {
                 request.setRequestHeader([[${_csrf.headerName}]], [[${_csrf.token}]]);
             },
-            success : function(data) {
-                $("#responseMessage").replaceWith(response);
+            success : function(response) {
+                if ($(response).find('.has-error').length) {
+                    $("#responseMessage").replaceWith(response);
+                } else {
+                    $("#responseMessage").replaceWith(response);
+                    refreshGeoPointsList();
+                }
             },
             error :function(response) {
                 var msg = "Sorry but there was an error: ";

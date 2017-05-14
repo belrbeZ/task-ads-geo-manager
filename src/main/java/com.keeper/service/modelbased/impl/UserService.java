@@ -5,6 +5,7 @@ package com.keeper.service.modelbased.impl;
  */
 
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.repo.GeoPointRepository;
 import com.keeper.repo.RouteRepository;
@@ -132,4 +133,6 @@ public class UserService extends ModelService<User> implements IUserService {
     public Optional<User> removeByPhone(@NotEmpty String phone) {
         return repository.removeByPhone(phone);
     }
+
+
 }

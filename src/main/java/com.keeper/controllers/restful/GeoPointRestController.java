@@ -8,9 +8,12 @@ import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
+import com.keeper.service.modelbased.impl.ModelService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.resolve.ApiResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +33,7 @@ import java.util.Optional;
  */
 @RestController
 public class GeoPointRestController {
+    protected final Logger LOGGER = LoggerFactory.getLogger(GeoPointRestController.class);
 
     private final String PATH = ApiResolver.GEO;
 
@@ -46,61 +51,97 @@ public class GeoPointRestController {
         return new ResponseEntity<>(Translator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
         Optional<User> user = userService.getAuthorized();
-        if(user.isPresent()) {
-            System.out.print(""+user.get().getEmail()+" Rest getList byE,ail ListGeoPoints size:"+user.get().getGeoPoints().size());
+        if (user.isPresent()) {
+            LOGGER.warn("" + user.get().getEmail() + " REST getList byEmail ListGeoPoints size:" + user.get().getGeoPoints().size());
+
+            List<GeoPoint> geodao = user.get().getGeoPoints();
+            LOGGER.warn(" gettedlist " + geodao.size());
+            return new ResponseEntity<>(Translator.geoPointsToDTO(geodao), HttpStatus.OK);
+        } else {
+            LOGGER.warn("    REST ERROR of getting list!");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        List<GeoPoint> geodao = user.get().getGeoPoints();
-        System.out.println(" gettedlist "+geodao.size());
-        List<GeoPointDTO> geos = Translator.geoPointsToDTO(geodao);
-        System.out.println(" gettedlis to dto "+geos.size());
-        return new ResponseEntity<>(geos, HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
-    public ResponseEntity<String> update(@Valid GeoPointDTO model, BindingResult result) {
-        System.out.println("Updating " + model.toString());
-
-        repoService.updateDTO(model);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH, method = RequestMethod.POST)
-    public ResponseEntity<String> create(@Valid GeoPointDTO model, BindingResult result) {
-        repoService.saveDTO(model);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @RequestMapping(value = PATH+"/byEmail", method = RequestMethod.POST)
-    public ResponseEntity<String> createByEmail(@Valid GeoPointDTO model, BindingResult result) {
+    @RequestMapping(value = PATH, method = RequestMethod.PATCH,
+            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> update(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         Optional<User> user = userService.getAuthorized();
-        if(user.isPresent()) {
-            System.out.println(""+user.get().getEmail()+" create Rest byEmail ListGeoPoints size:"+user.get().getGeoPoints().size());
-            model.setUserId(user.get().getId());
-            System.out.println(user.get().getEmail() + " Creating " + model.toString());
-            repoService.saveDTO(model);
+
+        if(model.getId()<1) {
+            LOGGER.warn("    REST ERROR of updating by id" + model.getId());
+            return new ResponseEntity<>("Неправильный ввод!", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+
+        if(user.isPresent()) {
+            model.setUserId(user.get().getId());
+            LOGGER.warn("    REST Updating " + model.toString());
+            repoService.updateDTO(model);
+        } else {
+            LOGGER.warn("    REST ERROR of updating " + model.getId());
+            return new ResponseEntity<>("Авторизуйтесь!", HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>("Обновлено!", HttpStatus.OK);
     }
+
+    @RequestMapping(value = PATH, method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            model.setUserId(user.get().getId());
+            LOGGER.warn(user.get().getEmail() + " REST Creating Geo " + model.toString());
+
+            repoService.saveDTO(model);
+        } else {
+            LOGGER.warn("    REST ERROR of creating " + model.getId());
+            return new ResponseEntity<>("Авторизуйтесь!", HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>("Добавлено!", HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") Long pointId) {
-        repoService.remove(pointId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        LOGGER.warn("    REST Removing point id:" + pointId);
+
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            LOGGER.warn("        "+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
+
+            GeoPoint geoFroDelete = repoService.get(pointId).get();
+            LOGGER.warn("    getted for delete:"+geoFroDelete);
+            user.get().removeGeoPoint(geoFroDelete);
+            userService.save(user.get());
+
+            repoService.remove(pointId);
+            LOGGER.warn("        "+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
+        }else {
+            LOGGER.warn("    REST ERROR of deleting geo " + pointId);
+            return new ResponseEntity<>("Авторизуйтесь!", HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>("Место удалено!", HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH+"/byObj", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String>  deleteByObj(@Valid GeoPointDTO model) {
-        System.out.println("Rest Deleting " + model.toString());
+        LOGGER.warn("REST Deleting " + model.toString());
 
-        if(model.getId()==0)
-            return  new ResponseEntity<>(HttpStatus.OK);
+        if(model.getId()<1) {
+            LOGGER.warn("REST ERROR deleting by obj");
+            return  new ResponseEntity<>("Неправильный ввод!", HttpStatus.BAD_REQUEST);
+        }
 
         repoService.remove(model.getId());
+
         return new ResponseEntity<>(HttpStatus.OK);
-//        return "deleted";
     }
 }

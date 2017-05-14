@@ -41,7 +41,7 @@
 
 <div class="container-fluid" th:fragment="geopointform">
     <!--STATIC-->
-    <!--<form id="geo_point-form" method="post" class="form-registration" role="form">
+    <form id="geo_point-form" class="form-registration" role="form">
 
         <div style="display: none;">
             <input id="input-geo_point-id" type="text" placeholder="Id" class="form-control id" />
@@ -69,17 +69,17 @@
         </div>
 
         <div style="display: inline-block;width:100%;">
-            &lt;!&ndash;type="submit"&ndash;&gt;
-            &lt;!&ndash;onclick="submitGeoPointForm('/secure/geopoint/create','CREATE')"&ndash;&gt;
-            &lt;!&ndash;onclick="submitGeoPointForm('/secure/geopoint/remove','DELETE')"&ndash;&gt;
-            &lt;!&ndash;disabled&ndash;&gt;
+            <!--type="submit"-->
+            <!--onclick="submitGeoPointForm('/secure/geopoint/create','CREATE')"-->
+            <!--onclick="submitGeoPointForm('/secure/geopoint/remove','DELETE')"-->
+            <!--disabled-->
             <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button" type="button">CreateUpdate</button>
             <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">CancelDelete</button>
         </div>
 
         <span th:utext="${successMessage}"></span>
         <span id="responseMessage"></span>
-    </form>-->
+    </form>
 
 
     <!--//TH-->
@@ -96,14 +96,14 @@
     <!--<th:block th:if="${message != null}">-->
     <!--th:unless="${geoPoints==null}"-->
     <!--th:action="@{/secure/geopoint/create}"-->
-    <form id="geo_point-form" autocomplete="off" th:unless="${geoPoint==null}"
+    <!--<form id="geo_point-form" autocomplete="off" th:unless="${geoPoint==null}"
           th:object="${geoPoint}" method="post" class="form-registration" role="form">
 
-<!--
+&lt;!&ndash;
         <input type="hidden"
                th:name="${_csrf.parameterName}"
                th:value="${_csrf.token}" />
--->
+&ndash;&gt;
 
         <div style="display: none;">
             <input id="input-geo_point-id" type="text" th:field="*{id}" placeholder="Id" class="form-control id" />
@@ -131,17 +131,17 @@
         </div>
 
         <div style="display: inline-block;width:100%;">
-            <!--type="submit"-->
-            <!--onclick="submitGeoPointForm('/secure/geopoint/create','CREATE')"-->
-            <!--onclick="submitGeoPointForm('/secure/geopoint/remove','DELETE')"-->
-            <!--disabled-->
+            &lt;!&ndash;type="submit"&ndash;&gt;
+            &lt;!&ndash;onclick="submitGeoPointForm('/secure/geopoint/create','CREATE')"&ndash;&gt;
+            &lt;!&ndash;onclick="submitGeoPointForm('/secure/geopoint/remove','DELETE')"&ndash;&gt;
+            &lt;!&ndash;disabled&ndash;&gt;
             <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button" type="button">CreateUpdate</button>
             <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">CancelDelete</button>
         </div>
 
         <span th:utext="${successMessage}"></span>
         <span id="responseMessage"></span>
-    </form>
+    </form>-->
     <!--</th:block>-->
 
 

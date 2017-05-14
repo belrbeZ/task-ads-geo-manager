@@ -107,9 +107,13 @@ public class GeoPointService extends ModelService<GeoPoint> implements IGeoPoint
         if(invalidId(id, REMOVE_NULLABLE_ID))
             return;
 
-        super.remove(id);
-        System.out.println("feedSubmitService remove");
         feedSubmitService.removeGeo(id);
-        System.out.println("end feedSubmitService remove");
+
+        /*try {
+            super.remove(id);
+        } catch (Exception e) {
+            LOGGER.warn(e.toString());
+        }*/
+
     }
 }

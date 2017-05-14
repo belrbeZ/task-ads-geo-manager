@@ -95,8 +95,6 @@ public class ModelService<T> implements IModelService<T> {
         if(invalidId(id, ErrorMessageResolver.REMOVE_NULLABLE_ID))
             throw new NullPointerException("NULLABLE id request DELETE");
 
-        System.out.println("Removing "+id.toString());
-
         primeRepository.delete(id);
 
         System.out.println("Removed? "+id.toString());
