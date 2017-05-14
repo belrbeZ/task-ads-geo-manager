@@ -25,7 +25,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeoPointService {
+public class GeoPointService extends PrimeModelService<GeoPoint, Long> implements IGeoPointService {
 
     private final GeoPointRepository repository;
     private final IFeedSubmit feedSubmitService;
@@ -34,7 +34,7 @@ public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeo
     public GeoPointService(GeoPointRepository repository,
                            FeedService feedSubmitService) {
         this.repository = repository;
-        this.primeRepository = repository;
+        setup(repository);
         this.feedSubmitService = feedSubmitService;
     }
 
@@ -43,7 +43,7 @@ public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeo
         try {
             getAll().ifPresent(feedSubmitService::loadPoints);
         } catch (Exception e) {
-            LOGGER.error("NO POINTS LOADED! [FEED SERVICE]", e);
+            logger.error("NO POINTS LOADED! [FEED SERVICE]", e);
         }
     }
 
@@ -59,7 +59,7 @@ public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeo
     @Override
     public Optional<GeoPoint> saveDTO(GeoPointDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -70,14 +70,14 @@ public class GeoPointService extends PrimeModelService<GeoPoint> implements IGeo
     @Override
     public Optional<GeoPoint> updateDTO(GeoPointDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<GeoPoint> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

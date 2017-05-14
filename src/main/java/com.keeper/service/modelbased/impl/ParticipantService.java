@@ -19,14 +19,14 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * @since 09.05.2017
  */
 @Service
-public class ParticipantService extends PrimeModelService<Participant> implements IParticipantService {
+public class ParticipantService extends PrimeModelService<Participant, Long> implements IParticipantService {
 
     private final ParticipantRepository repository;
 
     @Autowired
     public ParticipantService(ParticipantRepository repository) {
-        this.primeRepository = repository;
         this.repository = repository;
+        setup(repository);
     }
 
     @Override

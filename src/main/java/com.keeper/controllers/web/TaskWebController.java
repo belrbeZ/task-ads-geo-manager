@@ -112,6 +112,7 @@ public class TaskWebController {
 
         if(user.isPresent()) {
             TaskDTO dto = new TaskDTO();
+            dto.setTopicStarterId(user.get().getId());
             if(Validator.isIdValid(id)) {
                 Optional<Task> updateTask = taskService.get(id);
 

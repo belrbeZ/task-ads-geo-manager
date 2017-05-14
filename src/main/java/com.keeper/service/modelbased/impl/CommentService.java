@@ -22,21 +22,21 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class CommentService extends PrimeModelService<Comment> implements ICommentService {
+public class CommentService extends PrimeModelService<Comment, Long> implements ICommentService {
 
     public final CommentRepository repository;
 
     @Autowired
     public CommentService(CommentRepository repository) {
         this.repository = repository;
-        this.primeRepository = repository;
+        setup(repository);
     }
 
     @Transactional
     @Override
     public Optional<Comment> saveDTO(CommentDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -47,14 +47,14 @@ public class CommentService extends PrimeModelService<Comment> implements IComme
     @Override
     public Optional<Comment> updateDTO(CommentDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<Comment> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

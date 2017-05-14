@@ -1,34 +1,35 @@
 package com.keeper.service.modelbased;
 
-/*
- * Created by @GoodforGod on 6.04.2017.
- */
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Default Comment
+ *
+ * @author @GoodforGod
+ * @since 14.05.2017
  */
-public interface IPrimeModelService<DAO> {
+public interface IPrimeModelService<T, ID extends Serializable> {
+    boolean exists(ID id);
 
-    boolean exists(Long id);
+    Optional<T> get(ID id);
 
-    Optional<DAO> get(Long id);
+    Optional<List<T>> getAll();
 
-    Optional<List<DAO>> getAll();
-
-    Optional<List<DAO>> getAllByIds(List<Long> ids);
-
-    /** TRANSACTIONAL */
-    Optional<DAO> save(DAO model);
+    Optional<List<T>> getAllByIds(List<ID> ids);
 
     /** TRANSACTIONAL */
-    Optional<List<DAO>> save(List<DAO> model);
+    Optional<T> save(T model);
 
     /** TRANSACTIONAL */
-    Optional<DAO> update(DAO model);
+    Optional<List<T>> save(List<T> model);
 
     /** TRANSACTIONAL */
-    void remove(Long id);
+    Optional<T> update(T model);
+
+    /** TRANSACTIONAL */
+    void remove(ID id);
 }

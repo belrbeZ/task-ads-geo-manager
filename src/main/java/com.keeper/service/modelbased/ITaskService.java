@@ -17,4 +17,6 @@ public interface ITaskService extends IModelDTOService<Task, TaskDTO> {
     Optional<List<Task>> getByTheme(String theme);
     Optional<List<Task>> getByTags(List<String> tags);
     Optional<List<Task>> getByUserId(Long userId);
+
+    void removeByCheckUserId(Long id, Long userId);
 }

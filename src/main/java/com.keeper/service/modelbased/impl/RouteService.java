@@ -25,7 +25,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class RouteService extends PrimeModelService<Route> implements IRouteService {
+public class RouteService extends PrimeModelService<Route, Long> implements IRouteService {
 
     private final RouteRepository repository;
     private final IFeedSubmit feedSubmitService;
@@ -34,7 +34,7 @@ public class RouteService extends PrimeModelService<Route> implements IRouteServ
     public RouteService(RouteRepository repository,
                         FeedService feedSubmitService) {
         this.repository = repository;
-        this.primeRepository = repository;
+        setup(repository);
         this.feedSubmitService = feedSubmitService;
     }
 
@@ -43,7 +43,7 @@ public class RouteService extends PrimeModelService<Route> implements IRouteServ
         try {
             getAll().ifPresent(feedSubmitService::loadRoutes);
         } catch (Exception e) {
-            LOGGER.error("NO ROUTES LOADED! [FEED SERVICE]", e);
+            logger.error("NO ROUTES LOADED! [FEED SERVICE]", e);
         }
     }
 
@@ -59,7 +59,7 @@ public class RouteService extends PrimeModelService<Route> implements IRouteServ
     @Override
     public Optional<Route> saveDTO(RouteDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -70,14 +70,14 @@ public class RouteService extends PrimeModelService<Route> implements IRouteServ
     @Override
     public Optional<Route> updateDTO(RouteDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<Route> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

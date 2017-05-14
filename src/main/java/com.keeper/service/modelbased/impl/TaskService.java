@@ -8,6 +8,7 @@ package com.keeper.service.modelbased.impl;
  */
 
 import com.keeper.model.dao.Task;
+import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.repo.TaskRepository;
 import com.keeper.service.core.IFeedSubmit;
@@ -17,6 +18,7 @@ import com.keeper.service.modelbased.ITaskService;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +34,10 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Repository Service to work with Tasks
  */
 @Service
-public class TaskService extends PrimeModelService<Task> implements ITaskService {
+public class TaskService extends PrimeModelService<Task, Long>
+        implements ITaskService {
 
+    private final UserService userService;
     private final TaskRepository repository;
     private final IFeedSubmit feedSubmitService;
     private final SubscriptionService subscriptionService;
@@ -41,32 +45,28 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     @Autowired
     public TaskService(TaskRepository repository,
                        FeedService feedSubmitService,
-                       SubscriptionService subscriptionService) {
+                       SubscriptionService subscriptionService, UserService userService) {
+
         this.repository = repository;
-        this.primeRepository = repository;
         this.feedSubmitService = feedSubmitService;
         this.subscriptionService = subscriptionService;
+        this.userService = userService;
     }
 
     @PostConstruct
-    public void setup() {
+    public void load() {
         try {
             getAll().ifPresent(feedSubmitService::loadTasks);
         }
         catch (Exception e) {
-            LOGGER.error("NO TASKS LOADED! [FEED SERVICE]", e);
+            logger.error("NO TASKS LOADED! [FEED SERVICE]", e);
         }
-    }
-
-    @Override
-    public Task getEmpty() {
-        return Task.EMPTY;
     }
 
     @Override
     public Optional<List<Task>> getByTheme(String theme) {
         if(Validator.isStrEmpty(theme)) {
-            LOGGER.warn("Theme to Search is NULL or EMPTY");
+            logger.warn("Theme to Search is NULL or EMPTY");
             return Optional.empty();
         }
 
@@ -76,7 +76,7 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     @Override
     public Optional<List<Task>> getByTags(List<String> tags) {
         if(tags == null || tags.isEmpty()) {
-            LOGGER.warn("Tags to Search is NULL or EMPTY");
+            logger.warn("Tags to Search is NULL or EMPTY");
             return Optional.empty();
         }
 
@@ -95,7 +95,7 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     @Override
     public Optional<Task> saveDTO(TaskDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -106,15 +106,19 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     @Override
     public Optional<Task> updateDTO(TaskDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
+
+        Optional<User> user = userService.getAuthorized();
+        if(!user.isPresent() || !user.get().getId().equals(model.getTopicStarterId()))
+            throw new NullPointerException("USER ID NOT MATCH TOPIC STARTER");
 
         Optional<Task> toSave = get(model.getId());
 
         // OR SAVE AS A NEW ONE, THAT IS A QUESTION
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -125,9 +129,13 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     @Override
     public Optional<Task> save(Task model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
+
+        Optional<User> user = userService.getAuthorized();
+        if(!user.isPresent() || !user.get().getId().equals(model.getTopicStarterId()))
+            throw new NullPointerException("USER ID NOT MATCH TOPIC STARTER");
 
         model.setCreateDate((model.getCreateDate() == null)
                 ? Timestamp.valueOf(LocalDateTime.now())
@@ -137,7 +145,7 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
                 ? Timestamp.valueOf(LocalDateTime.now())
                 : model.getLastModifyDate());
 
-        Optional<Task> task = super.save(model);
+        Optional<Task> task = save(model);
 
         task.ifPresent(t -> {
             feedSubmitService.submit(t);
@@ -151,15 +159,19 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
     @Override
     public Optional<Task> update(Task model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
+
+        Optional<User> user = userService.getAuthorized();
+        if(!user.isPresent() || !user.get().getId().equals(model.getTopicStarterId()))
+            throw new NullPointerException("USER ID NOT MATCH TOPIC STARTER");
 
         Optional<Task> toSave = get(model.getId());
 
         // OR SAVE AS A NEW ONE, THAT IS A QUESTION
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 
@@ -170,9 +182,18 @@ public class TaskService extends PrimeModelService<Task> implements ITaskService
 
     @Transactional
     @Override
+    public void removeByCheckUserId(Long id, Long userId) {
+        repository.removeByIdAndTopicStarterIdIs(id, userId);
+    }
+
+    @Transactional
+    @Override
     public void remove(Long id) {
-        super.remove(id);
-        feedSubmitService.removeTask(id);
-        subscriptionService.removeTaskSubscribers(id);
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent())
+            repository.removeByIdAndTopicStarterIdIs(id, user.get().getId());
+        else
+            throw new NullPointerException("USER ID NOT MATCH TOPIC STARTER ID");
     }
 }

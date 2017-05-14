@@ -30,22 +30,16 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class UserService extends PrimeModelService<User> implements IUserService {
+public class UserService extends PrimeModelService<User, Long> implements IUserService {
 
     private final UserRepository repository;
-    private final GeoPointRepository geoPointRepository;
-    private final RouteRepository routeRepository;
     private final ISubscriptionSubmit subscriptionService;
 
     @Autowired
     public UserService(UserRepository repository,
-                       GeoPointRepository geoPointRepository,
-                       RouteRepository routeRepository,
                        SubscriptionService subscriptionService) {
         this.repository = repository;
         this.primeRepository = repository;
-        this.geoPointRepository = geoPointRepository;
-        this.routeRepository = routeRepository;
         this.subscriptionService = subscriptionService;
     }
 
@@ -57,7 +51,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public boolean existsByEmail(String email) {
         if(Validator.isStrEmpty(email)) {
-            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
+            logger.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return false;
         }
 
@@ -67,7 +61,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public boolean existsByPhone(String phone) {
         if(Validator.isStrEmpty(phone)) {
-            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
+            logger.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return false;
         }
 
@@ -82,7 +76,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public Optional<User> getByEmail(String email) {
         if(Validator.isStrEmpty(email)) {
-            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
+            logger.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return Optional.empty();
         }
 
@@ -92,7 +86,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public Optional<User> getByPhone(String phone) {
         if(Validator.isStrEmpty(phone)) {
-            LOGGER.warn(ErrorMessageResolver.GET_NULLABLE_ID);
+            logger.warn(ErrorMessageResolver.GET_NULLABLE_ID);
             return Optional.empty();
         }
 
@@ -103,7 +97,7 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public Optional<User> saveDTO(UserDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -114,13 +108,13 @@ public class UserService extends PrimeModelService<User> implements IUserService
     @Override
     public Optional<User> updateDTO(UserDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             throw new NullPointerException("");
         }
         Optional<User> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

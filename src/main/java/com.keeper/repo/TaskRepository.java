@@ -24,5 +24,5 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     Optional<List<Task>> findAllByTheme(String theme);
 
-    Optional<Task> removeByTopicStarterId(Long topicStarterId);
+    void removeByIdAndTopicStarterIdIs(Long id, Long topicStarterId);
 }

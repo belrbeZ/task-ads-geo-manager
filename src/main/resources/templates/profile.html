@@ -23,7 +23,7 @@
             <form th:action="@{/secure/profile}" method="POST"
                   th:object="${user}" class="form-registration" role="form">
 
-                <input type="hidden" th:field="*{id}" />
+                <input type="hidden" th:field="${user.id}" />
 
                 <div>
                     <input type="text" th:field="*{name}" placeholder="Name" class="form-control" />
@@ -47,7 +47,7 @@
 
                 <br/>
                 <div>
-                    <button type="submit" >Update</button>
+                    <button type="submit">Save</button>
                 </div>
                 <br/>
 

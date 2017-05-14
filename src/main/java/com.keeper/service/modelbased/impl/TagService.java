@@ -33,7 +33,7 @@ public class TagService implements ITagService {
 
     private boolean invalidId(Long id, String msg) {
         if(id == null) {
-            taskService.LOGGER.warn(msg);
+            taskService.logger.warn(msg);
             return true;
         }
         return false;
@@ -41,7 +41,7 @@ public class TagService implements ITagService {
 
     private boolean invalidModel(Tag tag) {
         if(tag == null) {
-            taskService.LOGGER.warn(NULLABLE_MODEL + "TAG");
+            taskService.logger.warn(NULLABLE_MODEL + "TAG");
             return true;
         }
         return false;
@@ -83,7 +83,7 @@ public class TagService implements ITagService {
             return Optional.empty();
 
         if(tag == null) {
-            taskService.LOGGER.warn(CREATE_MODEL_NULLABLE);
+            taskService.logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -151,7 +151,7 @@ public class TagService implements ITagService {
             return Optional.empty();
 
         if(tag == null) {
-            taskService.LOGGER.warn(CREATE_MODEL_NULLABLE);
+            taskService.logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 

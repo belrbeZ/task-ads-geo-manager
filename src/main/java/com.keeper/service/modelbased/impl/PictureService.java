@@ -21,13 +21,14 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class PictureService extends PrimeModelService<Picture> implements IPictureService {
+public class PictureService extends PrimeModelService<Picture, Long> implements IPictureService {
 
     private final PictureRepository repository;
 
     @Autowired
     public PictureService(PictureRepository repository) {
         this.repository = repository;
+        setup(repository);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class PictureService extends PrimeModelService<Picture> implements IPictu
     @Override
     public Optional<Picture> saveDTO(PictureDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -61,14 +62,14 @@ public class PictureService extends PrimeModelService<Picture> implements IPictu
     @Override
     public Optional<Picture> updateDTO(PictureDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
         Optional<Picture> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

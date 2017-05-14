@@ -22,7 +22,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class ZoneService extends PrimeModelService<Zone> implements IZoneService {
+public class ZoneService extends PrimeModelService<Zone, Long> implements IZoneService {
 
     private final ZoneRepository repository;
 
@@ -43,7 +43,7 @@ public class ZoneService extends PrimeModelService<Zone> implements IZoneService
     @Override
     public Optional<List<Zone>> getByCountry(String country) {
         if (country == null || country.isEmpty()) {
-            LOGGER.warn("Get by NULLABLE country");
+            logger.warn("Get by NULLABLE country");
             return Optional.empty();
         }
 
@@ -53,7 +53,7 @@ public class ZoneService extends PrimeModelService<Zone> implements IZoneService
     @Override
     public Optional<List<Zone>> getByCity(String city) {
         if (city == null || city.isEmpty()) {
-            LOGGER.warn("Get by NULLABLE city");
+            logger.warn("Get by NULLABLE city");
             return Optional.empty();
         }
 
@@ -64,7 +64,7 @@ public class ZoneService extends PrimeModelService<Zone> implements IZoneService
     @Override
     public Optional<Zone> saveDTO(ZoneDTO model) {
         if(model == null) {
-            LOGGER.warn(CREATE_MODEL_NULLABLE);
+            logger.warn(CREATE_MODEL_NULLABLE);
             return Optional.empty();
         }
 
@@ -75,13 +75,13 @@ public class ZoneService extends PrimeModelService<Zone> implements IZoneService
     @Override
     public Optional<Zone> updateDTO(ZoneDTO model) {
         if(model == null) {
-            LOGGER.warn(UPDATE_MODEL_NULLABLE);
+            logger.warn(UPDATE_MODEL_NULLABLE);
             return Optional.empty();
         }
         Optional<Zone> toSave = get(model.getProfileId());
 
         if(!toSave.isPresent()) {
-            LOGGER.warn(UPDATE_NOT_FOUND);
+            logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
 

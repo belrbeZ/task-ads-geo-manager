@@ -39,14 +39,14 @@ public class ProfileWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
         Optional<User> user = userService.getAuthorized();
-        UserDTO userDTO = null;
 
         if(user.isPresent()) {
-            userDTO = ModelTranslator.toDTO(user.get());
+            UserDTO userDTO = ModelTranslator.toDTO(user.get());
             userDTO.setEmail(user.get().getEmail());
+            modelAndView.addObject("user", userDTO);
         }
-
-        modelAndView.addObject("user", userDTO);
+        else
+            modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.HOME));
 
         return modelAndView;
     }
@@ -56,14 +56,14 @@ public class ProfileWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
 
         Optional<User> user = userService.updateDTO(model);
-        UserDTO userDTO = null;
 
         if(user.isPresent()) {
-            userDTO = ModelTranslator.toDTO(user.get());
+            UserDTO userDTO = ModelTranslator.toDTO(user.get());
             userDTO.setEmail(user.get().getEmail());
+            modelAndView.addObject("user", userDTO);
         }
-
-        modelAndView.addObject("user", userDTO);
+        else
+            modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.HOME));
 
         return modelAndView;
     }

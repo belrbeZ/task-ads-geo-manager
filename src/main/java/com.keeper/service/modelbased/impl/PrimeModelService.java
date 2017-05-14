@@ -4,16 +4,13 @@ package com.keeper.service.modelbased.impl;
  * Created by @GoodforGod on 7.04.2017.
  */
 
-import com.keeper.service.modelbased.IPrimeModelService;
-import com.keeper.util.Validator;
+import com.keeper.service.modelbased.*;
 import com.keeper.util.resolvers.ErrorMessageResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,51 +18,23 @@ import java.util.Optional;
  * Basic model with ID as a LONG type PARAMETER!
  */
 @Service
-public class PrimeModelService<T> implements IPrimeModelService<T> {
+public class PrimeModelService<T, ID extends Serializable>
+                                extends PrimeModelUtilService<T, ID>
+                                implements IPrimeModelService<T, ID> {
 
-    protected final Logger LOGGER = LoggerFactory.getLogger(PrimeModelService.class);
+    protected JpaRepository<T, ID> primeRepository;
 
-    protected JpaRepository<T, Long> primeRepository;
-
-    protected T getEmpty() {
-        return null;
-    }
-
-    protected List<T> getEmptyList() {
-        return Collections.emptyList();
-    }
-
-    protected boolean invalidId(Long id, String msg) {
-        if(!Validator.isIdValid(id)) {
-            LOGGER.warn(msg);
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean invalidModel(T model, String msg) {
-        if(model == null) {
-            LOGGER.warn(msg);
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean invalidListModel(List<T> model, String msg) {
-        if(model == null || model.isEmpty()) {
-            LOGGER.warn(msg);
-            return true;
-        }
-        return false;
+    protected void setup(JpaRepository<T, ID> repo) {
+        this.primeRepository = repo;
     }
 
     @Override
-    public boolean exists(Long id) {
-        return (Validator.isIdValid(id)) && primeRepository.exists(id);
+    public boolean exists(ID id) {
+        return (id != null && primeRepository.exists(id));
     }
 
     @Override
-    public Optional<T> get(Long id) {
+    public Optional<T> get(ID id) {
         if(invalidId(id, ErrorMessageResolver.GET_NULLABLE_ID))
             return Optional.empty();
 
@@ -78,7 +47,7 @@ public class PrimeModelService<T> implements IPrimeModelService<T> {
     }
 
     @Override
-    public Optional<List<T>> getAllByIds(List<Long> ids) {
+    public Optional<List<T>> getAllByIds(List<ID> ids) {
         return Optional.of(primeRepository.findAll(ids));
     }
 
@@ -113,7 +82,7 @@ public class PrimeModelService<T> implements IPrimeModelService<T> {
 
     @Transactional
     @Override
-    public void remove(Long id) {
+    public void remove(ID id) {
         if(invalidId(id, ErrorMessageResolver.REMOVE_NULLABLE_ID))
             throw new NullPointerException(ErrorMessageResolver.NULLABLE_MODEL + "DELETE");
         primeRepository.delete(id);
