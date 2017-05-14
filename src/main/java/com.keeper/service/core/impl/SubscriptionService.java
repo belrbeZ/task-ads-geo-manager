@@ -5,10 +5,8 @@ package com.keeper.service.core.impl;
  */
 
 import com.keeper.model.dao.Participant;
-import com.keeper.model.dao.Task;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.ISubscription;
-import com.keeper.service.core.ISubscriptionModify;
 import com.keeper.service.core.ISubscriptionSubmit;
 import com.keeper.service.modelbased.impl.ParticipantService;
 import org.slf4j.Logger;
@@ -26,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Primary
-public class SubscriptionService implements ISubscription, ISubscriptionSubmit, ISubscriptionModify {
+public class SubscriptionService implements ISubscription, ISubscriptionSubmit {
 
     private final Logger logger = LoggerFactory.getLogger(SubscriptionService.class);
     private final ParticipantService partService;
@@ -114,7 +112,6 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit, 
     @Override
     public TaskDTO modifyTasksCounter(Long userId, TaskDTO task) {
         try {
-            Optional<Participant> participant = partService.getSpecificParticipant(userId, task.getId());
             partService.getSpecificParticipant(userId, task.getId())
                     .ifPresent(p -> task.setModifyCount(p.getModifyCounter()));
         } catch (Exception e) {
@@ -127,17 +124,31 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit, 
     @Transactional
     @Override
     public Optional<Long> subscribe(Long userId, Long taskId) {
-        return (partService.saveParticipant(userId, taskId).isPresent())
-                ? Optional.of(taskId)
-                : Optional.empty();
+        try {
+            return (partService.saveParticipant(userId, taskId).isPresent())
+                    ? Optional.of(taskId)
+                    : Optional.empty();
+        }
+        catch (Exception e) {
+            logger.warn("CAN'T SUBSCRIPTION [ERROR] : " + e.getMessage());
+        }
+
+        return Optional.empty();
     }
 
     @Transactional
     @Override
     public Optional<Long> unSubscribe(Long userId, Long taskId) {
-        return (partService.removeSpecificParticipant(userId, taskId).isPresent())
-                ? Optional.of(taskId)
-                : Optional.empty();
+        try {
+            return (partService.removeSpecificParticipant(userId, taskId).isPresent())
+                    ? Optional.of(taskId)
+                    : Optional.empty();
+        }
+        catch (Exception e) {
+            logger.warn("CAN'T UNSUBSCRIPTION [ERROR] : " + e.getMessage());
+        }
+
+        return Optional.empty();
     }
 
     @Transactional

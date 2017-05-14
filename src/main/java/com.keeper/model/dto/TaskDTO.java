@@ -90,10 +90,12 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     }
 
     public void setModifyCount(Long modifyCount) {
-        if(modifyCount != null && modifyCount > 0)
+        if(modifyCount != null) {
             subscribed = true;
 
-        this.modifyCount = modifyCount;
+            if(modifyCount > 0)
+                this.modifyCount = modifyCount;
+        }
     }
 
     public SimpleGeoPoint getGeo() {

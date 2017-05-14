@@ -16,10 +16,9 @@ import java.util.Optional;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Optional<List<Comment>> findAllByTaskId(@Param("taskdId") Long taskId);
+    Optional<List<Comment>> findAllByTaskId(Long taskId);
 
-    Optional<List<Comment>> findAllByTaskIdAndUserId(@Param("taskdId") Long taskId,
-                                                     @Param("userId") Long userId);
+    Optional<List<Comment>> findAllByTaskIdAndUserId(Long taskId, Long userId);
 
-    void removeAllByTaskId(@Param("taskId") Long taskId);
+    void removeAllByTaskId(Long taskId);
 }

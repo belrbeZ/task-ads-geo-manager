@@ -14,7 +14,7 @@ import java.util.Optional;
  * Default Comment
  */
 public interface PictureRepository extends JpaRepository<Picture, Long> {
-    Optional<Picture> findByUserId(@Param("userId") Long userId);
+    Optional<Picture> findByUserId(Long userId);
 
-    Optional<Picture> findByTaskId(@Param("taskId") Long taskId);
+    Optional<Picture> findByTaskId(Long taskId);
 }

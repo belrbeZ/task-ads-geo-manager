@@ -17,5 +17,5 @@ import java.util.Optional;
  */
 @Repository
 public interface GeoPointRepository extends JpaRepository<GeoPoint, Long> {
-    Optional<List<GeoPoint>> findAllByUserId(@Param("userId") Long userId);
+    Optional<List<GeoPoint>> findAllByUserId(Long userId);
 }

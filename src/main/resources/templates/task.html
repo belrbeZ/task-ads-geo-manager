@@ -32,7 +32,7 @@
 
         <div class="row-fluid" th:if="${task?.subscribed}"> <!-- if customer is not anonymous(logged in)-->
             <!--<span>Unsubscribe</span>-->
-            <form th:action="@{/secure/task/subscribe}" method="delete">
+            <form th:action="@{/secure/task/subscribe}" th:method="DELETE">
                 <input type="hidden" name="_method" value="DELETE"/>
                 <button name="id" th:value="${task.id}" type="Submit" th:text="Unsubscribe"></button>
             </form>
@@ -40,7 +40,7 @@
 
         <div class="row-fluid"  th:unless="${task?.subscribed}" class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
             <!--<span>Subscribe</span>-->
-            <form th:action="@{/secure/task/subscribe}" method="post">
+            <form th:action="@{/secure/task/subscribe}" method="POST">
                 <input type="hidden" name="_method" value="POST"/>
                 <button name="id" th:value="${task.id}" type="Submit" th:text="Subscribe"></button>
             </form>

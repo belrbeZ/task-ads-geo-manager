@@ -73,8 +73,10 @@
     <br/>
 
     <div>
-        <span th:utext="#{msg}"></span>
+        <span th:utext="${msg}"></span>
     </div>
+
+    <br/>
 
     <div th:unless="${#lists.isEmpty(tasks)}">
         <table class="table table-bordered table-striped">

@@ -17,5 +17,5 @@ import java.util.Optional;
  */
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long> {
-    Optional<List<Route>> findAllByUserId(@Param("userId") Long userId);
+    Optional<List<Route>> findAllByUserId(Long userId);
 }

@@ -17,11 +17,11 @@ import java.util.Optional;
  */
 @Repository
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
-    Optional<Zone> findByUserId(@Param("userId") Long userId);
+    Optional<Zone> findByUserId(Long userId);
 
-    Optional<List<Zone>> findByCity(@Param("city") String city);
+    Optional<List<Zone>> findByCity(String city);
 
-    Optional<List<Zone>> findByCountry(@Param("country") String country);
+    Optional<List<Zone>> findByCountry(String country);
 
-    void removeByUserId(@Param("userId") Long userId);
+    void removeByUserId(Long userId);
 }

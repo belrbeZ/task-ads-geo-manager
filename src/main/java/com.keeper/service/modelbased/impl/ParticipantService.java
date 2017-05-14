@@ -50,7 +50,7 @@ public class ParticipantService extends PrimeModelService<Participant> implement
         if(invalidId(taskId, GET_NULLABLE_ID + "TASK") || invalidId(userId, GET_NULLABLE_ID + "USER"))
             return Optional.empty();
 
-        return repository.findOneByTaskIdAndUserId(userId, taskId);
+        return repository.findByUserIdAndTaskId(userId, taskId);
     }
 
     @Transactional
@@ -58,8 +58,8 @@ public class ParticipantService extends PrimeModelService<Participant> implement
     public Optional<Participant> saveParticipant(Long userId, Long taskId) {
         if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK") || invalidId(userId, CREATE_NULLABLE_ID + "USER"))
             return Optional.empty();
-
-        return Optional.of(repository.save(new Participant(userId, taskId)));
+        Participant participant = new Participant(userId, taskId);
+        return Optional.of(repository.save(participant));
     }
 
     @Transactional
@@ -97,7 +97,7 @@ public class ParticipantService extends PrimeModelService<Participant> implement
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK") || invalidId(userId, REMOVE_NULLABLE_ID + "USER"))
             return Optional.empty();
 
-        repository.removeByTaskIdAndUserId(userId, taskId);
+        repository.removeByUserIdAndTaskId(userId, taskId);
         return Optional.of(taskId);
     }
 }

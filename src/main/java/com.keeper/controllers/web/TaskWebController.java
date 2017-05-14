@@ -8,6 +8,7 @@ import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.util.SimpleGeoPoint;
+import com.keeper.service.core.ISubscription;
 import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
@@ -38,15 +39,15 @@ public class TaskWebController {
 
     private final TaskService taskService;
     private final UserService userService;
-    private final SubscriptionService subscriptionService;
+    private final ISubscription subsService;
 
     private final String MSG = "msg";
 
     @Autowired
-    public TaskWebController(TaskService taskService, UserService userService, SubscriptionService subscriptionService) {
+    public TaskWebController(TaskService taskService, UserService userService, SubscriptionService subsService) {
         this.taskService = taskService;
         this.userService = userService;
-        this.subscriptionService = subscriptionService;
+        this.subsService = subsService;
     }
 
     /**
@@ -62,10 +63,10 @@ public class TaskWebController {
                 Optional<Task> daoTask = taskService.get(taskId);
                 if(daoTask.isPresent()) {
                     modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
-                    TaskDTO taskDTO = subscriptionService.modifyTasksCounter(user.get().getId(),
+                    TaskDTO taskDTO = subsService.modifyTasksCounter(user.get().getId(),
                                                         ModelTranslator.toDTO(daoTask.get()));
                     modelAndView.addObject("task", taskDTO);
-                    subscriptionService.viewTask(user.get().getId(), daoTask.get().getId());
+                    subsService.viewTask(user.get().getId(), daoTask.get().getId());
                     return modelAndView;
                 }
                 else modelAndView.addObject(MSG, "No Such Task!");
@@ -171,7 +172,7 @@ public class TaskWebController {
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent() && Validator.isIdValid(taskId)) {
             try {
-                subscriptionService.subscribe(user.get().getId(), taskId);
+                subsService.subscribe(user.get().getId(), taskId);
             } catch (Exception e) {
                 logger.warn(e.getMessage() + " | " + "You can't Subscribe to " + taskId);
                 modelAndView.addObject(MSG, "You can't Subscribe");
@@ -183,12 +184,12 @@ public class TaskWebController {
 
     @RequestMapping(value = WebResolver.TASK_SUBS, method = RequestMethod.DELETE)
     public ModelAndView taskUnSubscribe(@RequestParam(value = "id") Long taskId, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.FEED));
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.FEED));
 
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent() && Validator.isIdValid(taskId)) {
             try {
-                subscriptionService.unSubscribe(user.get().getId(), taskId);
+                subsService.unSubscribe(user.get().getId(), taskId);
             } catch (Exception e) {
                 logger.warn(e.getMessage() + " | " + "You are not Subscribed to " + taskId);
                 modelAndView.addObject(MSG, "You are not Subscribed to " + taskId);

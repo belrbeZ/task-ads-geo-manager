@@ -16,12 +16,12 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findOneByEmail(@Param("email") String email);
-    Optional<User> findOneByPhone(@Param("phone") String phone);
+    Optional<User> findOneByEmail(String email);
+    Optional<User> findOneByPhone(String phone);
 
-    boolean existsByEmail(@Param("email") String email);
-    boolean existsByPhone(@Param("phone") String phone);
+    boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
 
-    Optional<User> removeByEmail(@Param("email") String email);
-    Optional<User> removeByPhone(@Param("phone") String phone);
+    Optional<User> removeByEmail(String email);
+    Optional<User> removeByPhone(String phone);
 }

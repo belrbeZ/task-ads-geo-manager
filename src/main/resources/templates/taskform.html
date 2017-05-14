@@ -31,6 +31,7 @@
         <div>
             <form autocomplete="off" th:action="@{/secure/task/form}"
                   th:object="${task}" method="post" class="form-registration" role="form">
+                    <input type="hidden" th:field="${task.id}" />
 
                 <div>
                     <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
