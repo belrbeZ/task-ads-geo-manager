@@ -93,7 +93,7 @@ public class ModelService<T> implements IModelService<T> {
     @Override
     public void remove(Long id) {
         if(invalidId(id, ErrorMessageResolver.REMOVE_NULLABLE_ID))
-            throw new NullPointerException("NULLABLE id request DELETE");
+            throw new NullPointerException(ErrorMessageResolver.NULLABLE_MODEL + "DELETE");
 
         primeRepository.delete(id);
 

@@ -5,6 +5,7 @@ package com.keeper.service.core.impl;
  */
 
 import com.keeper.model.dao.Participant;
+import com.keeper.model.dao.Task;
 import com.keeper.service.core.ISubscriptionService;
 import com.keeper.service.modelbased.impl.ParticipantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,12 @@ public class SubscriptionService implements ISubscriptionService {
     @Autowired
     public SubscriptionService(ParticipantService participantService) {
         this.participantService = participantService;
+    }
+
+    public void setup(List<Task> tasks) {
+        for(Task task : tasks) {
+//            Map.Entry<Long, Set<Long>> userSubs = userSubscriptions.get(task.getTopicStarterId());
+        }
     }
 
     @Override
