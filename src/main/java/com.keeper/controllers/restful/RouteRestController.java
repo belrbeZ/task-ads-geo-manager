@@ -28,9 +28,7 @@ import java.util.List;
 @RestController
 public class RouteRestController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorController.class);
-
-    private final String PATH = ApiResolver.ROUTE;
+    private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
     private final RouteService repoService;
 
@@ -39,30 +37,30 @@ public class RouteRestController {
         this.repoService = repoService;
     }
 
-    @RequestMapping(value = PATH + "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.ROUTE + "/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<RouteDTO>> getByUserId(@RequestParam("id") Long userId) {
         return new ResponseEntity<>(ModelTranslator.routesToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.ROUTE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RouteDTO> get(@RequestParam(value = "id", required = false) Long id,
                                         @RequestParam(value = "userId", required = false) Long userId) {
         return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(id).orElse(Route.EMPTY)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
+    @RequestMapping(value = ApiResolver.ROUTE, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody RouteDTO model, BindingResult result) {
         repoService.updateDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.POST)
+    @RequestMapping(value = ApiResolver.ROUTE, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody RouteDTO model, BindingResult result) {
         repoService.saveDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ApiResolver.ROUTE, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") Long routeId) {
         repoService.remove(routeId);
         return new ResponseEntity<>(HttpStatus.OK);

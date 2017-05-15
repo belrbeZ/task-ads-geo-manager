@@ -31,10 +31,6 @@ import java.util.Optional;
 @RestController
 public class TaskRestController {
 
-    private final String PATH = ApiResolver.TASK;
-
-    private final String PATH_COMMENT = ApiResolver.COMMENTS;
-
     private final TaskService repoService;
     private final CommentService commentService;
 
@@ -44,7 +40,7 @@ public class TaskRestController {
         this.commentService = commentService;
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> get(@RequestParam(value = "id", required = false) Long id,
                                              @RequestParam(value = "userId", required = false) Long userId,
                                              @RequestParam(value = "search", required = false) String search,
@@ -61,7 +57,7 @@ public class TaskRestController {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
+    @RequestMapping(value = ApiResolver.TASK, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody TaskDTO model, BindingResult result) {
         repoService.update(ModelTranslator.toDAO(model));
 
@@ -80,96 +76,33 @@ public class TaskRestController {
         return new ResponseEntity<>(info, code);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.POST)
+    @RequestMapping(value = ApiResolver.TASK, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody TaskDTO modelTask, BindingResult result) {
         repoService.saveDTO(modelTask);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ApiResolver.TASK, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") Long id) {
         repoService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     /*---COMMENTS---*/
-    @RequestMapping(value = PATH_COMMENT + "/{taskId}}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.COMMENTS + "/{taskId}}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("taskId") Long taskId) {
         return new ResponseEntity<>(ModelTranslator.commentsToDTO(commentService.getByTaskId(taskId).get()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH_COMMENT, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.COMMENTS, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> addComment(@Valid @RequestBody  CommentDTO comment, BindingResult result) {
         commentService.saveDTO(comment);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH_COMMENT, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.COMMENTS, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDTO> removeComment(@RequestParam("commentId") Long commentId) {
         commentService.remove(commentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    /*---END COMMENTS---*/
-
-
-//    /*---TAGS---*/
-//    @RequestMapping(value = PATH + "/tags/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<TagDTO>> getTags(@PathVariable("taskId") Long taskId) {
-////        if (user == null) {
-////            System.out.println("User with id " + id + " not found");
-////            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-////        }
-//        return new ResponseEntity<>(repoService.getTags(taskId), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping(value = PATH + "/tags", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<TaskDTO> addTag(@RequestParam("taskId") Long taskId, @Valid @RequestBody  TagDTO tag, BindingResult result) {
-//        return new ResponseEntity<>(repoService.addTag(taskId, tag), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping(value = PATH + "/tags/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<TaskDTO> removeTag(@RequestParam("taskId") Long taskId, @Valid @RequestBody TagDTO tag) {
-//        return new ResponseEntity<>(repoService.removeTag(taskId, tag), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping(value = PATH + "/tags", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<TaskDTO> removeTag(@RequestParam("taskId") Long taskId, @RequestParam("tagId") Long tagId) {
-//        return new ResponseEntity<>(repoService.removeTagById(taskId, tagId), HttpStatus.OK);
-//    }
-//
-//    /*---END TAGS---*/
-
-//    /*@RequestMapping(value = PATH + "/participants", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<UserDTO>> getParticipants(@RequestParam("id") Long id) {
-//        return new ResponseEntity<>(ModelTranslator.commentsToDTO(repoService.get(id).orElse(Task.EMPTY).getParticipants(), HttpStatus.OK);
-//    }*/
-//
-//    /*---PARTICIPANTS---*/
-//    @RequestMapping(value = PATH + "/participants/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<UserDTO>> getParticipants(@PathVariable("taskId") Long taskId) {
-////        if (user == null) {
-////            System.out.println("User with id " + id + " not found");
-////            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-////        }
-//        return new ResponseEntity<>(repoService.getParticipants(taskId), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping(value = PATH + "/participants", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<TaskDTO> addParticipant(@RequestParam("taskId") Long taskId,@RequestParam("userId") Long userId/*, @Valid @RequestBody  UserDTO participant, BindingResult result*/) {
-//        return new ResponseEntity<>(repoService.addParticipant(taskId, userId), HttpStatus.OK);
-//    }
-//
-////    @RequestMapping(value = PATH + "/participants/byObj", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-////    public ResponseEntity<TaskDTO> removeParticipant(@RequestParam("taskId") Long taskId, @Valid @RequestBody UserDTO participant) {
-////        return new ResponseEntity<>(repoService.removeParticipant(taskId, participant), HttpStatus.OK);
-////    }
-//
-//    @RequestMapping(value = PATH + "/participants", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<TaskDTO> removeParticipant(@RequestParam("taskId") Long taskId, @RequestParam("participantId") Long participantId) {
-//        return new ResponseEntity<>(repoService.removeParticipantById(taskId, participantId), HttpStatus.OK);
-//    }
-//
-//    /*---END PARTICIPANTS---*/
-
 }

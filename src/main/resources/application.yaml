@@ -7,6 +7,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
+
   datasource:
     url: jdbc:postgresql://137.74.114.219:19009/keeperdb?sslmode=disable
     username: postgres
@@ -15,6 +16,7 @@ spring:
     continue-on-error: true
     dbcp2:
       driver-class-name: org.postgresql.Driver
+
   resources:
     static-locations: classpath:/resources/static/, classpath:/META-INF/resources/, classpath:/META-INF/resources/webjars/
 
@@ -34,4 +36,4 @@ spring:
     profiles: dev
 
 logging:
-  level: warn
+  level: debug

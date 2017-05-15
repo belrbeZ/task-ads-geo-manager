@@ -9,7 +9,6 @@ package com.keeper.util.resolvers;
  */
 public class DatabaseResolver {
 
-    private static final String DATABASE         = "keeperdb";
     public static final String SCHEMA           = "production";
 
     public static final String TABLE_USERS          = "users";

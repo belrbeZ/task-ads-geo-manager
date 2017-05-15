@@ -7,7 +7,6 @@ package com.keeper.controllers.web;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.impl.FeedService;
-import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.resolvers.TemplateResolver;
 import com.keeper.util.resolvers.WebResolver;
@@ -31,7 +30,6 @@ public class FeedWebController {
 
     private final FeedService feedService;
     private final UserService userService;
-    private final SubscriptionService subscriptionService;
 
     private final String TASKS_OBJ = "tasks";
     private final String USER_ID_OBJ = "userId";
@@ -42,11 +40,9 @@ public class FeedWebController {
 
     @Autowired
     public FeedWebController(UserService userService,
-                             FeedService feedService,
-                             SubscriptionService subscriptionService) {
+                             FeedService feedService) {
         this.userService = userService;
         this.feedService = feedService;
-        this.subscriptionService = subscriptionService;
     }
 
     @RequestMapping(value = WebResolver.FEED, method = RequestMethod.GET)

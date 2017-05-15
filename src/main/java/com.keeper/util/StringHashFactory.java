@@ -31,8 +31,6 @@ public class StringHashFactory {
         }
     }
 
-    //<editor-fold desc="Hashes">
-
     private static final String EMPTY_HASH = "";
 
     private static final XXHashFactory hashFactory = XXHashFactory.fastestInstance();
@@ -63,5 +61,4 @@ public class StringHashFactory {
 
         return BCrypt.checkpw(candidate, hash);
     }
-    //</editor-fold>
 }

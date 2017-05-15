@@ -11,13 +11,11 @@ import java.util.Arrays;
 /**
  * Used to convert entities to JSON and other format representation
  */
-public class StringMaskFactory
-{
+public class StringMaskFactory {
+
     private static final String     EMPTY_EMAIL     = "";
     private static final Character  MASK_SYMBOL     = '*';
     private static final int        MASK_POWER_INC  = 0;
-
-    //<editor-fold desc="Masker">
 
     /**
      * Mask email from like 'bob@mail.ru' to 'b**@***l.ru'
@@ -110,6 +108,4 @@ public class StringMaskFactory
 
         return maskedString.toString();
     }
-
-    //</editor-fold>
 }

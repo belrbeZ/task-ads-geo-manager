@@ -37,11 +37,8 @@ public class MapWebController {
 
 
 		if(modelAndView.getModel().get("geoPoint") == null) {
-
 			GeoPointDTO geoPointDTO = GeoPointDTO.EMPTY;
-
 			modelAndView.addObject("geoPoint", geoPointDTO);
-
         }
 
         /*if(modelAndView.getModel().get("geoPoints") == null) {
@@ -49,7 +46,6 @@ public class MapWebController {
             Optional<User> user = userService.getAuthorized();
 
             if(user.isPresent()) {
-
                 System.out.println(""+user.get().getEmail()+"map WebControl getMAP ListGeoPoints size:"+user.get().getGeoPoints().size());
 
                 List<GeoPoint> geodao = user.get().getGeoPoints();
@@ -59,7 +55,6 @@ public class MapWebController {
                 System.out.println(" gettedlis to dto "+geos.size());
 
                 modelAndView.addObject("geoPoints", geos);
-
             }
         }*/
         return modelAndView;
@@ -68,10 +63,7 @@ public class MapWebController {
     @RequestMapping(value = WebResolver.MAP, method = RequestMethod.POST)
     public ModelAndView mapUpdate(Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
-
 //        modelAndView.addObject("user", userDTO);
-
         return modelAndView;
     }
-
 }

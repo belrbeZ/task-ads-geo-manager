@@ -36,19 +36,14 @@ public class GeoPointWebController {
         this.userService = userService;
     }
 
-
-
     @RequestMapping(value = WebResolver.GEOPOINT_GETLIST, method = RequestMethod.GET)
     public String geoPointGetList(Model model) {
 
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
-
             System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
-
             model.addAttribute("geoPoints", ModelTranslator.geoPointsToDTO(user.get().getGeoPoints()));
-
         }
 
         return "fragments/geopointlist :: geopointlist";
@@ -65,14 +60,9 @@ public class GeoPointWebController {
 
             geoPointDTO.setUserId(user.get().getId());
             geoPointService.saveDTO(geoPointDTO);
-
-//            userService.addGeoPoint(user.getId(), geoPointDTO);
-            // БЫЛО, то что не закомменчено стало т.к. теперь GeoPointService & and should save geoPoints via GeoPointService, not UserService
-
             modelAndView.addObject("geoPoint", geoPointDTO);
-        } else {
+        } else
             modelAndView.addObject("errorMessage", "Session is expired!");
-        }
 
         return modelAndView;
     }
@@ -97,35 +87,31 @@ public class GeoPointWebController {
         return "fragments/ajaxrequest :: info-success";
     }
 
-//    ,
-//    produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE
-//@RequestBody
-//@ResponseBody
-@RequestMapping(value = WebResolver.GEOPOINT_REMOVE+"/byObj", method = RequestMethod.DELETE)
+    @RequestMapping(value = WebResolver.GEOPOINT_REMOVE+"/byObj", method = RequestMethod.DELETE)
     public String deleteByObj(@Valid GeoPointDTO geo, BindingResult result, Model model) {
         System.out.println("Web Deleting " + geo.toString());
 
-    // if any errors, re-render the user info edit form
-    if (result.hasErrors()) {
-        System.out.println("ERROR in deleting geo by id" + geo.getId());
-        return "fragments/user :: info-error";
-    }
+        // if any errors, re-render the user info edit form
+        if (result.hasErrors()) {
+            System.out.println("ERROR in deleting geo by id" + geo.getId());
+            return "fragments/user :: info-error";
+        }
 
-    if(geo.getId()<1) {
-        System.out.println("ERROR in deleting geo by id" + geo.getId());
-        return "fragments/ajaxrequest :: info-error";
-    }
+        if (geo.getId() < 1) {
+            System.out.println("ERROR in deleting geo by id" + geo.getId());
+            return "fragments/ajaxrequest :: info-error";
+        }
 
-    Optional<User> user = userService.getAuthorized();
+        Optional<User> user = userService.getAuthorized();
 
-    if(user.isPresent()) {
-        System.out.println(""+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
+        if (user.isPresent()) {
+            System.out.println("" + user.get().getEmail() + " remove from ListGeoPoints size:" + user.get().getGeoPoints().size());
 
 //        user.get().removeGeoPoint(geoPointService.get(geo.getId()).get());
 
-        geoPointService.remove(geo.getId());
-        System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
-    }
+            geoPointService.remove(geo.getId());
+            System.out.println("" + user.get().getEmail() + " after remove ListGeoPoints size:" + user.get().getGeoPoints().size());
+        }
 
         return "fragments/ajaxrequest :: info-success";
     }
@@ -143,14 +129,10 @@ public class GeoPointWebController {
 
         if(user.isPresent()) {
             System.out.println(user.get().getEmail() + " Web Updating " + geo.toString());
-
             geo.setUserId(user.get().getId());
-
             geoPointService.updateDTO(geo);
         }
 
         return "fragments/ajaxrequest :: info-success";
     }
-
-
 }

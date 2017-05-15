@@ -23,14 +23,29 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "taskId", nullable = false)              private Long taskId;
-    @Column(name = "userId", nullable = false)              private Long userId;
-    @Column(name = "createDate")                            private Timestamp createDate;
-    @Column(name = "lastModifyDate")                        private Timestamp lastModifyDate;
-    @Column(name = "message", nullable = false)             private String message;
-    @Column(name = "longtitude")                            private Double longtitude;
-    @Column(name = "latitude")                              private Double latitude;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
+
+    @Column(name = "taskId", nullable = false)
+    private Long taskId;
+
+    @Column(name = "userId", nullable = false)
+    private Long userId;
+
+    @Column(name = "createDate", nullable = false)
+    private Timestamp createDate;
+
+    @Column(name = "lastModifyDate", nullable = false)
+    private Timestamp lastModifyDate;
+
+    @Column(name = "message", nullable = false)
+    private String message;
+
+    @Column(name = "longtitude")
+    private Double longtitude;
+
+    @Column(name = "latitude")
+    private Double latitude;
 
     private Comment() {
         this.id = 0L;
@@ -44,13 +59,13 @@ public class Comment {
     }
 
     public Comment(Long taskId, Long userId, String message, Double latitude, Double longtitude) {
-        this.taskId     = taskId;
-        this.userId     = userId;
+        this.taskId = taskId;
+        this.userId = userId;
         this.createDate = Timestamp.valueOf(LocalDateTime.now());
         this.lastModifyDate = createDate;
-        this.message    = message;
+        this.message = message;
         this.longtitude = longtitude;
-        this.latitude   = latitude;
+        this.latitude = latitude;
     }
 
     public Comment(Long taskId, Long userId, String message, SimpleGeoPoint geoPoint) {

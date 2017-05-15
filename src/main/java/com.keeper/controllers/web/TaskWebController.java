@@ -35,7 +35,7 @@ import java.util.Optional;
 @Controller
 public class TaskWebController {
 
-    private final Logger logger = LoggerFactory.getLogger(TaskWebController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TaskWebController.class);
 
     private final TaskService taskService;
     private final UserService userService;

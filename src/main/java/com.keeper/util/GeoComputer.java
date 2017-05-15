@@ -4,8 +4,8 @@ package com.keeper.util;
  * Created by GoodforGod on 20.03.2017.
  */
 
-import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.dao.GeoPoint;
+import com.keeper.model.dao.Task;
 
 /**
  * Computes Marks for Hot Coords and Routes
@@ -29,12 +29,7 @@ public class GeoComputer {
                 && haversine(lat1, lng1, lat2, lng2) <= radius;
     }
 
-//    public static boolean geoInRadius(String lat1, String lng1, SimpleGeoPoint geo, Integer radius) {
-//        return !(geo == null || geo.getLatitude() == null || geo.getLongitude() == null || lat1 == null || lng1 == null)
-//                && geoInRadius(Double.valueOf(lat1), Double.valueOf(lng1), geo.getLatitude(), geo.getLongitude(), radius);
-//    }
-
-    public static boolean geoInRadius(GeoPointDTO geo, TaskDTO task) {
+    public static boolean geoInRadius(GeoPoint geo, Task task) {
         return geoInRadius(geo.getLatitude(), geo.getLongitude(), task.getGeo().getLatitude(), task.getGeo().getLongitude(), geo.getRadius());
     }
 }

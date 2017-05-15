@@ -11,6 +11,7 @@ import com.keeper.service.modelbased.ITagService;
 import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,29 +23,13 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
  * Default Comment
  */
 @Service
-public class TagService implements ITagService {
+public class TagService extends PrimeModelUtilService<Tag, Long> implements ITagService {
 
     private final TaskService taskService;
 
     @Autowired
     public TagService(TaskService taskService) {
         this.taskService = taskService;
-    }
-
-    private boolean invalidId(Long id, String msg) {
-        if(id == null) {
-            taskService.logger.warn(msg);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean invalidModel(Tag tag) {
-        if(tag == null) {
-            taskService.logger.warn(NULLABLE_MODEL + "TAG");
-            return true;
-        }
-        return false;
     }
 
     @Override
@@ -59,12 +44,13 @@ public class TagService implements ITagService {
             return Optional.empty();
     }
 
+    @Transactional
     @Override
     public Optional<Tag> save(Long taskId, Tag tag) {
         if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK"))
             return Optional.empty();
 
-        if(invalidModel(tag))
+        if(invalidModel(tag, CREATE_MODEL_NULLABLE))
             return Optional.empty();
 
         Optional<Task> task = taskService.get(taskId);
@@ -77,6 +63,7 @@ public class TagService implements ITagService {
             return Optional.empty();
     }
 
+    @Transactional
     @Override
     public Optional<Tag> save(Long taskId, TagDTO tag) {
         if(invalidId(taskId, CREATE_NULLABLE_ID + "TASK"))
@@ -98,6 +85,7 @@ public class TagService implements ITagService {
             return Optional.empty();
     }
 
+    @Transactional
     @Override
     public Optional<Tag> incrementTag(Long taskId, Long tagId) {
         if(invalidId(taskId, NULLABLE_ID + "TASK"))
@@ -127,12 +115,13 @@ public class TagService implements ITagService {
             return Optional.empty();
     }
 
+    @Transactional
     @Override
     public Optional<Tag> remove(Long taskId, Tag tag) {
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))
             return Optional.empty();
 
-        if(invalidModel(tag))
+        if(invalidModel(tag, REMOVE_MODEL_NULLABLE))
             return Optional.empty();
 
         Optional<Task> task = taskService.get(taskId);
@@ -145,6 +134,7 @@ public class TagService implements ITagService {
             return Optional.empty();
     }
 
+    @Transactional
     @Override
     public Optional<Tag> remove(Long taskId, TagDTO tag) {
         if(invalidId(taskId, REMOVE_NULLABLE_ID + "TASK"))

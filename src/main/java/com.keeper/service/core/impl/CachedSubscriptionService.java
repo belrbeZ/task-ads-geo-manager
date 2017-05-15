@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 public class CachedSubscriptionService extends SubscriptionService {
 
-    private final Logger logger = LoggerFactory.getLogger(CachedSubscriptionService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CachedSubscriptionService.class);
 
     private final Map<Long, Set<TaskModification>> userSubscriptions = new ConcurrentHashMap<>();
 

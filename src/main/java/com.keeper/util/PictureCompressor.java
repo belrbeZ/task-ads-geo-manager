@@ -13,4 +13,5 @@ public class PictureCompressor {
     public static byte[] compressPic() {
         return null;
     }
+
 }

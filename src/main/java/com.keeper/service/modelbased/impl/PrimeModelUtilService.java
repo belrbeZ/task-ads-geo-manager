@@ -14,7 +14,7 @@ import java.util.List;
  */
 public abstract class PrimeModelUtilService<T, ID> {
 
-    protected Logger logger = LoggerFactory.getLogger(PrimeModelUtilService.class);
+    protected static final Logger logger = LoggerFactory.getLogger(PrimeModelUtilService.class);
 
     protected T getEmpty() {
         return null;

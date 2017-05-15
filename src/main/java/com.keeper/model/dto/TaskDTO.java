@@ -52,6 +52,17 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.geo = SimpleGeoPoint.EMPTY;
     }
 
+    public TaskDTO(TaskDTO taskDTO) {
+        this.id = taskDTO.getId();
+        this.createDate     = taskDTO.getCreateDate();
+        this.lastModifyDate = taskDTO.getLastModifyDate();
+        this.topicStarterId = taskDTO.getTopicStarterId();
+        this.type = taskDTO.getType();
+        this.theme = taskDTO.getTheme();
+        this.descr = taskDTO.getDescr();
+        this.geo = taskDTO.getGeo();
+    }
+
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
                    SimpleGeoPoint geo) {
         this.id     = id;

@@ -27,15 +27,24 @@ public class Picture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "userId")                                private Long userId;
-    @Column(name = "taskId")                                private Long taskId;
-    @Column(name = "pic", nullable = false)                 private String pic;
-    @Column(name = "info")                                  private String info;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
+
+    @Column(name = "userId")
+    private Long userId;
+
+    @Column(name = "taskId")
+    private Long taskId;
+
+    @Column(name = "pic", nullable = false)
+    private String pic;
+
+    @Column(name = "info")
+    private String info;
 
     private Picture() {
-        this.id = (long)PicType.EMPTY.getValue();
-        this.userId = (long)UserType.EMPTY.getValue();
+        this.id = (long) PicType.EMPTY.getValue();
+        this.userId = (long) UserType.EMPTY.getValue();
         this.taskId = (long) TaskType.EMPTY.getValue();
         this.pic = "";
         this.info = "";
@@ -95,11 +104,8 @@ public class Picture {
 
     //</editor-fold>
 
-
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append("Picture id:").append(this.getId()).append(super.toString());
-        return str.toString();
+        return "Picture id:" + this.getId() + super.toString();
     }
 }

@@ -23,12 +23,23 @@ public class Participant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "userId",        nullable = false)       private Long userId;
-    @Column(name = "taskId",        nullable = false)       private Long taskId;
-    @Column(name = "modifyCounter", nullable = false)       private Long modifyCounter;
-    @Column(name = "createDate",    nullable = false)       private Timestamp createDate;
-    @Column(name = "lastModifyDate", nullable = false)      private Timestamp lastModifyDate;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
+
+    @Column(name = "userId", nullable = false)
+    private Long userId;
+
+    @Column(name = "taskId", nullable = false)
+    private Long taskId;
+
+    @Column(name = "modifyCounter", nullable = false)
+    private Long modifyCounter;
+
+    @Column(name = "createDate", nullable = false)
+    private Timestamp createDate;
+
+    @Column(name = "lastModifyDate", nullable = false)
+    private Timestamp lastModifyDate;
 
     private Participant() {
         this.id = 0L;
@@ -114,6 +125,5 @@ public class Participant {
         this.lastModifyDate = lastModifyDate;
     }
     //</editor-fold>
-
 
 }

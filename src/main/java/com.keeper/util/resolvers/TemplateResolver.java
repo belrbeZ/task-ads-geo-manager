@@ -11,10 +11,6 @@ public class TemplateResolver {
 
     public static final String REGISTER = "registration";
     public static final String LOGIN    = "login";
-    public static final String LOGOUT   = "logout";
-
-    public static final String ERROR    = "error";
-    public static final String DENIED   = "denied";
 
     public static final String WELCOME  = "welcome";
     public static final String HOME     = "home";

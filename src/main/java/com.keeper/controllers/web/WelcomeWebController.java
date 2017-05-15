@@ -20,8 +20,6 @@ public class WelcomeWebController {
 
     @RequestMapping(value = { "/", WebResolver.WELCOME}, method = RequestMethod.GET)
     public ModelAndView welcomeGet(Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.WELCOME);
-
-        return modelAndView;
+        return new ModelAndView(TemplateResolver.WELCOME);
     }
 }

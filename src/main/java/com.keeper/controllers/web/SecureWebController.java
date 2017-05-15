@@ -12,6 +12,8 @@ import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.resolvers.TemplateResolver;
 import com.keeper.util.resolvers.WebResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +34,8 @@ import javax.validation.Valid;
 @Controller
 public class SecureWebController {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecureWebController.class);
+
     private final UserService userService;
 
     @Autowired
@@ -41,9 +45,7 @@ public class SecureWebController {
 
     @RequestMapping(value = WebResolver.LOGIN, method = RequestMethod.GET)
     public ModelAndView loginGet(){
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.LOGIN);
-
-        return modelAndView;
+        return new ModelAndView(TemplateResolver.LOGIN);
     }
 
     @RequestMapping(value = WebResolver.LOGOUT, method = RequestMethod.GET)

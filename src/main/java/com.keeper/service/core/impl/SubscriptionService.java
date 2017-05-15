@@ -7,7 +7,7 @@ package com.keeper.service.core.impl;
 import com.keeper.model.dao.Participant;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.core.ISubscription;
-import com.keeper.service.core.ISubscriptionSubmit;
+import com.keeper.service.core.ISubscriptionRemove;
 import com.keeper.service.modelbased.impl.ParticipantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
  */
 @Service
 @Primary
-public class SubscriptionService implements ISubscription, ISubscriptionSubmit {
+public class SubscriptionService implements ISubscription, ISubscriptionRemove {
 
-    private final Logger logger = LoggerFactory.getLogger(SubscriptionService.class);
+    private static final Logger logger = LoggerFactory.getLogger(SubscriptionService.class);
     private final ParticipantService partService;
 
     @Autowired
@@ -81,6 +81,7 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit {
                 : Optional.empty();
     }
 
+    @Transactional
     @Override
     public List<TaskDTO> modifyTasksCounter(Long userId, List<TaskDTO> tasks) {
         final List<TaskDTO> tasksToCounter = new ArrayList<>(tasks);
@@ -94,8 +95,10 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit {
         return tasks;
     }
 
+    @Transactional
     @Override
     public TaskDTO modifyTasksCounter(Long userId, TaskDTO task) {
+        final TaskDTO taskToModify = new TaskDTO(task);
         try {
             partService.getSpecificParticipant(userId, task.getId())
                     .ifPresent(p -> task.setModifyCount(p.getModifyCounter()));
@@ -130,7 +133,7 @@ public class SubscriptionService implements ISubscription, ISubscriptionSubmit {
                     : Optional.empty();
         }
         catch (Exception e) {
-            logger.warn("CAN'T UNSUBSCRIPTION [ERROR] : " + e.getMessage());
+            logger.warn("CAN'T UN SUBSCRIPTION [ERROR] : " + e.getMessage());
         }
 
         return Optional.empty();

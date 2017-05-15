@@ -24,7 +24,6 @@ import javax.validation.Valid;
  */
 @RestController
 public class ProfileRestController {
-    private final String PATH = ApiResolver.PROFILE;
 
     private final UserService repoService;
 
@@ -34,12 +33,12 @@ public class ProfileRestController {
     }
 
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.PROFILE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
         return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
+    @RequestMapping(value = ApiResolver.PROFILE, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@RequestBody UserDTO model, BindingResult result) {
         HttpStatus code = HttpStatus.OK;
         String info = "";
@@ -56,14 +55,13 @@ public class ProfileRestController {
         return new ResponseEntity<>(info, code);
     }
 
-
     @RequestMapping(value = ApiResolver.PUBLIC_PROFILE, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody UserFormDTO model, BindingResult result) {
         repoService.save(ModelTranslator.toDAO(model));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ApiResolver.PROFILE, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") Long userId) {
         repoService.remove(userId);
         return new ResponseEntity<>(HttpStatus.OK);

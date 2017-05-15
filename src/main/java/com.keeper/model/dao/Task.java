@@ -32,27 +32,46 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)           private Long id;
-    @Column(name = "topicStarterId")                                private Long topicStarterId;
-    @Column(name = "type")                                          private TaskType type;
-    @Column(name = "state")                                         private TaskState state = TaskState.OKAY;
-    @Column(name = "theme")                                         private String theme;
-    @Column(name = "descr")                                         private String descr;
-    @Column(name = "latitude")                                      private Double latitude;
-    @Column(name = "longitude")                                     private Double longitude;
-    @Column(name = "radius")                                        private Integer radius;
-    @Column(name = "createDate", nullable = false)                  private Timestamp createDate;
-    @Column(name = "lastModifyDate")                                private Timestamp lastModifyDate;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
 
-    //Not work! Picture Id must be in TASK!
-    //@JoinColumn(name = "taskId") //- then it will work
+    @Column(name = "topicStarterId", nullable = false)
+    private Long topicStarterId;
+
+    @Column(name = "type", nullable = false)
+    private TaskType type;
+
+    @Column(name = "state")
+    private TaskState state = TaskState.OKAY;
+
+    @Column(name = "theme", nullable = false)
+    private String theme;
+
+    @Column(name = "descr")
+    private String descr;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "radius")
+    private Integer radius;
+
+    @Column(name = "createDate", nullable = false)
+    private Timestamp createDate;
+
+    @Column(name = "lastModifyDate", nullable = false)
+    private Timestamp lastModifyDate;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "id", referencedColumnName = "taskId")
     private Picture picture;
 
     @Fetch(FetchMode.SELECT)
     @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "taskId", referencedColumnName = "id")
     private List<Comment> comments;
 
@@ -60,19 +79,19 @@ public class Task {
     @BatchSize(size = 10)
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = DatabaseResolver.TABLE_TAG_MANAGER, schema = DatabaseResolver.SCHEMA,
-            joinColumns = @JoinColumn(name = "taskId", referencedColumnName="id"),
-            inverseJoinColumns= @JoinColumn(name = "tagId", referencedColumnName="id") )
+            joinColumns = @JoinColumn(name = "taskId", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "tagId", referencedColumnName = "id"))
     private List<Tag> tags;
 
     private Task() {
-        this.id     = TaskType.EMPTY.getValue();
+        this.id = TaskType.EMPTY.getValue();
         this.topicStarterId = UserType.EMPTY.getValue();
-        this.createDate     = Timestamp.valueOf(LocalDateTime.MIN);
+        this.createDate = Timestamp.valueOf(LocalDateTime.MIN);
         this.lastModifyDate = Timestamp.valueOf(LocalDateTime.MAX);
-        this.type   = TaskType.EMPTY;
-        this.state  = TaskState.UNKNOWN;
-        this.theme  = "";
-        this.descr  = "";
+        this.type = TaskType.EMPTY;
+        this.state = TaskState.UNKNOWN;
+        this.theme = "";
+        this.descr = "";
     }
 
     public Task(Long topicStarterId, TaskType type, String theme, String descr) {
@@ -88,9 +107,9 @@ public class Task {
 
     public Task(Long topicStarterId, TaskType type, String theme, String descr, SimpleGeoPoint geo) {
         this(topicStarterId, type, theme, descr);
-        this.latitude   = (geo != null) ? geo.getLatitude() : null;
-        this.longitude  = (geo != null) ? geo.getLongitude() : null;
-        this.radius     = (geo != null) ? geo.getRadius() : null;
+        this.latitude = (geo != null) ? geo.getLatitude() : null;
+        this.longitude = (geo != null) ? geo.getLongitude() : null;
+        this.radius = (geo != null) ? geo.getRadius() : null;
     }
 
     public Task(Long topicStarterId, TaskType type, String theme, String descr,
@@ -199,7 +218,7 @@ public class Task {
 
     //</editor-fold>
 
-    public boolean hasTag( Tag tag ) {
+    private boolean hasTag(Tag tag) {
         return tags.contains(tag);
     }
 
@@ -214,8 +233,7 @@ public class Task {
         if (hasTag(tag)) {
             tags.remove(tag);
             tag.decCounter();
-        } else
-            System.err.println("No such tag associated with this Task");
+        }
     }
 
     @Override

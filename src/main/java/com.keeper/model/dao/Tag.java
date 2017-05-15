@@ -19,9 +19,14 @@ public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
-    @Column(name = "tag")                                   private String tag;
-    @Column(name = "counter")                               private Integer counter;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
+
+    @Column(name = "tag")
+    private String tag;
+
+    @Column(name = "counter")
+    private Integer counter;
 
     private Tag() {
         this.id = -1L;

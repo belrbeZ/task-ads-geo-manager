@@ -21,24 +21,32 @@ public class GeoPoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true, nullable = false)   private Long id;
+    @Column(name = "id", unique = true, nullable = false)
+    private Long id;
 
     @NotNull
-    @Column(name = "userId", nullable = false)              private Long userId;
+    @Column(name = "userId", nullable = false)
+    private Long userId;
 
-    @Column(name = "latitude")                              private Double latitude;
-    @Column(name = "longitude")                             private Double longitude;
-    @Column(name = "radius")                                private Integer radius;
+    @Column(name = "latitude")
+    private Double latitude;
 
-    @Column(name = "descr")                                 private String descr;
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "radius")
+    private Integer radius;
+
+    @Column(name = "descr")
+    private String descr;
 
     private GeoPoint() {
-        this.id         = 0L;
+        this.id = 0L;
         this.userId = 0L;
-        this.latitude   = 0.;
-        this.longitude  = 0.;
-        this.radius     = 0;
-        this.descr      = "";
+        this.latitude = 0.;
+        this.longitude = 0.;
+        this.radius = 0;
+        this.descr = "";
     }
 
     public GeoPoint(Long id, Long userId, Double latitude, Double longitude, Integer radius, String descr) {
@@ -121,13 +129,12 @@ public class GeoPoint {
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder().append("GEOPOPINT: ").append(this.getId())
-                .append(" UserID ").append(this.getUserId())
-                .append(" Descr ").append(this.getDescr())
-                .append("Latitude ").append(this.getLatitude())
-                .append("Longitude ").append(this.getLongitude())
-                .append("Radius ").append(this.getRadius())
-                .append(super.toString());
-        return str.toString();
+        return "GEOPOPINT: " + this.getId() +
+                " UserID " + this.getUserId() +
+                " Descr " + this.getDescr() +
+                "Latitude " + this.getLatitude() +
+                "Longitude " + this.getLongitude() +
+                "Radius " + this.getRadius() +
+                super.toString();
     }
 }

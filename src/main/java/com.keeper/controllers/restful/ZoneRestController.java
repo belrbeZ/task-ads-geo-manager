@@ -23,7 +23,6 @@ import javax.validation.Valid;
  */
 @RestController
 public class ZoneRestController {
-    private final String PATH = ApiResolver.ZONE;
 
     private final ZoneService repoService;
 
@@ -32,24 +31,24 @@ public class ZoneRestController {
         this.repoService = repoService;
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.ZONE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ZoneDTO> get(@RequestParam("userId") Long userId) {
         return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(userId).orElse(Zone.EMPTY)), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
+    @RequestMapping(value = ApiResolver.ZONE, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody ZoneDTO model, BindingResult result) {
         repoService.updateDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.POST)
+    @RequestMapping(value = ApiResolver.ZONE, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid @RequestBody ZoneDTO model, BindingResult result) {
         repoService.saveDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ApiResolver.ZONE, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("userId") Long userId) {
         repoService.remove(userId);
         return new ResponseEntity<>(HttpStatus.OK);

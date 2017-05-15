@@ -10,6 +10,8 @@ import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.resolvers.TemplateResolver;
 import com.keeper.util.resolvers.WebResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +30,8 @@ import java.util.Optional;
 public class ProfileWebController {
 
     private final UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(ProfileWebController.class);
 
     @Autowired
     public ProfileWebController(UserService userService) {
@@ -53,18 +57,7 @@ public class ProfileWebController {
 
     @RequestMapping(value = WebResolver.PROFILE, method = RequestMethod.POST)
     public ModelAndView profileUpdate(@Valid UserDTO model, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.PROFILE);
-
-        Optional<User> user = userService.updateDTO(model);
-
-        if(user.isPresent()) {
-            UserDTO userDTO = ModelTranslator.toDTO(user.get());
-            userDTO.setEmail(user.get().getEmail());
-            modelAndView.addObject("user", userDTO);
-        }
-        else
-            modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.HOME));
-
-        return modelAndView;
+        userService.updateDTO(model);
+        return new ModelAndView(TemplateResolver.redirect(TemplateResolver.PROFILE));
     }
 }

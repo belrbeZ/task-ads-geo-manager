@@ -7,7 +7,7 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.repo.UserRepository;
-import com.keeper.service.core.ISubscriptionSubmit;
+import com.keeper.service.core.ISubscriptionRemove;
 import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.IUserService;
 import com.keeper.util.ModelTranslator;
@@ -31,7 +31,7 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 public class UserService extends PrimeModelService<User, Long> implements IUserService {
 
     private final UserRepository repository;
-    private final ISubscriptionSubmit subscriptionService;
+    private final ISubscriptionRemove subscriptionService;
 
     @Autowired
     public UserService(UserRepository repository,

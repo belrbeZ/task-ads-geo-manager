@@ -8,7 +8,7 @@ import java.util.Optional;
  * @author @GoodforGod
  * @since 13.05.2017
  */
-public interface ISubscriptionSubmit {
+public interface ISubscriptionRemove {
 
     /** TRANSACTIONAL */
     Optional<Long> removeUserSubscriptions(Long userId);

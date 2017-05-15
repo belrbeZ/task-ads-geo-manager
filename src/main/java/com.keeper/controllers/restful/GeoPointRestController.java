@@ -31,8 +31,6 @@ import java.util.Optional;
 @RestController
 public class GeoPointRestController {
 
-    private final String PATH = ApiResolver.GEO;
-
     private final UserService userService;
     private final GeoPointService repoService;
 
@@ -42,25 +40,25 @@ public class GeoPointRestController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
         return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.GEO + "/geoPointList", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
         Optional<User> user = userService.getAuthorized();
-        if(user.isPresent()) {
-            System.out.print(""+user.get().getEmail()+" Rest getList byE,ail ListGeoPoints size:"+user.get().getGeoPoints().size());
-        }
+        user.ifPresent(user1 -> System.out.print("" + user1.getEmail() + " Rest getList byE,ail ListGeoPoints size:" + user1.getGeoPoints().size()));
+
         List<GeoPoint> geodao = user.get().getGeoPoints();
         System.out.println(" gettedlist "+geodao.size());
         List<GeoPointDTO> geos = ModelTranslator.geoPointsToDTO(geodao);
         System.out.println(" gettedlis to dto "+geos.size());
+
         return new ResponseEntity<>(geos, HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid GeoPointDTO model, BindingResult result) {
         System.out.println("Updating " + model.toString());
 
@@ -68,13 +66,13 @@ public class GeoPointRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.POST)
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.POST)
     public ResponseEntity<String> create(@Valid GeoPointDTO model, BindingResult result) {
         repoService.saveDTO(model);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"/byEmail", method = RequestMethod.POST)
+    @RequestMapping(value = ApiResolver.GEO + "/byEmail", method = RequestMethod.POST)
     public ResponseEntity<String> createByEmail(@Valid GeoPointDTO model, BindingResult result) {
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent()) {
@@ -86,13 +84,13 @@ public class GeoPointRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.DELETE)
     public ResponseEntity<String> delete(@RequestParam("id") Long pointId) {
         repoService.remove(pointId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"/byObj", method = RequestMethod.DELETE,
+    @RequestMapping(value = ApiResolver.GEO + "/byObj", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String>  deleteByObj(@Valid GeoPointDTO model) {
         System.out.println("Rest Deleting " + model.toString());

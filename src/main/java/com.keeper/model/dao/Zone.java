@@ -24,26 +24,29 @@ public class Zone {
     public static final Zone EMPTY = new Zone();
 
     @Id
-    @Column(name = "userId", unique = true, nullable = false)   private Long userId;
-    @Column(name = "city")                                      private String city;
-    @Column(name = "country",       nullable = false)           private String country;
-    @Column(name = "registerDate",  nullable = false)           private Timestamp registerDate;
+    @Column(name = "userId", unique = true, nullable = false)
+    private Long userId;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "country", nullable = false)
+    private String country;
+
+    @Column(name = "registerDate", nullable = false)
+    private Timestamp registerDate;
 
     private Zone() {
         this.userId = UserType.EMPTY.getValue();
-        this.city           = "";
-        this.country        = "";
-        this.registerDate   = Timestamp.valueOf(LocalDateTime.MIN);
+        this.city = "";
+        this.country = "";
+        this.registerDate = Timestamp.valueOf(LocalDateTime.MIN);
     }
 
-    public Zone(Long userId, String city, String country) throws NullPointerException {
-
-        if(userId == null)
-            throw new NullPointerException("USER_ID");
-
+    public Zone(Long userId, String city, String country) {
         this.userId = userId;
-        this.city       = city;
-        this.country    = country;
+        this.city = city;
+        this.country = country;
         this.registerDate = Timestamp.valueOf(LocalDateTime.now());
     }
 

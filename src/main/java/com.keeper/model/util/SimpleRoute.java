@@ -48,6 +48,8 @@ public class SimpleRoute {
         this.radius = radius;
     }
 
+    //<editor-fold desc="GetterAndSetter">
+
     public List<Double> getLongtitudes() {
         return longtitudes;
     }
@@ -71,4 +73,6 @@ public class SimpleRoute {
     public void setRadius(double radius) {
         this.radius = radius;
     }
+    //</editor-fold>
+
 }
