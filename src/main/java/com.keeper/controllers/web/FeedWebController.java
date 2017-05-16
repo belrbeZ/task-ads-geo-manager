@@ -91,26 +91,21 @@ public class FeedWebController {
     /**
      * Feed Filter
      */
-    @RequestMapping(value = WebResolver.FEED_FILTER, method = RequestMethod.POST)
-    public ModelAndView feedFilter(@RequestParam(value = ATTR_FILTER) Integer type, Model model) {
+    @RequestMapping(value = WebResolver.FEED_FILTER + "/{type}", method = RequestMethod.POST)
+    public ModelAndView feedFilter(@RequestParam(value = ATTR_FILTER, required = false) Integer type,
+                                   @RequestParam(value = ATTR_SEARCH, required = false) String search,
+                                   Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.FEED);
 
         Optional<User> user = userService.getAuthorized();
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
-        if(user.isPresent()) {
-            switch (type) {
-                case 10: tasks = feedService.getOwned(user.get().getId()); break;
-                case 20: tasks = feedService.getRecent(user.get().getId()); break;
-                case 30: tasks = feedService.getLocal(user.get().getId()); break;
-                case 40: tasks = feedService.getChart(user.get().getId()); break;
-                case 0:
-                default:
-                    tasks = feedService.getAll(user.get().getId());
-                    break;
-            }
-        }
-        else modelAndView.addObject(MSG, "ReLogin First!");
+        if(user.isPresent())
+            tasks = (type == null)
+                    ? feedService.getLocal(user.get().getId())
+                    : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
+        else
+            modelAndView.addObject(MSG, "ReLogin First!");
 
         if(!tasks.isPresent() || tasks.get().isEmpty())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");

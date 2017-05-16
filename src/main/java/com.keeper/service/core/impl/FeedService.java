@@ -422,10 +422,10 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
 
         switch (feedType) {
             case SUBSCRIBED: tasksToProceed = getSubscribed(userId); break;
-            case NEW:   tasksToProceed = getRecent(userId); break;
-            case MY:    tasksToProceed = getOwned(userId);  break;
+            case RECENT:   tasksToProceed = getRecent(userId); break;
+            case OWNER:    tasksToProceed = getOwned(userId);  break;
             case LOCAL: tasksToProceed = getLocal(userId);  break;
-            case HOT:   tasksToProceed = getChart(userId);    break;
+            case CHART:   tasksToProceed = getChart(userId);    break;
             case ALL:
             default:    tasksToProceed = getAll(userId);    break;
         }

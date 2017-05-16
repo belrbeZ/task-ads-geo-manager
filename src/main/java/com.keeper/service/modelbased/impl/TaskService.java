@@ -118,7 +118,7 @@ public class TaskService extends PrimeModelService<Task, Long>
 
         Optional<Task> toSave = get(model.getId());
 
-        // OR SAVE AS A NEW ONE, THAT IS A QUESTION
+        // OR SAVE AS A RECENT ONE, THAT IS A QUESTION
         if(!toSave.isPresent()) {
             logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
@@ -171,7 +171,7 @@ public class TaskService extends PrimeModelService<Task, Long>
 
         Optional<Task> toSave = get(model.getId());
 
-        // OR SAVE AS A NEW ONE, THAT IS A QUESTION
+        // OR SAVE AS A RECENT ONE, THAT IS A QUESTION
         if(!toSave.isPresent()) {
             logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();

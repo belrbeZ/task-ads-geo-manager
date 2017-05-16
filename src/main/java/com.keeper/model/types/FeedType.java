@@ -9,10 +9,10 @@ package com.keeper.model.types;
  */
 public enum FeedType {
     ALL(0),
-    MY(10),
-    NEW(20),
+    OWNER(10),
+    RECENT(20),
     LOCAL(30),
-    HOT(40),
+    CHART(40),
     SUBSCRIBED(50);
 
     private final int value;
@@ -23,5 +23,17 @@ public enum FeedType {
 
     public int getValue() {
         return value;
+    }
+
+    public static FeedType calc(Integer value) {
+        switch (value) {
+            case 20: return FeedType.RECENT;
+            case 30: return FeedType.LOCAL;
+            case 40: return FeedType.CHART;
+            case 50: return FeedType.SUBSCRIBED;
+            case 10: return FeedType.OWNER;
+            case 0:
+            default: return FeedType.ALL;
+        }
     }
 }

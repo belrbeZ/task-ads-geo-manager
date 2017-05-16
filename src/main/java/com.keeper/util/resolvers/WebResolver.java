@@ -19,7 +19,6 @@ public class WebResolver {
     public static final String REGISTER = "/register";
     public static final String WELCOME  = "/welcome";
 
-    public static final String HOME     = SECURED + "/home";
     public static final String PROFILE  = SECURED + "/profile";
     public static final String LOGOUT   = SECURED + "/logout";
     public static final String MAP      = SECURED + "/map";

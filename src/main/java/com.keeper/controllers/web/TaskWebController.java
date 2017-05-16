@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -53,8 +54,8 @@ public class TaskWebController {
     /**
      * Task View Template
      */
-    @RequestMapping(value = WebResolver.TASK, method = RequestMethod.GET)
-    public ModelAndView taskGet(@RequestParam(value = "id", required = false) Long taskId, Model model) {
+    @RequestMapping(value = WebResolver.TASK + "/{id}", method = RequestMethod.GET)
+    public ModelAndView taskGet(@PathVariable(value = "id") Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
         Optional<User> user = userService.getAuthorized();
@@ -80,8 +81,8 @@ public class TaskWebController {
         return modelAndView;
     }
 
-    @RequestMapping(value = WebResolver.TASK, method = RequestMethod.DELETE)
-    public ModelAndView taskDelete(@RequestParam(value = "id", required = false) Long taskId, Model model) {
+    @RequestMapping(value = WebResolver.TASK + "/{id}", method = RequestMethod.DELETE)
+    public ModelAndView taskDelete(@PathVariable(value = "id") Long taskId, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.FEED));
 
         Optional<User> user = userService.getAuthorized();
@@ -104,8 +105,8 @@ public class TaskWebController {
     /**
      * Task Update/Create Form Template
      */
-    @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.GET)
-    public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id, Model model) {
+    @RequestMapping(value = WebResolver.TASK_FORM + "/{id}", method = RequestMethod.GET)
+    public ModelAndView taskCreateForm(@PathVariable(value = "id") Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
 
         Optional<User> user = userService.getAuthorized();

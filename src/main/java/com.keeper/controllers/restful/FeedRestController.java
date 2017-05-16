@@ -43,23 +43,9 @@ public class FeedRestController {
         Optional<User> user = userService.getAuthorized();
         if (user.isPresent()) {
 
-            Optional<List<TaskDTO>> usersTasks;
-
-            if(type == null)
-                usersTasks = feedService.getLocal(user.get().getId());
-            else {
-                FeedType realType = FeedType.MY;
-                switch (type) {
-                    case 0:  realType = FeedType.ALL;   break;
-                    case 20: realType = FeedType.NEW;   break;
-                    case 30: realType = FeedType.LOCAL; break;
-                    case 40: realType = FeedType.HOT;   break;
-                    case 50: realType = FeedType.SUBSCRIBED; break;
-
-                    default: break;  // ON PURPOSE CAUSE ALREADY FeedType = MY
-                }
-                usersTasks = feedService.getByTheme(user.get().getId(), search, realType);
-            }
+            Optional<List<TaskDTO>> usersTasks = (type == null)
+                    ? feedService.getLocal(user.get().getId())
+                    : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
 
             LOGGER.warn(user.get().getEmail() + " REST getListTasks ALL size: " + usersTasks.get().size());
             return new ResponseEntity<>(usersTasks.get(), HttpStatus.OK);

@@ -48,19 +48,12 @@
         </div>
 
         <div sec:authorize="isAuthenticated()" class="">
-            <ul class="nav navbar-nav navbar-left">
-                <li th:classappend="${module == 'home' ? 'active' : ''}">
-                    <a href="/secure/home" th:href="@{/secure/home}">
-                        <span class="glyphicon" aria-hidden="true"> </span>Home</a>
-                </li>
-            </ul>
-
-
             <ul class="nav navbar-nav navbar-center">
                 <li th:classappend="${module == 'map' ? 'active' : ''}">
                     <a href="/secure/map" th:href="@{/secure/map}">
                         <span class="glyphicon" aria-hidden="true"> </span>Map</a>
-                </li th:classappend="${module == 'map' ? 'active' : ''}">
+                </li>
+
                 <li th:classappend="${module == 'feed' ? 'active' : ''}">
                     <a href="/secure/feed" th:href="@{/secure/feed}">
                         <span class="glyphicon" aria-hidden="true"> </span>Feed</a>
@@ -71,11 +64,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li th:classappend="${module == 'profile' ? 'active' : ''}">
                     <a href="/secure/profile" th:href="@{/secure/profile}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span>Profile</a>
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span> Profile</a>
                 </li>
                 <li>
                     <a href="/secure/logout" th:href="@{/secure/logout}" onclick="$('#form').submit();">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span>Logout </a>
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span> Logout </a>
                     <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/secure/logout}"></form>
                 </li>
             </ul>
