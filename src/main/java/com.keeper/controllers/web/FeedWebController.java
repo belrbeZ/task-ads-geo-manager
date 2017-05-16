@@ -6,6 +6,7 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.types.FeedType;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.resolvers.TemplateResolver;
@@ -73,7 +74,7 @@ public class FeedWebController {
         Optional<List<TaskDTO>> tasks = Optional.empty();
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent())
-            tasks = feedService.getByTheme(user.get().getId(), theme);
+            tasks = feedService.getByTheme(user.get().getId(), theme, FeedType.ALL);
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 

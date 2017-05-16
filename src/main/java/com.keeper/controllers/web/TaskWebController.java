@@ -63,7 +63,7 @@ public class TaskWebController {
                 Optional<Task> daoTask = taskService.get(taskId);
                 if(daoTask.isPresent()) {
                     modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
-                    TaskDTO taskDTO = subsService.modifyTasksCounter(user.get().getId(),
+                    TaskDTO taskDTO = subsService.fillSubs(user.get().getId(),
                                                         ModelTranslator.toDTO(daoTask.get()));
                     modelAndView.addObject("task", taskDTO);
                     subsService.viewTask(user.get().getId(), daoTask.get().getId());

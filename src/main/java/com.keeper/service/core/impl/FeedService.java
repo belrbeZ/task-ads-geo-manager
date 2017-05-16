@@ -8,13 +8,16 @@ import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Route;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.model.types.FeedType;
 import com.keeper.model.util.GeoLocations;
 import com.keeper.service.core.IFeed;
+import com.keeper.service.core.IFeedChart;
 import com.keeper.service.core.IFeedSubmit;
 import com.keeper.util.GeoComputer;
 import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
 import com.keeper.util.resolvers.ErrorMessageResolver;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,22 +35,23 @@ import java.util.stream.Collectors;
  */
 @Service
 @Primary
-public class FeedService implements IFeed, IFeedSubmit {
+public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
+
+    private static final Logger logger = LoggerFactory.getLogger(FeedService.class);
 
     private boolean taskLoader = false;
     private boolean pointLoader = false;
     private boolean routeLoader = false;
 
-    private static final Logger logger = LoggerFactory.getLogger(FeedService.class);
+    private final int HOT_FEED_SIZE = 20;
+    private final int RECENT_FEED_SIZE = 20;
 
     private final Map<Long, GeoPoint> points = new ConcurrentHashMap<>(); // All geopoints
     private final Map<Long, Route>   routes = new ConcurrentHashMap<>(); // All routes
     private final Map<Long, Task>    tasks  = new ConcurrentHashMap<>(); // All tasks
 
-    private final int HOT_FEED_SIZE = 20;
-    private final int RECENT_FEED_SIZE = 20;
-
-    private final List<Long> hotTasks = new ArrayList<>(HOT_FEED_SIZE); // Rang of hot tasks ids
+    // Map < TaskId | Hot Counter >
+    private final Map<Long, Long> hotTasks = new ConcurrentHashMap<>(HOT_FEED_SIZE); // Rang of hot tasks ids
 
     // Map < User Id | Map<Task id, locations> >
     private final Map<Long, Map<Long, GeoLocations>> userLocalTasks = new ConcurrentHashMap<>();
@@ -175,6 +179,24 @@ public class FeedService implements IFeed, IFeedSubmit {
 
     //</editor-fold>
 
+    //<editor-fold desc="Chart">
+
+    public void upTask(Long taskId) {
+        Long hotMark = hotTasks.putIfAbsent(taskId, 1L);
+
+        if(hotMark != null)
+            hotTasks.replace(taskId, ++hotMark);
+    }
+
+    public void downTask(Long taskId) {
+        Long hotMark = hotTasks.get(taskId);
+
+        if(hotMark != null)
+            hotTasks.replace(taskId, --hotMark);
+    }
+
+    //</editor-fold>
+
     @Scheduled(initialDelay = 5000, fixedDelay = 5000)
     private void update() {
 
@@ -182,9 +204,11 @@ public class FeedService implements IFeed, IFeedSubmit {
         pointsToProceed.removeAll(pointsToProceed.stream()
                 .filter(removedPoints::containsKey)
                 .collect(Collectors.toSet()));
+
         routesToProceed.removeAll(routesToProceed.stream()
                 .filter(removedRoutes::containsKey)
                 .collect(Collectors.toSet()));
+
         tasksToProceed.removeAll(tasksToProceed.stream()
                 .filter(removedTask::containsKey)
                 .collect(Collectors.toSet()));
@@ -326,9 +350,14 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
-                .filter(task -> hotTasks.contains(task.getKey()))
-                .map(Map.Entry::getValue).collect(Collectors.toList()))));
+        final TreeMap<Long, TaskDTO> taskTree = new TreeMap<>();
+
+        tasks.entrySet().stream()
+                .filter(task -> hotTasks.containsKey(task.getKey()))
+                .map(Map.Entry::getValue)
+                .forEach(t -> taskTree.put(hotTasks.get(t.getId()), subsService.fillSubs(userId, ModelTranslator.toDTO(t))));
+
+        return Optional.of(taskTree.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override
@@ -336,7 +365,7 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
+        return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
                 .map(Map.Entry::getValue).sorted(Comparator.comparing(Task::getLastModifyDate))
                 .limit(RECENT_FEED_SIZE).collect(Collectors.toList()))));
     }
@@ -356,7 +385,7 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(taskIds == null || taskIds.isEmpty())
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(userId, ModelTranslator.tasksToDTO(tasks.entrySet()
+        return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet()
                 .stream().filter(task -> taskIds.contains(task.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toList()))));
     }
@@ -366,7 +395,7 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(userId, ModelTranslator.tasksToDTO(tasks.entrySet()
+        return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet()
                 .stream().filter(task -> task.getValue().getTopicStarterId().equals(userId))
                 .map(Map.Entry::getValue).collect(Collectors.toList()))));
     }
@@ -376,21 +405,48 @@ public class FeedService implements IFeed, IFeedSubmit {
         if(userId == null)
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
+        return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
                 .map(Map.Entry::getValue).collect(Collectors.toList()))));
     }
 
     @Override
-    public Optional<List<TaskDTO>> getByTheme(Long userId, String theme) {
+    public Optional<List<TaskDTO>> getSubscribed(Long userId) {
+        Optional<Set<Long>> subs = subsService.getUserSubscriptions(userId);
+
+        if(subs.isPresent())
+            return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet()
+                    .stream().filter(t -> subs.get().contains(t.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toList()))));
+        else
+            return Optional.empty();
+
+    }
+
+    @Override
+    public Optional<List<TaskDTO>> getByTheme(Long userId, String theme, FeedType feedType) {
         if(Validator.isStrEmpty(theme))
             return Optional.empty();
 
-        return Optional.of(subsService.modifyTasksCounter(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
-                .filter(task -> satisfiesSearch(task.getValue().getTheme(), theme))
-                .map(Map.Entry::getValue).collect(Collectors.toList()))));
+        Optional<List<TaskDTO>>  tasksToProceed;
+
+        switch (feedType) {
+            case NEW:   tasksToProceed = getRecent(userId); break;
+            case MY:    tasksToProceed = getOwned(userId);  break;
+            case LOCAL: tasksToProceed = getLocal(userId);  break;
+            case HOT:   tasksToProceed = getHot(userId);    break;
+            case ALL:
+            default:    tasksToProceed = getAll(userId);    break;
+        }
+
+        return tasksToProceed.map(taskDTOS -> Optional.of(taskDTOS.stream()
+                .filter(task -> satisfiesSearch(task.getTheme(), theme))
+                .collect(Collectors.toList()))).orElse(tasksToProceed);
+        //        return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
+//                .filter(task -> satisfiesSearch(task.getValue().getTheme(), theme))
+//                .map(Map.Entry::getValue).collect(Collectors.toList()))));
     }
 
     private boolean satisfiesSearch(String target, String desired) {
-        return target.equals(desired);
+        return FuzzySearch.partialRatio(target, desired) > 80;
     }
 }

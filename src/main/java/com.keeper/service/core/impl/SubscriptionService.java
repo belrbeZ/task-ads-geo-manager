@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 public class SubscriptionService implements ISubscription, ISubscriptionRemove {
 
     private static final Logger logger = LoggerFactory.getLogger(SubscriptionService.class);
+
     private final ParticipantService partService;
 
     @Autowired
@@ -83,8 +84,8 @@ public class SubscriptionService implements ISubscription, ISubscriptionRemove {
 
     @Transactional
     @Override
-    public List<TaskDTO> modifyTasksCounter(Long userId, List<TaskDTO> tasks) {
-        final List<TaskDTO> tasksToCounter = new ArrayList<>(tasks);
+    public List<TaskDTO> fillSubs(Long userId, List<TaskDTO> tasks) {
+        final List<TaskDTO> tasksToCounter = new ArrayList<>(tasks.stream().map(TaskDTO::new).collect(Collectors.toSet()));
         try {
             tasksToCounter.forEach(t -> partService.getSpecificParticipant(userId, t.getId())
                     .ifPresent(p -> t.setModifyCount(p.getModifyCounter())));
@@ -92,21 +93,21 @@ public class SubscriptionService implements ISubscription, ISubscriptionRemove {
             logger.warn("NO SUBSCRIPTIONS [ERROR]");
         }
 
-        return tasks;
+        return tasksToCounter;
     }
 
     @Transactional
     @Override
-    public TaskDTO modifyTasksCounter(Long userId, TaskDTO task) {
+    public TaskDTO fillSubs(Long userId, TaskDTO task) {
         final TaskDTO taskToModify = new TaskDTO(task);
         try {
-            partService.getSpecificParticipant(userId, task.getId())
-                    .ifPresent(p -> task.setModifyCount(p.getModifyCounter()));
+            partService.getSpecificParticipant(userId, taskToModify.getId())
+                    .ifPresent(p -> taskToModify.setModifyCount(p.getModifyCounter()));
         } catch (Exception e) {
             logger.warn("NO SUBSCRIPTION [ERROR]");
         }
 
-        return task;
+        return taskToModify;
     }
 
     @Transactional

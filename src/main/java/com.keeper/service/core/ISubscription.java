@@ -26,10 +26,10 @@ public interface ISubscription {
     Optional<Long> modifyTask(Long taskId);
 
     /** TRANSACTIONAL */
-    TaskDTO modifyTasksCounter(Long userId, TaskDTO tasks);
+    TaskDTO fillSubs(Long userId, TaskDTO tasks);
 
     /** TRANSACTIONAL */
-    List<TaskDTO> modifyTasksCounter(Long userId, List<TaskDTO> tasks);
+    List<TaskDTO> fillSubs(Long userId, List<TaskDTO> tasks);
 
     /** TRANSACTIONAL */
     Optional<Long> subscribe(Long userId, Long taskId);

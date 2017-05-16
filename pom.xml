@@ -80,6 +80,11 @@
             <version>${swagger-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>me.xdrop</groupId>
+            <artifactId>fuzzywuzzy</artifactId>
+            <version>1.1.7</version>
+        </dependency>
 
         <!-- Encryption -->
         <dependency>
