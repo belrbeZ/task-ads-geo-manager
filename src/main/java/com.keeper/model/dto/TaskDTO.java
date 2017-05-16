@@ -192,4 +192,22 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     public int hashCode() {
         return id.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return "TaskDTO{" +
+                "id=" + id +
+                ", topicStarterId=" + topicStarterId +
+                ", type=" + type +
+                ", theme='" + theme + '\'' +
+                ", descr='" + descr + '\'' +
+                ", geo=" + geo +
+                ", createDate=" + createDate +
+                ", lastModifyDate=" + lastModifyDate +
+                ", picture=" + picture +
+                ", comments=" + comments +
+                ", participants=" + participants +
+                ", tags=" + tags +
+                '}';
+    }
 }

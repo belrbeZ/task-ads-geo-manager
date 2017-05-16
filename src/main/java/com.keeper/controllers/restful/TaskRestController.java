@@ -4,14 +4,20 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
+import com.keeper.model.SimpleResponse;
 import com.keeper.model.dao.Task;
+import com.keeper.model.dao.User;
 import com.keeper.model.dto.CommentDTO;
 import com.keeper.model.dto.TaskDTO;
+import com.keeper.service.core.IFeedService;
 import com.keeper.service.modelbased.impl.CommentService;
 import com.keeper.service.modelbased.impl.TaskService;
+import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.Translator;
 import com.keeper.util.Validator;
 import com.keeper.util.resolve.ApiResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,18 +36,21 @@ import java.util.Optional;
  */
 @RestController
 public class TaskRestController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRestController.class);
 
     private final String PATH = ApiResolver.TASK;
 
     private final String PATH_COMMENT = ApiResolver.COMMENTS;
 
+    private final UserService userService;
     private final TaskService repoService;
     private final CommentService commentService;
 
     @Autowired
-    public TaskRestController(TaskService repoService, CommentService commentService) {
+    public TaskRestController(TaskService repoService, CommentService commentService, UserService userService) {
         this.repoService = repoService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,7 +70,57 @@ public class TaskRestController {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH)
+    @RequestMapping(value = PATH, method = RequestMethod.PATCH,
+            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimpleResponse> update(@Valid @RequestBody TaskDTO modelTask, BindingResult result) {
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            modelTask.setTopicStarterId(user.get().getId());
+            LOGGER.warn("    REST Updating " + modelTask.toString());
+
+            repoService.update(Translator.toDAO(modelTask));
+        } else {
+            LOGGER.warn("    REST ERROR of updating TASK " + modelTask.getId());
+            return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity<>(new SimpleResponse("Задание обновлено!"), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(value = PATH, method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimpleResponse> create(@Valid @RequestBody TaskDTO modelTask, BindingResult result) {
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            modelTask.setTopicStarterId(user.get().getId());
+            LOGGER.warn(user.get().getEmail() + " REST Creating TASK " + modelTask.toString());
+
+            repoService.saveDTO(modelTask);
+        } else {
+            LOGGER.warn("    REST ERROR of creating TASK " + modelTask.getId());
+            return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(new SimpleResponse("Задание добавлено!"), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = PATH, method = RequestMethod.DELETE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long taskId) {
+        Optional<User> user = userService.getAuthorized();
+        if(user.isPresent()) {
+            LOGGER.warn("    "+user.get().getEmail()+"REST Removing TASK id:" + taskId);
+            repoService.remove(taskId);
+        }else {
+            LOGGER.warn("    REST ERROR of deleting TASK " + taskId);
+            return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(new SimpleResponse("Место удалено!"), HttpStatus.OK);
+    }
+
+    /*@RequestMapping(value = PATH, method = RequestMethod.PATCH)
     public ResponseEntity<String> update(@Valid @RequestBody TaskDTO model, BindingResult result) {
         repoService.update(Translator.toDAO(model));
 
@@ -90,9 +149,10 @@ public class TaskRestController {
     public ResponseEntity<String> delete(@RequestParam("id") Long id) {
         repoService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
+    }*/
 
-    /*---COMMENTS---*/
+
+    /*---COMMENTS---*//*
     @RequestMapping(value = PATH_COMMENT + "/{taskId}}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CommentDTO>> getComments(@PathVariable("taskId") Long taskId) {
         return new ResponseEntity<>(Translator.commentsToDTO(commentService.getByTaskId(taskId).get()), HttpStatus.OK);
@@ -110,8 +170,7 @@ public class TaskRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /*---END COMMENTS---*/
-
+    *//*---END COMMENTS---*/
 
 //    /*---TAGS---*/
 //    @RequestMapping(value = PATH + "/tags/{taskId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
