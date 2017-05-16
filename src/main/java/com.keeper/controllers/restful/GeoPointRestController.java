@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @RestController
 public class GeoPointRestController {
-    protected final Logger LOGGER = LoggerFactory.getLogger(GeoPointRestController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRestController.class);
 
     private final String PATH = ApiResolver.GEO;
 
@@ -83,7 +83,7 @@ public class GeoPointRestController {
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>(new SimpleResponse("Обновлено!"), HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Место обновлено!"), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST,
@@ -100,7 +100,7 @@ public class GeoPointRestController {
             LOGGER.warn("    REST ERROR of creating " + model.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(new SimpleResponse("Добавлено!"), HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Место добавлено!"), HttpStatus.OK);
     }
 
 
