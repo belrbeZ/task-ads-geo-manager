@@ -16,6 +16,7 @@ public class ApiResolver {
     public static final String PUBLIC_PROFILE = API_PUBLIC + "/profile";
     public static final String PROFILE  = API_PRIVATE + "/profile";
     public static final String TASK     = API_PRIVATE + "/tasks";
+    public static final String FEEDTASK     = API_PRIVATE + "/feedtasks";
     public static final String COMMENTS = TASK + "/comments";
     public static final String ZONE     = API_PRIVATE + "/zone";
     public static final String ROUTE    = API_PRIVATE + "/routes";
