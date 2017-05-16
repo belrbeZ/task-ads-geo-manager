@@ -2,7 +2,6 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
-import com.keeper.service.modelbased.IUserService;
 import com.keeper.service.modelbased.impl.GeoPointService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.ModelTranslator;

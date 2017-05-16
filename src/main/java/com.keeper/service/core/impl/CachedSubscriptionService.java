@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
- * Default Comment
+ * Cached Implementation of SubscriptionService (Work in progress)
  *
  * @author @GoodforGod
  * @since 13.05.2017

@@ -5,7 +5,6 @@ import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.types.FeedType;
 import com.keeper.service.core.IFeed;
 import com.keeper.service.core.impl.FeedService;
-import com.keeper.service.modelbased.IUserService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.resolvers.ApiResolver;
 import org.slf4j.Logger;
