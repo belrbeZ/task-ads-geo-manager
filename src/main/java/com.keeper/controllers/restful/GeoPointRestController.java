@@ -53,9 +53,11 @@ public class GeoPointRestController {
     public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
         Optional<User> user = userService.getAuthorized();
         if (user.isPresent()) {
-            LOGGER.warn("" + user.get().getEmail() + " REST getList byEmail ListGeoPoints size:" + user.get().getGeoPoints().size());
+//            LOGGER.warn("" + user.get().getEmail() + " REST getList byEmail ListGeoPoints size:" + user.get().getGeoPoints().size());
 
-            List<GeoPoint> geodao = user.get().getGeoPoints();
+//            List<GeoPoint> geodao = user.get().getGeoPoints();
+            List<GeoPoint> geodao = repoService.getByUserId(user.get().getId()).get();
+
             LOGGER.warn(" gettedlist " + geodao.size());
             return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(geodao), HttpStatus.OK);
         } else {
@@ -100,7 +102,7 @@ public class GeoPointRestController {
             LOGGER.warn("    REST ERROR of creating " + model.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(new SimpleResponse("Место добавлено!"), HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Место обавлено!"), HttpStatus.OK);
     }
 
 
@@ -111,15 +113,16 @@ public class GeoPointRestController {
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
-            LOGGER.warn("        "+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
+//            LOGGER.warn("        "+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
 
-            GeoPoint geoFroDelete = repoService.get(pointId).get();
-            LOGGER.warn("    getted for delete:"+geoFroDelete);
-            user.get().removeGeoPoint(geoFroDelete);
-            userService.save(user.get());
+//            GeoPoint geoFroDelete = repoService.get(pointId).get();
+//            LOGGER.warn("    getted for delete:"+geoFroDelete);
+//            user.get().removeGeoPoint(geoFroDelete);
+//            userService.save(user.get());
 
             repoService.remove(pointId);
-            LOGGER.warn("        "+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
+//            repoService.removeByObj(geoFroDelete, user.get());
+//            LOGGER.warn("        "+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
         }else {
             LOGGER.warn("    REST ERROR of deleting geo " + pointId);
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
