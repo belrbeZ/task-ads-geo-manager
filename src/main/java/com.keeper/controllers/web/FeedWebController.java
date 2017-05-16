@@ -7,6 +7,7 @@ package com.keeper.controllers.web;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.types.FeedType;
+import com.keeper.service.core.IFeed;
 import com.keeper.service.core.impl.FeedService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.resolvers.TemplateResolver;
@@ -29,7 +30,7 @@ import java.util.Optional;
 @Controller
 public class FeedWebController {
 
-    private final FeedService feedService;
+    private final IFeed feedService;
     private final UserService userService;
 
     private final String TASKS_OBJ = "tasks";
@@ -98,16 +99,16 @@ public class FeedWebController {
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
         if(user.isPresent()) {
-                switch (type) {
-                    case 10: tasks = feedService.getOwned(user.get().getId()); break;
-                    case 20: tasks = feedService.getRecent(user.get().getId()); break;
-                    case 30: tasks = feedService.getLocal(user.get().getId()); break;
-                    case 40: tasks = feedService.getChart(user.get().getId()); break;
-                    case 0:
-                    default:
-                        tasks = feedService.getAll(user.get().getId());
-                        break;
-                }
+            switch (type) {
+                case 10: tasks = feedService.getOwned(user.get().getId()); break;
+                case 20: tasks = feedService.getRecent(user.get().getId()); break;
+                case 30: tasks = feedService.getLocal(user.get().getId()); break;
+                case 40: tasks = feedService.getChart(user.get().getId()); break;
+                case 0:
+                default:
+                    tasks = feedService.getAll(user.get().getId());
+                    break;
+            }
         }
         else modelAndView.addObject(MSG, "ReLogin First!");
 

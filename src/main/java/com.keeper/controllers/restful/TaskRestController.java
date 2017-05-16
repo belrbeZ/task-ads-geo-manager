@@ -5,17 +5,14 @@ package com.keeper.controllers.restful;
  */
 
 import com.keeper.model.SimpleResponse;
-import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.CommentDTO;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.service.core.IFeedService;
 import com.keeper.service.modelbased.impl.CommentService;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
+import com.keeper.util.ModelTranslator;
 import com.keeper.util.Validator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.resolvers.ApiResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,13 +56,13 @@ public class TaskRestController {
                                              @RequestParam(value = "search", required = false) String search,
                                              @RequestParam(value = "tags", required = false) List<String> tags) {
         if(id != null && id > 0)
-            return new ResponseEntity<>(new ArrayList<TaskDTO>() {{ add(Translator.toDTO(repoService.get(id).get())); }}, HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList<TaskDTO>() {{ add(ModelTranslator.toDTO(repoService.get(id).get())); }}, HttpStatus.OK);
         if(userId != null && userId > 0)
-            return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByUserId(id).get()), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.tasksToDTO(repoService.getByUserId(id).get()), HttpStatus.OK);
         if(!Validator.isStrEmpty(search))
-            return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByTheme(search).get()), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.tasksToDTO(repoService.getByTheme(search).get()), HttpStatus.OK);
         if(tags != null && !tags.isEmpty())
-            return new ResponseEntity<>(Translator.tasksToDTO(repoService.getByTags(tags).get()), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.tasksToDTO(repoService.getByTags(tags).get()), HttpStatus.OK);
         else
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.BAD_REQUEST);
     }
@@ -79,7 +76,7 @@ public class TaskRestController {
             modelTask.setTopicStarterId(user.get().getId());
             LOGGER.warn("    REST Updating " + modelTask.toString());
 
-            repoService.update(Translator.toDAO(modelTask));
+            repoService.update(ModelTranslator.toDAO(modelTask));
         } else {
             LOGGER.warn("    REST ERROR of updating TASK " + modelTask.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);

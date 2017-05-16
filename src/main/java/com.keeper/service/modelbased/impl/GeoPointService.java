@@ -97,6 +97,7 @@ public class GeoPointService extends PrimeModelService<GeoPoint, Long> implement
         return geoUser;
     }
 
+    @Transactional
     @Override
     public Optional<GeoPoint> update(GeoPoint model) {
         if(invalidModel(model, UPDATE_MODEL_NULLABLE))
@@ -111,13 +112,11 @@ public class GeoPointService extends PrimeModelService<GeoPoint, Long> implement
         if(invalidId(id, REMOVE_NULLABLE_ID))
             return;
 
-        feedSubmitService.removeGeo(id);
-
-        /*try {
+        try {
             super.remove(id);
+            feedSubmitService.removeGeo(id);
         } catch (Exception e) {
-            LOGGER.warn(e.toString());
-        }*/
-
+            logger.warn(e.toString());
+        }
     }
 }
