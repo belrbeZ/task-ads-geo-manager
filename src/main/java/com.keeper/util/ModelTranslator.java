@@ -76,9 +76,9 @@ public class ModelTranslator {
                             model.getNotified(),
                             model.getMuteEnd(),
                             toDTO(model.getPic()),
-                            toDTO(model.getZone()),
+                            toDTO(model.getZone())/*,
                             geoPointsToDTO(model.getGeoPoints()),
-                            routesToDTO(model.getRoutes()));
+                            routesToDTO(model.getRoutes())*/);
     }
 
     public static ZoneDTO toDTO(Zone model) {

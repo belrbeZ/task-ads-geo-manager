@@ -66,17 +66,17 @@ public class User {
     @JoinColumn(name = "id", referencedColumnName = "userId")
     private Picture pic;
 
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    private List<GeoPoint> geoPoints;
-
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    private List<Route> routes;
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "userId", referencedColumnName = "id")
+//    private List<GeoPoint> geoPoints;
+//
+//    @Fetch(FetchMode.SELECT)
+//    @BatchSize(size = 10)
+//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JoinColumn(name = "userId", referencedColumnName = "id")
+//    private List<Route> routes;
 
     private User() {
         this.id = UserType.EMPTY.getValue();
@@ -117,12 +117,12 @@ public class User {
     public User(UserType type, String name, String email,
                 String phone, String password, String about,
                 boolean isNotified, LocalDateTime muteEnd,
-                Zone zone, Picture pic, List<GeoPoint> geoPoints, List<Route> routes) {
+                Zone zone, Picture pic/*, List<GeoPoint> geoPoints, List<Route> routes*/) {
         this(type, name, email, phone, password, about, isNotified, muteEnd);
         this.zone = zone;
         this.pic = pic;
-        this.geoPoints = geoPoints;
-        this.routes = routes;
+//        this.geoPoints = geoPoints;
+//        this.routes = routes;
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -219,7 +219,7 @@ public class User {
         this.zone = zone;
     }
 
-    public List<Route> getRoutes() {
+   /* public List<Route> getRoutes() {
         return (routes == null) ? Collections.emptyList() : routes;
     }
 
@@ -233,12 +233,12 @@ public class User {
 
     public void setGeoPoints(List<GeoPoint> geoPoints) {
         this.geoPoints = geoPoints;
-    }
+    }*/
 
     //</editor-fold>
 
     /*---GEOPOINTS---*/
-    public int hasGeoPoint(GeoPoint geoPoint) {
+    /*public int hasGeoPoint(GeoPoint geoPoint) {
         return geoPoints.indexOf(geoPoint);
     }
 
@@ -260,8 +260,8 @@ public class User {
         if (geoPoints.contains(geoPoint))
             geoPoints.remove(geoPoint);
         else
-            throw new IllegalArgumentException("No such geoPoint associated with this User"); //"No such geoPoint /*with id " + geoPoint.getId() + " */associated with User with id "/* + this.getId()*/);
-    }
+            throw new IllegalArgumentException("No such geoPoint associated with this User"); //"No such geoPoint *//*with id " + geoPoint.getId() + " *//*associated with User with id "*//* + this.getId()*//*);
+    }*/
     /*---END GEOPOINTS---*/
 
     @Override
@@ -279,9 +279,27 @@ public class User {
         return id.hashCode();
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "User id:" + this.getId() + " name:" + this.getName() + " picId" + this.getPic() + super.toString() +
                 "User First Route:" + getRoutes().get(0).getLongtitudes()[0] + " " + getRoutes().get(0).getLatitudes()[0];
+    }*/
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", state=" + state +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", about='" + about + '\'' +
+                ", isNotified=" + isNotified +
+                ", muteEnd=" + muteEnd +
+                ", zone=" + zone +
+                ", pic=" + pic +
+                '}';
     }
 }

@@ -41,8 +41,8 @@ public class UserDTO {
 
     private ZoneDTO zone;
     private PictureDTO pic;
-    private List<GeoPointDTO> geoPoints;
-    private List<RouteDTO> routes;
+    /*private List<GeoPointDTO> geoPoints;
+    private List<RouteDTO> routes;*/
    /* private List<TaskDTO> participantedTasks;*/
 
     private UserDTO() {
@@ -78,13 +78,13 @@ public class UserDTO {
     public UserDTO(Long id, UserType type, String name,
                    String email, String phone, String about, String password,
                    boolean notified, Timestamp muteEnd,
-                   PictureDTO pic, ZoneDTO zone, List<GeoPointDTO> geoPoints,
-                   List<RouteDTO> routes) {
+                   PictureDTO pic, ZoneDTO zone/*, List<GeoPointDTO> geoPoints,
+                   List<RouteDTO> routes*/) {
         this(id, type, name, email, phone, about, password, notified, muteEnd);
         this.pic = pic;
         this.zone = zone;
-        this.geoPoints = geoPoints;
-        this.routes = routes;
+        /*this.geoPoints = geoPoints;
+        this.routes = routes;*/
         /*this.participantedTasks = participantedTasks;*/
     }
 
@@ -170,7 +170,7 @@ public class UserDTO {
         this.pic = pic;
     }
 
-    public List<RouteDTO> getRoutes() {
+    /*public List<RouteDTO> getRoutes() {
         return routes;
     }
 
@@ -184,7 +184,7 @@ public class UserDTO {
 
     public void setGeoPoints(List<GeoPointDTO> geoPoints) {
         this.geoPoints = geoPoints;
-    }
+    }*/
 
     public ZoneDTO getZone() {
         return zone;
