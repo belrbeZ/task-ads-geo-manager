@@ -5,6 +5,7 @@ package com.keeper.service.modelbased.impl;
  */
 
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.core.ISubscriptionRemove;
@@ -140,4 +141,6 @@ public class UserService extends PrimeModelService<User, Long> implements IUserS
         super.remove(id);
         subscriptionService.removeUserSubscriptions(id);
     }
+
+
 }

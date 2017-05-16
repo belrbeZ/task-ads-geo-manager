@@ -85,6 +85,10 @@ public class PrimeModelService<T, ID extends Serializable>
     public void remove(ID id) {
         if(invalidId(id, ErrorMessageResolver.REMOVE_NULLABLE_ID))
             throw new NullPointerException(ErrorMessageResolver.NULLABLE_MODEL + "DELETE");
+
         primeRepository.delete(id);
+
+        System.out.println("Removed? "+id.toString());
+
     }
 }

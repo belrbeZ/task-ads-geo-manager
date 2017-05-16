@@ -9,6 +9,7 @@ import com.keeper.util.resolvers.TemplateResolver;
 import com.keeper.util.resolvers.WebResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,6 +68,7 @@ public class GeoPointWebController {
         return modelAndView;
     }
 
+    @Transactional
     @RequestMapping(value = WebResolver.GEOPOINT_REMOVE, method = RequestMethod.DELETE)
     public String geoPointRemoveForm(@RequestParam(value = "id", required = false) String geoPointId, Model model) {
         System.out.println(" Web Removing point id:" + geoPointId);
@@ -79,6 +81,7 @@ public class GeoPointWebController {
 //            GeoPoint geoFroDelete = geoPointService.get(Long.parseLong(geoPointId)).get();
 //            System.out.println("    getted for delete:"+geoFroDelete);
 //            user.get().removeGeoPoint(geoFroDelete);
+//            userService.save(user.get());
 
             geoPointService.remove(Long.parseLong(geoPointId));
             System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());

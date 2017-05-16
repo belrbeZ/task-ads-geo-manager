@@ -111,7 +111,13 @@ public class GeoPointService extends PrimeModelService<GeoPoint, Long> implement
         if(invalidId(id, REMOVE_NULLABLE_ID))
             return;
 
-        super.remove(id);
         feedSubmitService.removeGeo(id);
+
+        /*try {
+            super.remove(id);
+        } catch (Exception e) {
+            LOGGER.warn(e.toString());
+        }*/
+
     }
 }
