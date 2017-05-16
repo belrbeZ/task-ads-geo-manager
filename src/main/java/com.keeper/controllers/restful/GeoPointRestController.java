@@ -4,6 +4,7 @@ package com.keeper.controllers.restful;
  * Created by @GoodforGod on 02.05.2017.
  */
 
+import com.keeper.model.SimpleResponse;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
@@ -19,10 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -70,12 +68,12 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> update(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
+    public ResponseEntity<SimpleResponse> update(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         Optional<User> user = userService.getAuthorized();
 
         if(model.getId()<1) {
             LOGGER.warn("    REST ERROR of updating by id" + model.getId());
-            return new ResponseEntity<>("Неправильный ввод!", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new SimpleResponse("Неправильный ввод!"), HttpStatus.NOT_FOUND);
         }
 
         if(user.isPresent()) {
@@ -84,15 +82,15 @@ public class GeoPointRestController {
             repoService.updateDTO(model);
         } else {
             LOGGER.warn("    REST ERROR of updating " + model.getId());
-            return new ResponseEntity<>("Авторизуйтесь!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
 
-        return new ResponseEntity<>("Обновлено!", HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Обновлено!"), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH, method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
+    public ResponseEntity<SimpleResponse> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
@@ -102,14 +100,14 @@ public class GeoPointRestController {
             repoService.saveDTO(model);
         } else {
             LOGGER.warn("    REST ERROR of creating " + model.getId());
-            return new ResponseEntity<>("Авторизуйтесь!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Добавлено!", HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Добавлено!"), HttpStatus.OK);
     }
 
 
     @RequestMapping(value = PATH, method = RequestMethod.DELETE)
-    public ResponseEntity<String> delete(@RequestParam("id") Long pointId) {
+    public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long pointId) {
         LOGGER.warn("    REST Removing point id:" + pointId);
 
         Optional<User> user = userService.getAuthorized();
@@ -126,23 +124,23 @@ public class GeoPointRestController {
             LOGGER.warn("        "+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
         }else {
             LOGGER.warn("    REST ERROR of deleting geo " + pointId);
-            return new ResponseEntity<>("Авторизуйтесь!", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>("Место удалено!", HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Место удалено!"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH+"/byObj", method = RequestMethod.DELETE,
+    /*@RequestMapping(value = PATH+"/byObj", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String>  deleteByObj(@Valid GeoPointDTO model) {
+    public ResponseEntity<SimpleResponse>  deleteByObj(@Valid GeoPointDTO model) {
         LOGGER.warn("REST Deleting " + model.toString());
 
         if(model.getId()<1) {
             LOGGER.warn("REST ERROR deleting by obj");
-            return  new ResponseEntity<>("Неправильный ввод!", HttpStatus.BAD_REQUEST);
+            return  new ResponseEntity<>(new SimpleResponse("Неправильный ввод!"), HttpStatus.BAD_REQUEST);
         }
 
         repoService.remove(model.getId());
 
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+        return new ResponseEntity<>(new SimpleResponse("Место удалено!"),HttpStatus.OK);
+    }*/
 }
