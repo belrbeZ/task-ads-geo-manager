@@ -9,10 +9,9 @@ import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.service.modelbased.impl.GeoPointService;
-import com.keeper.service.modelbased.impl.ModelService;
 import com.keeper.service.modelbased.impl.UserService;
-import com.keeper.util.Translator;
-import com.keeper.util.resolve.ApiResolver;
+import com.keeper.util.ModelTranslator;
+import com.keeper.util.resolvers.ApiResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +45,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
-        return new ResponseEntity<>(Translator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
     @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET,
@@ -59,7 +57,7 @@ public class GeoPointRestController {
 
             List<GeoPoint> geodao = user.get().getGeoPoints();
             LOGGER.warn(" gettedlist " + geodao.size());
-            return new ResponseEntity<>(Translator.geoPointsToDTO(geodao), HttpStatus.OK);
+            return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(geodao), HttpStatus.OK);
         } else {
             LOGGER.warn("    REST ERROR of getting list!");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

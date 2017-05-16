@@ -102,7 +102,7 @@ public class FeedWebController {
                     case 10: tasks = feedService.getOwned(user.get().getId()); break;
                     case 20: tasks = feedService.getRecent(user.get().getId()); break;
                     case 30: tasks = feedService.getLocal(user.get().getId()); break;
-                    case 40: tasks = feedService.getHot(user.get().getId()); break;
+                    case 40: tasks = feedService.getChart(user.get().getId()); break;
                     case 0:
                     default:
                         tasks = feedService.getAll(user.get().getId());

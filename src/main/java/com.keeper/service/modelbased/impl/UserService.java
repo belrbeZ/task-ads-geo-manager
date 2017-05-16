@@ -5,7 +5,6 @@ package com.keeper.service.modelbased.impl;
  */
 
 import com.keeper.model.dao.User;
-import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.UserDTO;
 import com.keeper.repo.UserRepository;
 import com.keeper.service.core.ISubscriptionRemove;

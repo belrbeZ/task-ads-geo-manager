@@ -109,9 +109,7 @@ public class GeoPointWebController {
 
         if (user.isPresent()) {
             System.out.println("" + user.get().getEmail() + " remove from ListGeoPoints size:" + user.get().getGeoPoints().size());
-
 //        user.get().removeGeoPoint(geoPointService.get(geo.getId()).get());
-
             geoPointService.remove(geo.getId());
             System.out.println("" + user.get().getEmail() + " after remove ListGeoPoints size:" + user.get().getGeoPoints().size());
         }
@@ -121,8 +119,6 @@ public class GeoPointWebController {
 
     @RequestMapping(value = WebResolver.GEOPOINT_UPDATE, method = RequestMethod.PATCH)
     public String geoPointUpdateForm(@Valid GeoPointDTO geo, BindingResult result, Model model) {
-//        ModelAndView modelAndView = new ModelAndView(TemplateResolver.MAP);
-
         Optional<User> user = userService.getAuthorized();
 
         if(geo.getId()<1) {

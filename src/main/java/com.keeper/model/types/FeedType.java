@@ -12,7 +12,8 @@ public enum FeedType {
     MY(10),
     NEW(20),
     LOCAL(30),
-    HOT(40);
+    HOT(40),
+    SUBSCRIBED(50);
 
     private final int value;
 

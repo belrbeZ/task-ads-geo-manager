@@ -3,7 +3,7 @@ package com.keeper.service.core;
 import java.util.Optional;
 
 /**
- * Default Comment
+ * !!! Private Contracts !!!
  *
  * @author @GoodforGod
  * @since 13.05.2017

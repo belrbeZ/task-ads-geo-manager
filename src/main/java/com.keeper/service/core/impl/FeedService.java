@@ -31,7 +31,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * Default Comment
+ * Aggregates Feed based on Tasks
  */
 @Service
 @Primary
@@ -39,7 +39,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedService.class);
 
-    private boolean taskLoader = false;
+    private boolean taskLoader  = false;
     private boolean pointLoader = false;
     private boolean routeLoader = false;
 
@@ -282,9 +282,6 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         //<editor-fold desc="Points">
 
         if(!removedPoints.isEmpty()) {
-//            for(Map.Entry<Long, Long> entry : removedPoints.entrySet())
-//                points.remove(entry.getKey());
-
             for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
                     .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
                     .map(Map.Entry::getValue).collect(Collectors.toSet())) {
@@ -302,9 +299,6 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         //<editor-fold desc="Routes">
 
         if(!removedRoutes.isEmpty()) {
-//            for(Map.Entry<Long, Long> entry : removedRoutes.entrySet())
-//                routes.remove(entry.getKey());
-
             for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
                     .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
                     .map(Map.Entry::getValue).collect(Collectors.toSet())) {
@@ -322,9 +316,6 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         //<editor-fold desc="Tasks">
 
         if(!removedTask.isEmpty()) {
-//            for(Map.Entry<Long, Long> entry : removedTask.entrySet())
-//                tasks.remove(entry.getKey());
-
             for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : userLocalTasks.entrySet()) {
                 for(Map.Entry<Long, Long> taskIdToRemove : removedTask.entrySet()) {
                     if (taskMap.getValue().containsKey(taskIdToRemove.getKey())) {
@@ -346,7 +337,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> getHot(Long userId) {
+    public Optional<List<TaskDTO>> getChart(Long userId) {
         if(userId == null)
             return Optional.empty();
 
@@ -430,20 +421,21 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         Optional<List<TaskDTO>>  tasksToProceed;
 
         switch (feedType) {
+            case SUBSCRIBED: tasksToProceed = getSubscribed(userId); break;
             case NEW:   tasksToProceed = getRecent(userId); break;
             case MY:    tasksToProceed = getOwned(userId);  break;
             case LOCAL: tasksToProceed = getLocal(userId);  break;
-            case HOT:   tasksToProceed = getHot(userId);    break;
+            case HOT:   tasksToProceed = getChart(userId);    break;
             case ALL:
             default:    tasksToProceed = getAll(userId);    break;
         }
 
+        if(Validator.isStrEmpty(theme))
+            return tasksToProceed;
+
         return tasksToProceed.map(taskDTOS -> Optional.of(taskDTOS.stream()
                 .filter(task -> satisfiesSearch(task.getTheme(), theme))
                 .collect(Collectors.toList()))).orElse(tasksToProceed);
-        //        return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
-//                .filter(task -> satisfiesSearch(task.getValue().getTheme(), theme))
-//                .map(Map.Entry::getValue).collect(Collectors.toList()))));
     }
 
     private boolean satisfiesSearch(String target, String desired) {

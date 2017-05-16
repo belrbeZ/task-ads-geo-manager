@@ -7,6 +7,16 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
+
+    <style th:inline="text">
+        .badge-notify {
+            background:red;
+            position:relative;
+            top: -20px;
+            left: -35px;
+        }
+    </style>
+
 </head>
 <body>
 <div class="container">
@@ -84,7 +94,7 @@
             <tr>
                 <td>Posted</td>
                 <td>Theme</td>
-                <td>Description</td>
+                <!--<td>Description</td>-->
                 <td>Notifies</td>
                 <td></td>
                 <td></td>
@@ -92,14 +102,34 @@
             </thead>
             <tbody>
                 <tr th:each="task : ${tasks}">
-                    <td th:text="${task.createDate}"></td>
+
                     <td>
-                        <form th:action="@{/secure/task}" method="GET">
-                            <button name="id" th:value="${task.id}" type="Submit" th:text="${task.theme}"></button>
-                        </form>
+                        <span th:text="${task.createDate}"></span>
                     </td>
-                    <td th:text="${task.descr}"></td>
-                    <td th:text="${task?.modifyCount}"> </td>
+
+                    <td>
+                        <div>
+                            <form th:action="@{/secure/task}" method="GET">
+                                <button name="id" th:value="${task.id}" type="Submit" th:text="${task.theme}"></button>
+                            </form>
+                        </div>
+                    </td>
+
+                    <!--<td>-->
+                        <!--<span th:text="${task.descr}"></span>-->
+                    <!--</td>-->
+
+                    <td>
+                        <div th:if="${task?.modifyCount != null}">
+                            <form th:action="@{/secure/task}" method="GET">
+                                <button class="btn btn-default btn-lg btn-link" style="font-size:30px;"
+                                        name="id" th:value="${task.id}">
+                                    <span class="glyphicon glyphicon-comment"></span>
+                                </button>
+                                <span class="badge badge-notify" th:text="${task.modifyCount}"></span>
+                            </form>
+                        </div>
+                    </td>
 
                     <td style="margin: 5px; padding-left: 5px; padding-right: 5px">
                         <div th:if="${task.topicStarterId} == ${userId}">

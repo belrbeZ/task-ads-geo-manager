@@ -11,7 +11,8 @@ import com.keeper.model.dao.Task;
 import java.util.List;
 
 /**
- * Default Comment
+ * !!! Private Contracts !!!
+ * !!! Used Only In Util Purposes In Model Service Classes !!!
  */
 public interface IFeedSubmit {
     Task    submit(Task task);

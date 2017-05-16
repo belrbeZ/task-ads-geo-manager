@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Default Comment
+ * Public Contracts To Work With SubscriptionService
  */
 public interface ISubscription {
 

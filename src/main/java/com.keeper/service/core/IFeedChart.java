@@ -1,7 +1,8 @@
 package com.keeper.service.core;
 
 /**
- * Default Comment
+ * Private Contracts To Work With FeedService
+ * Used to Rate Tasks
  *
  * @author @GoodforGod
  * @since 16.05.2017

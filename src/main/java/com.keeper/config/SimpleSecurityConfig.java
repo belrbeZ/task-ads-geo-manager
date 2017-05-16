@@ -38,7 +38,7 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/",
                         WebResolver.WELCOME,
                         WebResolver.LOGIN,
-                        WebResolver.REGISTER, "/css/**", "/js/**", "/webjars/bootstrap/**").permitAll()
+                        WebResolver.REGISTER, "/css/**", "/static/css/**" ,"/js/**", "/webjars/bootstrap/**").permitAll()
                 .antMatchers(WebResolver.SECURED + "/**").hasAuthority(ROLE).anyRequest()
                 .authenticated()
                 .and().csrf()
@@ -49,8 +49,6 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl(WebResolver.HOME, true)
                 .usernameParameter("email")
                 .passwordParameter("password");
-
-//        http.csrf().disable();
     }
 
     @Override
@@ -61,6 +59,6 @@ public class SimpleSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers( "/js/**", "/css/**", "/images/**", "/webjars/bootstrap/**");
+        web.ignoring().antMatchers( "/js/**", "/css/**", "/static/css/**" ,"/images/**", "/webjars/bootstrap/**");
     }
 }
