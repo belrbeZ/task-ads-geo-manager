@@ -555,20 +555,6 @@
             }
         ];
 
-        function updateGeoPointsOnMap(list) {
-            if(groups!=null && groups.length!=0) {
-                groups[0].items.length=0;
-                myMap.geoObjects.remove(groups[0].placemarkCollection);
-
-                myMap.geoObjects.remove(groups[0].circleCollection);
-
-            }
-            for(var i=0; i<list.length; i++) {
-                groups[0].items.push(list[i]);
-            }
-            refreshMAP();
-        }
-
         /*]]>*/
     </script>
 
@@ -669,10 +655,16 @@
 
         }
 
-        function refreshMAP() {
-            for (var i = 0, l = groups.length; i < l; i++) {
-                createMenuGroup(groups[i]);
+        function refreshMAP(groupChangedIndex) {
+
+            if(groupChangedIndex==null || groupChangedIndex==-1){
+                for (var i = 0, l = groups.length; i < l; i++) {
+                    createMenuGroup(groups[i]);
+                }
+            } else {
+                createMenuGroup(groups[groupChangedIndex]);
             }
+
             function createMenuGroup (group) {
                 // Коллекция для геообъектов группы.
 
@@ -1600,7 +1592,7 @@
 
                 $("#geoPointListBlock").html(filteredresponse[0]);
 
-                updateGeoPointsOnMap(filteredresponse[1]);
+                updateMarksOnMap("GeoPoints", filteredresponse[1]);
             }
         });
     }
@@ -1802,7 +1794,7 @@
          } else if (status == "success") {
          var filteredresponse = filterListGeoResponse(response);
          response = filteredresponse[0];
-         updateGeoPointsOnMap(filteredresponse[1]);
+         updateMarksOnMap("GeoPoints",filteredresponse[1]);
          }
          });*/
 
@@ -1819,12 +1811,12 @@
 
                 $("#tasksListBlock").html(filteredresponse[0]);
 
-                updateTasksOnMap(type, filteredresponse[1]);
+                updateMarksOnMap(type, filteredresponse[1]);
             }
         });
     }
 
-    function updateTasksOnMap(type, list) {
+    function updateMarksOnMap(type, list) {
         if(groups!=null && groups.length!=0) {
             var index = getGroupIndex(type);
 
@@ -1837,9 +1829,10 @@
                 groups[index].items.push(list[i]);
             }
 
-            refreshMAP();
+            refreshMAP(index);
         }
     }
+
     // ]]>
 </script>
 
