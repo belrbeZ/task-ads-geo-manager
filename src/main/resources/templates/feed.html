@@ -320,10 +320,10 @@
                                     </button>
                                 </form>
 
-                                <form th:action="@{/secure/task/form}" th:method="DELETE"
+                                <form th:action="@{'/secure/task/' + ${task.id}}" th:method="DELETE"
                                       style="padding: 2px">
                                     <input type="hidden" name="_method" value="DELETE"/>
-                                    <button class="btn btn-danger" name="id" th:value="${task.id}" type="Submit">
+                                    <button class="btn btn-danger" type="Submit">
                                         Delete
                                     </button>
                                 </form>

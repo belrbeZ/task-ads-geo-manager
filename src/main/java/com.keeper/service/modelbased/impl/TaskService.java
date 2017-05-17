@@ -195,7 +195,7 @@ public class TaskService extends PrimeModelService<Task, Long>
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent())
-            repository.removeByIdAndTopicStarterId(id, user.get().getId());
+            removeByCheckUserId(id, user.get().getId());
         else
             throw new NullPointerException("USER ID NOT MATCH TOPIC STARTER ID");
     }

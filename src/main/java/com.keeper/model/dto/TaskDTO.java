@@ -4,7 +4,6 @@ import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 import com.keeper.model.util.SimpleGeoPoint;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -51,7 +50,6 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.type = TaskType.EMPTY;
         this.theme = "";
         this.descr = "";
-        this.geo = SimpleGeoPoint.EMPTY;
     }
 
     public TaskDTO(TaskDTO taskDTO) {

@@ -58,18 +58,29 @@ public class Comment {
         this.latitude = 0.;
     }
 
-    public Comment(Long taskId, Long userId, String message, Double latitude, Double longtitude) {
+    public Comment(Long taskId, Long userId, String message) {
         this.taskId = taskId;
         this.userId = userId;
         this.createDate = Timestamp.valueOf(LocalDateTime.now());
         this.lastModifyDate = createDate;
         this.message = message;
+        this.latitude = 0.;
+        this.longtitude = 0.;
+    }
+
+    public Comment(Long taskId, Long userId, String message, Double latitude, Double longtitude) {
+        this(taskId, userId, message);
         this.longtitude = longtitude;
         this.latitude = latitude;
     }
 
     public Comment(Long taskId, Long userId, String message, SimpleGeoPoint geoPoint) {
-        this(taskId, userId, message, geoPoint.getLongitude(), geoPoint.getLatitude());
+        this(taskId, userId, message);
+
+        if(geoPoint != null) {
+            this.longtitude = longtitude;
+            this.latitude = latitude;
+        }
     }
 
     //<editor-fold desc="GetterAndSetter">

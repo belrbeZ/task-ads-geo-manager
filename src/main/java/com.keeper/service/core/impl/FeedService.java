@@ -436,6 +436,6 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     private boolean satisfiesSearch(String target, String desired) {
-        return FuzzySearch.partialRatio(target, desired) > 80;
+        return FuzzySearch.partialRatio(target, desired) > 85;
     }
 }

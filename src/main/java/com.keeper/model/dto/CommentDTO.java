@@ -1,7 +1,5 @@
 package com.keeper.model.dto;
 
-import com.keeper.model.types.TaskType;
-import com.keeper.model.types.UserType;
 import com.keeper.model.util.SimpleGeoPoint;
 
 import javax.validation.constraints.NotNull;
@@ -31,12 +29,7 @@ public class CommentDTO {
     private SimpleGeoPoint geo;
 
     private CommentDTO() {
-        this.taskId = TaskType.EMPTY.getValue();
-        this.userId = UserType.EMPTY.getValue();
-        this.createDate = LocalDateTime.MIN;
-        this.lastModifyDate = LocalDateTime.MIN;
         this.message = "";
-        this.geo = SimpleGeoPoint.EMPTY;
     }
 
     public CommentDTO(Long userId, Long taskId, String userName) {
@@ -139,19 +132,4 @@ public class CommentDTO {
     }
 
     //</editor-fold>
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CommentDTO that = (CommentDTO) o;
-
-        return id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 }

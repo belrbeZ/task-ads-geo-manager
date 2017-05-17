@@ -23,7 +23,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -88,7 +91,7 @@ public class TaskWebController {
 
     @RequestMapping(value = WebResolver.TASK + "/{id}", method = RequestMethod.DELETE)
     public ModelAndView taskDelete(@PathVariable(value = "id") Long taskId, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.FEED));
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.FEED));
 
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent()) {
@@ -132,7 +135,7 @@ public class TaskWebController {
                 if(updateTask.isPresent())
                     dto = ModelTranslator.toDTO(updateTask.get());
             }
-            modelAndView.addObject("user", user);
+            modelAndView.addObject("user", user.get());
             modelAndView.addObject("task", dto);
             return modelAndView;
         }
@@ -145,7 +148,7 @@ public class TaskWebController {
 
     @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.POST)
     public ModelAndView taskUpdateOrCreate(@Valid TaskDTO task, Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.FEED));
 
         Optional<User> user = userService.getAuthorized();
 
@@ -157,35 +160,39 @@ public class TaskWebController {
                 task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
 
             try {
-                if (Validator.isIdValid(task.getId()))
-                    taskService.updateDTO(task);
-                else
-                    taskService.saveDTO(task);
+                Optional<Task> savedTask;
 
-                modelAndView.addObject("user", user.get());
-                modelAndView.addObject("task", task);
+                if (Validator.isIdValid(task.getId()))
+                    savedTask = taskService.updateDTO(task);
+                else
+                    savedTask = taskService.saveDTO(task);
+
+                savedTask.ifPresent(task1 -> modelAndView.setViewName(TemplateResolver.redirect(WebResolver.TASK + "/" + task1.getId())));
                 return modelAndView;
             }
             catch (Exception e) {
                 modelAndView.addObject(MSG, "No Such Task!");
-                modelAndView.setViewName(TemplateResolver.FEED);
             }
         }
         else modelAndView.addObject(MSG, "ReLogin First!");
 
-        modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.FEED));
-
         return modelAndView;
     }
 
-    @RequestMapping(value = WebResolver.TASK_COMMENT, method = RequestMethod.POST)
-    public ModelAndView taskAddComment(@Valid TaskDTO task,
-                                       @Valid CommentDTO comment,
+    @RequestMapping(value = WebResolver.TASK + "/{id}/" + WebResolver.TASK_COMMENT, method = RequestMethod.POST)
+    public ModelAndView taskAddComment(@PathVariable(value = "id") Long taskId,
+                                       CommentDTO comment,
                                        Model model) {
-        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.TASK + "/" + task.getId()));
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.TASK + "/" + taskId));
 
         try {
-            commentService.saveDTO(comment);
+            Optional<User> user;
+            if((user = userService.getAuthorized()).isPresent()) {
+                comment.setId(null);
+                comment.setTaskId(taskId);
+                comment.setUserId(user.get().getId());
+                commentService.saveDTO(comment);
+            }
         } catch (Exception e) {
             logger.warn("ERROR ON SAVING COMMENT");
         }

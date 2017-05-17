@@ -56,7 +56,7 @@ public class FeedWebController {
 
         if(!user.isPresent())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
-        else if(!(tasks = feedService.getRecent(user.get().getId())).isPresent())
+        else if(!(tasks = feedService.getSubscribed(user.get().getId())).isPresent())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
 
         modelAndView.addObject(USER_ID_OBJ, (user.isPresent()) ? user.get().getId() : 0);
