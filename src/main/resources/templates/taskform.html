@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" content="text/html"/>
@@ -41,6 +41,7 @@
         <section class="banner-section">
             <div>
                 <!-- MAP -->
+                <!--<div th:replace="fragments/map_form :: map_form"> </div>-->
             </div>
         </section>
         <section class="post-content-section">
@@ -79,6 +80,15 @@
                         <form autocomplete="off" th:action="@{/secure/task/form}"
                               th:object="${task}" method="post" class="form-registration" role="form">
                             <input type="hidden" th:field="${task.id}" />
+                            <input type="hidden" th:field="${task.topicStarterId}" />
+                            <!--<div style="display: none;">
+                   <input type="text" th:field="*{geo}" placeholder="Geo" class="form-control" />
+                   <label th:if="${#fields.hasErrors('geo')}" th:errors="*{geo}" class="validation-message"></label>
+               </div>-->
+                                <input type="hidden" th:field="*{latitude}" placeholder="Latitude" class="form-control" />
+                                <input type="hidden" th:field="*{longitude}" placeholder="Longitude" class="form-control" />
+                                <input type="hidden" th:field="*{radius}" placeholder="Radius" class="form-control" />
+
 
                             <p class="lead">
                                 <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
