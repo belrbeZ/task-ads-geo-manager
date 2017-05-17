@@ -1,11 +1,19 @@
 package com.keeper.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 import com.keeper.model.util.SimpleGeoPoint;
+import com.keeper.util.validation.annotation.Geo;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -29,7 +37,13 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     @NotEmpty private String theme;
     @NotEmpty private String descr;
 
+//    @JsonIgnore
     private SimpleGeoPoint geo;
+
+    private Double longitude;
+    private Double latitude;
+    private Integer radius;
+
     private Long modifyCount = null;
     private Boolean subscribed = null;
 
@@ -50,6 +64,10 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.theme = "";
         this.descr = "";
         this.geo = SimpleGeoPoint.EMPTY;
+
+        this.latitude = 0.;
+        this.longitude = 0.;
+        this.radius = 0;
     }
 
     public TaskDTO(TaskDTO taskDTO) {
@@ -61,6 +79,10 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.theme = taskDTO.getTheme();
         this.descr = taskDTO.getDescr();
         this.geo = taskDTO.getGeo();
+
+        this.latitude = taskDTO.getLatitude();
+        this.longitude = taskDTO.getLongitude();
+        this.radius = taskDTO.getRadius();
     }
 
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
@@ -71,6 +93,39 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.theme  = theme;
         this.descr  = descr;
         this.geo    = geo;
+
+        this.latitude = geo.getLatitude();
+        this.longitude = geo.getLongitude();
+        this.radius = geo.getRadius();
+    }
+
+    public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
+                   @Geo String latitude,
+                   @Geo String longitude,
+                   @NotNull Integer radius) {
+        this.id     = id;
+        this.topicStarterId = topicStarterId;
+        this.type   = type;
+        this.theme  = theme;
+        this.descr  = descr;
+
+        this.latitude = Double.valueOf(latitude);
+        this.longitude = Double.valueOf(longitude);
+        this.radius = radius;
+    }
+    public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
+                   @Geo String latitude,
+                   @Geo String longitude,
+                   @NotNull String radius) {
+        this.id     = id;
+        this.topicStarterId = topicStarterId;
+        this.type   = type;
+        this.theme  = theme;
+        this.descr  = descr;
+
+        this.latitude = Double.valueOf(latitude);
+        this.longitude = Double.valueOf(longitude);
+        this.radius = Integer.parseInt(radius);
     }
 
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
@@ -84,6 +139,10 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.comments       = comments;
         this.participants   = participants;
         this.tags           = tags;
+
+        this.latitude = geo.getLatitude();
+        this.longitude = geo.getLongitude();
+        this.radius = geo.getRadius();
     }
 
     //<editor-fold desc="GetterAndSetter">
@@ -113,8 +172,13 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         return geo;
     }
 
+//    @JsonDeserialize(using = StringSimpleDeserializer.class)
     public void setGeo(SimpleGeoPoint geo) {
         this.geo = geo;
+
+        this.latitude = geo.getLatitude();
+        this.longitude = geo.getLongitude();
+        this.radius = geo.getRadius();
     }
 
     public Long getId() {
@@ -205,6 +269,44 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.tags = tags;
     }
 
+
+
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLongitude(@Geo String longtitude) {
+        this.longitude = Double.valueOf(longtitude);
+    }
+
+    public void setLatitude(@Geo String latitude) {
+        this.latitude = Double.valueOf(latitude);
+    }
+
+    public Integer getRadius() {
+        return radius;
+    }
+
+    public void setRadius(@NotNull String radius) {
+        this.radius = Integer.parseInt(radius);
+    }
+
+    public void setLongitude(Double longtitude) {
+        this.longitude = longtitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setRadius(@NotNull Integer radius) {
+        this.radius = radius;
+    }
     //</editor-fold>
 
     @Override
@@ -244,4 +346,18 @@ public class TaskDTO implements Comparator<LocalDateTime> {
                 ", tags=" + tags +
                 '}';
     }
+
+//    private class StringSimpleDeserializer extends JsonDeserializer<SimpleGeoPoint> {
+//        @Override
+//        public SimpleGeoPoint deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
+//            String valueAsString = "";
+//            try {
+//                valueAsString = jsonParser.getValueAsString();
+//            } catch (Exception e) {
+//                System.out.println(e);
+//            }
+//            int integer = (int) Double.parseDouble(valueAsString);
+//            return new SimpleGeoPoint("0.","0.",0);
+//        }
+//    }
 }

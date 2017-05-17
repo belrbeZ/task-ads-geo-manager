@@ -33,6 +33,23 @@
                   th:object="${task}" method="post" class="form-registration" role="form">
                     <input type="hidden" th:field="${task.id}" />
 
+                <!--<div style="display: none;">
+                    <input type="text" th:field="*{geo}" placeholder="Geo" class="form-control" />
+                    <label th:if="${#fields.hasErrors('geo')}" th:errors="*{geo}" class="validation-message"></label>
+                </div>-->
+                <div style="display: none;">
+                    <input type="text" th:field="*{latitude}" placeholder="Latitude" class="form-control" />
+                    <label th:if="${#fields.hasErrors('Latitude')}" th:errors="*{Latitude}" class="validation-message"></label>
+                </div>
+                <div style="display: none;">
+                    <input type="text" th:field="*{longitude}" placeholder="Longitude" class="form-control" />
+                    <label th:if="${#fields.hasErrors('longitude')}" th:errors="*{longitude}" class="validation-message"></label>
+                </div>
+                <div style="display: none;">
+                    <input type="text" th:field="*{radius}" placeholder="Radius" class="form-control" />
+                    <label th:if="${#fields.hasErrors('radius')}" th:errors="*{radius}" class="validation-message"></label>
+                </div>
+
                 <div>
                     <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
                     <label th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="validation-message"></label>

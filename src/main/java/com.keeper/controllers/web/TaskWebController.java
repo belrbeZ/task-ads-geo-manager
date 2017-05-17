@@ -4,8 +4,10 @@ package com.keeper.controllers.web;
  * Created by @GoodforGod on 25.04.2017.
  */
 
+import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.GeoPointDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.service.core.ISubscription;
@@ -19,12 +21,11 @@ import com.keeper.util.resolvers.WebResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -138,8 +139,12 @@ public class TaskWebController {
 
         if(user.isPresent()) {
             task.setTopicStarterId(user.get().getId());
-            // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
-            task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
+            if(task.getGeo().getLatitude().equals(Double.parseDouble("0.")) &&
+                    task.getGeo().getLongitude().equals(Double.parseDouble("0."))) {
+                // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
+                task.setGeo(new SimpleGeoPoint(task.getLatitude(), task.getLongitude(), task.getRadius()));
+//                task.setGeo(new SimpleGeoPoint("0.","0.",15));
+        }
 
             try {
                 if (Validator.isIdValid(task.getId()))
@@ -163,6 +168,61 @@ public class TaskWebController {
         return modelAndView;
     }
 
+    @RequestMapping(value = WebResolver.TASK_FORM + "/withGeo", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ModelAndView taskCreateForm(@Valid @RequestBody GeoPointDTO geoPointDTO, BindingResult result, Model model) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
+
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            TaskDTO dto = new TaskDTO();
+            dto.setTopicStarterId(user.get().getId());
+
+            dto.setGeo(new SimpleGeoPoint(geoPointDTO.getLatitude().toString(),
+                    geoPointDTO.getLongitude().toString(),
+                    geoPointDTO.getRadius()));
+            dto.setLatitude(geoPointDTO.getLatitude());
+            dto.setLongitude( geoPointDTO.getLongitude());
+            dto.setRadius(geoPointDTO.getRadius());
+
+            modelAndView.addObject("task", dto);
+            return modelAndView;
+        }
+        else modelAndView.addObject(MSG, "ReLogin First!");
+
+        modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.MAP));
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = WebResolver.TASK_FORM + "/withSimpleGeo", method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ModelAndView taskSimpleCreateForm(@Valid SimpleGeoPoint simpleGeoPoint, Model model) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
+
+        Optional<User> user = userService.getAuthorized();
+
+        if(user.isPresent()) {
+            TaskDTO dto = new TaskDTO();
+            dto.setTopicStarterId(user.get().getId());
+
+            dto.setGeo(new SimpleGeoPoint(simpleGeoPoint.getLatitude().toString(),
+                    simpleGeoPoint.getLongitude().toString(),
+                    simpleGeoPoint.getRadius()));
+            dto.setLatitude(simpleGeoPoint.getLatitude());
+            dto.setLongitude( simpleGeoPoint.getLongitude());
+            dto.setRadius(simpleGeoPoint.getRadius());
+
+            modelAndView.addObject("task", dto);
+            return modelAndView;
+        }
+        else modelAndView.addObject(MSG, "ReLogin First!");
+
+        modelAndView.setViewName(TemplateResolver.redirect(TemplateResolver.MAP));
+
+        return modelAndView;
+    }
 
     /**
      * Task Subscribe Mapping
