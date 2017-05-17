@@ -102,9 +102,12 @@ public class FeedWebController {
         Optional<List<TaskDTO>> tasks = Optional.empty();
 
         if(user.isPresent())
-            tasks = (type == null)
-                    ? feedService.getLocal(user.get().getId())
-                    : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
+            if(search != null && type == null)
+                tasks = feedService.getByTheme(user.get().getId(), search, FeedType.ALL);
+            else
+                tasks = (type == null)
+                        ? feedService.getLocal(user.get().getId())
+                        : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 

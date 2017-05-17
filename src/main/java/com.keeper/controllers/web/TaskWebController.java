@@ -150,7 +150,7 @@ public class TaskWebController {
     }
 
     @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.POST)
-    public ModelAndView taskUpdateOrCreate(@Valid TaskDTO task, Model model) {
+    public ModelAndView taskUpdateOrCreate(TaskDTO task, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.FEED));
 
         Optional<User> user = userService.getAuthorized();
@@ -159,7 +159,7 @@ public class TaskWebController {
             task.setTopicStarterId(user.get().getId());
 
             // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
-            if(task.getGeo() == null)
+            if(task.getGeo() == null || !task.isGeoValid())
                 task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
 
             try {

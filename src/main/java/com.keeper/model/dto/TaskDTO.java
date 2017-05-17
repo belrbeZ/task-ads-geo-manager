@@ -1,7 +1,6 @@
 package com.keeper.model.dto;
 
 import com.keeper.model.types.TaskType;
-import com.keeper.model.types.UserType;
 import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.util.validation.annotation.Geo;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -51,13 +50,10 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     public TaskDTO() {
         this.id = TaskType.EMPTY.getValue();
-        this.createDate     = null;
-        this.lastModifyDate = null;
-        this.topicStarterId = UserType.EMPTY.getValue();
+
         this.type = TaskType.EMPTY;
         this.theme = "";
         this.descr = "";
-        this.geo = SimpleGeoPoint.EMPTY;
 
         this.latitude = 0.;
         this.longitude = 0.;
@@ -107,6 +103,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.longitude = Double.valueOf(longitude);
         this.radius = radius;
     }
+
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
                    @Geo String latitude,
                    @Geo String longitude,
@@ -149,6 +146,10 @@ public class TaskDTO implements Comparator<LocalDateTime> {
          return (lastModifyDate != null)
                  ? lastModifyDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
                  : "";
+     }
+
+     public boolean isGeoValid() {
+        return latitude != 0 && longitude != 0 && radius != 0;
      }
 
     //<editor-fold desc="GetterAndSetter">
@@ -274,8 +275,6 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     public void setTags(List<TagDTO> tags) {
         this.tags = tags;
     }
-
-
 
 
     public Double getLongitude() {
