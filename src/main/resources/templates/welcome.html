@@ -1,17 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title>Welcome</title>
-
-    <!--<link rel="stylesheet" type="text/css"-->
-          <!--href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />-->
-    <!--<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.6/css/bootstrap.min.css"-->
-          <!--th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"-->
-          <!--rel="stylesheet" media="screen" />-->
-    <!--<link href="../static/css/core.css"-->
-          <!--th:href="@{/css/core.css}"-->
-          <!--rel="stylesheet" media="screen" />-->
 
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
@@ -21,7 +12,7 @@
         body {
             font-family: 'Roboto', sans-serif;
 
-            background-image: url("http://shoorick.ru/slide/uwdc/pic/cm-mc-style.png");
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.5) 90%), url("http://shoorick.ru/slide/uwdc/pic/cm-mc-style.png");
         }
 
         img {
