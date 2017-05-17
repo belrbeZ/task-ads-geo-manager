@@ -334,6 +334,14 @@
 
     <!--STYLES FOR MESSAGES-->
     <style th:inline="text">
+        #responseMessage {
+            background-color: #fff;
+            color: #0074D9;
+        }
+        #message-add_place {
+            background-color: #0074D9;
+            color: #fff;
+        }
         .Message {
             display: table;
             position: fixed;
@@ -343,8 +351,6 @@
             margin: 0 auto;
             /*margin: 40px auto 0;*/
             width: 500px;
-            background-color: #0074D9;
-            color: #fff;
             -webkit-transition: all 0.4s ease;
             transition: all 0.4s ease;
             -webkit-animation: opacity 0.5s ease-out;
@@ -523,34 +529,20 @@
                     strokeWidth: 1
                 },
                 items: [
-                    {
-                        id:3,
-                        descr: 'Тестовая точка м.Пл.Восстания',
-                        latitude: 59.92858,
-                        longitude: 30.357068,
-                        radius: 150
-                    },
-                    {
-                        id:4,
-                        descr: 'Тестовая точка м.Петроградская',
-                        latitude: 59.968226,
-                        longitude: 30.309588,
-                        radius: 100
-                    }
                 ],
                 placemarkCollection: null,
                 circleCollection: null
-            }/*,
+            },
             {
                 name: "TasksLocal",
-                style: 'islands#yellowIcon',
+                style: 'islands#redIcon',
                 styleCircle: {
                     // Прозрачность заливки.
-                    fillColor: "#ecf071",
+                    fillColor: "#f0a85c",
                     // Прозрачность заливки.
                     fillOpacity: 0.3,
                     // Цвет обводки.
-                    strokeColor: "#efed15",
+                    strokeColor: "#ef8a6f",
                     // Прозрачность обводки.
                     strokeOpacity: 0.5,
                     // Ширина обводки в пикселях.
@@ -561,7 +553,7 @@
                 ],
                 placemarkCollection: null,
                 circleCollection: null
-            }*/
+            }
         ];
 
         function updateGeoPointsOnMap(list) {
@@ -585,6 +577,8 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
 
+        var zoomByClick = 14;
+
         var myMap;
 
         function recenterMap(xA,yA,zoom) {
@@ -607,7 +601,11 @@
                 case "TasksOwner":
                     return 1;
                     break;
+                case "TasksLocal":
+                    return 2;
+                    break;
                 default:
+                    console.log("Unknown type of Tasks for refresh!");
                     return -1;
                     break;
             }
@@ -630,7 +628,48 @@
             } catch (e){console.log(e.toString());}
             return circle;
         }
-        
+
+        function baloonTaskOpen(event, type) {
+            var coords,
+                durPlaceMark,
+                circle;
+            try{
+                durPlaceMark = event.get('target');
+                coords = durPlaceMark.geometry._coordinates;
+
+                circle = getCircleByCoords(type, coords[0], coords[1]);
+
+                replaceTaskContent(durPlaceMark['properties'].get('id'), coords[0], coords[1],
+                    circle == null ? defaultGeoRadius :circle.geometry.getRadius());
+
+                $("#sidebar-wrapper-right").toggleClass("active", true);
+
+                setDisplayList("changeTaskForm",true);
+
+            } catch (e){console.log(e.toString());}
+
+            recenterMap(coords[0],coords[1],zoomByClick);
+
+            setViewTaskButton();
+
+            try{
+                if(placemarkYour!=null){
+                    placemarkYour.options._options.visible;
+
+                    placemarkYour._options.visible;
+
+                    placemarkYour.options.visible;
+
+                    if(placemarkYour.options._options.visible == true) {
+                        isTrustedClose = false;
+                        placemarkYour.balloon.close();
+                    }
+                }
+
+            }catch(e){console.log(e.toString())}
+
+        }
+
         function refreshMAP() {
             for (var i = 0, l = groups.length; i < l; i++) {
                 createMenuGroup(groups[i]);
@@ -692,9 +731,11 @@
                                         durPlaceMark['properties'].get('balloonContent'),
                                         true);
 
+                                    setDisplayList("addGeoPointForm",true);
+
                                 } catch (e){console.log(e.toString());}
 
-                                recenterMap(coords[0],coords[1],14);
+                                recenterMap(coords[0],coords[1],zoomByClick);
                                 //UPDATE DELETE
                                 setUpdateDeleteButtons();
 
@@ -721,13 +762,26 @@
                             });
                         break;
                     case "TasksOwner":
+                    case "TasksLocal":
                         group.placemarkCollection.events.add('mouseenter', function (e) {
                             try{
                                 // Ссылку на объект, вызвавший событие,
                                 // можно получить из поля 'target'.
-                                e.get('target').options.set('preset', 'twirl#skiingIcon');
+                                e.get('target').options.set('preset', 'islands#whiteIcon');
                             } catch (e) {console.log(e);}
+                        })
+                        .add('balloonopen', function (event) {
+
+                            baloonTaskOpen(event, group.name);
+
+                        })
+                        .add('balloonclose', function (event) {
+                            closeChangingTask();
                         });
+                        break;
+                    default:
+                        console.log("Unknown type refresh Map!")
+                        return;
                         break;
                 }
                 group.placemarkCollection.events.add('mouseleave', function (e) {
@@ -735,6 +789,7 @@
                         e.get('target').options.unset('preset');
                     } catch (e) {console.log(e);}
                 });
+
             }
 
             function createSubMenu (group, item, placemarkCollection, circleCollection) {
@@ -751,7 +806,14 @@
                             'Не удалось определить адрес.';
 
                         // Задаем новое содержимое балуна в соответствующее свойство метки.
-                        placemark.properties.set('balloonContent', item.descr==null||item.descr==="" ? "Адрес: " + newContent : item.descr);
+                        switch (getGroupIndex(group.name)) {
+                            case 0:
+                                placemark.properties.set('balloonContent', item.descr==null||item.descr==="" ? "Адрес: " + newContent : item.descr);
+                                break;
+                            case 1:
+                                placemark.properties.set('balloonContent', item.theme==null||item.theme==="" ? "Адрес: " + newContent : item.theme);
+                                break;
+                        }
                     });
                 }catch(e){console.log(e.toString())}
                 // Добавляем метку в коллекцию.
@@ -799,6 +861,9 @@
 
         function closeEditForms() {
             closeChangingGeoPoint();
+
+            closeChangingTask();
+
             //closeeditRoute
         }
 
@@ -936,7 +1001,7 @@
                         // Прозрачность заливки также можно задать используя опцию "fillOpacity".
                         fillColor: "#27bb47",
                         // Прозрачность заливки.
-                        strokeOpacity: 0.3,
+                        fillOpacity: 0.3,
                         // Цвет обводки.
                         strokeColor: "#67e250",
                         // Прозрачность обводки.
@@ -958,11 +1023,19 @@
                             circleYour == null ? defaultGeoRadius :circleYour.geometry.getRadius(),
                             placemarkYour['properties'].get('balloonContent'),
                             true);
+
+                        replaceTaskContent(placemarkYour.id, coords[0], coords[1],
+                            circleYour == null ? defaultGeoRadius :circleYour.geometry.getRadius());
+
+                        messageToAddPlace();
+
+
                     } catch (e) {
                         console.log(e);
                     }
-                    recenterMap(coords[0],coords[1],14);
+                    recenterMap(coords[0],coords[1],zoomByClick);
                     setCreateCancelButtons();
+                    setCreateTaskButton();
                 });
 
                 /*HIDE PLACEMARK ON CLOSING BALOON*/
@@ -980,7 +1053,8 @@
 
                 myMap.geoObjects.add(placemarkYour);
                 myMap.geoObjects.add(circleYour);
-                messageToAddPlace();
+
+
             }
 
             // Обработка события, возникающего при щелчке
@@ -1046,11 +1120,14 @@
                 break;
             case "routeList":
                 break;
-            case "tasksOwnerList":
-                $('#tasksOwnerListBlock').toggle("fast");
+            case "tasksList":
+                $('#tasksBlock').toggle("fast");
                 break;
             case "addGeoPointForm":
                 $('#add-geo_point-form').toggle("fast");
+                break;
+            case "changeTaskForm":
+                $('#change-task-form').toggle("fast");
                 break;
         }
     }
@@ -1068,6 +1145,9 @@
                 case "addGeoPointForm":
                     $('#add-geo_point-form').show("fast");
                     break;
+                case "changeTaskForm":
+                    $('#change-task-form').show("fast");
+                    break;
             }
         } else if(bool===false) {
             switch (elemName){
@@ -1080,6 +1160,9 @@
                     break;
                 case "addGeoPointForm":
                     $('#add-geo_point-form').hide("fast");
+                    break;
+                case "changeTaskForm":
+                    $('#change-task-form').hide("fast");
                     break;
             }
         }
@@ -1102,20 +1185,30 @@
 //            });
         });
 
+        $('#getTasksListButton').click(function (e) {
+            toggleList("tasksList");
+        });
+
         $('#getTasksOwnerButton').click(function (e) {
-
             if($('#TasksOwnerListBlock').children().length==0){
-                refreshTasksOwnerList();
+                refreshTasksList("TasksOwner");
             }
+        });
 
-//            $(this).off("click").click(function (e) {
-                toggleList("tasksOwnerList");
-//            });
+        $('#getTasksLocalButton').click(function (e) {
+            if($('#TasksOwnerListBlock').children().length==0){
+                refreshTasksList("TasksLocal");
+            }
         });
 
     });
 
 </script>
+
+<!--RESPONSE FROM CRUD-->
+<div id="responseBlock" class="Message is-hidden">
+    <span id="responseMessage"></span>
+</div>
 
 <!--MESSAGES-->
 <div id="message-add_place" class="Message is-hidden">
@@ -1123,10 +1216,11 @@
         <i class="fa fa-bell-o"></i>
     </div>
     <div class="Message-body">
-        <p>CHECK PLACE FOR CREATE OR CHANGING
-            <small><br>Do you want to add new Place in which area you can see tasks?</small></p>
-        <button class="Message-button" id="js-showMe">Show how to add!</button>
-        <button class="Message-button js-messageClose">Nah, not interested</button>
+        <p>Выберите место для дальнейшего действия!
+            <small><br>Добавьте новое место или задание!</small>
+        </p>
+        <button class="Message-button" id="js-showMeGeo">Добавить место!</button>
+        <button class="Message-button" id="js-showMeTask">Добавить задание!</button>
     </div>
     <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
 </div>
@@ -1148,13 +1242,23 @@
     $(document).ready(function() {
         $('.js-messageClose').on('click', function(e) {
             closeMessage($(this).closest('.Message'));
+            setDisplayList("addGeoPointForm",false);
+            setDisplayList("changeTaskForm",false);
         });
 
-        $('#js-showMe').on('click', function(e) {
-    //        th:onclick="'javascript:getContactId(\'' + ${contact.id} + '\');'"
-    //        alert("You're off to our help section. See you later!");
+        $('#js-showMeGeo').on('click', function(e) {
             $("#sidebar-wrapper-right").toggleClass("active", true);
+            setCreateCancelButtons();
+            setCreateTaskButton();
             setDisplayList("addGeoPointForm",true);
+            closeMessage($(this).closest('.Message'));
+        });
+
+        $('#js-showMeTask').on('click', function(e) {
+            $("#sidebar-wrapper-right").toggleClass("active", true);
+            setCreateTaskButton();
+            setCreateCancelButtons();
+            setDisplayList("changeTaskForm",true);
             closeMessage($(this).closest('.Message'));
         });
     });
@@ -1170,13 +1274,16 @@
     var defaultGeoRadius = 300;
 
     $(document).ready(function() {
-        createUpdateGeoButton = document.getElementById("geo_point-create_update-button");
-        deleteCancelGeoButton = document.getElementById("geo_point-delete_cancel-button");
+        createUpdateGeoButton = $("#geo_point-create_update-button");
+        deleteCancelGeoButton = $("#geo_point-delete_cancel-button");
+        createViewTaskButton = $("#task-create_view-button");
     });
 
     function setCreateCancelButtons() {
-        createUpdateGeoButton.textContent = "Create";
-        deleteCancelGeoButton.textContent = "Cancel";
+//        $(createUpdateGeoButton).prop('value', 'Create');
+//        $(deleteCancelGeoButton).prop('value', 'Cancel');
+        $(createUpdateGeoButton).html('Создать');
+        $(deleteCancelGeoButton).html('Отменить');
 
         $(createUpdateGeoButton).prop("type", "submit");
         $(deleteCancelGeoButton).prop("type", "button");
@@ -1194,8 +1301,12 @@
     }
 
     function setUpdateDeleteButtons() {
-        createUpdateGeoButton.textContent = "Update";
-        deleteCancelGeoButton.textContent = "Delete";
+//        $(createUpdateGeoButton).prop('value', 'Update');
+//        $(deleteCancelGeoButton).prop('value', 'Delete');
+//        createUpdateGeoButton.textContent = "Update";
+//        deleteCancelGeoButton.textContent = "Delete";
+        $(createUpdateGeoButton).html('Обновить');
+        $(deleteCancelGeoButton).html('Удалить');
 
         $(createUpdateGeoButton).prop("type", "submit");
         $(deleteCancelGeoButton).prop("type", "submit");
@@ -1212,6 +1323,7 @@
 //            submitGeoPointForm(/*[[@{/secure/api/geo/byObj}]]*/'/secure/api/geo/byObj','DELETE');
         });
     }
+
 
     function getData() {
         var data = {}
@@ -1247,8 +1359,12 @@
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                 } else {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                     refreshGeoPointsList();
 
                     //                    isTrustedClose = false;
@@ -1259,6 +1375,8 @@
                 var msg = "Sorry but there was an error: ";
                 alert(msg+response.responseText);
                 $("#responseMessage").text(response.message);
+                $("#responseMessage").show('slow');
+                $("#responseMessage").hide('slow');
             }
         });
 
@@ -1288,8 +1406,12 @@
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                 } else {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                     refreshGeoPointsList();
                 }
             },
@@ -1297,6 +1419,8 @@
                 var msg = "Sorry but there was an error: ";
                 alert(msg+response.responseText);
                 $("#responseMessage").text(response.message);
+                $("#responseMessage").show('slow');
+                $("#responseMessage").hide('slow');
             }
         });
 
@@ -1320,8 +1444,12 @@
             success : function(response) {
                 if ($(response).find('.has-error').length) {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                 } else {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                     refreshGeoPointsList();
                 }
             },
@@ -1329,6 +1457,8 @@
                 var msg = "Sorry but there was an error: ";
                 alert(msg+response.responseText);
                 $("#responseMessage").text(response.message);
+                $("#responseMessage").show('slow');
+                $("#responseMessage").hide('slow');
             }
         });
     }
@@ -1361,8 +1491,12 @@
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                 } else {
                     $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
                 }
             },
 //            error :function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1370,6 +1504,8 @@
                 var msg = "Sorry but there was an error: ";
                 alert(msg+response.responseText);
                 $("#responseMessage").text(response);
+                $("#responseMessage").show('slow');
+                $("#responseMessage").hide('slow');
             }
         });
 
@@ -1400,7 +1536,6 @@
 
         $("#responseMessage").text('');
 
-        setDisplayList("addGeoPointForm",true);
     }
 
     function closeChangingGeoPoint() {
@@ -1475,12 +1610,150 @@
 </script>
 
 
+<!--TASKS BUTTONS-->
+<script th:inline="javascript">
+    // <![CDATA[
+    function replaceTaskContent(id,latitude,longitude,radius) {
+        document.getElementById('input-task-id').value = id;
+        try{
+            document.getElementById('input-task-latitude').value = latitude;
+            document.getElementById('input-task-longitude').value = longitude;
+            document.getElementById('input-task-radius').value = radius;
+        } catch (e) {console.log(e.toString());}
+    }
+     /*var changeTaskFormData, viewTaskButton;
+
+    $(document).ready(function() {
+        changeTaskFormData = $("#change-task-form-data");
+        viewTaskButton = $("#task-view-button");
+    });
+    function setCreateTaskButton() {
+        $(changeTaskFormData).show();
+        $(viewTaskButton).hide();
+    }
+
+    function setViewTaskButton() {
+        $(changeTaskFormData).hide();
+        $(viewTaskButton).show();
+    }*/
+
+    var createViewTaskButton;
+
+    $(document).ready(function() {
+        createViewTaskButton = $("#task-create_view-button");
+    });
+
+    function setCreateTaskButton() {
+        createViewTaskButton.html("Создать");
+
+        $(createViewTaskButton).off("click").click(function (e) {
+            e.preventDefault();
+            submitCreateTask();
+        });
+    }
+
+    function setViewTaskButton() {
+        createViewTaskButton.html("Просмотреть");
+
+        $(createViewTaskButton).off("click").click(function (e) {
+            e.preventDefault();
+            submitViewTask();
+        });
+    }
+
+    function submitViewTask() {
+        var action =/*[[@{/secure/task/}]]*/'/secure/task/';
+        action += $('#input-task-id').val();
+
+//        var form = $('#change-task-form-data');
+//        form.action = action;
+//        $(form).attr("method", "GET");
+
+        window.location.href = action;
+    }
+
+    function submitCreateTask() {
+        var action =/*[[@{/secure/task/form/withGeo}]]*/'/secure/task/form/withGeo';
+
+//        var form = $('#change-task-form-data');
+//        form.action = action;
+//        $(form).attr("method", "POST");
+
+        console.log('ajax submitGeoPointForm()');
+
+        var data = getData();
+        /*try{
+         frmjs = JSON.stringify(data);
+         }catch(e){console.log(e)}*/
+        $.ajax({
+            url: action,
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            timeout: 600000,
+            async: true,
+            beforeSend: function(request) {
+                request.setRequestHeader([[${_csrf.headerName}]], [[${_csrf.token}]]);
+            },
+            success: function (response) {
+
+                // if the response contains any errors, replace the form
+                if ($(response).find('.has-error').length) {
+                    $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
+
+                } else {
+                    $("#responseMessage").text(response.message);
+                    $("#responseMessage").show('slow');
+                    $("#responseMessage").hide('slow');
+
+//                    refreshTasksOwnerList();
+
+//                    isTrustedClose = false;
+                    placemarkYour.balloon.close();
+
+                    $('body').replaceWith(response);
+//                    $('html').replaceWith(response);
+//                    window.location.href = "secure/taskform/withGeo";
+                    window.history.pushState("", "", "secure/taskform/withGeo");
+                }
+            },
+            error :function(response) {
+                var msg = "Sorry but there was an error: ";
+                alert(msg+response.responseText);
+                $("#responseMessage").text(response.message);
+            }
+        });
+
+    }
+
+    function closeChangingTask() {
+        setDisplayList("changeTaskForm",false);
+        setCreateTaskButton();
+    }
+
+    $('#changeTasksButton').click(function (e) {
+        toggleList("changeTaskForm");
+    });
+
+    $("#task-cancel-button").click(function (e) {
+        closeEditForms();
+
+        $("#sidebar-wrapper-right").toggleClass("active", false);
+
+//        placemarkYour.balloon.close();
+    });
+
+    // ]]>
+</script>
 <!--TASKS-->
 <script th:inline="javascript">
     // <![CDATA[
 
-    function filterListTasksOwnerResponse(response){
-//        var tasksBlock = $('#TasksListBlock');
+    function filterListTasksOwnerResponse(type, response){
+//        var tasksBlock = $('#tasksListBlock');
         var responseAsObject;
 
         responseAsObject = $.parseJSON(response);
@@ -1488,14 +1761,16 @@
         if(responseAsObject.length>0){
             htmlResponse = "<ul>";
             for(var i=0; i<responseAsObject.length; i++) {
-                htmlResponse+="<li class='elem-tasksOwnerFromList'>";
-                htmlResponse+="<span id='tasks_owner-id-in-list-"+i+"' style='display:none;'>";
+                htmlResponse+="<li class='elem-"+type+"FromList'>";
+                htmlResponse+="<span id='tasks_"+type+"-id-in-list-"+i+"' style='display:none;'>";
                 htmlResponse+= responseAsObject[i].id+"</span>";
-                htmlResponse+= "Info "+responseAsObject[i].descr==null||responseAsObject[i].descr==""?"Моё место":responseAsObject[i].descr
+                htmlResponse+= "Theme "+responseAsObject[i].theme==null||responseAsObject[i].theme==""?"Задание":responseAsObject[i].theme
                 htmlResponse+= "<br>"+
-                    "latitude "+responseAsObject[i].latitude+"<br>"+
+                    "descr     "+responseAsObject[i].descr+"<br>"+
+                    "type      "+responseAsObject[i].type+"<br>"+
+                    "latitude  "+responseAsObject[i].latitude+"<br>"+
                     "longitude "+responseAsObject[i].longitude+"<br>"+
-                    "radius "+responseAsObject[i].radius;
+                    "radius    "+responseAsObject[i].radius;
                 htmlResponse+="</li>";
             }
             htmlResponse+="</ul>";
@@ -1505,8 +1780,20 @@
         return [htmlResponse, responseAsObject];
     }
 
-    function refreshTasksOwnerList() {
-        var url = /*[[@{/secure/api/feedtasks/owner}]]*/'/secure/api/feedtasks/owner';
+    function refreshTasksList(type) {
+        var url;
+        switch (type) {
+            case "TasksOwner":
+                url = /*[[@{/secure/api/feed/10}]]*/'/secure/api/feed/10';
+                break;
+            case "TasksLocal":
+                url = /*[[@{/secure/api/feed/30}]]*/'/secure/api/feed/30';
+                break;
+            default:
+                console.log("Unknown type of Tasks for refresh!")
+                return;
+                break;
+        }
         /*
          $("#geoPointListBlock").load(url, function (response, status, xhr) {
          console.log('ajax refreshGeoPointsList()');
@@ -1529,29 +1816,30 @@
                 alert(msg+response.responseText);
             },
             success: function (response) {
-                var filteredresponse = filterListTasksOwnerResponse(response);
+                var filteredresponse = filterListTasksOwnerResponse(type, response);
 
-                $("#TasksListBlock").html(filteredresponse[0]);
+                $("#tasksListBlock").html(filteredresponse[0]);
 
-                updateTasksOwnerOnMap(filteredresponse[1]);
+                updateTasksOnMap(type, filteredresponse[1]);
             }
         });
     }
 
-    function updateTasksOwnerOnMap(list) {
+    function updateTasksOnMap(type, list) {
         if(groups!=null && groups.length!=0) {
-            var index = getGroupIndex("TasksOwner");
+            var index = getGroupIndex(type);
 
             groups[index].items.length=0;
             myMap.geoObjects.remove(groups[index].placemarkCollection);
 
             myMap.geoObjects.remove(groups[index].circleCollection);
 
+            for(var i=0; i<list.length; i++) {
+                groups[index].items.push(list[i]);
+            }
+
+            refreshMAP();
         }
-        for(var i=0; i<list.length; i++) {
-            groups[0].items.push(list[i]);
-        }
-        refreshMAP();
     }
     // ]]>
 </script>

@@ -39,17 +39,55 @@
             <li>
                 <a href="#portfolio">Portfolio</a>
             </li> &ndash;&gt;
-            <li>
-                <a href="/blog" title="Our Blog">Blog</a>
-            </li>
+
             <li>
                 <a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>
             </li>-->
             <li>
-                <a id="changeGeoPointsButton" title="Create or Change GeoPoint">GeoPoints</a>
+                <a id="changeGeoPointsButton" title="Create or Change GeoPoint">Места</a>
                 <!--<div layout:include="fragments/geopointform"> </div>-->
                 <div id="add-geo_point-form" style="display: none;">
                     <div th:replace="fragments/geopointform"> </div>
+                </div>
+            </li>
+            <li>
+                <a id="changeTasksButton" title="Our Blog">Задания</a>
+                <div id="change-task-form" style="display: none;">
+                    <div style="display: none;">
+                        <input id="input-task-id" type="text" placeholder="Id" class="form-control id" />
+                        <label class="validation-message"></label>
+                    </div>
+                    <!--<form id="change-task-form-data" th:action="@{/secure/task/form/withSimpleGeo}" autocomplete="off" method="post" class="form-registration" role="form">
+
+                        <div style="display: none;">
+                            <input id="input-task-latitude" type="text" placeholder="Latitude" class="form-control latitude" />
+                            <label class="validation-message"></label>
+                        </div>
+                        <div style="display: none;">
+                            <input id="input-task-longitude" type="text" placeholder="Longitude" class="form-control longitude" />
+                            <label class="validation-message"></label>
+                        </div>
+                        <div style="display: none;">
+                            <input id="input-task-radius" type="text" placeholder="Radius" class="form-control radius" />
+                            <label class="validation-message"></label>
+                        </div>
+
+
+                        &lt;!&ndash;<button id="task-create_view-button" class="geo_point-button geo_point-create_update-button" type="submit">Добавить</button>&ndash;&gt;
+
+                        <button id="task-create-button" class="geo_point-button geo_point-create_update-button" type="submit">Добавить</button>
+
+                        &lt;!&ndash;<button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>&ndash;&gt;
+                    </form>
+
+                    <button id="task-view-button" class="geo_point-button geo_point-create_update-button" type="submit" style="display: none;">Обновить</button>
+                    <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>
+-->
+
+                    <button id="task-create_view-button" class="geo_point-button geo_point-create_update-button" type="submit">Добавить</button>
+
+                    <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>
+
                 </div>
             </li>
         </ul>
@@ -63,9 +101,16 @@
                 <a>YOUR <strong>ELEMENTS</strong></a>
             </li>
             <li>
-                <a id="getTasksOwnerButton" title="List of Tasks">List of Tasks</a>
-                <div style="display: none;" id="tasksOwnerListBlock">
+                <a id="getTasksListButton" title="List of Tasks">Списки Заданий</a>
 
+                <div style="display: none;" id="tasksBlock">
+                    <div>
+                        <button id="getTasksOwnerButton" type="button">Мои Задания</button>
+                        <button id="getTasksLocalButton" type="button">Новые задания</button>
+                    </div>
+                    <div id="tasksListBlock">
+
+                    </div>
                 </div>
             </li>
             <li>
@@ -78,10 +123,11 @@
                 </div>
 
             </li>
+           <!-- <li>
+                <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
+
+            </li>-->
             <!--<li>
-            <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
-            </li>
-            <li>
             <a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>
             </li>
             &lt;!&ndash; Future Development

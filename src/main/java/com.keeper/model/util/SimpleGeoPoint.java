@@ -39,6 +39,20 @@ public class SimpleGeoPoint {
         this.radius = radius;
     }
 
+    public SimpleGeoPoint(@Geo String latitude,
+                          @Geo String longitude,
+                          @NotNull String radius) {
+        this(latitude, longitude);
+        this.radius = Integer.parseInt(radius);
+    }
+    public SimpleGeoPoint(@Geo Double latitude,
+                          @Geo Double longitude,
+                          @NotNull Integer radius) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
+        this.radius = radius;
+    }
     //<editor-fold desc="GetterAndSetter">
 
     public Double getLongitude() {

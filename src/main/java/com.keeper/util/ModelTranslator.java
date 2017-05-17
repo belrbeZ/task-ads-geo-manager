@@ -250,7 +250,9 @@ public class ModelTranslator {
     public static Task toDAO(TaskDTO model) {
         if(model == null)
             throw new NullPointerException();
-
+        /*new SimpleGeoPoint(model.getLatitude(),
+                model.getLongitude(),
+                model.getRadius())*/
         return new Task(model.getTopicStarterId(),
                     model.getType(),
                     model.getTheme(),

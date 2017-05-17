@@ -47,6 +47,11 @@ public class FeedRestController {
                     ? feedService.getLocal(user.get().getId())
                     : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
 
+            if(!usersTasks.isPresent()) {
+                LOGGER.error(user.get().getEmail() + " REST Can't get list of Tasks!");
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
+
             LOGGER.warn(user.get().getEmail() + " REST getListTasks ALL size: " + usersTasks.get().size());
             return new ResponseEntity<>(usersTasks.get(), HttpStatus.OK);
         } else {
