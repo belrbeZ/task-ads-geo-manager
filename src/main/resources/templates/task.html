@@ -74,7 +74,8 @@
                         <li>
                             <form th:action="@{/secure/task/form}"
                                   method="GET" style="padding: 15px">
-                                <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit" style="font-weight: 900">
+                                <button class="btn btn btn-success" name="id" th:value="${task.id}"
+                                        type="Submit" style="font-weight: 900">
                                     Update
                                 </button>
                             </form>
@@ -86,6 +87,22 @@
                                 <button class="btn btn-danger"  type="Submit" style="font-weight: 900">
                                     Delete
                                 </button>
+                            </form>
+                        </li>
+                    </ul>
+
+                    <ul th:if="${task?.topicStarterId} != ${user?.id} and ${task.theme} != null" class="list-inline text-center">
+                        <li th:if="${task.subscribed} == true">
+                            <form th:action="@{/secure/task/subscribe}" th:method="DELETE">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button name="id" class="btn btn-warning" th:value="${task.id}" type="Submit" th:text="Unsubscribe"></button>
+                            </form>
+                        </li>
+                        <li th:if="${task.subscribed} == false">
+                            <form th:action="@{/secure/task/subscribe}" method="POST"
+                                  >
+                                <input type="hidden" name="_method" value="POST"/>
+                                <button name="id" class="btn btn-warning" th:value="${task.id}" type="Submit" th:text="Subscribe"></button>
                             </form>
                         </li>
                     </ul>
@@ -141,7 +158,7 @@
                                                     <span th:text="${comment.getPrettyCreateDate()}"></span>
                                                 </small>
                                             </span>
-                                            <strong class="text-success">@<span th:text="${comment?.userName}"></span></strong>
+                                            <strong class="text-success">@<span th:text="${comment?.userName}">Anonymous</span></strong>
                                             <p>
                                                 <span th:text="${comment.message}"></span>
                                             </p>

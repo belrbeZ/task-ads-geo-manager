@@ -38,7 +38,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     private Integer radius;
 
     private Long modifyCount = null;
-    private Boolean subscribed = null;
+    private Boolean subscribed = false;
 
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
@@ -50,6 +50,8 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
     public TaskDTO() {
         this.id = TaskType.EMPTY.getValue();
+
+        this.subscribed = false;
 
         this.type = TaskType.EMPTY;
         this.theme = "";

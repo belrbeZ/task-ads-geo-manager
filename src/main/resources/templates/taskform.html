@@ -51,7 +51,7 @@
                     <div class="col-lg-12 col-md-12 col-sm-12 post-title-block">
 
                         <!--<h1 class="text-center">post Title goes here</h1>-->
-                        <ul th:if="${task.topicStarterId} == ${user.id}" class="list-inline text-center">
+                        <ul th:if="${task.theme} == null" class="list-inline text-center">
                             <li>
                                 <form th:action="@{'/secure/task/' + ${task.id}}" th:method="DELETE"
                                       style="padding: 5px; font-weight: 900">
@@ -98,7 +98,19 @@
                                 </select>-->
                             </div>
 
-                            <button class="btn btn btn-success" type="submit">Save</button>
+                            <div>
+                                <button class="btn btn btn-success" type="submit">Save</button>
+
+                                <div th:if="${task.theme} == null" class="list-inline text-center">
+                                    <form th:action="@{'/secure/task/' + ${task.id}}" th:method="DELETE"
+                                          style="padding: 5px; font-weight: 900">
+                                        <input type="hidden" name="_method" value="DELETE"/>
+                                        <button class="btn btn-danger" type="Submit">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </form>
 
                         <div th:if="${message} != null" class="well">
