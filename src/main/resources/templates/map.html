@@ -529,34 +529,20 @@
                     strokeWidth: 1
                 },
                 items: [
-                    {
-                        id:3,
-                        descr: 'Тестовая точка м.Пл.Восстания',
-                        latitude: 59.92858,
-                        longitude: 30.357068,
-                        radius: 150
-                    },
-                    {
-                        id:4,
-                        descr: 'Тестовая точка м.Петроградская',
-                        latitude: 59.968226,
-                        longitude: 30.309588,
-                        radius: 100
-                    }
                 ],
                 placemarkCollection: null,
                 circleCollection: null
-            }/*,
+            },
             {
                 name: "TasksLocal",
-                style: 'islands#yellowIcon',
+                style: 'islands#redIcon',
                 styleCircle: {
                     // Прозрачность заливки.
-                    fillColor: "#ecf071",
+                    fillColor: "#f0a85c",
                     // Прозрачность заливки.
                     fillOpacity: 0.3,
                     // Цвет обводки.
-                    strokeColor: "#efed15",
+                    strokeColor: "#ef8a6f",
                     // Прозрачность обводки.
                     strokeOpacity: 0.5,
                     // Ширина обводки в пикселях.
@@ -567,7 +553,7 @@
                 ],
                 placemarkCollection: null,
                 circleCollection: null
-            }*/
+            }
         ];
 
         function updateGeoPointsOnMap(list) {
@@ -615,7 +601,11 @@
                 case "TasksOwner":
                     return 1;
                     break;
+                case "TasksLocal":
+                    return 2;
+                    break;
                 default:
+                    console.log("Unknown type of Tasks for refresh!");
                     return -1;
                     break;
             }
@@ -638,7 +628,48 @@
             } catch (e){console.log(e.toString());}
             return circle;
         }
-        
+
+        function baloonTaskOpen(event, type) {
+            var coords,
+                durPlaceMark,
+                circle;
+            try{
+                durPlaceMark = event.get('target');
+                coords = durPlaceMark.geometry._coordinates;
+
+                circle = getCircleByCoords(type, coords[0], coords[1]);
+
+                replaceTaskContent(durPlaceMark['properties'].get('id'), coords[0], coords[1],
+                    circle == null ? defaultGeoRadius :circle.geometry.getRadius());
+
+                $("#sidebar-wrapper-right").toggleClass("active", true);
+
+                setDisplayList("changeTaskForm",true);
+
+            } catch (e){console.log(e.toString());}
+
+            recenterMap(coords[0],coords[1],zoomByClick);
+
+            setViewTaskButton();
+
+            try{
+                if(placemarkYour!=null){
+                    placemarkYour.options._options.visible;
+
+                    placemarkYour._options.visible;
+
+                    placemarkYour.options.visible;
+
+                    if(placemarkYour.options._options.visible == true) {
+                        isTrustedClose = false;
+                        placemarkYour.balloon.close();
+                    }
+                }
+
+            }catch(e){console.log(e.toString())}
+
+        }
+
         function refreshMAP() {
             for (var i = 0, l = groups.length; i < l; i++) {
                 createMenuGroup(groups[i]);
@@ -731,57 +762,26 @@
                             });
                         break;
                     case "TasksOwner":
+                    case "TasksLocal":
                         group.placemarkCollection.events.add('mouseenter', function (e) {
                             try{
                                 // Ссылку на объект, вызвавший событие,
                                 // можно получить из поля 'target'.
-                                e.get('target').options.set('preset', 'twirl#skiingIcon');
+                                e.get('target').options.set('preset', 'islands#whiteIcon');
                             } catch (e) {console.log(e);}
                         })
                         .add('balloonopen', function (event) {
 
-                            var coords,
-                                durPlaceMark,
-                                circle;
-                            try{
-                                durPlaceMark = event.get('target')
-                                coords = durPlaceMark.geometry._coordinates;
-
-                                circle = getCircleByCoords("TasksOwner", coords[0], coords[1]);
-
-                                replaceTaskContent(durPlaceMark.id, coords[0], coords[1],
-                                    circle == null ? defaultGeoRadius :circle.geometry.getRadius());
-
-                                $("#sidebar-wrapper-right").toggleClass("active", true);
-                                setDisplayList("changeTaskForm",true);
-
-
-                            } catch (e){console.log(e.toString());}
-
-                            recenterMap(coords[0],coords[1],zoomByClick);
-
-                            setViewTaskButton();
-
-                            try{
-                                if(placemarkYour!=null){
-                                    placemarkYour.options._options.visible;
-
-                                    placemarkYour._options.visible;
-
-                                    placemarkYour.options.visible;
-
-                                    if(placemarkYour.options._options.visible == true) {
-                                        isTrustedClose = false;
-                                        placemarkYour.balloon.close();
-                                    }
-                                }
-
-                            }catch(e){console.log(e.toString())}
+                            baloonTaskOpen(event, group.name);
 
                         })
                         .add('balloonclose', function (event) {
                             closeChangingTask();
                         });
+                        break;
+                    default:
+                        console.log("Unknown type refresh Map!")
+                        return;
                         break;
                 }
                 group.placemarkCollection.events.add('mouseleave', function (e) {
@@ -789,6 +789,7 @@
                         e.get('target').options.unset('preset');
                     } catch (e) {console.log(e);}
                 });
+
             }
 
             function createSubMenu (group, item, placemarkCollection, circleCollection) {
@@ -805,7 +806,14 @@
                             'Не удалось определить адрес.';
 
                         // Задаем новое содержимое балуна в соответствующее свойство метки.
-                        placemark.properties.set('balloonContent', item.descr==null||item.descr==="" ? "Адрес: " + newContent : item.descr);
+                        switch (getGroupIndex(group.name)) {
+                            case 0:
+                                placemark.properties.set('balloonContent', item.descr==null||item.descr==="" ? "Адрес: " + newContent : item.descr);
+                                break;
+                            case 1:
+                                placemark.properties.set('balloonContent', item.theme==null||item.theme==="" ? "Адрес: " + newContent : item.theme);
+                                break;
+                        }
                     });
                 }catch(e){console.log(e.toString())}
                 // Добавляем метку в коллекцию.
@@ -1112,8 +1120,8 @@
                 break;
             case "routeList":
                 break;
-            case "tasksOwnerList":
-                $('#tasksOwnerListBlock').toggle("fast");
+            case "tasksList":
+                $('#tasksBlock').toggle("fast");
                 break;
             case "addGeoPointForm":
                 $('#add-geo_point-form').toggle("fast");
@@ -1177,15 +1185,20 @@
 //            });
         });
 
+        $('#getTasksListButton').click(function (e) {
+            toggleList("tasksList");
+        });
+
         $('#getTasksOwnerButton').click(function (e) {
-
             if($('#TasksOwnerListBlock').children().length==0){
-                refreshTasksOwnerList();
+                refreshTasksList("TasksOwner");
             }
+        });
 
-//            $(this).off("click").click(function (e) {
-                toggleList("tasksOwnerList");
-//            });
+        $('#getTasksLocalButton').click(function (e) {
+            if($('#TasksOwnerListBlock').children().length==0){
+                refreshTasksList("TasksLocal");
+            }
         });
 
     });
@@ -1601,11 +1614,11 @@
 <script th:inline="javascript">
     // <![CDATA[
     function replaceTaskContent(id,latitude,longitude,radius) {
+        document.getElementById('input-task-id').value = id;
         try{
-            $('#input-task-id').val = id;
-            $('#input-task-latitude').val = latitude;
-            $('#input-task-longitude').val = longitude;
-            $('#input-task-radius').val = radius;
+            document.getElementById('input-task-latitude').value = latitude;
+            document.getElementById('input-task-longitude').value = longitude;
+            document.getElementById('input-task-radius').value = radius;
         } catch (e) {console.log(e.toString());}
     }
      /*var changeTaskFormData, viewTaskButton;
@@ -1739,8 +1752,8 @@
 <script th:inline="javascript">
     // <![CDATA[
 
-    function filterListTasksOwnerResponse(response){
-//        var tasksBlock = $('#TasksListBlock');
+    function filterListTasksOwnerResponse(type, response){
+//        var tasksBlock = $('#tasksListBlock');
         var responseAsObject;
 
         responseAsObject = $.parseJSON(response);
@@ -1748,14 +1761,16 @@
         if(responseAsObject.length>0){
             htmlResponse = "<ul>";
             for(var i=0; i<responseAsObject.length; i++) {
-                htmlResponse+="<li class='elem-tasksOwnerFromList'>";
-                htmlResponse+="<span id='tasks_owner-id-in-list-"+i+"' style='display:none;'>";
+                htmlResponse+="<li class='elem-"+type+"FromList'>";
+                htmlResponse+="<span id='tasks_"+type+"-id-in-list-"+i+"' style='display:none;'>";
                 htmlResponse+= responseAsObject[i].id+"</span>";
-                htmlResponse+= "Info "+responseAsObject[i].descr==null||responseAsObject[i].descr==""?"Моё место":responseAsObject[i].descr
+                htmlResponse+= "Theme "+responseAsObject[i].theme==null||responseAsObject[i].theme==""?"Задание":responseAsObject[i].theme
                 htmlResponse+= "<br>"+
-                    "latitude "+responseAsObject[i].latitude+"<br>"+
+                    "descr     "+responseAsObject[i].descr+"<br>"+
+                    "type      "+responseAsObject[i].type+"<br>"+
+                    "latitude  "+responseAsObject[i].latitude+"<br>"+
                     "longitude "+responseAsObject[i].longitude+"<br>"+
-                    "radius "+responseAsObject[i].radius;
+                    "radius    "+responseAsObject[i].radius;
                 htmlResponse+="</li>";
             }
             htmlResponse+="</ul>";
@@ -1765,8 +1780,20 @@
         return [htmlResponse, responseAsObject];
     }
 
-    function refreshTasksOwnerList() {
-        var url = /*[[@{/secure/api/feedtasks/owner}]]*/'/secure/api/feedtasks/owner';
+    function refreshTasksList(type) {
+        var url;
+        switch (type) {
+            case "TasksOwner":
+                url = /*[[@{/secure/api/feed/10}]]*/'/secure/api/feed/10';
+                break;
+            case "TasksLocal":
+                url = /*[[@{/secure/api/feed/30}]]*/'/secure/api/feed/30';
+                break;
+            default:
+                console.log("Unknown type of Tasks for refresh!")
+                return;
+                break;
+        }
         /*
          $("#geoPointListBlock").load(url, function (response, status, xhr) {
          console.log('ajax refreshGeoPointsList()');
@@ -1789,29 +1816,30 @@
                 alert(msg+response.responseText);
             },
             success: function (response) {
-                var filteredresponse = filterListTasksOwnerResponse(response);
+                var filteredresponse = filterListTasksOwnerResponse(type, response);
 
-                $("#TasksListBlock").html(filteredresponse[0]);
+                $("#tasksListBlock").html(filteredresponse[0]);
 
-                updateTasksOwnerOnMap(filteredresponse[1]);
+                updateTasksOnMap(type, filteredresponse[1]);
             }
         });
     }
 
-    function updateTasksOwnerOnMap(list) {
+    function updateTasksOnMap(type, list) {
         if(groups!=null && groups.length!=0) {
-            var index = getGroupIndex("TasksOwner");
+            var index = getGroupIndex(type);
 
             groups[index].items.length=0;
             myMap.geoObjects.remove(groups[index].placemarkCollection);
 
             myMap.geoObjects.remove(groups[index].circleCollection);
 
+            for(var i=0; i<list.length; i++) {
+                groups[index].items.push(list[i]);
+            }
+
+            refreshMAP();
         }
-        for(var i=0; i<list.length; i++) {
-            groups[0].items.push(list[i]);
-        }
-        refreshMAP();
     }
     // ]]>
 </script>

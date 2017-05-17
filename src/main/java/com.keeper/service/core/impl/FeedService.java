@@ -415,7 +415,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
 
     @Override
     public Optional<List<TaskDTO>> getByTheme(Long userId, String theme, FeedType feedType) {
-        if(Validator.isStrEmpty(theme))
+        if(Validator.isStrEmpty(theme) && feedType==null)
             return Optional.empty();
 
         Optional<List<TaskDTO>>  tasksToProceed;
