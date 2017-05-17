@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 
@@ -137,6 +138,18 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.longitude = geo.getLongitude();
         this.radius = geo.getRadius();
     }
+
+    public String getPrettyCreateDate() {
+        return (createDate != null)
+                ? createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                : "";
+    }
+
+     public String getPrettyLastModifyDate() {
+         return (lastModifyDate != null)
+                 ? lastModifyDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                 : "";
+     }
 
     //<editor-fold desc="GetterAndSetter">
 

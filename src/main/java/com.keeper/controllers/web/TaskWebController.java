@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.Collections;
 import java.util.Optional;
 
 /**
@@ -66,6 +67,7 @@ public class TaskWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK);
 
         Optional<User> user = userService.getAuthorized();
+
         if(user.isPresent()){
             if(Validator.isIdValid(taskId)) {
                 Optional<Task> daoTask = taskService.get(taskId);
@@ -73,6 +75,7 @@ public class TaskWebController {
                     modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
                     TaskDTO taskDTO = subsService.fillSubs(user.get().getId(),
                                                         ModelTranslator.toDTO(daoTask.get()));
+                    taskDTO.setComments(ModelTranslator.commentsToDTO(commentService.getByTaskId(taskDTO.getId()).orElse(Collections.emptyList())));
                     modelAndView.addObject("task", taskDTO);
                     modelAndView.addObject("comment", new CommentDTO(user.get().getId(), taskDTO.getId(), user.get().getName()));
                     subsService.viewTask(user.get().getId(), daoTask.get().getId());
