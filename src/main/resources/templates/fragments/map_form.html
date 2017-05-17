@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet"  th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          type="text/css" media="screen" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <script type="text/javascript"
+            src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
+            th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+
+</head>
+<body>
+
+<div th:fragment="map_form">
+
+    <!--yMaps-->
+    <div id="map" style="width: 100vw; height: 30vh"></div>
+
+    <script th:inline="javascript">
+        // <![CDATA[
+        var myMap, placemarkHead, circleHead;
+        ymaps.ready(function () {
+            // Создание экземпляра карты.
+            if (ymaps == null) {
+                alert("Can't connect to maps")
+            }
+            myMap = new ymaps.Map('map', {
+                center: [${task.latitude}, ${task.longitude}],
+                zoom: 13
+            }, {
+//                searchControlProvider: 'yandex#search'
+            });
+
+            // Создаем метку.
+            placemarkHead = new ymaps.Placemark([${task.latitude}, ${task.longitude}], {
+                // balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
+                iconContent: "Новое"
+            }, {
+                preset: "islands#redIcon",
+                // Отключаем кнопку закрытия балуна.
+//                            balloonCloseButton: false,
+                // Балун будем открывать и закрывать кликом по иконке метки.
+                hideIconOnBalloonOpen: false
+            });
+
+//                // Создаем экземпляр класса геометрии круга (указываем координаты и радиус в метрах).
+//                var circleGeometry = new ymaps.geometry.Circle([coords[0].toPrecision(6), coords[1].toPrecision(6)], defaultGeoRadius);
+//                // Создаем экземпляр класса геообъекта и передаем нашу геометрию в конструктор.
+//                circleYour = new ymaps.GeoObject({ geometry: circleGeometry });
+
+            circleHead = new ymaps.Circle(
+                [
+                    [${task.latitude}, ${task.longitude}], ${task.radius}
+                ],
+                {
+                    // Описываем свойства круга.
+                    // Содержимое балуна.
+                    //                        balloonContent: "Радиус круга - 10 км",
+                    // Содержимое хинта.
+                    //                        hintContent: "Подвинь меня"
+                }, {
+                    // Задаем опции круга.
+                    // Включаем возможность перетаскивания круга.
+                    //                        draggable: true,
+                    // Цвет заливки.
+                    // Последний байт (77) определяет прозрачность.
+                    // Прозрачность заливки также можно задать используя опцию "fillOpacity".
+                    fillColor: "#f5a367",
+                    // Прозрачность заливки.
+                    fillOpacity: 0.3,
+                    // Цвет обводки.
+                    strokeColor: "#e26f45",
+                    // Прозрачность обводки.
+                    strokeOpacity: 0.5,
+                    // Ширина обводки в пикселях.
+                    strokeWidth: 1
+                }
+            );
+
+            myMap.geoObjects.add(placemarkHead);
+            myMap.geoObjects.add(circleHead);
+        });
+
+        // ]]>
+    </script>
+
+</div>
+
+</body>
+</html>

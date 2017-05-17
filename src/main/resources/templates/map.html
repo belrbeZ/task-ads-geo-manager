@@ -802,6 +802,7 @@
                                 placemark.properties.set('balloonContent', item.descr==null||item.descr==="" ? "Адрес: " + newContent : item.descr);
                                 break;
                             case 1:
+                            case 2:
                                 placemark.properties.set('balloonContent', item.theme==null||item.theme==="" ? "Адрес: " + newContent : item.theme);
                                 break;
                         }
@@ -1044,8 +1045,6 @@
 
                 myMap.geoObjects.add(placemarkYour);
                 myMap.geoObjects.add(circleYour);
-
-
             }
 
             // Обработка события, возникающего при щелчке
@@ -1314,7 +1313,6 @@
 //            submitGeoPointForm(/*[[@{/secure/api/geo/byObj}]]*/'/secure/api/geo/byObj','DELETE');
         });
     }
-
 
     function getData() {
         var data = {}
@@ -1705,6 +1703,9 @@
 //                    isTrustedClose = false;
                     placemarkYour.balloon.close();
 
+//                    var body=$(response).filter('.body-content');
+//                    $("body").html(body);
+
                     $('body').replaceWith(response);
 //                    $('html').replaceWith(response);
 //                    window.location.href = "secure/taskform/withGeo";
@@ -1766,7 +1767,7 @@
             }
             htmlResponse+="</ul>";
         } else {
-            htmlResponse = "<div class='empty_list'>Добавьте своё задание!</div>"
+            htmlResponse = "<div class='empty_list'>Добавьте своё место либо задание!</div>"
         }
         return [htmlResponse, responseAsObject];
     }

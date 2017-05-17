@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,7 +50,7 @@ public class FeedRestController {
 
             if(!usersTasks.isPresent()) {
                 LOGGER.error(user.get().getEmail() + " REST Can't get list of Tasks!");
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
+                return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
             }
 
             LOGGER.warn(user.get().getEmail() + " REST getListTasks ALL size: " + usersTasks.get().size());
