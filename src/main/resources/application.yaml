@@ -4,7 +4,7 @@ server:
 spring:
   jpa:
     database: postgresql
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: validate
 
@@ -18,7 +18,7 @@ spring:
       driver-class-name: org.postgresql.Driver
 
   resources:
-    static-locations: classpath:/resources/static/, classpath:/META-INF/resources/, classpath:/META-INF/resources/webjars/
+    static-locations: classpath:/resources/static/**, classpath:/META-INF/resources/, classpath:/META-INF/resources/webjars/
 
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat

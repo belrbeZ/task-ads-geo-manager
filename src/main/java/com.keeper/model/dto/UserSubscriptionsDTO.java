@@ -56,6 +56,7 @@ public class UserSubscriptionsDTO {
     public void setSubscriptions(Map<Long, LocalDateTime> subscriptions) {
         this.subscriptions = subscriptions;
     }
+
     //</editor-fold>
 
     @Override

@@ -74,6 +74,7 @@ public class FeedWebController {
 
         Optional<List<TaskDTO>> tasks = Optional.empty();
         Optional<User> user = userService.getAuthorized();
+
         if(user.isPresent())
             tasks = feedService.getByTheme(user.get().getId(), theme, FeedType.ALL);
         else
@@ -91,7 +92,7 @@ public class FeedWebController {
     /**
      * Feed Filter
      */
-    @RequestMapping(value = WebResolver.FEED_FILTER + "/{type}", method = RequestMethod.POST)
+    @RequestMapping(value = WebResolver.FEED_FILTER, method = RequestMethod.GET)
     public ModelAndView feedFilter(@RequestParam(value = ATTR_FILTER, required = false) Integer type,
                                    @RequestParam(value = ATTR_SEARCH, required = false) String search,
                                    Model model) {

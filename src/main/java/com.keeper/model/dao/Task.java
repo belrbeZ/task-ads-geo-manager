@@ -124,8 +124,6 @@ public class Task {
         this.tags = tags;
     }
 
-    //<editor-fold desc="GetterAndSetter">
-
     public void setGeo(SimpleGeoPoint geo) {
         this.latitude = geo.getLatitude();
         this.longitude = geo.getLongitude();
@@ -134,6 +132,20 @@ public class Task {
 
     public SimpleGeoPoint getGeo() {
         return new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
+    }
+
+    //<editor-fold desc="GetterAndSetter">
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
     }
 
     public Long getId() {
@@ -192,24 +204,12 @@ public class Task {
         this.lastModifyDate = lastModifyDate;
     }
 
-    public Picture getPicture() {
-        return picture;
-    }
-
     public void setPicture(Picture picture) {
         this.picture = picture;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
     }
 
     public void setTags(List<Tag> tags) {

@@ -32,8 +32,6 @@ import java.util.Optional;
 public class GeoPointRestController {
     private static final Logger LOGGER = LoggerFactory.getLogger(GeoPointRestController.class);
 
-    private final String PATH = ApiResolver.GEO;
-
     private final UserService userService;
     private final GeoPointService repoService;
 
@@ -43,12 +41,12 @@ public class GeoPointRestController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> get(@RequestParam("id") Long userId) {
         return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(repoService.getByUserId(userId).get()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH + "/geoPointList", method = RequestMethod.GET,
+    @RequestMapping(value = ApiResolver.GEO + "/geoPointList", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
         Optional<User> user = userService.getAuthorized();
@@ -66,7 +64,7 @@ public class GeoPointRestController {
         }
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.PATCH,
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.PATCH,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SimpleResponse> update(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         Optional<User> user = userService.getAuthorized();
@@ -88,7 +86,7 @@ public class GeoPointRestController {
         return new ResponseEntity<>(new SimpleResponse("Место обновлено!"), HttpStatus.OK);
     }
 
-    @RequestMapping(value = PATH, method = RequestMethod.POST,
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.POST,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SimpleResponse> create(@Valid @RequestBody GeoPointDTO model, BindingResult result) {
         Optional<User> user = userService.getAuthorized();
@@ -106,7 +104,7 @@ public class GeoPointRestController {
     }
 
 
-    @RequestMapping(value = PATH, method = RequestMethod.DELETE)
+    @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.DELETE)
     public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long pointId) {
         LOGGER.warn("    REST Removing point id:" + pointId);
 

@@ -9,17 +9,17 @@
           rel="stylesheet" media="screen" />
 
     <style th:inline="text">
-        /*@import url(https://fonts.googleapis.com/css?family=Roboto:400,100italic,100,300,300italic,900italic,900,700,700italic,500italic,500,400italic);*/
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,100italic,100,300,300italic,900italic,900,700,700italic,500italic,500,400italic);
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
 
         .badge-notify {
             background:red;
             position:relative;
             top: -20px;
             left: -35px;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
         }
 
         .publicaciones-blog-home {
@@ -33,7 +33,7 @@
             font-weight: 300;
             margin-bottom: 30px;
             font-size: 44px;
-            margin-top: 70px;
+            margin-top: 10px;
         }
         .publicaciones-blog-home h2 b {
             color: #2BBCDE;
@@ -42,7 +42,7 @@
             background: #ffffff;
             border-radius: 3px;
             overflow: hidden;
-            height: 200px;
+            height: 160px;
             margin-bottom: 20px;
             display: block;
             color: inherit;
@@ -56,7 +56,7 @@
         }
 
         .publicaciones-blog-home .fondo-publicacion-home:hover .mascara-enlace-blog-home {
-            height: 400px;
+            height: 160px;
             width: 100%;
             color: #aaa;
             background-color: #2BBCDE;
@@ -80,7 +80,7 @@
         }
 
         .publicaciones-blog-home .fondo-publicacion-home .img-publicacion-principal-home img {
-            height: 100%;
+            height: 40px;
             width: auto;
         }
 
@@ -120,7 +120,7 @@
         }
 
         .mascara-enlace-blog-home {
-            height: 400px;
+            height: 160px;
             width: 0%;
             color: #aaa;
             background-color: #2BBCDE;
@@ -131,12 +131,12 @@
             -o-transition: all 0.4s ease-out 0s;
             transition: all 0.4s ease-out 0s;
             text-align: center;
-            padding-top: 180px;
+            padding-top: 20px;
         }
 
         .mascara-enlace-blog-home span {
             text-align: center;
-            max-height: 400px;
+            max-height: 160px;
             border: 1px solid #fff;
             display: inline-block;
             padding: 10px 30px;
@@ -148,7 +148,7 @@
 
         .publicaciones-blog-home .todas-las-publicaciones-home {
             background: #2BBCDE;
-            height: 400px;
+            height: 160px;
             width: 100%;
             display: inline-block;
             padding: 20px;
@@ -170,7 +170,7 @@
                 font-weight: 300;
                 margin-bottom: 30px;
                 font-size: 34px;
-                margin-top: 70px;
+                margin-top: 40px;
             }
             .publicaciones-blog-home .fondo-publicacion-home {
                 background: #ffffff;
@@ -227,189 +227,125 @@
 
 </head>
 <body>
-<div class="container">
+<div>
     <div th:replace="fragments/header :: header"> </div>
 
     <br/>
     <br/>
 
     <div>
-        <h1>Feed</h1>
-    </div>
+        <div class="row" style="margin: 5px">
+            <form th:action="@{/secure/feed/filter}" method="GET">
+                <input type="hidden" name="_method" value="GET"/>
+                <div class="col-md-6" style="padding: 10px">
+                    <div class="input-group col-md-12" style="padding: 10px">
+                        <input type="text" name="search" class="form-control input-lg" placeholder="Enter Search Query"/>
+                        <span class="input-group-btn">
+                                <button class="btn btn-info btn-lg" type="submit">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                        </span>
+                    </div>
 
-    <div class="row" style="margin: 5px">
-        <div class="row-fluid">
-            <form th:action="@{/secure/feed/search}" method="post">
-                <input type="text" name="search" placeholder="Theme Query"/>
-                <button name="Submit" value="search" type="Submit" th:text="Search"></button>
+                    <div class="btn-group" data-toggle="buttons" style="padding: 10px">
+                        <label class="btn btn-primary">
+                            <input onchange="this.form.submit()" type="radio"
+                                   name="filter" value="50" id="Subscribed" autocomplete="off"> Subscribed
+                        </label>
+                        <label class="btn btn-primary">
+                            <input onchange="this.form.submit()" type="radio"
+                                   name="filter" value="30" id="Local" autocomplete="off"> Local
+                        </label>
+                        <label class="btn btn-primary">
+                            <input onchange="this.form.submit()" type="radio"
+                                   name="filter" value="20" id="Recent" autocomplete="off"> Recent
+                        </label>
+                        <label class="btn btn-primary">
+                            <input onchange="this.form.submit()" type="radio"
+                                   name="filter" value="10" id="My" autocomplete="off"> My
+                        </label>
+                        <label class="btn btn-primary">
+                            <input onchange="this.form.submit()" type="radio"
+                                   name="filter" value="40" id="Chart" autocomplete="off"> Top Rated
+                        </label>
+                        <label class="btn btn-primary">
+                            <input onchange="this.form.submit()" type="radio"
+                                   name="filter" value="0" id="All" autocomplete="off"> All
+                        </label>
+                    </div>
+                </div>
             </form>
         </div>
-
-        <div class="row-fluid" style="margin: 5px">
-            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed/filter}" method="post"
-                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                    <input type="hidden" th:value="0" name="filter"/>
-                    <button name="filter" th:value="0" type="Submit" th:text="All"></button>
-                </form>
-            </div>
-            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed/filter}" method="post"
-                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                    <input type="hidden" th:value="40" name="filter"/>
-                    <button name="filter" th:value="40" type="Submit" th:text="Hot"></button>
-                </form>
-            </div>
-            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed/filter}" method="post"
-                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                    <input type="hidden" th:value="30" name="filter"/>
-                    <button name="filter" th:value="30" type="Submit" th:text="Local"></button>
-                </form>
-            </div>
-            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed/filter}" method="post"
-                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                    <input type="hidden" th:value="20" name="filter"/>
-                    <button name="filter" th:value="20" type="Submit" th:text="New"></button>
-                </form>
-            </div>
-            <div class="col-md-1" style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/feed/filter}" method="post"
-                      style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                    <input type="hidden" th:value="10" name="filter"/>
-                    <button name="filter" th:value="10" type="Submit" th:text="My"></button>
-                </form>
-            </div>
-        </div>
-
-        <div class="row-fluid" style="margin: 5px">
-            <a th:href="@{/secure/task/form}">Create Task</a>
-        </div>
     </div>
 
-    <br/>
+    <div>
+        <section class="publicaciones-blog-home">
 
-    <div> <span th:utext="${msg}"></span> </div>
+            <h2>Create <b><a th:href="@{/secure/task/form}">Task</a></b></h2>
 
-    <br/>
+            <div> <span th:utext="${msg}"></span> </div>
 
-    <!--<div>-->
-        <!--<section class="publicaciones-blog-home">-->
-            <!--<h2>Task  <b>Feed</b></h2>-->
-            <!--<div class="row-page row" th:unless="${#lists.isEmpty(tasks)}">-->
-                <!--<div class="col-page col-sm-4 col-md-3" th:each="task : ${tasks}">-->
-                    <!--<a th:href="@{'/secure/task/' + ${task.id}}" class="fondo-publicacion-home">-->
-                        <!--<div class="img-publicacion-home">-->
-                            <!--<img class="img-responsive" src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=30.315868%2C59.939095&l=map&size=520%2C440&z=11" height="100">-->
-                        <!--</div>-->
-                        <!--<div class="contenido-publicacion-home">-->
-                            <!--<div th:if="${task?.modifyCount != null}">-->
-                                <!--<form th:action="@{/secure/task}" method="GET">-->
-                                    <!--<button class="btn btn-default btn-lg btn-link" style="font-size:22px;"-->
-                                            <!--name="id" th:value="${task.id}">-->
-                                        <!--<span class="glyphicon glyphicon-comment"></span>-->
-                                    <!--</button>-->
-                                    <!--<span class="badge badge-notify" th:text="${task.modifyCount}"></span>-->
-                                <!--</form>-->
-                            <!--</div>-->
-                            <!--<h3><span th:text="${task.descr}"></span></h3>-->
+            <div class="row-page row" th:unless="${#lists.isEmpty(tasks)}">
+                <div class="col-page col-sm-4 col-md-3" th:each="task : ${tasks}">
+
+                    <a th:href="@{'/secure/task/' + ${task.id}}" class="fondo-publicacion-home">
+                        <div class="img-publicacion-home">
+                            <div th:unless="${task.topicStarterId} == ${userId}">
+                                <img class="img-responsive" src="https://static-maps.yandex.ru/1.x/?lang=ru_RU&ll=30.315868%2C59.939095&l=map&size=520%2C440&z=11"
+                                     style="position: absolute; bottom: 85%">
+                            </div>
+
+                            <div th:if="${task.topicStarterId} == ${userId}" style="background: cornflowerblue">
+                                <div style="color: cornflowerblue"></div>
+                            </div>
+                        </div>
+
+                        <div class="contenido-publicacion-home" style="padding-top: 10px">
+                            <h3 th:text="${task.theme}">
+                                <span></span>
+                            </h3>
+                            <p th:text="${task.descr}">
+                                <span></span>
+                            </p>
                             <!--<p><span>...</span></p>-->
-                        <!--</div>-->
-                        <!--<div class="mascara-enlace-blog-home">-->
-                            <!--<span>Read</span>-->
+                        </div>
 
-                            <!--<div th:if="${task.topicStarterId} == ${userId}">-->
-                                <!--<form th:action="@{'/secure/task/form/' + ${task.id}}" method="GET">-->
-                                    <!--<button class="btn btn btn-primary" type="Submit">-->
-                                        <!--<span>Update</span>-->
-                                    <!--</button>-->
-                                <!--</form>-->
+                        <div class="mascara-enlace-blog-home">
+                            <span style="height: 20%; padding: 5px 10px;">Read</span>
+                            <div th:if="${task.topicStarterId} == ${userId}">
+                                <form th:action="@{/secure/task/form}" method="GET"
+                                      style="padding: 10px">
+                                    <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit">
+                                        Update
+                                    </button>
+                                </form>
 
-                                <!--&lt;!&ndash;<a th:href="@{'/secure/task/form/' + ${task.id}}" class="fondo-publicacion-home">Update</a>&ndash;&gt;-->
+                                <form th:action="@{/secure/task/form}" th:method="DELETE"
+                                      style="padding: 2px">
+                                    <input type="hidden" name="_method" value="DELETE"/>
+                                    <button class="btn btn-danger" name="id" th:value="${task.id}" type="Submit">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
 
-                                <!--<form th:action="@{'/secure/task/form/' + ${task.id}}" th:method="DELETE">-->
-                                    <!--<input type="hidden" name="_method" value="DELETE"/>-->
-                                    <!--<button class="btn btn btn-primary" type="Submit">-->
-                                        <!--<span>Delete</span>-->
-                                    <!--</button>-->
-                                <!--</form>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</a>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</section>-->
-    <!--</div>-->
+                        <div th:if="${task?.modifyCount != null}" class="text-right"
+                             style="position:absolute; top: 10px; right: 5px;">
+                            <form th:action="@{/secure/task}" method="GET">
+                                <button class="btn btn-default btn-lg btn-link" style="font-size:22px;"
+                                        name="id" th:value="${task.id}">
+                                    <span class="glyphicon glyphicon-comment" style="color: #204d74"></span>
+                                </button>
+                                <span class="badge badge-notify" th:text="${task.modifyCount}"></span>
+                            </form>
+                        </div>
 
-
-
-
-
-
-
-
-        <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <td>Posted</td>
-            <td>Theme</td>
-            <!--<td>Description</td>-->
-            <td>Notifies</td>
-            <td></td>
-            <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="task : ${tasks}">
-
-            <td>
-                <span th:text="${task.createDate}"></span>
-            </td>
-
-            <td>
-                <div>
-                    <form th:action="@{'/secure/task/' + ${task.id}}" method="GET">
-                        <button name="id" th:value="${task.id}" type="Submit" th:text="${task.theme}"></button>
-                    </form>
+                    </a>
                 </div>
-            </td>
-
-            <!--<td>-->
-            <!--<span th:text="${task.descr}"></span>-->
-            <!--</td>-->
-
-            <td>
-                <div th:if="${task?.modifyCount != null}">
-                    <form th:action="@{'/secure/task/' + ${task.id}}" method="GET">
-                        <button class="btn btn-default btn-lg btn-link" style="font-size:30px;"
-                                name="id" th:value="${task.id}">
-                            <span class="glyphicon glyphicon-comment"></span>
-                        </button>
-                        <span class="badge badge-notify" th:text="${task.modifyCount}"></span>
-                    </form>
-                </div>
-            </td>
-
-            <td style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <div th:if="${task.topicStarterId} == ${userId}">
-                    <form th:action="@{'/secure/task/form/' + ${task.id}}" method="GET">
-                        <button name="id" th:value="${task.id}" type="Submit" th:text="Update"></button>
-                    </form>
-                </div>
-            </td>
-
-            <td style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <div th:if="${task.topicStarterId} == ${userId}">
-                    <form th:action="@{'/secure/task/' + {task.id}}" th:method="DELETE">
-                        <input type="hidden" name="_method" value="DELETE"/>
-                        <button name="id" th:value="${task.id}" type="Submit" th:text="Delete"></button>
-                    </form>
-                </div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+            </div>
+        </section>
+    </div>
 </div>
 </body>
 </html>

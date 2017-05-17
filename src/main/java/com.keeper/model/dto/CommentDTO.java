@@ -7,6 +7,7 @@ import com.keeper.model.util.SimpleGeoPoint;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /*
  * Created by @GoodforGod on 17.04.2017.
@@ -23,13 +24,13 @@ public class CommentDTO {
     @NotNull private Long taskId;
     @NotNull private Long userId;
 
+    private String userName;
     private LocalDateTime createDate;
     private LocalDateTime lastModifyDate;
     private String message;
     private SimpleGeoPoint geo;
 
     private CommentDTO() {
-        this.id = -1L;
         this.taskId = TaskType.EMPTY.getValue();
         this.userId = UserType.EMPTY.getValue();
         this.createDate = LocalDateTime.MIN;
@@ -38,18 +39,48 @@ public class CommentDTO {
         this.geo = SimpleGeoPoint.EMPTY;
     }
 
+    public CommentDTO(Long userId, Long taskId, String userName) {
+        this.userId = userId;
+        this.taskId = taskId;
+        this.userName = userName;
+    }
+
     public CommentDTO(Long id, Long taskId, Long userId, Timestamp createDate, Timestamp lastModifyDate,
                       String message, Double latitude, Double longitude){
         this.id = id;
         this.taskId     = taskId;
         this.userId     = userId;
-        this.createDate = createDate.toLocalDateTime();
-        this.lastModifyDate = lastModifyDate!=null ? lastModifyDate.toLocalDateTime() : createDate.toLocalDateTime();
+        this.createDate = (createDate != null)
+                ? createDate.toLocalDateTime()
+                : null;
+        this.lastModifyDate = (lastModifyDate != null)
+                ? lastModifyDate.toLocalDateTime()
+                : (createDate != null) ? createDate.toLocalDateTime() : null;
         this.message    = message;
         this.geo = new SimpleGeoPoint(latitude.toString(), longitude.toString());
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    public String getPrettyCreateDate() {
+        return (createDate != null)
+                ? createDate.format(DateTimeFormatter.ofPattern("HH:mm"))
+                : "";
+    }
+
+    public String getPrettyLastModifyDate() {
+        return (lastModifyDate != null)
+                ? lastModifyDate.format(DateTimeFormatter.ofPattern("HH:mm"))
+                : "";
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Long getId() {
         return id;
@@ -79,10 +110,6 @@ public class CommentDTO {
         this.geo = geo;
     }
 
-    public static CommentDTO getEMPTY() {
-        return EMPTY;
-    }
-
     public Long getTaskId() {
         return taskId;
     }
@@ -110,6 +137,21 @@ public class CommentDTO {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
     //</editor-fold>
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CommentDTO that = (CommentDTO) o;
+
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

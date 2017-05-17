@@ -415,19 +415,16 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
 
     @Override
     public Optional<List<TaskDTO>> getByTheme(Long userId, String theme, FeedType feedType) {
-        if(Validator.isStrEmpty(theme))
-            return Optional.empty();
-
         Optional<List<TaskDTO>>  tasksToProceed;
 
         switch (feedType) {
             case SUBSCRIBED: tasksToProceed = getSubscribed(userId); break;
-            case RECENT:   tasksToProceed = getRecent(userId); break;
-            case OWNER:    tasksToProceed = getOwned(userId);  break;
-            case LOCAL: tasksToProceed = getLocal(userId);  break;
-            case CHART:   tasksToProceed = getChart(userId);    break;
+            case RECENT:    tasksToProceed = getRecent(userId);     break;
+            case OWNER:     tasksToProceed = getOwned(userId);      break;
+            case LOCAL:     tasksToProceed = getLocal(userId);      break;
+            case CHART:     tasksToProceed = getChart(userId);      break;
             case ALL:
-            default:    tasksToProceed = getAll(userId);    break;
+            default:        tasksToProceed = getAll(userId);        break;
         }
 
         if(Validator.isStrEmpty(theme))

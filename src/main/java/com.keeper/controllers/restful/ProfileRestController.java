@@ -32,7 +32,6 @@ public class ProfileRestController {
         this.repoService = repoService;
     }
 
-
     @RequestMapping(value = ApiResolver.PROFILE, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> get(@RequestParam(value = "id") Long userId) {
         return new ResponseEntity<>(ModelTranslator.toDTO(repoService.get(userId).orElse(User.EMPTY)), HttpStatus.OK);

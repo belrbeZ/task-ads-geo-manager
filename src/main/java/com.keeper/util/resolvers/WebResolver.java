@@ -25,6 +25,7 @@ public class WebResolver {
     public static final String TASK     = SECURED + "/task";
     public static final String TASK_FORM = TASK + "/form";
     public static final String TASK_SUBS = TASK + "/subscribe";
+    public static final String TASK_COMMENT = TASK + "/comment";
 
     public static final String FEED     = SECURED + "/feed";
     public static final String FEED_FILTER = FEED + "/filter";

@@ -7,62 +7,138 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
+
+    <style th:inline="text">
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,100italic,100,300,300italic,900italic,900,700,700italic,500italic,500,400italic);
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .navbar{margin-bottom:0;}
+        section{width:100%; float:left;}
+        .banner-section{background-image:url("http://makishvili.github.io/print-and-go/pictures/msk.png");
+            background-size:cover; height: 300px; left: 0; position: absolute; top: 0; background-position:0;}
+        .post-title-block{padding: 30px 0;}
+        .post-title-block h1 {color: #fff; font-size: 85px; font-weight: bold; text-transform: capitalize;}
+        .post-title-block li{font-size:20px; color: #fff;}
+        .image-block{float:left; width:100%; margin-bottom:10px;}
+        .footer-link{float:left; width:100%; background:#222222; text-align:center; padding:30px;}
+        .footer-link a{color:#A9FD00; font-size:18px; text-transform:uppercase;}
+    </style>
+
 </head>
 <body>
 
-<div class="container">
+<div>
     <div th:replace="fragments/header :: header"> </div>
 
     <br/> <br/> <br/>
-
-    <h2>Task Info</h2>
 
     <div>
         <span th:utext="${msg}" style="margin: 5px"></span>
     </div>
 
-    <div class="row" th:object="${task}">
-        <div class="row-fluid" th:object="${user}" style="margin: 5px">
-            <h2>User</h2>
-            <span th:text="${user?.name}" style="margin: 5px">Name: </span>
-            <span th:text="${user?.email}" style="margin: 5px">Email: </span>
+    <section class="banner-section">
+        <div>
+            <!-- MAP -->
         </div>
+    </section>
+    <section class="post-content-section">
+        <div class="container">
 
-        <br/> <br/>
+            <div th:object="${task}" class="row">
+                <div th:object="${user}" class="col-lg-12 col-md-12 col-sm-12 post-title-block">
 
-        <div th:if="${user.id} != ${task.topicStarterId}">
-            <div class="row-fluid" th:if="${task?.subscribed}"
-                style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/task/subscribe}" th:method="DELETE">
-                    <input type="hidden" name="_method" value="DELETE"/>
-                    <button name="id" th:value="${task.id}" type="Submit" th:text="Unsubscribe"></button>
-                </form>
+                    <!--<h1 class="text-center">Title</h1>-->
+
+                    <div th:if="${task.topicStarterId} != ${user.id}" class="list-inline text-center">
+                        <h1 class="text-center" th:text="${user.name}"> | </h1>
+                        <!--<li> | </li>-->
+                    </div>
+                    <ul th:if="${task.topicStarterId} == ${user.id}" class="list-inline text-center">
+                        <li>
+                            <form th:action="@{/secure/task/form}"
+                                  method="GET" style="padding: 15px">
+                                <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit" style="font-weight: 900">
+                                    Update
+                                </button>
+                            </form>
+                        </li>
+                        <li>
+                            <form th:action="@{/secure/task/form}"
+                                  th:method="DELETE" style="padding: 5px">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <button class="btn btn-danger" name="id" th:value="${task.id}" type="Submit" style="font-weight: 900">
+                                    Delete
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="col-lg-9 col-md-9 col-sm-12">
+                    <p style="font-weight: 900;">
+                        Created :
+                        <span th:text="${task.getPrettyCreateDate()}"></span>
+                    </p>
+
+                    <h3 class="lead" style="padding: 5px" th:text="${task.theme}">
+                        <span></span>
+                    </h3>
+                    <p th:text="${task.descr}">
+                        <span></span>
+                    </p>
+                </div>
+
+                <div class="col-lg-3  col-md-3 col-sm-12" style="width: 34%">
+                        <div >
+                            <!-- TWEET WRAPPER START -->
+                            <div class="twt-wrapper">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        Comments
+                                    </div>
+                                    <div class="panel-body">
+                                        <form autocomplete="off" th:action="@{/secure/task/comment}"
+                                              th:object="${comment}" method="post" class="form-registration" role="form">
+                                            <input value="message" class="form-control" placeholder="Enter your comments..."/>
+                                            <br />
+                                            <button type="submit" class="btn btn-primary btn-sm pull-right">Submit</button>
+                                            <div class="clearfix"></div>
+                                        </form>
+                                        <hr />
+                                        <ul th:each="commet : ${task.comments}" class="media-list">
+                                            <li class="media">
+                                                <!--<a href="#" class="pull-left">-->
+                                                    <!--<img src="assets/img/1.png" alt="" class="img-circle">-->
+                                                <!--</a>-->
+                                                <div class="media-body">
+                                                <span class="text-muted pull-right">
+                                                    <small class="text-muted">
+                                                        <span th:text="${comment.getPrettyCreateDate()}"></span>
+                                                    </small>
+                                                </span>
+                                                <strong class="text-success">@<span th:text="${comment.userName}"></span></strong>
+                                                <p>
+                                                    <span th:text="${comment.message}"></span>
+                                                </p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        <span class="text-danger">Hot Thread</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- TWEET WRAPPER END -->
+                        </div>
+                </div>
             </div>
 
-            <div class="row-fluid" th:unless="${task?.subscribed}"
-                 style="margin: 5px; padding-left: 5px; padding-right: 5px">
-                <form th:action="@{/secure/task/subscribe}" method="POST">
-                    <input type="hidden" name="_method" value="POST"/>
-                    <button name="id" th:value="${task.id}" type="Submit" th:text="Subscribe"></button>
-                </form>
-            </div>
-        </div>
 
-        <div class="row-fluid" style="margin: 5px">
-            <h2>Task</h2>
-            <span th:text="${task.theme}"></span>
-            <div style="margin: 5px">>
-                <span th:text="${task?.createDate}">Created: </span>
-                <span th:text="${task?.type.toString()}">Type: </span>
-            </div>
-        </div>
-
-        <br/>
-
-        <div class="row-fluid">
-            <span th:text="${task.descr}">Description: </span>
-        </div>
-    </div>
+        </div> <!-- /container -->
+    </section>
 </div>
 </body>
 </html>

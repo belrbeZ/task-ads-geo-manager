@@ -6,10 +6,12 @@ package com.keeper.controllers.web;
 
 import com.keeper.model.dao.Task;
 import com.keeper.model.dao.User;
+import com.keeper.model.dto.CommentDTO;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.util.SimpleGeoPoint;
 import com.keeper.service.core.ISubscription;
 import com.keeper.service.core.impl.SubscriptionService;
+import com.keeper.service.modelbased.impl.CommentService;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.ModelTranslator;
@@ -21,10 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -41,14 +40,19 @@ public class TaskWebController {
     private final TaskService taskService;
     private final UserService userService;
     private final ISubscription subsService;
+    private final CommentService commentService;
 
     private final String MSG = "msg";
 
     @Autowired
-    public TaskWebController(TaskService taskService, UserService userService, SubscriptionService subsService) {
+    public TaskWebController(TaskService taskService,
+                             UserService userService,
+                             SubscriptionService subsService,
+                             CommentService commentService) {
         this.taskService = taskService;
         this.userService = userService;
         this.subsService = subsService;
+        this.commentService = commentService;
     }
 
     /**
@@ -67,6 +71,7 @@ public class TaskWebController {
                     TaskDTO taskDTO = subsService.fillSubs(user.get().getId(),
                                                         ModelTranslator.toDTO(daoTask.get()));
                     modelAndView.addObject("task", taskDTO);
+                    modelAndView.addObject("comment", new CommentDTO(user.get().getId(), taskDTO.getId(), user.get().getName()));
                     subsService.viewTask(user.get().getId(), daoTask.get().getId());
                     return modelAndView;
                 }
@@ -105,14 +110,21 @@ public class TaskWebController {
     /**
      * Task Update/Create Form Template
      */
-    @RequestMapping(value = WebResolver.TASK_FORM + "/{id}", method = RequestMethod.GET)
-    public ModelAndView taskCreateForm(@PathVariable(value = "id") Long id, Model model) {
+    @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.GET)
+    public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id,
+                                       @RequestParam(value = "lat", required = false) String latitude,
+                                       @RequestParam(value = "lng", required = false) String longitude,
+                                       @RequestParam(value = "radius", required = false) Integer radius, Model model) {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.TASK_FORM);
 
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
             TaskDTO dto = new TaskDTO();
+
+            if(latitude != null && longitude != null && radius != null)
+                dto.setGeo(new SimpleGeoPoint(latitude, longitude, radius));
+
             dto.setTopicStarterId(user.get().getId());
             if(Validator.isIdValid(id)) {
                 Optional<Task> updateTask = taskService.get(id);
@@ -120,6 +132,7 @@ public class TaskWebController {
                 if(updateTask.isPresent())
                     dto = ModelTranslator.toDTO(updateTask.get());
             }
+            modelAndView.addObject("user", user);
             modelAndView.addObject("task", dto);
             return modelAndView;
         }
@@ -138,8 +151,10 @@ public class TaskWebController {
 
         if(user.isPresent()) {
             task.setTopicStarterId(user.get().getId());
+
             // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
-            task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
+            if(task.getGeo() == null)
+                task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
 
             try {
                 if (Validator.isIdValid(task.getId()))
@@ -163,6 +178,20 @@ public class TaskWebController {
         return modelAndView;
     }
 
+    @RequestMapping(value = WebResolver.TASK_COMMENT, method = RequestMethod.POST)
+    public ModelAndView taskAddComment(@Valid TaskDTO task,
+                                       @Valid CommentDTO comment,
+                                       Model model) {
+        ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(TemplateResolver.TASK + "/" + task.getId()));
+
+        try {
+            commentService.saveDTO(comment);
+        } catch (Exception e) {
+            logger.warn("ERROR ON SAVING COMMENT");
+        }
+
+        return modelAndView;
+    }
 
     /**
      * Task Subscribe Mapping

@@ -66,17 +66,17 @@ public class User {
     @JoinColumn(name = "id", referencedColumnName = "userId")
     private Picture pic;
 
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "userId", referencedColumnName = "id")
-//    private List<GeoPoint> geoPoints;
-//
-//    @Fetch(FetchMode.SELECT)
-//    @BatchSize(size = 10)
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JoinColumn(name = "userId", referencedColumnName = "id")
-//    private List<Route> routes;
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private List<GeoPoint> geoPoints;
+
+    @Fetch(FetchMode.SELECT)
+    @BatchSize(size = 10)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private List<Route> routes;
 
     private User() {
         this.id = UserType.EMPTY.getValue();
@@ -237,33 +237,6 @@ public class User {
 
     //</editor-fold>
 
-    /*---GEOPOINTS---*/
-    /*public int hasGeoPoint(GeoPoint geoPoint) {
-        return geoPoints.indexOf(geoPoint);
-    }
-
-    public void addGeoPoint(GeoPoint geoPoint) {
-        //avoid circular calls : assumes equals and hashcode implemented
-        if (!geoPoints.contains(geoPoint)) {
-            geoPoints.add(geoPoint);
-        }
-    }
-
-    public void removeGeoPoint(GeoPoint geoPoint) {
-//        int index;
-//        //avoid circular calls : assumes equals and hashcode implemented
-//        if ( (index = geoPoints.indexOf( geoPoint )) != -1 ) {
-//            geoPoints.get(index);
-//            return geoPoints.remove( index );
-//        }
-//        return geoPoint.getEMPTY();
-        if (geoPoints.contains(geoPoint))
-            geoPoints.remove(geoPoint);
-        else
-            throw new IllegalArgumentException("No such geoPoint associated with this User"); //"No such geoPoint *//*with id " + geoPoint.getId() + " *//*associated with User with id "*//* + this.getId()*//*);
-    }*/
-    /*---END GEOPOINTS---*/
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -278,12 +251,6 @@ public class User {
     public int hashCode() {
         return id.hashCode();
     }
-
-    /*@Override
-    public String toString() {
-        return "User id:" + this.getId() + " name:" + this.getName() + " picId" + this.getPic() + super.toString() +
-                "User First Route:" + getRoutes().get(0).getLongtitudes()[0] + " " + getRoutes().get(0).getLatitudes()[0];
-    }*/
 
     @Override
     public String toString() {

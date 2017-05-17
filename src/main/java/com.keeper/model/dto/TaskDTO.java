@@ -4,10 +4,12 @@ import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 import com.keeper.model.util.SimpleGeoPoint;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 
@@ -87,6 +89,18 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     }
 
     //<editor-fold desc="GetterAndSetter">
+
+    public String getPrettyCreateDate() {
+        return (createDate != null)
+                ? createDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                : "";
+    }
+
+    public String getPrettyLastModifyDate() {
+        return (lastModifyDate != null)
+                ? lastModifyDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                : "";
+    }
 
     public Boolean getSubscribed() {
         return subscribed;

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" content="text/html"/>
@@ -7,6 +7,24 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
+
+    <style th:inline="text">
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,100italic,100,300,300italic,900italic,900,700,700italic,500italic,500,400italic);
+
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .navbar{margin-bottom:0;}
+        section{width:100%; float:left;}
+        .banner-section{background-image:url("https://static.pexels.com/photos/216988/pexels-photo-216988.jpeg"); background-size:cover; height: 380px; left: 0; position: absolute; top: 0; background-position:0;}
+        .post-title-block{padding:100px 0;}
+        .post-title-block h1 {color: #fff; font-size: 85px; font-weight: bold; text-transform: capitalize;}
+        .post-title-block li{font-size:20px; color: #fff;}
+        .image-block{float:left; width:100%; margin-bottom:10px;}
+        .footer-link{float:left; width:100%; background:#222222; text-align:center; padding:30px;}
+        .footer-link a{color:#A9FD00; font-size:18px; text-transform:uppercase;}
+    </style>
 </head>
 <body>
 
@@ -17,47 +35,118 @@
     <br/>
     <br/>
 
-    <div class="container">
+    <div>
 
-        <span th:utext="${message}"></span>
-
-        <div th:object="${task}">
+        <section class="banner-section">
             <div>
-                <span th:text="${task?.createDate}">Created</span>
-                <span th:text="${task?.lastModifyDate}">Modified</span>
+                <!-- MAP -->
             </div>
-        </div>
+        </section>
+        <section class="post-content-section">
+            <div class="container">
 
-        <div>
-            <form autocomplete="off" th:action="@{/secure/task/form}"
-                  th:object="${task}" method="post" class="form-registration" role="form">
-                    <input type="hidden" th:field="${task.id}" />
+                <div th:object="${task}" class="row">
 
-                <div>
-                    <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
-                    <label th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="validation-message"></label>
+                    <div class="col-lg-12 col-md-12 col-sm-12 post-title-block">
+
+                        <!--<h1 class="text-center">post Title goes here</h1>-->
+                        <ul th:if="${task.topicStarterId} == ${user.id}" class="list-inline text-center">
+                            <li>
+                                <form th:action="@{'/secure/task/form&id=' + ${task.id}}" th:method="DELETE"
+                                      style="padding: 5px; font-weight: 900">
+                                    <input type="hidden" name="_method" value="DELETE"/>
+                                    <button class="btn btn-danger" type="Submit">
+                                        Delete
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-9 col-md-9 col-sm-12">
+
+                        <span th:utext="${message}"></span>
+
+                        <span>
+                            <span th:if="${task.createDate} != null">Created :
+                                <span th:text="${task.getPrettyCreateDate()}"> </span>
+                            </span>
+                            <span th:if="${task.lastModifyDate} != null">Modified :
+                                <span th:text="${task.getPrettyLastModifyDate()}"> </span>
+                            </span>
+                        </span>
+
+                        <form autocomplete="off" th:action="@{/secure/task/form}"
+                              th:object="${task}" method="post" class="form-registration" role="form">
+                            <input type="hidden" th:field="${task.id}" />
+
+                            <p class="lead">
+                                <input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />
+                                <label th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="validation-message"></label>
+                            </p>
+                            <p>
+                                <input type="text" th:field="*{descr}" placeholder="Description" class="form-control" />
+                                <label th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}" class="validation-message"></label>
+                            </p>
+
+                            <div>
+                                <!--<input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />-->
+                                <!--<select th:field="*{type}">
+                                    <option th:each="type : ${allTypes}"
+                                            th:value="${type}"
+                                            th:text="#{${'type.' + type}}">Type</option>
+                                </select>-->
+                            </div>
+
+                            <button class="btn btn btn-success" type="submit">Save</button>
+                        </form>
+
+                        <div th:if="${message} != null" class="well">
+                            <span th:utext="${message}"></span>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <input type="text" th:field="*{descr}" placeholder="Description" class="form-control" />
-                    <label th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}" class="validation-message"></label>
-                </div>
+            </div> <!-- /container -->
+        </section>
 
-                <div>
-                    <!--<input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />-->
-                    <!--<select th:field="*{type}">
-                        <option th:each="type : ${allTypes}"
-                                th:value="${type}"
-                                th:text="#{${'type.' + type}}">Type</option>
-                    </select>-->
-                </div>
 
-                <div>
-                    <button type="submit">Save</button>
-                </div>
+        <!--<div th:object="${task}">-->
+            <!--<div>-->
+                <!--<span th:text="${task.getPrettyCreateDate()}">Created</span>-->
+                <!--<span th:text="${task.getPrettyLastModifyDate()}">Modified</span>-->
+            <!--</div>-->
+        <!--</div>-->
 
-            </form>
-        </div>
+        <!--<div>-->
+            <!--<form autocomplete="off" th:action="@{/secure/task/form}"-->
+                  <!--th:object="${task}" method="post" class="form-registration" role="form">-->
+                    <!--<input type="hidden" th:field="${task.id}" />-->
+
+                <!--<div>-->
+                    <!--<input type="text" th:field="*{theme}" placeholder="Theme" class="form-control" />-->
+                    <!--<label th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="validation-message"></label>-->
+                <!--</div>-->
+
+                <!--<div>-->
+                    <!--<input type="text" th:field="*{descr}" placeholder="Description" class="form-control" />-->
+                    <!--<label th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}" class="validation-message"></label>-->
+                <!--</div>-->
+
+                <!--<div>-->
+                    <!--&lt;!&ndash;<input type="checkbox" th:field="*{isNotified}" placeholder="Is Notified" class="form-control" />&ndash;&gt;-->
+                    <!--&lt;!&ndash;<select th:field="*{type}">-->
+                        <!--<option th:each="type : ${allTypes}"-->
+                                <!--th:value="${type}"-->
+                                <!--th:text="#{${'type.' + type}}">Type</option>-->
+                    <!--</select>&ndash;&gt;-->
+                <!--</div>-->
+
+                <!--<div>-->
+                    <!--<button type="submit">Save</button>-->
+                <!--</div>-->
+
+            <!--</form>-->
+        <!--</div>-->
     </div>
 </div>
 
