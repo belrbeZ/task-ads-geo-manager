@@ -1,11 +1,5 @@
 package com.keeper.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.keeper.model.types.TaskType;
 import com.keeper.model.types.UserType;
 import com.keeper.model.util.SimpleGeoPoint;
@@ -13,7 +7,6 @@ import com.keeper.util.validation.annotation.Geo;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Comparator;
