@@ -125,7 +125,7 @@
                     <div class="col-md-12 post-header-line">
                         <span class="glyphicon glyphicon-user"></span> by <span th:text="${user.name}"></span> |
                         <span class="glyphicon glyphicon-calendar"></span><span th:text="${task.getPrettyCreateDate()}"></span> |
-                        <span th:if="${!task.tags.isEmpty}">
+                        <span th:if="${!task.tags.isEmpty()}">
                             <span class="glyphicon glyphicon-tags"></span> Tags :
                             <span th:each="tag : ${tast?.tags}">
                                 <span class="label label-info"><span th:text="${tag?.tag}"></span></span>
