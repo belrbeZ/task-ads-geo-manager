@@ -10,7 +10,7 @@
     <!--WORKING IN SITE-->
     <link rel="stylesheet"  th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           type="text/css" media="screen" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
@@ -318,16 +318,22 @@
             color: #FFFFFF;
         }
 
+        .text-no-decor{
+            font-weight: 600;
+            text-transform: none;
+        }
+
         .elem-in-list{
-            -webkit-border-radius: 0.2em;
-            -moz-border-radius: 0.2em;
-            border-radius: 0.2em;
-            width: 90%;
-            border: 1px solid #204d74;
-            /*border: 1px solid #398439;*/
-            /*border: 1px solid #0094BC;*/
-            padding: 0.2em 0;
-            margin-bottom: 0.5em;
+            /*-webkit-border-radius: 0.2em;*/
+            /*-moz-border-radius: 0.2em;*/
+            /*border-radius: 0.2em;*/
+            /*width: 90%;*/
+            color: #1c1c1c;
+            /*border: 1px solid #204d74;*/
+            /*!*border: 1px solid #398439;*!*/
+            /*!*border: 1px solid #0094BC;*!*/
+            /*padding: 0.2em 0;*/
+            /*margin-bottom: 0.5em;*/
             cursor: pointer;
         }
 
@@ -797,8 +803,14 @@
         }
     </style>
 
+    <style>
+        body {
+            background-color: aliceblue;
+        }
+    </style>
+
 </head>
-<body>
+<body style="background-color: aliceblue;">
 
 <!--HEADER-->
 <div th:replace="fragments/header :: header"> </div>
@@ -1849,6 +1861,10 @@
             setCreateCancelButtons();
             setDisplayList("changeTaskForm",true);
             closeMessage($(this).closest('.Message'));
+
+            try{
+                circleYour.options.set('visible', false);
+            }catch(e){e.toString();}
         });
 
         $('#message-info').removeClass('is-hidden');
@@ -2126,22 +2142,22 @@
         var htmlResponse;
         if(responseAsObject.length>0){
             var descr;
-            htmlResponse = "<ul class='ListGeoPoints'>";
+            htmlResponse = "<ul style='margin-left: 5%;width: 90%;' class='ListGeoPoints list-group'>";
             for(var i=0; i<responseAsObject.length; i++) {
                 descr = (responseAsObject[i].descr==null||responseAsObject[i].descr=="") ?
                     "Моё место" :
                     responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
 
-                htmlResponse+="<li class='elemFromList-GeoPoints elem-in-list'>";
-                htmlResponse+="<span id='geo_point-id-in-list-"+i+"' class='elem-in-list-id' style='display:none;'>";
-                htmlResponse+= responseAsObject[i].id+"</span>";
-                htmlResponse+= descr+"<br>";
-                htmlResponse+= "<span style='display:none;'>latitude "+responseAsObject[i].latitude+"</span>";
-                htmlResponse+="<span style='display:none;'>longitude "+responseAsObject[i].longitude+"<br>"+"</span>";
-                htmlResponse+="Радиус: "+responseAsObject[i].radius;
-                htmlResponse+="</li>";
+                htmlResponse += "<li class='elem-in-list list-group-item elemFromList-GeoPoints'>";
+                htmlResponse += "<span id='geo_point-id-in-list-" + i + "' class='elem-in-list-id hidden'>";
+                htmlResponse += responseAsObject[i].id + "</span>";
+                htmlResponse += "<span style='width: 100%; text-align: center;'>" + descr + "</span><br>";
+                htmlResponse += "<span class='hidden'>latitude " + responseAsObject[i].latitude + "</span>";
+                htmlResponse += "<span class='hidden'>longitude " + responseAsObject[i].longitude + "</span>";
+                htmlResponse += "Радиус: <span class='text-no-decor'>" + responseAsObject[i].radius + "</span>";
+                htmlResponse += "</li>";
             }
-            htmlResponse+="</ul>";
+            htmlResponse += "</ul>";
         } else {
             htmlResponse = "<div class='empty_list'>Добавьте часто посещаемые места</div>"
         }
@@ -2227,10 +2243,11 @@
     function setCreateTaskButton() {
         createViewTaskButton.html("Создать");
 
-        $(createViewTaskButton).off("click").click(function (e) {
-            e.preventDefault();
-            submitCreateTask();
-        });
+        $(createViewTaskButton).off("click")
+            .click(function (e) {
+                e.preventDefault();
+                submitCreateTask();
+            });
     }
 
     function setViewTaskButton() {
@@ -2253,19 +2270,34 @@
         window.location.href = action;
     }
 
+    function makeLinkCreateTask() {
+        var url = /*[[@{/secure/task/form}]]*/'/secure/task/form';
+        url += "?id=0";
+        url += "&lat=" + $("#input-geo_point-latitude").val();
+        url += "&lng=" + $("#input-geo_point-longitude").val();
+        url += "&radius=" + $("#input-geo_point-radius").val();
+        return  url;
+    }
+
     function submitCreateTask() {
-        var action =/*[[@{/secure/task/form/withGeo}]]*/'/secure/task/form/withGeo';
+
+        console.log('ajax submitGeoPointForm()');
+
+        var action = makeLinkCreateTask();
+
+        location.href = action;
+
+//        var action =/*[[@{/secure/task/form/withGeo}]]*/'/secure/task/form/withGeo';
 
 //        var form = $('#change-task-form-data');
 //        form.action = action;
 //        $(form).attr("method", "POST");
 
-        console.log('ajax submitGeoPointForm()');
-
+ /*
         var data = getData();
-        /*try{
+        /!*try{
          frmjs = JSON.stringify(data);
-         }catch(e){console.log(e)}*/
+         }catch(e){console.log(e)}*!/
         $.ajax({
             url: action,
             type: 'POST',
@@ -2302,6 +2334,7 @@
                 showResponseMessage("error", msg+response.message);
             }
         });
+*/
 
     }
 
@@ -2337,7 +2370,7 @@
 
         if(responseAsObject.length>0){
             var theme,descr;
-            htmlResponse = "<ul class='List"+type+"'>";
+            htmlResponse = "<ul style='margin-left: 5%;width: 90%;' class='List" + type + " list-group'>";
 
             for(var i=0; i<responseAsObject.length; i++) {
                 theme = (responseAsObject[i].theme==null||responseAsObject[i].theme=="") ?
@@ -2347,18 +2380,18 @@
                         "Описание отсутствует" :
                         responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
 
-                htmlResponse+="<li class='elemFromList-"+type+" elem-in-list'>";
-                htmlResponse+="<span id='tasks_"+type+"-id-in-list-"+i+"' class='elem-in-list-id' style='display:none;'>";
-                htmlResponse+= responseAsObject[i].id+"</span>";
-                htmlResponse+= theme + "<br>";
-                htmlResponse+= "Описание: "+ descr +"<br>";
-                htmlResponse+= "Тип:      "+responseAsObject[i].type+"<br>";
-                htmlResponse+= "<span style='display:none;'>latitude "+responseAsObject[i].latitude+"</span>";
-                htmlResponse+="<span style='display:none;'>longitude "+responseAsObject[i].longitude+"<br>"+"</span>";
-                htmlResponse+="Радиус: "+responseAsObject[i].radius;
-                htmlResponse+="</li>";
+                htmlResponse += "<li class='elem-in-list list-group-item elemFromList-"+type+"'>";
+                htmlResponse += "<span id='tasks_" + type + "-id-in-list-" + i + "' class='elem-in-list-id hidden'>";
+                htmlResponse += responseAsObject[i].id + "</span>";
+                htmlResponse += "<span style='width: 100%; text-align: center;'>" + theme + "</span><br>";
+                htmlResponse += "Описание: <span class='text-no-decor'>" + descr + "</span><br>";
+                htmlResponse += "<span class='hidden'>" + responseAsObject[i].type + "</span>";
+                htmlResponse += "<span class='hidden'>latitude " + responseAsObject[i].latitude + "</span>";
+                htmlResponse += "<span class='hidden'>longitude " + responseAsObject[i].longitude + "</span>";
+                htmlResponse += "Радиус: <span class='text-no-decor'>" + responseAsObject[i].radius;
+                htmlResponse += "</li>";
             }
-            htmlResponse+="</ul>";
+            htmlResponse += "</ul>";
         } else {
             htmlResponse = "<div class='List";
             switch (type) {

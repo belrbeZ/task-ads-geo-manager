@@ -41,31 +41,41 @@
 
 <div class="container-fluid" th:fragment="geopointform">
     <!--STATIC-->
-    <form id="geo_point-form" class="form-registration" role="form">
+    <form id="geo_point-form" autocomplete="off"  class="form-horizontal" role="form">
 
-        <div style="display: none;">
-            <input id="input-geo_point-id" type="number" placeholder="Id" class="form-control id" />
-            <label class="validation-message"></label>
+        <div class="form-group hidden">
+            <label class="col-md-4 control-label" for="input-geo_point-id">Id</label>
+            <div class="col-md-8">
+                <input id="input-geo_point-id" type="number" placeholder="Id" class="form-control input-md id" />
+            </div>
         </div>
 
-        <div>
-            <input id="input-geo_point-descr" type="text"  placeholder="Info" class="form-control descr" />
-            <label class="validation-message"></label>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="input-geo_point-descr">Описание</label>
+            <div class="col-md-8">
+                <input id="input-geo_point-descr" type="text"  placeholder="Info" class="form-control input-md descr" />
+            </div>
         </div>
 
-        <div>
-            <input id="input-geo_point-latitude" type="number" placeholder="Latitude" class="form-control latitude" />
-            <label class="validation-message"></label>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="input-geo_point-latitude">Широта</label>
+            <div class="col-md-8">
+                <input id="input-geo_point-latitude" type="number" placeholder="Latitude" class="form-control input-md latitude" />
+            </div>
         </div>
 
-        <div>
-            <input id="input-geo_point-longitude" type="number" placeholder="Longitude" class="form-control longtitude" />
-            <label class="validation-message"></label>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="input-geo_point-longitude">Долгота</label>
+            <div class="col-md-8">
+                <input id="input-geo_point-longitude" type="number" placeholder="Longitude" class="form-control input-md longtitude" />
+            </div>
         </div>
 
-        <div>
-            <input id="input-geo_point-radius" type="number" placeholder="Radius" class="form-control radius" />
-            <label class="validation-message"></label>
+        <div class="form-group">
+            <label class="col-md-4 control-label" for="input-geo_point-radius">Радиус</label>
+            <div class="col-md-8">
+                <input id="input-geo_point-radius" type="number" placeholder="Radius" class="form-control input-md radius" />
+            </div>
         </div>
 
         <div style="display: inline-block;width:100%;">

@@ -144,6 +144,8 @@ public class TaskWebController {
                 if(updateTask.isPresent())
                     dto = ModelTranslator.toDTO(updateTask.get());
             }
+//            dto = ModelTranslator.toDTO(taskService.saveDTO(dto).get());
+
             modelAndView.addObject("user", user.get());
             modelAndView.addObject("task", dto);
             return modelAndView;

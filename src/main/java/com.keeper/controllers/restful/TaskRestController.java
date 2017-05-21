@@ -67,7 +67,7 @@ public class TaskRestController {
 
         if(user.isPresent()) {
             modelTask.setTopicStarterId(user.get().getId());
-            LOGGER.warn("    REST Updating " + modelTask.toString());
+            LOGGER.debug("    REST Updating " + modelTask.toString());
 
             repoService.update(ModelTranslator.toDAO(modelTask));
         } else {
@@ -85,7 +85,7 @@ public class TaskRestController {
 
         if(user.isPresent()) {
             modelTask.setTopicStarterId(user.get().getId());
-            LOGGER.warn(user.get().getEmail() + " REST Creating TASK " + modelTask.toString());
+            LOGGER.info(user.get().getEmail() + " REST Creating TASK " + modelTask.toString());
 
             repoService.saveDTO(modelTask);
         } else {
@@ -100,7 +100,7 @@ public class TaskRestController {
     public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long taskId) {
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent()) {
-            LOGGER.warn("    "+user.get().getEmail()+"REST Removing TASK id:" + taskId);
+            LOGGER.info("    "+user.get().getEmail()+"REST Removing TASK id:" + taskId);
             repoService.remove(taskId);
         }else {
             LOGGER.warn("    REST ERROR of deleting TASK " + taskId);

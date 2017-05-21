@@ -56,10 +56,10 @@ public class GeoPointRestController {
 //            List<GeoPoint> geodao = user.get().getGeoPoints();
             List<GeoPoint> geodao = repoService.getByUserId(user.get().getId()).get();
 
-            LOGGER.warn(" gettedlist " + geodao.size());
+            LOGGER.info(" gettedlist " + geodao.size());
             return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(geodao), HttpStatus.OK);
         } else {
-            LOGGER.warn("    REST ERROR of getting list!");
+            LOGGER.warn(" REST ERROR of getting list!");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
@@ -76,7 +76,7 @@ public class GeoPointRestController {
 
         if(user.isPresent()) {
             model.setUserId(user.get().getId());
-            LOGGER.warn("    REST Updating " + model.toString());
+            LOGGER.info("    REST Updating " + model.toString());
             repoService.updateDTO(model);
         } else {
             LOGGER.warn("    REST ERROR of updating " + model.getId());
@@ -93,7 +93,7 @@ public class GeoPointRestController {
 
         if(user.isPresent()) {
             model.setUserId(user.get().getId());
-            LOGGER.warn(user.get().getEmail() + " REST Creating Geo " + model.toString());
+            LOGGER.info(user.get().getEmail() + " REST Creating Geo " + model.toString());
 
             repoService.saveDTO(model);
         } else {
@@ -106,7 +106,7 @@ public class GeoPointRestController {
 
     @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.DELETE)
     public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long pointId) {
-        LOGGER.warn("    REST Removing point id:" + pointId);
+        LOGGER.info("    REST Removing point id:" + pointId);
 
         Optional<User> user = userService.getAuthorized();
 
