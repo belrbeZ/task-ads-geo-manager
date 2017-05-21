@@ -11,9 +11,13 @@
             src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"
             th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 
+    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">-->
+
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
     <div class="container">
         <!--<nav class="navbar navbar-inverse navbar-fixed-top">-->
             <!--<div class="container-fluid">-->
@@ -53,7 +57,9 @@
             <ul class="nav navbar-nav navbar-center">
                 <li th:classappend="${module == 'map' ? 'active' : ''}">
                     <a href="/secure/map" th:href="@{/secure/map}">
-                        <span class="glyphicon" aria-hidden="true"> </span>Map</a>
+                        <span class="glyphicon" aria-hidden="true"> </span>Map
+                        <i class="fa fa-map-o" aria-hidden="true"></i>
+                    </a>
                 </li>
 
                 <li th:classappend="${module == 'feed' ? 'active' : ''}">
