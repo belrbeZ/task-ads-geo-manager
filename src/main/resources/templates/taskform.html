@@ -65,7 +65,7 @@
                 </li>
 
                 <li th:if="${task.id} != 0">
-                    <form th:action="@{'/secure/task/' + ${task.id}}" method="GET"
+                    <form th:action=" ${task.id} != null ? @{'/secure/task/'+${task.id}} : @{'/secure/map/'} " method="GET"
                           style="padding: 5px">
                         <button class="btn btn-warning" type="Submit">
                             Cancel
@@ -90,13 +90,12 @@
             <div class="col-md-12 post-header-line" style="padding-top: 5px">
                 <span class="glyphicon glyphicon-calendar"></span><span th:text="${task.getPrettyCreateDate()}"></span>  |
                 <span class="glyphicon glyphicon-edit"></span><span th:text="${task.getPrettyLastModifyDate()}"></span>  |
-                <span th:if="${task.tags} != null">
+                <span th:if="${task.tags} != null && !${task.tags}.isEmpty()">
                     <span class="glyphicon glyphicon-tags"></span> Tags :
                     <span th:each="tag : ${task?.tags}">
                             <span class="label label-info">
                                 <span th:text="${tag?.tag}"></span>
                             </span>
-                        ,
                     </span>
                 </span>
             </div>
@@ -111,7 +110,7 @@
 
                 <input type="hidden" th:field="*{latitude}" placeholder="Latitude" class="form-control" />
                 <input type="hidden" th:field="*{longitude}" placeholder="Longitude" class="form-control" />
-                <input type="hidden" th:field="*{radius}" placeholder="Radius" class="form-control" />
+                <!--<input type="hidden" th:field="*{radius}" placeholder="Radius" class="form-control" />-->
 
                 <div class="form-group">
                     <label class="col-md-4 control-label" for="theme_input">Theme / Title</label>
@@ -150,6 +149,18 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-md-4 control-label" for="theme_input">Radius</label>
+                    <div class="col-md-4">
+                        <input id="radius_input" type="number" th:field="*{radius}"
+                               placeholder="Radius" class="form-control" />
+
+                        <span class="help-block">
+                            <label th:if="${#fields.hasErrors('radius')}" th:errors="*{radius}" class="validation-message"></label>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="col-md-4 control-label" for="button_input"></label>
                     <div class="col-md-4">
                             <span class="help-block">
@@ -166,6 +177,7 @@
         </div>
     </div>
 </div>
+
 
 </body>
 </html>
