@@ -56,7 +56,7 @@ public class FeedWebController {
 
         if(!user.isPresent())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
-        else if(!(tasks = feedService.getSubscribed(user.get().getId())).isPresent())
+        else if(!(tasks = feedService.subscribed(user.get().getId())).isPresent())
             modelAndView.addObject(MSG, "There no tasks for you.. Sorry..");
 
         modelAndView.addObject(USER_ID_OBJ, (user.isPresent()) ? user.get().getId() : 0);
@@ -76,7 +76,7 @@ public class FeedWebController {
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent())
-            tasks = feedService.getByTheme(user.get().getId(), theme, FeedType.ALL);
+            tasks = feedService.search(user.get().getId(), theme, FeedType.ALL);
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 
@@ -103,11 +103,11 @@ public class FeedWebController {
 
         if(user.isPresent())
             if(search != null && type == null)
-                tasks = feedService.getByTheme(user.get().getId(), search, FeedType.ALL);
+                tasks = feedService.search(user.get().getId(), search, FeedType.ALL);
             else
                 tasks = (type == null)
-                        ? feedService.getLocal(user.get().getId())
-                        : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
+                        ? feedService.local(user.get().getId())
+                        : feedService.search(user.get().getId(), search, FeedType.calc(type));
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 

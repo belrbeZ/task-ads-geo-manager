@@ -39,31 +39,18 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedService.class);
 
-    private boolean taskLoader  = false;
-    private boolean pointLoader = false;
-    private boolean routeLoader = false;
-
     private final int HOT_FEED_SIZE = 20;
     private final int RECENT_FEED_SIZE = 20;
 
-    private final Map<Long, GeoPoint> points = new ConcurrentHashMap<>(); // All geopoints
-    private final Map<Long, Route>   routes = new ConcurrentHashMap<>(); // All routes
-    private final Map<Long, Task>    tasks  = new ConcurrentHashMap<>(); // All tasks
+    private final Map<Long, GeoPoint> points = new ConcurrentHashMap<>(); // all geopoints
+    private final Map<Long, Route>   routes = new ConcurrentHashMap<>(); // all routes
+    private final Map<Long, Task>    tasks  = new ConcurrentHashMap<>(); // all tasks
 
     // Map < TaskId | Hot Counter >
-    private final Map<Long, Long> hotTasks = new ConcurrentHashMap<>(HOT_FEED_SIZE); // Rang of hot tasks ids
+    private final Map<Long, Long> taskChart = new ConcurrentHashMap<>(HOT_FEED_SIZE); // Rang of hot tasks ids
 
     // Map < User Id | Map<Task id, locations> >
     private final Map<Long, Map<Long, GeoLocations>> userLocalTasks = new ConcurrentHashMap<>();
-
-    private final Set<Long>  routesToProceed = new HashSet<>();
-    private final Set<Long>  pointsToProceed = new HashSet<>();
-    private final Set<Long>  tasksToProceed  = new HashSet<>();
-
-    // Geo ID | User Id
-    private final Map<Long, Long> removedRoutes = new ConcurrentHashMap<>();
-    private final Map<Long, Long> removedPoints = new ConcurrentHashMap<>();
-    private final Map<Long, Long> removedTask   = new ConcurrentHashMap<>();
 
     protected final SubscriptionService subsService;
 
@@ -72,7 +59,13 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         this.subsService = subsService;
     }
 
-    //<editor-fold desc="Loads">
+
+
+    //<editor-fold desc="Model Loads">
+
+    private boolean taskLoader  = false;
+    private boolean pointLoader = false;
+    private boolean routeLoader = false;
 
     public void loadTasks(List<Task> repoTasks) {
         if(taskLoader)
@@ -103,7 +96,12 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
 
     //</editor-fold>
 
-    //<editor-fold desc="Submiter">
+    //<editor-fold desc="Model Submits">
+
+    // Model ID
+    private final Set<Long>  routesToProceed = new HashSet<>();
+    private final Set<Long>  pointsToProceed = new HashSet<>();
+    private final Set<Long>  tasksToProceed  = new HashSet<>();
 
     @Override
     public Task submit(Task task) {
@@ -144,6 +142,15 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         return route;
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="Model Removal">
+
+    // Model ID | User Id
+    private final Map<Long, Long> removedRoutes = new ConcurrentHashMap<>();
+    private final Map<Long, Long> removedPoints = new ConcurrentHashMap<>();
+    private final Map<Long, Long> removedTask   = new ConcurrentHashMap<>();
+
     @Override
     public void removeTask(Long id) {
         Task modelToDelete = tasks.get(id);
@@ -176,29 +183,32 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         }
         else logger.warn("[FEED] " + ErrorMessageResolver.REMOVE_MODEL_NULLABLE + " [ID] : " + id);
     }
-
     //</editor-fold>
 
-    //<editor-fold desc="Chart">
+    //<editor-fold desc="Rate Chart Tasks">
 
     public void upTask(Long taskId) {
-        Long hotMark = hotTasks.putIfAbsent(taskId, 1L);
+        Long hotMark = taskChart.putIfAbsent(taskId, 1L);
 
         if(hotMark != null)
-            hotTasks.replace(taskId, ++hotMark);
+            taskChart.replace(taskId, ++hotMark);
     }
 
     public void downTask(Long taskId) {
-        Long hotMark = hotTasks.get(taskId);
+        Long hotMark = taskChart.get(taskId);
 
         if(hotMark != null)
-            hotTasks.replace(taskId, --hotMark);
+            taskChart.replace(taskId, --hotMark);
     }
 
     //</editor-fold>
 
+
+
     @Scheduled(initialDelay = 5000, fixedDelay = 5000)
     private void update() {
+
+        //<editor-fold desc="Preventive Clear">
 
         // Remove unnecessary models, where there is no need to proceed them
         pointsToProceed.removeAll(pointsToProceed.stream()
@@ -213,146 +223,176 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
                 .filter(removedTask::containsKey)
                 .collect(Collectors.toSet()));
 
+        //</editor-fold>
+
         //<editor-fold desc="Proceed">
 
-        //<editor-fold desc="Points">
-
+        // Geo Points
         if(!pointsToProceed.isEmpty()) {
-            for (GeoPoint geo : points.entrySet().stream()
-                    .filter(entry -> pointsToProceed.contains(entry.getKey()))
-                    .map(Map.Entry::getValue).collect(Collectors.toList())) {
-                for (Map.Entry<Long, Task> task : tasks.entrySet()) {
-                    if (GeoComputer.geoInRadius(geo, task.getValue())) {
-                        Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
-
-                        if(taskLocations == null)
-                            taskLocations = userLocalTasks.get(geo.getUserId());
-
-                        GeoLocations geoLocations = taskLocations.putIfAbsent(task.getKey(), new GeoLocations());
-
-                        if(geoLocations == null)
-                            geoLocations = taskLocations.get(task.getKey());
-
-                        geoLocations.addPoint(geo);
-                    }
-                }
-            }
+            calculateGeos();
             pointsToProceed.clear();
         }
-        //</editor-fold>
 
-        //<editor-fold desc="Routes">
-
+        // Routes
         if(!routesToProceed.isEmpty()) {
-
+            calculateRoutes();
             routesToProceed.clear();
         }
-        //</editor-fold>
 
-        //<editor-fold desc="Tasks">
-
+        // Tasks
         if(!tasksToProceed.isEmpty()) {
-            for (Task task : tasks.entrySet().stream().map(Map.Entry::getValue)
-                    .filter(entryTask -> tasksToProceed.contains(entryTask.getId()))
-                    .collect(Collectors.toList())) {
-                for (Map.Entry<Long, GeoPoint> geo : points.entrySet()) {
-                    if (GeoComputer.geoInRadius(geo.getValue(), task)) {
-                        Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
-
-                        if(taskLocations == null)
-                            taskLocations = userLocalTasks.get(geo.getValue().getUserId());
-
-                        GeoLocations geoLocations = taskLocations.putIfAbsent(task.getId(), new GeoLocations());
-
-                        if(geoLocations == null)
-                            geoLocations = taskLocations.get(task.getId());
-
-                        geoLocations.addPoint(geo.getValue());
-                    }
-                }
-            }
+            calculateTasks();
             tasksToProceed.clear();
         }
-        //</editor-fold>
 
         //</editor-fold>
 
-        //<editor-fold desc="Removed">
+        //<editor-fold desc="Clear">
 
-        //<editor-fold desc="Points">
-
+        // Geos
         if(!removedPoints.isEmpty()) {
-            for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
-                    .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
-                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                for (GeoLocations locations : taskMap.entrySet()
-                        .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
-                        .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                    locations.removePoint(removedPoints.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
-                }
-            }
+            clearGeos();
             removedPoints.clear();
         }
 
-        //</editor-fold>
-
-        //<editor-fold desc="Routes">
-
+        // Routes
         if(!removedRoutes.isEmpty()) {
-            for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
-                    .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
-                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                for (GeoLocations locations : taskMap.entrySet()
-                        .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
-                        .map(Map.Entry::getValue).collect(Collectors.toSet())) {
-                    locations.removeRoute(removedRoutes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
-                }
-            }
+            clearRoutes();
             removedRoutes.clear();
         }
 
-        //</editor-fold>
-
-        //<editor-fold desc="Tasks">
-
+        // Tasks
         if(!removedTask.isEmpty()) {
-            for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : userLocalTasks.entrySet()) {
-                for(Map.Entry<Long, Long> taskIdToRemove : removedTask.entrySet()) {
-                    if (taskMap.getValue().containsKey(taskIdToRemove.getKey())) {
-                        taskMap.getValue().remove(taskIdToRemove.getKey());
-                    }
-                }
-            }
+            clearTasks();
             removedTask.clear();
         }
 
         //</editor-fold>
 
-        //</editor-fold>
+    }
+
+
+
+    //<editor-fold desc="Calculate">
+
+    /**
+     * Calculate Models to match user desired locations
+     */
+    private void calculateGeos() {
+        for (GeoPoint geo : points.entrySet().stream()
+                .filter(entry -> pointsToProceed.contains(entry.getKey()))
+                .map(Map.Entry::getValue).collect(Collectors.toList())) {
+            for (Map.Entry<Long, Task> task : tasks.entrySet()) {
+                if (GeoComputer.geoInRadius(geo, task.getValue())) {
+                    Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
+
+                    if(taskLocations == null)
+                        taskLocations = userLocalTasks.get(geo.getUserId());
+
+                    GeoLocations geoLocations = taskLocations.putIfAbsent(task.getKey(), new GeoLocations());
+
+                    if(geoLocations == null)
+                        geoLocations = taskLocations.get(task.getKey());
+
+                    geoLocations.addPoint(geo);
+                }
+            }
+        }
+    }
+
+    private void calculateRoutes() {
 
     }
 
+    private void calculateTasks() {
+        for (Task task : tasks.entrySet().stream().map(Map.Entry::getValue)
+                .filter(entryTask -> tasksToProceed.contains(entryTask.getId()))
+                .collect(Collectors.toList())) {
+            for (Map.Entry<Long, GeoPoint> geo : points.entrySet()) {
+                if (GeoComputer.geoInRadius(geo.getValue(), task)) {
+                    Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
+
+                    if(taskLocations == null)
+                        taskLocations = userLocalTasks.get(geo.getValue().getUserId());
+
+                    GeoLocations geoLocations = taskLocations.putIfAbsent(task.getId(), new GeoLocations());
+
+                    if(geoLocations == null)
+                        geoLocations = taskLocations.get(task.getId());
+
+                    geoLocations.addPoint(geo.getValue());
+                }
+            }
+        }
+    }
+
+    // Support method
     private static Map<Long, GeoLocations> createTaskNode(Long taskId) {
         return new HashMap<Long, GeoLocations>() {{ put(taskId, new GeoLocations()); }};
     }
 
+    //</editor-fold>
+
+    //<editor-fold desc="Clear">
+
+    /**
+     * Clear user deleted models
+     */
+    private void clearGeos() {
+        for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
+                .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+            for (GeoLocations locations : taskMap.entrySet()
+                    .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                locations.removePoint(removedPoints.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+            }
+        }
+    }
+
+    private void clearRoutes() {
+        for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+                .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
+                .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+            for (GeoLocations locations : taskMap.entrySet()
+                    .stream().parallel().filter(entry -> removedTask.containsKey(entry.getKey()))
+                    .map(Map.Entry::getValue).collect(Collectors.toSet())) {
+                locations.removeRoute(removedRoutes.entrySet().stream().map(Map.Entry::getKey).collect(Collectors.toSet()));
+            }
+        }
+    }
+
+    private void clearTasks() {
+        for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : userLocalTasks.entrySet()) {
+            for(Map.Entry<Long, Long> taskIdToRemove : removedTask.entrySet()) {
+                if (taskMap.getValue().containsKey(taskIdToRemove.getKey())) {
+                    taskMap.getValue().remove(taskIdToRemove.getKey());
+                }
+            }
+        }
+    }
+
+    //</editor-fold>
+
+
+
     @Override
-    public Optional<List<TaskDTO>> getChart(Long userId) {
+    public Optional<List<TaskDTO>> chart(Long userId) {
         if(userId == null)
             return Optional.empty();
 
         final TreeMap<Long, TaskDTO> taskTree = new TreeMap<>();
 
         tasks.entrySet().stream()
-                .filter(task -> hotTasks.containsKey(task.getKey()))
+                .filter(task -> taskChart.containsKey(task.getKey()))
                 .map(Map.Entry::getValue)
-                .forEach(t -> taskTree.put(hotTasks.get(t.getId()), subsService.fillSubs(userId, ModelTranslator.toDTO(t))));
+                .forEach(t -> taskTree.put(taskChart.get(t.getId()), subsService.fillSubs(userId, ModelTranslator.toDTO(t))));
 
         return Optional.of(taskTree.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()));
     }
 
     @Override
-    public Optional<List<TaskDTO>> getRecent(Long userId) {
+    public Optional<List<TaskDTO>> recent(Long userId) {
         if(userId == null)
             return Optional.empty();
 
@@ -362,7 +402,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> getLocal(Long userId) {
+    public Optional<List<TaskDTO>> local(Long userId) {
         if(userId == null)
             return Optional.empty();
 
@@ -382,7 +422,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> getOwned(Long userId) {
+    public Optional<List<TaskDTO>> mine(Long userId) {
         if(userId == null)
             return Optional.empty();
 
@@ -392,7 +432,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> getAll(Long userId) {
+    public Optional<List<TaskDTO>> all(Long userId) {
         if(userId == null)
             return Optional.empty();
 
@@ -401,7 +441,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> getSubscribed(Long userId) {
+    public Optional<List<TaskDTO>> subscribed(Long userId) {
         Optional<Set<Long>> subs = subsService.getUserSubscriptions(userId);
 
         if(subs.isPresent())
@@ -414,17 +454,17 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> getByTheme(Long userId, String theme, FeedType feedType) {
+    public Optional<List<TaskDTO>> search(Long userId, String theme, FeedType feedType) {
         Optional<List<TaskDTO>>  tasksToProceed;
 
         switch (feedType) {
-            case SUBSCRIBED: tasksToProceed = getSubscribed(userId); break;
-            case RECENT:    tasksToProceed = getRecent(userId);     break;
-            case OWNER:     tasksToProceed = getOwned(userId);      break;
-            case LOCAL:     tasksToProceed = getLocal(userId);      break;
-            case CHART:     tasksToProceed = getChart(userId);      break;
+            case SUBSCRIBED: tasksToProceed = subscribed(userId); break;
+            case RECENT:    tasksToProceed = recent(userId);     break;
+            case OWNER:     tasksToProceed = mine(userId);      break;
+            case LOCAL:     tasksToProceed = local(userId);      break;
+            case CHART:     tasksToProceed = chart(userId);      break;
             case ALL:
-            default:        tasksToProceed = getAll(userId);        break;
+            default:        tasksToProceed = all(userId);        break;
         }
 
         if(Validator.isStrEmpty(theme))

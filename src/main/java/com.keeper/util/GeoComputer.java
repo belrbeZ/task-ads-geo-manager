@@ -12,21 +12,27 @@ import com.keeper.model.dao.Task;
  */
 public class GeoComputer {
 
-    private static double haversine(double lat1, double lng1, double lat2, double lng2) {
-        double r = 63711370.; // average radius of the earth in Meters , 6371.1370 in KM
-        double dLat = Math.toRadians(lat2 - lat1);
-        double dLon = Math.toRadians(lng2 - lng1);
+    private static final double EarthRadiusInKm = 6378.1370D;
+    private static final double DoubleToRadians = (Math.PI / 180D);
 
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    private static double haversineInKm(double lat1, double lng1, double lat2, double lng2) {
+        double dlng = (lng2 - lng1) * DoubleToRadians;
+        double dlat = (lat2 - lat1) * DoubleToRadians;
+        double a = Math.pow(Math.sin(dlat / 2D), 2D)
+                + Math.cos(lat1 * DoubleToRadians)
+                * Math.cos(lat2 * DoubleToRadians)
+                * Math.pow(Math.sin(dlng / 2D), 2D);
+        double c = 2D * Math.atan2(Math.sqrt(a), Math.sqrt(1D - a));
 
-        return r * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return EarthRadiusInKm * c;
+    }
+
+    private static double haversineInMeters(double lat1, double lng1, double lat2, double lng2) {
+       return haversineInKm(lat1, lng1, lat2, lng2) * 1000D;
     }
 
     public static boolean geoInRadius(Double lat1, Double lng1, Double lat2, Double lng2, Integer radius) {
-        return (lat1 != null && lng1 != null && lat2 != null && lng2 != null && radius != null)
-                && haversine(lat1, lng1, lat2, lng2) <= radius;
+        return haversineInMeters(lat1, lng1, lat2, lng2) <= radius;
     }
 
     public static boolean geoInRadius(GeoPoint geo, Task task) {

@@ -15,28 +15,28 @@ import java.util.Optional;
  */
 public interface IFeed {
 
-    /** Get All Tasks */
-    Optional<List<TaskDTO>> getAll(Long userId);
+    /** Get all Tasks */
+    Optional<List<TaskDTO>> all(Long userId);
 
-    /** Get All Newly Added Tasks Sorted By LastModifyDate */
-    Optional<List<TaskDTO>> getRecent(Long userId);
+    /** Get all Newly Added Tasks Sorted By LastModifyDate */
+    Optional<List<TaskDTO>> recent(Long userId);
 
-    /** Get All Top Chart Tasks (Hot Rated) */
-    Optional<List<TaskDTO>> getChart(Long userId);
+    /** Get all Top Chart Tasks (Hot Rated / Most Popular Feed Tasks) */
+    Optional<List<TaskDTO>> chart(Long userId);
 
-    /** Get All Tasks which occurred in Users Locations */
-    Optional<List<TaskDTO>> getLocal(Long userId);
+    /** Get all Tasks which occurred in Users Locations */
+    Optional<List<TaskDTO>> local(Long userId);
 
-    /** Get All User Created Tasks */
-    Optional<List<TaskDTO>> getOwned(Long userId);
+    /** Get all User Created Tasks */
+    Optional<List<TaskDTO>> mine(Long userId);
 
-    /** Get All Tasks User Subscribed On */
-    Optional<List<TaskDTO>> getSubscribed(Long userId);
+    /** Get all Tasks User Subscribed On */
+    Optional<List<TaskDTO>> subscribed(Long userId);
 
     /**
-     * Get All Tasks By Theme & Filter Them
+     * Get all Tasks By Theme & Filter Them
      * @param theme to Search For
      * @param feedType FeedType to filter Tasks before Search
      */
-    Optional<List<TaskDTO>> getByTheme(Long userId, String theme, FeedType feedType);
+    Optional<List<TaskDTO>> search(Long userId, String theme, FeedType feedType);
 }

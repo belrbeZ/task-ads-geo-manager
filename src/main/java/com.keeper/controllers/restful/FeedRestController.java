@@ -45,8 +45,8 @@ public class FeedRestController {
         if (user.isPresent()) {
 
             Optional<List<TaskDTO>> usersTasks = (type == null)
-                    ? feedService.getLocal(user.get().getId())
-                    : feedService.getByTheme(user.get().getId(), search, FeedType.calc(type));
+                    ? feedService.local(user.get().getId())
+                    : feedService.search(user.get().getId(), search, FeedType.calc(type));
 
             if(!usersTasks.isPresent()) {
                 LOGGER.error(user.get().getEmail() + " REST Can't get list of Tasks!");
