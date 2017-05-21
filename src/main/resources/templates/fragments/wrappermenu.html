@@ -19,9 +19,9 @@
     <!--RIGHT MENU-->
     <nav id="sidebar-wrapper-right" class="sidebar-wrapper">
         <ul class="sidebar-nav wrapper-right">
-            <a id="menu-close-right" class="btn btn-danger pull-right hidden-md hidden-lg toggle menu-close-but"><i class="fa fa-times"></i></a>
+            <!--<a id="menu-close-right" class="btn btn-danger pull-right hidden-md hidden-lg toggle menu-close-but"><i class="fa fa-times"></i></a>-->
             <li class="sidebar-brand">
-                <a>Element <strong>DETAILS</strong></a>
+                <a style="cursor: default;">Действия с <strong>Элементом</strong></a>
             </li>
             <!--<li>
                 <a href="/profile" title="Go to Top">Profile </a>
@@ -44,19 +44,20 @@
                 <a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>
             </li>-->
             <li>
-                <a id="changeGeoPointsButton" title="Create or Change GeoPoint">Места</a>
+                <a class="changeGeoPointsButton" style="cursor: pointer;" title="Create or Change GeoPoint">Место</a>
                 <!--<div layout:include="fragments/geopointform"> </div>-->
                 <div id="add-geo_point-form" style="display: none;">
                     <div th:replace="fragments/geopointform"> </div>
                 </div>
             </li>
             <li>
-                <a id="changeTasksButton" title="Our Blog">Задания</a>
+                <a class="changeTasksButton" style="cursor: pointer;" title="Our Blog">Задание</a>
                 <div id="change-task-form" style="display: none;">
                     <div style="display: none;">
                         <input id="input-task-id" type="text" placeholder="Id" class="form-control id" />
                         <label class="validation-message"></label>
                     </div>
+                    <div id="input-task-name" style="width: 100%; text-align: center; color: #ffffff;"></div>
                     <!--<form id="change-task-form-data" th:action="@{/secure/task/form/withSimpleGeo}" autocomplete="off" method="post" class="form-registration" role="form">
 
                         <div style="display: none;">
@@ -83,38 +84,34 @@
                     <button id="task-view-button" class="geo_point-button geo_point-create_update-button" type="submit" style="display: none;">Обновить</button>
                     <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>
 -->
+                    <button id="task-create_view-button" class="geo_point-button geo_point-create_update-button btn btn-dark btn-md" style="color: #ffffff;" type="submit">Добавить</button>
 
-                    <button id="task-create_view-button" class="geo_point-button geo_point-create_update-button" type="submit">Добавить</button>
-
-                    <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>
+                    <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button btn btn-dark btn-md" style="color: #ffffff;" type="button">Отменить</button>
 
                 </div>
             </li>
         </ul>
     </nav>
 
+    <!--VERTICAL RIGHT MENU FOR SIDEBAR-->
+    <aside id="accordion-right" class="social text-vertical-center" style="display: none;">
+        <div class="accordion-social">
+            <ul class="panel-collapse collapse in nav nav-stacked" role="tabpanel" aria-labelledby="social-collapse" id="collapseOne">
+                <li><a class="changeGeoPointsButton vert-list-but-right" style="cursor: pointer;"><i class="fa fa-lg fa-map-marker" target="_blank"></i></a></li>
+                <li><a class="changeTasksButton vert-list-but-right" style="cursor: pointer;" target="_blank"><i class="fa fa-lg fa-stack-exchange"></i></a></li>
+            </ul>
+        </div>
+    </aside>
+
     <!--LEFT MENU-->
     <nav id="sidebar-wrapper-left" class="sidebar-wrapper">
         <ul class="sidebar-nav wrapper-left">
-            <a id="menu-close-left" class="btn btn-danger pull-right hidden-md hidden-lg toggle menu-close-but"><i class="fa fa-times"></i></a>
+            <!--<a id="menu-close-left" class="btn btn-danger pull-right hidden-md hidden-lg toggle menu-close-but"><i class="fa fa-times"></i></a>-->
             <li class="sidebar-brand">
-                <a>YOUR <strong>ELEMENTS</strong></a>
+                <a style="cursor: default;" >Ваши <strong>Элементы</strong></a>
             </li>
             <li>
-                <a id="getTasksListButton" title="List of Tasks">Списки Заданий</a>
-
-                <div style="display: none;" id="tasksBlock">
-                    <div>
-                        <button id="getTasksOwnerButton" type="button">Мои Задания</button>
-                        <button id="getTasksLocalButton" type="button">Новые задания</button>
-                    </div>
-                    <div id="tasksListBlock">
-
-                    </div>
-                </div>
-            </li>
-            <li>
-                <a id="getGeoPointsButton" title="List of GeoPoints">List of GeoPoints</a>
+                <a class="getGeoPointsButton" style="cursor: pointer;" title="List of GeoPoints">Мои места</a>
                 <!--<div th:replace="fragments/geopointlist :: geopointlist"> </div>-->
                 <!--<button id="getGeoPointsButton" name="getGeoPointsButton" th:onclick="'javascript:retrieveGeoPoints()'" type="button">List of GeoPoints</button>-->
                 <!-- Results block -->
@@ -123,10 +120,78 @@
                 </div>
 
             </li>
-           <!-- <li>
-                <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
+            <li>
+                <a class="getTasksListButton" style="cursor: pointer;" title="List of Tasks">Задания</a>
 
-            </li>-->
+                <div style="display: none;" id="tasksBlock">
+                    <div style="padding: 0 5%;">
+                        <!--type="button"-->
+                        <!--<button id="getTasksOwnerButton" class="btn btn-primary btn-md">Мои</button>-->
+                        <!--<button id="getTasksLocalButton" class="btn btn-primary btn-md">Подходящие</button>-->
+                        <!--<button id="getTasksSubscribedButton" class="btn btn-primary btn-md">Отслеживаемые</button>-->
+                        <!--<button id="getTasksRecentButton" class="btn btn-primary btn-md">Последние</button>-->
+                        <!--<button id="getTasksChartButton" class="btn btn-primary btn-md">Chart</button>-->
+
+                        <!-- List group -->
+                        <ul class="list-group">
+                            <!--<li class="list-group-item">
+
+                                <div class="material-switch pull-right">
+                                    <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox"/>
+                                    <label for="someSwitchOptionSuccess" class="label-success"></label>
+                                    label-default3
+                                </div>
+                            </li>-->
+                            <li class="list-group-item">
+                                Мои
+                                <div class="material-switch pull-right">
+                                    <input id="switchTasksOwner" name="switchTasksOwner" type="checkbox" value="TasksOwner" class="check-box-task-lists"/>
+                                    <label for="switchTasksOwner" style="background: #f1c40f;" class="label-warning"></label>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                Подходящие
+                                <div class="material-switch pull-right">
+                                    <input id="switchTasksLocal" name="switchTasksLocal" type="checkbox" value="TasksLocal" class="check-box-task-lists"/>
+                                    <label for="switchTasksLocal" class="label-danger"></label>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                Отслеживаемые
+                                <div class="material-switch pull-right">
+                                    <input id="switchTasksSubscribed" name="switchTasksSubscribed" type="checkbox" value="TasksSubscribed" class="check-box-task-lists"/>
+                                    <label for="switchTasksSubscribed" class="label-primary"></label>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                Последние
+                                <div class="material-switch pull-right">
+                                    <input id="switchTasksRecent" name="switchTasksRecent" type="checkbox" value="TasksRecent" class="check-box-task-lists"/>
+                                    <label for="switchTasksRecent" class="label-info"></label>
+                                </div>
+                            </li>
+
+                            <li class="list-group-item">
+                                Chart
+                                <div class="material-switch pull-right">
+                                    <input id="switchTasksChart" name="switchTasksChart" type="checkbox" value="TasksChart" class="check-box-task-lists"/>
+                                    <label for="switchTasksChart" class="label-warning"></label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="tasksListBlock">
+
+                    </div>
+                </div>
+            </li>
+
+            <!-- <li>
+                 <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
+
+             </li>-->
             <!--<li>
             <a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>
             </li>
@@ -140,17 +205,50 @@
             <li>
             <a data-toggle="modal" data-href="#loginModal" data-target="#loginModal" style="cursor:pointer;"> Hosting</a>
             </li>-->
-            <li>
-                <a title="List of Routes">List of Routes</a>
-            </li>
+            <!--<li>-->
+                <!--<a title="List of Routes">List of Routes</a>-->
+            <!--</li>-->
         </ul>
     </nav>
+
+    <!--VERTICAL LEFT MENU FOR SIDEBAR-->
+    <aside id="accordion-left" class="social text-vertical-center"  style="display: none;">
+        <div class="accordion-social">
+            <ul class="panel-collapse collapse in nav nav-stacked" role="tabpanel" aria-labelledby="social-collapse" id="collapseTwo">
+                <li><a target="_blank" class="getGeoPointsButton vert-list-but-left" style="cursor: pointer;"><i class="fa fa-lg fa-tags"></i></a></li>
+                <li><a target="_blank" class="getTasksListButton vert-list-but-left" style="cursor: pointer;"><i class="fa fa-lg fa-tasks"></i></a></li>
+
+                <!--<li><a href="https://www.facebook.com/soldierupdesigns" target="_blank"><i class="fa fa-lg fa-facebook"></i></a></li>-->
+                <!--<li><a href="https://twitter.com/soldierupdesign" target="_blank"><i class="fa fa-lg fa-twitter"></i></a></li>-->
+                <!--<li><a href="https://www.plus.google.com/+soldierupdesigns" target="_blank"><i class="fa fa-lg fa-google-plus"></i></a></li>-->
+                <!--<li><a href="https://github.com/blayderunner123" target="_blank"><i class="fa fa-lg fa-github"></i></a></li>-->
+                <!--<li><a href="https://linkedin.com/in/blayderunner123" target="_blank"><i class="fa fa-lg fa-linkedin"></i></a></li>-->
+                <!--<li><a href="skype:live:soldierupdesigns?call"><i class="fa fa-lg fa-skype" target="_blank"></i></a></li>-->
+                <!--<li><a href="http://stackexchange.com/users/4992378/blayderunner123" target="_blank"><i class="fa fa-lg fa-stack-exchange"></i></a></li>-->
+            </ul>
+        </div>
+    </aside>
 
     <!--SIDES MENU EVENTS-->
     <script th:inline="javascript">
         // <![CDATA[
         $(document).ready(function()
         {
+//            $('#wrapper-menus-but-block').show('slow');
+//            $('#accordion-left').show('slow');
+//            $('#accordion-right').show('slow');
+            $('#wrapper-menus-but-block').fadeIn('slow');
+            $('#accordion-left').fadeIn('slow');
+            $('#accordion-right').fadeIn('slow');
+
+            $('.vert-list-but-right').on('click',function (e) {
+                $("#sidebar-wrapper-right").toggleClass("active", true);
+            });
+            $('.vert-list-but-left').on('click',function (e) {
+                $("#sidebar-wrapper-left").toggleClass("active", true);
+            });
+
+
             // Closes the sidebar menu on menu-close button click event
             $(".menu-close-but").click(function(e)							//declare the element event ...'(e)' = event (shorthand)
             {

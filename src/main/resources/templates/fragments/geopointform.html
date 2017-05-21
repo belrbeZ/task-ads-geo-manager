@@ -44,7 +44,7 @@
     <form id="geo_point-form" class="form-registration" role="form">
 
         <div style="display: none;">
-            <input id="input-geo_point-id" type="text" placeholder="Id" class="form-control id" />
+            <input id="input-geo_point-id" type="number" placeholder="Id" class="form-control id" />
             <label class="validation-message"></label>
         </div>
 
@@ -54,12 +54,12 @@
         </div>
 
         <div>
-            <input id="input-geo_point-latitude" type="text" placeholder="Latitude" class="form-control latitude" />
+            <input id="input-geo_point-latitude" type="number" placeholder="Latitude" class="form-control latitude" />
             <label class="validation-message"></label>
         </div>
 
         <div>
-            <input id="input-geo_point-longitude" type="text" placeholder="Longitude" class="form-control longtitude" />
+            <input id="input-geo_point-longitude" type="number" placeholder="Longitude" class="form-control longtitude" />
             <label class="validation-message"></label>
         </div>
 
@@ -73,8 +73,8 @@
             <!--onclick="submitGeoPointForm('/secure/geopoint/create','CREATE')"-->
             <!--onclick="submitGeoPointForm('/secure/geopoint/remove','DELETE')"-->
             <!--disabled-->
-            <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button" type="button">CreateUpdate</button>
-            <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">CancelDelete</button>
+            <button id="geo_point-create_update-button" class="geo_point-button geo_point-create_update-button btn btn-dark btn-md" style="color: #ffffff;" type="button">CreateUpdate</button>
+            <button id="geo_point-delete_cancel-button" class="geo_point-button geo_point-delete_cancel-button btn btn-dark btn-md" style="color: #ffffff;" type="button">CancelDelete</button>
         </div>
 
         <span th:utext="${successMessage}"></span>
