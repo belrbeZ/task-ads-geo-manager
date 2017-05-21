@@ -7,15 +7,15 @@ package com.keeper.service.modelbased;
 import com.keeper.model.dao.Tag;
 import com.keeper.model.dto.TagDTO;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Default Comment
  */
 public interface ITagService {
 
-    Optional<List<Tag>> getTaskTags(Long taskId);
+    Optional<Set<Tag>> getTaskTags(Long taskId);
 
     Optional<Tag> save(Long taskId, Tag tag);
     Optional<Tag> save(Long taskId, TagDTO tag);

@@ -181,7 +181,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     }
 
     public SimpleGeoPoint getGeo() {
-        return geo;
+        return new SimpleGeoPoint(latitude.toString(), longitude.toString(), radius);
     }
 
 //    @JsonDeserialize(using = StringSimpleDeserializer.class)

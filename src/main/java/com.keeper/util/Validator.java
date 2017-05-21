@@ -4,6 +4,8 @@ package com.keeper.util;
  * Created by @GoodforGod on 16.04.2017.
  */
 
+import com.keeper.model.util.SimpleGeoPoint;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
@@ -23,6 +25,12 @@ public class Validator {
 
     public static boolean isStrEmpty(String str) {
         return (str == null || str.trim().isEmpty());
+    }
+
+    public static boolean isSimpleGeoValid(SimpleGeoPoint geo) {
+        return geo != null
+                && isGeoValid(geo.getLatitude().toString())
+                && isGeoValid(geo.getLongitude().toString());
     }
 
     public static boolean isPassValid(String pass) {
@@ -54,10 +62,9 @@ public class Validator {
 
     private static Predicate<String> geoFilter = (Validator::isGeoValid);
 
-    public static boolean isGeoValid(String geos) {
-        return geos != null
-                && !geos.isEmpty()
-                && geos.matches("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
+    public static boolean isGeoValid(String geo) {
+        return !isStrEmpty(geo)
+                && geo.matches("^(-?[1-8]?\\d(?:\\\\.\\\\d{1,18})?|90(?:\\\\.0{1,18})?)$|^(-?(?:1[0-7]|[1-9])?\\d(?:\\.\\d{1,18})?|180(?:\\.0{1,18})?)$");
     }
 
     public static boolean isGeoDoubleValid(List<Double> geos) {

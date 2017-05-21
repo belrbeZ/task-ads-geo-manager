@@ -46,7 +46,7 @@ public class TaskWebController {
     private final ISubscription subsService;
     private final CommentService commentService;
 
-    private final String MSG = "msg";
+    private final String MSG = "message";
 
     @Autowired
     public TaskWebController(TaskService taskService,
@@ -128,11 +128,11 @@ public class TaskWebController {
 
         if(user.isPresent()) {
             TaskDTO dto = new TaskDTO();
+            dto.setTopicStarterId(user.get().getId());
 
-            if(latitude != null && longitude != null && radius != null)
+            if(Validator.isGeoValid(latitude) && Validator.isGeoValid(longitude) && radius != null && radius > 0)
                 dto.setGeo(new SimpleGeoPoint(latitude, longitude, radius));
 
-            dto.setTopicStarterId(user.get().getId());
             if(Validator.isIdValid(id)) {
                 Optional<Task> updateTask = taskService.get(id);
 
@@ -155,32 +155,29 @@ public class TaskWebController {
         ModelAndView modelAndView = new ModelAndView(TemplateResolver.redirect(WebResolver.FEED));
 
         Optional<User> user = userService.getAuthorized();
+        task.setGeo(new SimpleGeoPoint(task.getLatitude(), task.getLongitude(), task.getRadius()));
 
         if(user.isPresent()) {
-            task.setTopicStarterId(user.get().getId());
 
-            // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
-//            if(task.getGeo() == null)
-//                task.setGeo(new SimpleGeoPoint("0.", "0.", 15));
-            if(task.getGeo() == null || (task.getGeo().getLatitude().equals(Double.parseDouble("0.")) &&
-                    task.getGeo().getLongitude().equals(Double.parseDouble("0.")))) {
-                // RADIUS SHOULD BE MORE THAT 0 ALWAYS TO SAVE
-                task.setGeo(new SimpleGeoPoint(task.getLatitude(), task.getLongitude(), task.getRadius()));
-//                task.setGeo(new SimpleGeoPoint("0.","0.",15));
-            }
-            try {
-                Optional<Task> savedTask;
+            if (Validator.isSimpleGeoValid(task.getGeo())) {
 
-                if (Validator.isIdValid(task.getId()))
-                    savedTask = taskService.updateDTO(task);
-                else
-                    savedTask = taskService.saveDTO(task);
+                try {
+                    Optional<Task> savedTask;
 
-                savedTask.ifPresent(task1 -> modelAndView.setViewName(TemplateResolver.redirect(WebResolver.TASK + "/" + task1.getId())));
+                    if (Validator.isIdValid(task.getId()))
+                        savedTask = taskService.updateDTO(task);
+                    else
+                        savedTask = taskService.saveDTO(task);
+
+                    savedTask.ifPresent(task1 -> modelAndView.setViewName(TemplateResolver.redirect(WebResolver.TASK + "/" + task1.getId())));
+                    return modelAndView;
+
+                } catch (Exception e) {
+                    modelAndView.addObject(MSG, "No Such Task!");
+                }
+            } else {
+                modelAndView.addObject(MSG, "No Geo Point!");
                 return modelAndView;
-            }
-            catch (Exception e) {
-                modelAndView.addObject(MSG, "No Such Task!");
             }
         }
         else modelAndView.addObject(MSG, "ReLogin First!");

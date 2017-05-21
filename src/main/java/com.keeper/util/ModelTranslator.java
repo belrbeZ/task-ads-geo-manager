@@ -12,10 +12,7 @@ import com.keeper.model.util.TaskModification;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.keeper.util.Validator.*;
@@ -149,10 +146,10 @@ public class ModelTranslator {
                 : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
     }
 
-    public static List<TagDTO> tagsToDTO(List<Tag> models) {
+    public static Set<TagDTO> tagsToDTO(Set<Tag> models) {
         return (models == null)
-                ? Collections.emptyList()
-                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toList());
+                ? Collections.emptySet()
+                : models.stream().map(ModelTranslator::toDTO).collect(Collectors.toSet());
     }
 
     public static List<UserDTO> usersToDTO(List<User> models) {

@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 
@@ -33,7 +33,7 @@ public class TagService extends PrimeModelUtilService<Tag, Long> implements ITag
     }
 
     @Override
-    public Optional<List<Tag>> getTaskTags(Long taskId) {
+    public Optional<Set<Tag>> getTaskTags(Long taskId) {
         if(invalidId(taskId, GET_NULLABLE_ID +"TASK"))
             return Optional.empty();
 

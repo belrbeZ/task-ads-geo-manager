@@ -238,6 +238,7 @@
             <form th:action="@{/secure/feed/filter}" method="GET">
                 <input type="hidden" name="_method" value="GET"/>
                 <div class="col-md-6" style="padding: 10px">
+
                     <div class="input-group col-md-12" style="padding: 10px">
                         <input type="text" name="search" class="form-control input-lg" placeholder="Enter Search Query"/>
                         <span class="input-group-btn">
@@ -281,9 +282,9 @@
     <div>
         <section class="publicaciones-blog-home">
 
-            <h2>Create new <b><a th:href="@{/secure/task/form}">Task</a></b></h2>
+            <h2>Create new <b><a th:href="@{/secure/map}">Task</a></b></h2>
 
-            <div> <span th:utext="${msg}"></span> </div>
+            <div> <span th:utext="${message}"></span> </div>
 
             <div class="row-page row" th:unless="${#lists.isEmpty(tasks)}">
                 <div class="col-page col-sm-4 col-md-3" th:each="task : ${tasks}">

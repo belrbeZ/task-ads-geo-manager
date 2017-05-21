@@ -72,13 +72,13 @@
     <div class="container">
         <div th:object="${task}" class="row">
 
-            <div th:object="${user}" class="row">
-                <div th:if="${task.topicStarterId} != ${user.id}"
+            <div th:object="${user}" class="row" style="padding-top: 10px">
+                <div th:if="${task?.topicStarterId} != ${user?.id}"
                      class="list-inline text-center">
                     <h1 class="text-center" th:text="${user.name}" style="color: #222222"></h1>
                 </div>
 
-                <ul th:if="${task.topicStarterId} == ${user.id}"
+                <ul th:if="${task?.topicStarterId} == ${user?.id}"
                     class="list-inline text-center">
                     <li>
                         <form th:action="@{/secure/task/form}" method="GET">
@@ -118,8 +118,10 @@
                 </ul>
             </div>
 
-            <div th:if="msg != null" class="alert alert-warning">
-                <span th:utext="${msg}" style="margin: 2px"></span>
+            <div th:if="msg != null">
+                <div class="alert alert-warning">
+                    <span th:utext="${msg}" style="margin: 2px"></span>
+                </div>
             </div>
 
             <div class="col-lg-9 col-md-9 col-sm-12">
@@ -128,9 +130,11 @@
                     <div class="col-md-12 post-header-line">
                         <span class="glyphicon glyphicon-user"></span> by <span th:text="${user.name}"></span> |
                         <span class="glyphicon glyphicon-calendar"></span><span th:text="${task.getPrettyCreateDate()}"></span> |
-                        <span class="glyphicon glyphicon-tags"></span> Tags :
-                        <span th:each="tag : ${tast.tags}">
-                            <span class="label label-info"><span th:text="${tag.tag}"></span></span>
+                        <span th:if="${task.tags} != null">
+                            <span class="glyphicon glyphicon-tags"></span> Tags :
+                            <span th:each="tag : ${tast?.tags}">
+                                <span class="label label-info"><span th:text="${tag?.tag}"></span></span>
+                            </span>
                         </span>
                     </div>
                 </div>
@@ -151,23 +155,24 @@
             </div>
 
             <div class="col-lg-3 col-md-3 col-sm-12" >
-                <div>
-                    <div class="twt-wrapper">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">Comments</div>
-                            <div class="panel-body">
-                                <form autocomplete="off" th:action="@{'/secure/task/' + ${task.id} + '/comment'}"
-                                      id="commentForm" style="width: 200px;" th:object="${comment}"
-                                      method="post" class="form-registration" role="form">
+                <div class="twt-wrapper">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Comments</div>
+                        <div class="panel-body" style="width: 320px">
+                            <form autocomplete="off" th:action="@{'/secure/task/' + ${task.id} + '/comment'}"
+                                  id="commentForm" style="width: 300px;" th:object="${comment}"
+                                  method="post" class="form-registration" role="form">
 
-                                    <textarea name="message" form="commentForm" class="form-control"
-                                              placeholder="Enter your comment..." rows="3"></textarea>
-                                    <br/>
-                                    <input type="hidden" th:name="${comment.taskId}" th:value="${task.id}"/>
-                                    <input type="hidden" th:name="${comment.userId}" th:value="${user.id}"/>
-                                    <button type="submit" class="btn btn-primary btn-sm pull-right">Submit</button>
-                                </form>
+                                <textarea name="message" form="commentForm" class="form-control"
+                                          placeholder="Enter your comment..." rows="3"></textarea>
+                                <br/>
+                                <input type="hidden" th:name="${comment.taskId}" th:value="${task.id}"/>
+                                <input type="hidden" th:name="${comment.userId}" th:value="${user.id}"/>
+                                <button type="submit" class="btn btn-primary btn-sm pull-right">Submit</button>
+                            </form>
+
                             <hr/>
+
                             <ul th:each="commet : ${task.comments}" class="media-list">
                                 <li class="media">
                                 <!--<a href="#" class="pull-left">-->
@@ -181,7 +186,7 @@
                                     </span>
                                     <p>
                                         <strong class="text-success"> @
-                                            <span th:text="${comment.userName}">
+                                            <span th:text="${comment?.userName}">
                                                 Anonymous
                                             </span>
                                         </strong>
@@ -192,11 +197,10 @@
                                 </div>
                                 </li>
                             </ul>
-                            </div>
                         </div>
                     </div>
-                    </div>
                 </div>
+            </div>
         </div>
     </div>
 </div>
