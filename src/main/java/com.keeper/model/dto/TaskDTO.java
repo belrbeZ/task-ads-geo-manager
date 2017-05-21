@@ -10,7 +10,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by Alexandr Vasiliev on 29.03.2017.
@@ -46,7 +49,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     private PictureDTO picture;
     private List<CommentDTO> comments;
     private List<Long> participants;
-    private List<TagDTO> tags;
+    private Set<TagDTO> tags = new HashSet<>();
 
     public TaskDTO() {
         this.id = TaskType.EMPTY.getValue();
@@ -124,7 +127,7 @@ public class TaskDTO implements Comparator<LocalDateTime> {
     public TaskDTO(Long id, Long topicStarterId, TaskType type, String theme, String descr,
                    SimpleGeoPoint geo, PictureDTO picture,
                    Timestamp createDate, Timestamp lastModifyDate,
-                   List<CommentDTO> comments, List<TagDTO> tags) {
+                   List<CommentDTO> comments, Set<TagDTO> tags) {
         this(id, topicStarterId, type, theme, descr, geo);
         this.createDate     = (createDate != null) ? createDate.toLocalDateTime() : null;
         this.lastModifyDate = (lastModifyDate != null) ? lastModifyDate.toLocalDateTime() : null;
@@ -270,14 +273,13 @@ public class TaskDTO implements Comparator<LocalDateTime> {
         this.comments = comments;
     }
 
-    public List<TagDTO> getTags() {
+    public Set<TagDTO> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagDTO> tags) {
-        this.tags = tags;
+    public Set<String> getTagsAsString() {
+        return tags.stream().map(TagDTO::getTag).collect(Collectors.toSet());
     }
-
 
     public Double getLongitude() {
         return longitude;

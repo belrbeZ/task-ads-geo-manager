@@ -19,26 +19,36 @@
             max-height:650px;
             overflow:auto;
         }
+
         .twt-wrapper .media-list .media img {
             width:64px;
             height:64px;
             border:2px solid #e5e7e8;
         }
+
         .twt-wrapper .media-list .media {
             border-bottom:1px dashed #efefef;
             margin-bottom:25px;
         }
 
-        .navbar{margin-bottom:0;}
-        section{width:100%; float:left;}
-        .banner-section{background-image:url("http://makishvili.github.io/print-and-go/pictures/msk.png");
-            background-size:cover; height: 300px; left: 0; position: absolute; top: 0; background-position:0;}
-        .post-title-block{padding: 140px 0;}
-        .post-title-block h1 {color: #fff; font-size: 85px; font-weight: bold; text-transform: capitalize;}
-        .post-title-block li{font-size:20px; color: #fff;}
-        .image-block{float:left; width:100%; margin-bottom:10px;}
-        .footer-link{float:left; width:100%; background:#222222; text-align:center; padding:30px;}
-        .footer-link a{color:#A9FD00; font-size:18px; text-transform:uppercase;}
+        .post-title-block h1 {
+            color: #fff;
+            font-size: 85px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .post-title-block li {
+            font-size:20px;
+            color: #fff;
+        }
+
+        .footer-link a {
+            color:#A9FD00;
+            font-size:18px;
+            text-transform:uppercase;
+        }
+
     </style>
 
 </head>
@@ -49,135 +59,146 @@
 
     <br/> <br/> <br/>
 
-    <div>
-        <span th:utext="${msg}" style="margin: 5px"></span>
+    <div >
+        <!--MAP-->
+        <!--<div th:replace="fragments/map_form :: map_form"> </div>-->
+
+        <script type="text/javascript"
+                charset="utf-8"
+                src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Ae3b1f950de0f339053e45628ae9e3add9b7f89c5a81c896874d58b7202aacbfd&amp;width=100%25&amp;height=220&amp;lang=ru_RU&amp;scroll=true">
+        </script>
     </div>
 
-    <section class="banner-section">
-        <div>
-            <!-- MAP -->
-            <!--<div th:replace="fragments/map_form :: map_form"> </div>-->
-        </div>
-    </section>
-    <section class="post-content-section">
-        <div class="container">
+    <div class="container">
+        <div th:object="${task}" class="row">
 
-            <div th:object="${task}" class="row">
-                <div th:object="${user}" class="col-lg-12 col-md-12 col-sm-12 post-title-block">
-
-                    <!--<h1 class="text-center">Title</h1>-->
-
-                    <div th:if="${task.topicStarterId} != ${user.id}" class="list-inline text-center">
-                        <h1 class="text-center" th:text="${user.name}" style="color: #222222"> | </h1>
-                        <!--<li> | </li>-->
-                    </div>
-                    <ul th:if="${task.topicStarterId} == ${user.id}" class="list-inline text-center">
-                        <li>
-                            <form th:action="@{/secure/task/form}"
-                                  method="GET" style="padding: 15px">
-                                <button class="btn btn btn-success" name="id" th:value="${task.id}"
-                                        type="Submit" style="font-weight: 900">
-                                    Update
-                                </button>
-                            </form>
-                        </li>
-                        <li>
-                            <form th:action="@{'/secure/task/' + ${task.id}}" th:method="DELETE"
-                                  style="padding: 5px">
-                                <input type="hidden" name="_method" value="DELETE"/>
-                                <button class="btn btn-danger"  type="Submit" style="font-weight: 900">
-                                    Delete
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-
-                    <ul th:if="${task?.topicStarterId} != ${user?.id} and ${task.theme} != null" class="list-inline text-center">
-                        <li th:if="${task.subscribed} == true">
-                            <form th:action="@{/secure/task/subscribe}" th:method="DELETE">
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button name="id" class="btn btn-warning" th:value="${task.id}" type="Submit" th:text="Unsubscribe"></button>
-                            </form>
-                        </li>
-                        <li th:if="${task.subscribed} == false">
-                            <form th:action="@{/secure/task/subscribe}" method="POST"
-                                  >
-                                <input type="hidden" name="_method" value="POST"/>
-                                <button name="id" class="btn btn-warning" th:value="${task.id}" type="Submit" th:text="Subscribe"></button>
-                            </form>
-                        </li>
-                    </ul>
+            <div th:object="${user}" class="row">
+                <div th:if="${task.topicStarterId} != ${user.id}"
+                     class="list-inline text-center">
+                    <h1 class="text-center" th:text="${user.name}" style="color: #222222"></h1>
                 </div>
 
+                <ul th:if="${task.topicStarterId} == ${user.id}"
+                    class="list-inline text-center">
+                    <li>
+                        <form th:action="@{/secure/task/form}" method="GET">
+                            <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit">
+                                Update
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form th:action="@{'/secure/task/' + ${task.id}}" th:method="DELETE">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <button class="btn btn-danger" type="Submit">
+                                Delete
+                            </button>
+                        </form>
+                    </li>
+                </ul>
 
-                <div class="col-lg-9 col-md-9 col-sm-12">
-                    <p style="font-weight: 900;">
-                        Created :
-                        <span th:text="${task.getPrettyCreateDate()}"></span>
-                    </p>
-
-                    <div><span style="font-weight: 900">Title : </span>
-                        <h3 class="lead" style="padding: 5px" th:text="${task.theme}">
-                        </h3>
-                    </div>
-                    <div><span style="font-weight: 900">Description : </span>
-                        <br/>
-                        <h3 th:text="${task.descr}">
-                            <span></span>
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-3 col-sm-12" >
-                    <div>
-                        <div class="twt-wrapper">
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    Comments
-                                </div>
-                                <div class="panel-body" style="width: 220px;">
-                                    <form autocomplete="off" th:action="@{'/secure/task/' + ${task.id} + '/comment'}"
-                                          id="commentForm" style="width: 200px;" th:object="${comment}"
-                                          method="post" class="form-registration" role="form">
-                                        <textarea name="message" form="commentForm"
-                                                  class="form-control" placeholder="Enter your comments..." rows="3"></textarea>
-                                        <br/>
-                                        <input type="hidden" th:name="${comment.taskId}" th:value="${task.id}"/>
-                                        <input type="hidden" th:name="${comment.userId}" th:value="${user.id}"/>
-                                        <button type="submit" class="btn btn-primary btn-sm pull-right">Submit</button>
-                                        <div class="clearfix"></div>
-                                    </form>
-                                    <hr />
-                                    <ul th:each="commet : ${task.comments}" class="media-list">
-                                        <li class="media">
-                                            <!--<a href="#" class="pull-left">-->
-                                                <!--<img src="assets/img/1.png" alt="" class="img-circle">-->
-                                            <!--</a>-->
-                                            <div class="media-body">
-                                            <span class="text-muted pull-right">
-                                                <small class="text-muted">
-                                                    <span th:text="${comment.getPrettyCreateDate()}"></span>
-                                                </small>
-                                            </span>
-                                            <strong class="text-success">@<span th:text="${comment?.userName}">Anonymous</span></strong>
-                                            <p>
-                                                <span th:text="${comment.message}"></span>
-                                            </p>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <span class="text-danger">Hot Thread</span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- TWEET WRAPPER END -->
-                    </div>
-                </div>
+                <ul th:if="${task?.topicStarterId} != ${user?.id} and ${task.theme} != null"
+                    class="list-inline text-center">
+                    <li th:if="${task.subscribed} == true">
+                        <form th:action="@{/secure/task/subscribe}" th:method="DELETE">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button name="id" class="btn btn-warning" th:value="${task.id}" type="Submit">
+                                Unsubscribe
+                            </button>
+                        </form>
+                    </li>
+                    <li th:if="${task.subscribed} == false">
+                        <form th:action="@{/secure/task/subscribe}" method="POST">
+                            <input type="hidden" name="_method" value="POST"/>
+                            <button name="id" class="btn btn-warning" th:value="${task.id}" type="Submit">
+                                Subscribe
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             </div>
 
+            <div th:if="msg != null" class="alert alert-warning">
+                <span th:utext="${msg}" style="margin: 2px"></span>
+            </div>
 
-        </div> <!-- /container -->
-    </section>
+            <div class="col-lg-9 col-md-9 col-sm-12">
+
+                <div class="row">
+                    <div class="col-md-12 post-header-line">
+                        <span class="glyphicon glyphicon-user"></span> by <span th:text="${user.name}"></span> |
+                        <span class="glyphicon glyphicon-calendar"></span><span th:text="${task.getPrettyCreateDate()}"></span> |
+                        <span class="glyphicon glyphicon-tags"></span> Tags :
+                        <span th:each="tag : ${tast.tags}">
+                            <span class="label label-info"><span th:text="${tag.tag}"></span></span>
+                        </span>
+                    </div>
+                </div>
+
+                <br/>
+
+                <p class="lead">
+                    TITLE :
+                    <span th:text="${task.theme}"></span>
+                </p>
+
+                <br/>
+                <p class="lead">DESCRIPTION : </p>
+
+                <blockquote>
+                    <p th:text="${task.descr}"></p>
+                </blockquote>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12" >
+                <div>
+                    <div class="twt-wrapper">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Comments</div>
+                            <div class="panel-body">
+                                <form autocomplete="off" th:action="@{'/secure/task/' + ${task.id} + '/comment'}"
+                                      id="commentForm" style="width: 200px;" th:object="${comment}"
+                                      method="post" class="form-registration" role="form">
+
+                                    <textarea name="message" form="commentForm" class="form-control"
+                                              placeholder="Enter your comment..." rows="3"></textarea>
+                                    <br/>
+                                    <input type="hidden" th:name="${comment.taskId}" th:value="${task.id}"/>
+                                    <input type="hidden" th:name="${comment.userId}" th:value="${user.id}"/>
+                                    <button type="submit" class="btn btn-primary btn-sm pull-right">Submit</button>
+                                </form>
+                            <hr/>
+                            <ul th:each="commet : ${task.comments}" class="media-list">
+                                <li class="media">
+                                <!--<a href="#" class="pull-left">-->
+                                <!--<img src="assets/img/1.png" alt="" class="img-circle">-->
+                                <!--</a>-->
+                                <div class="media-body">
+                                    <span class="text-muted pull-right">
+                                        <small class="text-muted">
+                                            <span th:text="${comment.getPrettyCreateDate()}"></span>
+                                        </small>
+                                    </span>
+                                    <p>
+                                        <strong class="text-success"> @
+                                            <span th:text="${comment.userName}">
+                                                Anonymous
+                                            </span>
+                                        </strong>
+                                    </p>
+                                    <p>
+                                        <span th:text="${comment.message}"> </span>
+                                    </p>
+                                </div>
+                                </li>
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -11,7 +11,7 @@ import com.keeper.model.dto.TaskDTO;
 import com.keeper.model.types.FeedType;
 import com.keeper.model.util.GeoLocations;
 import com.keeper.service.core.IFeed;
-import com.keeper.service.core.IFeedChart;
+import com.keeper.service.core.IFeedChartRate;
 import com.keeper.service.core.IFeedSubmit;
 import com.keeper.util.GeoComputer;
 import com.keeper.util.ModelTranslator;
@@ -35,22 +35,22 @@ import java.util.stream.Collectors;
  */
 @Service
 @Primary
-public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
+public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
 
     private static final Logger logger = LoggerFactory.getLogger(FeedService.class);
 
-    private final int HOT_FEED_SIZE = 20;
-    private final int RECENT_FEED_SIZE = 20;
+    private final int CHART_FEED_SIZE = 20;
+    private final int RECENT_FEED_SIZE = 30;
 
     private final Map<Long, GeoPoint> points = new ConcurrentHashMap<>(); // all geopoints
     private final Map<Long, Route>   routes = new ConcurrentHashMap<>(); // all routes
     private final Map<Long, Task>    tasks  = new ConcurrentHashMap<>(); // all tasks
 
     // Map < TaskId | Hot Counter >
-    private final Map<Long, Long> taskChart = new ConcurrentHashMap<>(HOT_FEED_SIZE); // Rang of hot tasks ids
+    private final Map<Long, Long> taskChart = new ConcurrentHashMap<>(CHART_FEED_SIZE); // Rang of hot tasks ids
 
     // Map < User Id | Map<Task id, locations> >
-    private final Map<Long, Map<Long, GeoLocations>> userLocalTasks = new ConcurrentHashMap<>();
+    private final Map<Long, Map<Long, GeoLocations>> localizedTasks = new ConcurrentHashMap<>();
 
     protected final SubscriptionService subsService;
 
@@ -283,11 +283,11 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
                 .filter(entry -> pointsToProceed.contains(entry.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toList())) {
             for (Map.Entry<Long, Task> task : tasks.entrySet()) {
-                if (GeoComputer.geoInRadius(geo, task.getValue())) {
-                    Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
+                if (GeoComputer.geoInRadius(geo, task.getValue().getGeo())) {
+                    Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
 
                     if(taskLocations == null)
-                        taskLocations = userLocalTasks.get(geo.getUserId());
+                        taskLocations = localizedTasks.get(geo.getUserId());
 
                     GeoLocations geoLocations = taskLocations.putIfAbsent(task.getKey(), new GeoLocations());
 
@@ -309,11 +309,11 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
                 .filter(entryTask -> tasksToProceed.contains(entryTask.getId()))
                 .collect(Collectors.toList())) {
             for (Map.Entry<Long, GeoPoint> geo : points.entrySet()) {
-                if (GeoComputer.geoInRadius(geo.getValue(), task)) {
-                    Map<Long, GeoLocations> taskLocations = userLocalTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
+                if (GeoComputer.geoInRadius(geo.getValue(), task.getGeo())) {
+                    Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
 
                     if(taskLocations == null)
-                        taskLocations = userLocalTasks.get(geo.getValue().getUserId());
+                        taskLocations = localizedTasks.get(geo.getValue().getUserId());
 
                     GeoLocations geoLocations = taskLocations.putIfAbsent(task.getId(), new GeoLocations());
 
@@ -339,7 +339,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
      * Clear user deleted models
      */
     private void clearGeos() {
-        for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+        for (Map<Long, GeoLocations> taskMap : localizedTasks.entrySet()
                 .stream().parallel().filter(entry -> removedPoints.containsValue(entry.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toSet())) {
             for (GeoLocations locations : taskMap.entrySet()
@@ -351,7 +351,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     private void clearRoutes() {
-        for (Map<Long, GeoLocations> taskMap : userLocalTasks.entrySet()
+        for (Map<Long, GeoLocations> taskMap : localizedTasks.entrySet()
                 .stream().parallel().filter(entry -> removedRoutes.containsValue(entry.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toSet())) {
             for (GeoLocations locations : taskMap.entrySet()
@@ -363,7 +363,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     private void clearTasks() {
-        for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : userLocalTasks.entrySet()) {
+        for(Map.Entry<Long, Map<Long, GeoLocations>> taskMap : localizedTasks.entrySet()) {
             for(Map.Entry<Long, Long> taskIdToRemove : removedTask.entrySet()) {
                 if (taskMap.getValue().containsKey(taskIdToRemove.getKey())) {
                     taskMap.getValue().remove(taskIdToRemove.getKey());
@@ -406,7 +406,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
         if(userId == null)
             return Optional.empty();
 
-        Map<Long, GeoLocations> userLocals = userLocalTasks.get(userId);
+        Map<Long, GeoLocations> userLocals = localizedTasks.get(userId);
 
         if(userLocals == null)
             return Optional.empty();
@@ -454,28 +454,50 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChart {
     }
 
     @Override
-    public Optional<List<TaskDTO>> search(Long userId, String theme, FeedType feedType) {
-        Optional<List<TaskDTO>>  tasksToProceed;
-
-        switch (feedType) {
-            case SUBSCRIBED: tasksToProceed = subscribed(userId); break;
-            case RECENT:    tasksToProceed = recent(userId);     break;
-            case OWNER:     tasksToProceed = mine(userId);      break;
-            case LOCAL:     tasksToProceed = local(userId);      break;
-            case CHART:     tasksToProceed = chart(userId);      break;
-            case ALL:
-            default:        tasksToProceed = all(userId);        break;
-        }
+    public Optional<List<TaskDTO>> searchByTheme(Long userId, String theme, FeedType feedType) {
+        Optional<List<TaskDTO>>  tasksToProceed = getByFeedType(userId, feedType);
 
         if(Validator.isStrEmpty(theme))
             return tasksToProceed;
 
         return tasksToProceed.map(taskDTOS -> Optional.of(taskDTOS.stream()
-                .filter(task -> satisfiesSearch(task.getTheme(), theme))
+                .filter(task -> satisfyThemeSearch(task.getTheme(), theme))
                 .collect(Collectors.toList()))).orElse(tasksToProceed);
     }
 
-    private boolean satisfiesSearch(String target, String desired) {
+    @Override
+    public Optional<List<TaskDTO>> searchByTags(Long userId, List<String> tags, FeedType feedType) {
+        Optional<List<TaskDTO>>  tasksToProceed = getByFeedType(userId, feedType);
+
+        if(tags == null || tags.isEmpty())
+            return tasksToProceed;
+
+        final Set<String> tagSet = new HashSet<>(tags);
+
+        return tasksToProceed.map(taskDTOS -> Optional.of(taskDTOS.stream()
+                .filter(task -> satisfyTagSearch(task.getTagsAsString(), tagSet))
+                .collect(Collectors.toList()))).orElse(tasksToProceed);
+    }
+
+
+
+    private Optional<List<TaskDTO>> getByFeedType(Long userId, FeedType type) {
+        switch (type) {
+            case SUBSCRIBED: return subscribed(userId);
+            case RECENT:    return recent(userId);
+            case OWNER:     return mine(userId);
+            case LOCAL:     return local(userId);
+            case CHART:     return chart(userId);
+            case ALL:
+            default:        return all(userId);
+        }
+    }
+
+    private boolean satisfyThemeSearch(String target, String desired) {
         return FuzzySearch.partialRatio(target, desired) > 85;
+    }
+
+    private boolean satisfyTagSearch(Set<String> target, Set<String> desired) {
+        return target.stream().anyMatch(desired::contains);
     }
 }

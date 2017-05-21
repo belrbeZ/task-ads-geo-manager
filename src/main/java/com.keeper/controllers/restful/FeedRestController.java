@@ -40,13 +40,13 @@ public class FeedRestController {
 
     @RequestMapping(value = ApiResolver.FEED + "/{type}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> getFeed(@PathVariable(value = "type") Integer type,
-                                                 @RequestParam(value = "search", required = false) String search) {
+                                                 @RequestParam(value = "searchByTheme", required = false) String search) {
         Optional<User> user = userService.getAuthorized();
         if (user.isPresent()) {
 
             Optional<List<TaskDTO>> usersTasks = (type == null)
                     ? feedService.local(user.get().getId())
-                    : feedService.search(user.get().getId(), search, FeedType.calc(type));
+                    : feedService.searchByTheme(user.get().getId(), search, FeedType.calc(type));
 
             if(!usersTasks.isPresent()) {
                 LOGGER.error(user.get().getEmail() + " REST Can't get list of Tasks!");

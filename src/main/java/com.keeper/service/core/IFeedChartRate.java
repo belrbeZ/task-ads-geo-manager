@@ -7,7 +7,7 @@ package com.keeper.service.core;
  * @author @GoodforGod
  * @since 16.05.2017
  */
-public interface IFeedChart {
+public interface IFeedChartRate {
     void upTask(Long taskId);
 
     void downTask(Long taskId);

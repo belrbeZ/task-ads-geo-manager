@@ -19,7 +19,9 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Task model implementation
@@ -81,7 +83,7 @@ public class Task {
     @JoinTable(name = DatabaseResolver.TABLE_TAG_MANAGER, schema = DatabaseResolver.SCHEMA,
             joinColumns = @JoinColumn(name = "taskId", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "tagId", referencedColumnName = "id"))
-    private List<Tag> tags;
+    private Set<Tag> tags = new HashSet<>();
 
     private Task() {
         this.id = TaskType.EMPTY.getValue();
@@ -114,7 +116,7 @@ public class Task {
 
     public Task(Long topicStarterId, TaskType type, String theme, String descr,
                 Picture picture, List<Comment> comments, SimpleGeoPoint geo,
-                List<Tag> tags) {
+                Set<Tag> tags) {
         this(topicStarterId, type, theme, descr);
         this.picture = picture;
         this.comments = comments;
@@ -144,7 +146,7 @@ public class Task {
         return comments;
     }
 
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
@@ -210,10 +212,6 @@ public class Task {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
     }
 
     //</editor-fold>

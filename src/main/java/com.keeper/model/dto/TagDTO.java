@@ -58,6 +58,21 @@ public class TagDTO {
     public void setCounter(Integer counter) {
         this.counter = counter;
     }
+
     //</editor-fold>
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TagDTO tagDTO = (TagDTO) o;
+
+        return id != null ? id.equals(tagDTO.id) : tagDTO.id == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

@@ -7,7 +7,6 @@ package com.keeper.controllers.restful;
 import com.keeper.model.SimpleResponse;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
-import com.keeper.service.modelbased.impl.CommentService;
 import com.keeper.service.modelbased.impl.TaskService;
 import com.keeper.service.modelbased.impl.UserService;
 import com.keeper.util.ModelTranslator;
@@ -47,7 +46,7 @@ public class TaskRestController {
     @RequestMapping(value = ApiResolver.TASK, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<TaskDTO>> get(@RequestParam(value = "id", required = false) Long id,
                                              @RequestParam(value = "userId", required = false) Long userId,
-                                             @RequestParam(value = "search", required = false) String search,
+                                             @RequestParam(value = "searchByTheme", required = false) String search,
                                              @RequestParam(value = "tags", required = false) List<String> tags) {
         if(id != null && id > 0)
             return new ResponseEntity<>(new ArrayList<TaskDTO>() {{ add(ModelTranslator.toDTO(repoService.get(id).get())); }}, HttpStatus.OK);

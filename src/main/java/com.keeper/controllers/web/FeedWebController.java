@@ -37,7 +37,7 @@ public class FeedWebController {
     private final String USER_ID_OBJ = "userId";
     private final String MSG = "msg";
 
-    private final String ATTR_SEARCH = "search";
+    private final String ATTR_SEARCH = "searchByTheme";
     private final String ATTR_FILTER = "filter";
 
     @Autowired
@@ -76,7 +76,7 @@ public class FeedWebController {
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent())
-            tasks = feedService.search(user.get().getId(), theme, FeedType.ALL);
+            tasks = feedService.searchByTheme(user.get().getId(), theme, FeedType.ALL);
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 
@@ -103,11 +103,11 @@ public class FeedWebController {
 
         if(user.isPresent())
             if(search != null && type == null)
-                tasks = feedService.search(user.get().getId(), search, FeedType.ALL);
+                tasks = feedService.searchByTheme(user.get().getId(), search, FeedType.ALL);
             else
                 tasks = (type == null)
                         ? feedService.local(user.get().getId())
-                        : feedService.search(user.get().getId(), search, FeedType.calc(type));
+                        : feedService.searchByTheme(user.get().getId(), search, FeedType.calc(type));
         else
             modelAndView.addObject(MSG, "ReLogin First!");
 

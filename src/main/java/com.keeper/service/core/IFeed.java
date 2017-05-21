@@ -34,9 +34,16 @@ public interface IFeed {
     Optional<List<TaskDTO>> subscribed(Long userId);
 
     /**
-     * Get all Tasks By Theme & Filter Them
-     * @param theme to Search For
+     * Search for tasks by theme & filter them
+     * @param theme to search tasks by
      * @param feedType FeedType to filter Tasks before Search
      */
-    Optional<List<TaskDTO>> search(Long userId, String theme, FeedType feedType);
+    Optional<List<TaskDTO>> searchByTheme(Long userId, String theme, FeedType feedType);
+
+    /**
+     * Search for tasks via tags & filter them
+     * @param tags to search tasks by
+     * @param feedType FeedType to filter Tasks before Search
+     */
+    Optional<List<TaskDTO>> searchByTags(Long userId, List<String> tags, FeedType feedType);
 }
