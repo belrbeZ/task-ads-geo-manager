@@ -206,7 +206,7 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
 
 
     @Scheduled(initialDelay = 5000, fixedDelay = 5000)
-    private void update() {
+    public void update() {
 
         //<editor-fold desc="Preventive Clear">
 
@@ -283,7 +283,8 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
                 .filter(entry -> pointsToProceed.contains(entry.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toList())) {
             for (Map.Entry<Long, Task> task : tasks.entrySet()) {
-                if (GeoComputer.geoInRadius(geo, task.getValue().getGeo())) {
+                if (GeoComputer.geoInRadius(geo, task.getValue().getGeo())
+                        && !geo.getUserId().equals(task.getValue().getTopicStarterId())) {
                     Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
 
                     if(taskLocations == null)
@@ -309,7 +310,8 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
                 .filter(entryTask -> tasksToProceed.contains(entryTask.getId()))
                 .collect(Collectors.toList())) {
             for (Map.Entry<Long, GeoPoint> geo : points.entrySet()) {
-                if (GeoComputer.geoInRadius(geo.getValue(), task.getGeo())) {
+                if (GeoComputer.geoInRadius(geo.getValue(), task.getGeo())
+                        && !geo.getValue().getUserId().equals(task.getTopicStarterId())) {
                     Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
 
                     if(taskLocations == null)
@@ -397,7 +399,8 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
             return Optional.empty();
 
         return Optional.of(subsService.fillSubs(userId, ModelTranslator.tasksToDTO(tasks.entrySet().stream()
-                .map(Map.Entry::getValue).sorted(Comparator.comparing(Task::getLastModifyDate))
+                .map(Map.Entry::getValue).filter(task -> !task.getTopicStarterId().equals(userId))
+                .sorted(Comparator.comparing(Task::getLastModifyDate))
                 .limit(RECENT_FEED_SIZE).collect(Collectors.toList()))));
     }
 
@@ -480,7 +483,9 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
     }
 
 
-
+    /**
+     * Search private util/support methods
+     */
     private Optional<List<TaskDTO>> getByFeedType(Long userId, FeedType type) {
         switch (type) {
             case SUBSCRIBED: return subscribed(userId);

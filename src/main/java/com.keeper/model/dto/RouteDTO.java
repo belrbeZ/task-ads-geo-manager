@@ -109,7 +109,8 @@ public class RouteDTO {
 
         RouteDTO routeDTO = (RouteDTO) o;
 
-        return id.equals(routeDTO.id);
+        if (id != null ? !id.equals(routeDTO.id) : routeDTO.id != null) return false;
+        return userId != null ? userId.equals(routeDTO.userId) : routeDTO.userId == null;
     }
 
     @Override

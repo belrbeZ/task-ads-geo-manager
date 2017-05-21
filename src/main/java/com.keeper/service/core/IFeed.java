@@ -15,19 +15,19 @@ import java.util.Optional;
  */
 public interface IFeed {
 
-    /** Get all Tasks */
+    /** Get all Tasks (And User Owned also) */
     Optional<List<TaskDTO>> all(Long userId);
 
-    /** Get all Newly Added Tasks Sorted By LastModifyDate */
+    /** Get all Newly Added Tasks Sorted By LastModifyDate (Except User Created/Owned) */
     Optional<List<TaskDTO>> recent(Long userId);
 
     /** Get all Top Chart Tasks (Hot Rated / Most Popular Feed Tasks) */
     Optional<List<TaskDTO>> chart(Long userId);
 
-    /** Get all Tasks which occurred in Users Locations */
+    /** Get all Tasks which occurred in Users Locations (Except User Created/Owned) */
     Optional<List<TaskDTO>> local(Long userId);
 
-    /** Get all User Created Tasks */
+    /** Get all User Created/Owned Tasks */
     Optional<List<TaskDTO>> mine(Long userId);
 
     /** Get all Tasks User Subscribed On */

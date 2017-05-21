@@ -115,14 +115,16 @@ public class GeoPointDTO {
     }
     //</editor-fold>
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        GeoPointDTO that = (GeoPointDTO) o;
+        GeoPointDTO dto = (GeoPointDTO) o;
 
-        return id.equals(that.id);
+        if (id != null ? !id.equals(dto.id) : dto.id != null) return false;
+        return userId != null ? userId.equals(dto.userId) : dto.userId == null;
     }
 
     @Override

@@ -77,6 +77,11 @@ public class TaskWebController {
                                                         ModelTranslator.toDTO(daoTask.get()));
 
                     taskDTO.setComments(ModelTranslator.commentsToDTO(commentService.getByTaskId(taskDTO.getId()).orElse(Collections.emptyList())));
+                    try {
+                        taskDTO.getComments().forEach(com -> com.setUserName(userService.get(com.getUserId()).get().getName()));
+                    } catch (Exception e) {
+                        logger.warn("No Such User for This Comment!");
+                    }
                     modelAndView.addObject("task", taskDTO);
                     modelAndView.addObject("comment", new CommentDTO(user.get().getId(), taskDTO.getId(), user.get().getName()));
                     subsService.viewTask(user.get().getId(), daoTask.get().getId());
@@ -118,7 +123,7 @@ public class TaskWebController {
      * Task Update/Create Form Template
      */
     @RequestMapping(value = WebResolver.TASK_FORM, method = RequestMethod.GET)
-    public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long id,
+    public ModelAndView taskCreateForm(@RequestParam(value = "id", required = false) Long taskId,
                                        @RequestParam(value = "lat", required = false) String latitude,
                                        @RequestParam(value = "lng", required = false) String longitude,
                                        @RequestParam(value = "radius", required = false) Integer radius, Model model) {
@@ -133,8 +138,8 @@ public class TaskWebController {
             if(Validator.isGeoValid(latitude) && Validator.isGeoValid(longitude) && radius != null && radius > 0)
                 dto.setGeo(new SimpleGeoPoint(latitude, longitude, radius));
 
-            if(Validator.isIdValid(id)) {
-                Optional<Task> updateTask = taskService.get(id);
+            if(Validator.isIdValid(taskId)) {
+                Optional<Task> updateTask = taskService.get(taskId);
 
                 if(updateTask.isPresent())
                     dto = ModelTranslator.toDTO(updateTask.get());

@@ -330,7 +330,8 @@ public class TaskDTO implements Comparator<LocalDateTime> {
 
         TaskDTO taskDTO = (TaskDTO) o;
 
-        return id.equals(taskDTO.id);
+        if (id != null ? !id.equals(taskDTO.id) : taskDTO.id != null) return false;
+        return topicStarterId != null ? topicStarterId.equals(taskDTO.topicStarterId) : taskDTO.topicStarterId == null;
     }
 
     @Override

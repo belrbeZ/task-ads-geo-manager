@@ -125,7 +125,7 @@
                     <div class="col-md-12 post-header-line">
                         <span class="glyphicon glyphicon-user"></span> by <span th:text="${user.name}"></span> |
                         <span class="glyphicon glyphicon-calendar"></span><span th:text="${task.getPrettyCreateDate()}"></span> |
-                        <span th:if="${task.tags} != null">
+                        <span th:if="${!task.tags.isEmpty}">
                             <span class="glyphicon glyphicon-tags"></span> Tags :
                             <span th:each="tag : ${tast?.tags}">
                                 <span class="label label-info"><span th:text="${tag?.tag}"></span></span>
@@ -137,11 +137,10 @@
                 <br/>
 
                 <p class="lead">
-                    <span th:text="${task.theme}"></span>
+                    <span th:text="${task.theme}" style="font-weight: 800"></span>
                 </p>
-
                 <br/>
-                <p class="lead">DESCRIPTION </p>
+                <p class="lead">Описание </p>
 
                 <blockquote>
                     <p th:text="${task.descr}"></p>
@@ -167,7 +166,7 @@
 
                             <hr/>
 
-                            <ul th:each="commet : ${task.comments}" class="media-list">
+                            <ul th:each="comment : ${task.comments}" class="media-list">
                                 <li class="media">
                                 <!--<a href="#" class="pull-left">-->
                                 <!--<img src="assets/img/1.png" alt="" class="img-circle">-->
@@ -179,10 +178,8 @@
                                         </small>
                                     </span>
                                     <p>
-                                        <strong class="text-success"> @
-                                            <span th:text="${comment?.userName}">
-                                                Anonymous
-                                            </span>
+                                        <strong class="text-success">@
+                                            <span th:text="${comment.userName} != null ? ${comment.userName} : 'Anonymous'"></span>
                                         </strong>
                                     </p>
                                     <p>
