@@ -4,7 +4,7 @@ package com.keeper.controllers.restful;
  * Created by @GoodforGod on 02.05.2017.
  */
 
-import com.keeper.model.SimpleResponse;
+import com.keeper.model.util.SimpleResponse;
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.GeoPointDTO;
@@ -100,7 +100,7 @@ public class GeoPointRestController {
             LOGGER.warn("    REST ERROR of creating " + model.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<>(new SimpleResponse("Место обавлено!"), HttpStatus.OK);
+        return new ResponseEntity<>(new SimpleResponse("Место добавлено!"), HttpStatus.OK);
     }
 
 

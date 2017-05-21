@@ -43,8 +43,6 @@ public class GeoPointWebController {
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
-//            System.out.println(""+user.get().getEmail()+"ListGeoPoints size:"+user.get().getGeoPoints().size());
-//            model.addAttribute("geoPoints", ModelTranslator.geoPointsToDTO(user.get().getGeoPoints()));
             model.addAttribute("geoPoints", ModelTranslator.geoPointsToDTO(geoPointService.getByUserId(user.get().getId()).get()));
         }
 
@@ -77,15 +75,7 @@ public class GeoPointWebController {
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
-//            System.out.println(""+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
-
-//            GeoPoint geoFroDelete = geoPointService.get(Long.parseLong(geoPointId)).get();
-//            System.out.println("    getted for delete:"+geoFroDelete);
-//            user.get().removeGeoPoint(geoFroDelete);
-//            userService.save(user.get());
-
             geoPointService.remove(Long.parseLong(geoPointId));
-//            System.out.println(""+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
         }
 
         return "fragments/ajaxrequest :: info-success";
@@ -109,10 +99,7 @@ public class GeoPointWebController {
         Optional<User> user = userService.getAuthorized();
 
         if (user.isPresent()) {
-//            System.out.println("" + user.get().getEmail() + " remove from ListGeoPoints size:" + user.get().getGeoPoints().size());
-//        user.get().removeGeoPoint(geoPointService.get(geo.getId()).get());
             geoPointService.remove(geo.getId());
-//            System.out.println("" + user.get().getEmail() + " after remove ListGeoPoints size:" + user.get().getGeoPoints().size());
         }
 
         return "fragments/ajaxrequest :: info-success";

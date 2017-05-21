@@ -24,8 +24,8 @@
 <div th:fragment="map_form">
 
     <!--yMaps-->
-    <div id="map" style="width: 100vw; height: 30vh"></div>
-
+    <div id="map" style="width: 100vw; height: 40vh"></div>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
     <script th:inline="javascript">
         // <![CDATA[
         var myMap, placemarkHead, circleHead;
@@ -35,16 +35,17 @@
                 alert("Can't connect to maps")
             }
             myMap = new ymaps.Map('map', {
-                center: [${task.latitude}, ${task.longitude}],
-                zoom: 13
+                center: [ [[${task.latitude}]], [[${task.longitude}]]],
+                zoom: 14
             }, {
 //                searchControlProvider: 'yandex#searchByTheme'
             });
 
             // Создаем метку.
-            placemarkHead = new ymaps.Placemark([${task.latitude}, ${task.longitude}], {
-                // balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
-                iconContent: "Новое"
+            placemarkHead = new ymaps.Placemark([ [[${task.latitude}]], [[${task.longitude}]]], {
+                balloonContent: [[${task.theme}]],
+//                 balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
+//                iconContent: "Новое"
             }, {
                 preset: "islands#redIcon",
                 // Отключаем кнопку закрытия балуна.
@@ -60,7 +61,7 @@
 
             circleHead = new ymaps.Circle(
                 [
-                    [${task.latitude}, ${task.longitude}], ${task.radius}
+                    [ [[${task.latitude}]], [[${task.longitude}]]], [[${task.radius}]]
                 ],
                 {
                     // Описываем свойства круга.
@@ -89,6 +90,7 @@
 
             myMap.geoObjects.add(placemarkHead);
             myMap.geoObjects.add(circleHead);
+            placemarkHead.balloon.open();
         });
 
         // ]]>

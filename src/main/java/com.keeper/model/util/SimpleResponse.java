@@ -1,4 +1,4 @@
-package com.keeper.model;
+package com.keeper.model.util;
 
 /**
  * Created by AlexVasil on 16.05.2017.

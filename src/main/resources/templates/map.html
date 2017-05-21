@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <!--<meta name="_csrf" th:content="${_csrf.token}"/>-->
@@ -33,7 +33,10 @@
             width: 30%;
             height: 100%;
             overflow-y: auto;
-            background: #222;
+            /*background: #222;*/
+            /*background: #ddd;*/
+            /*background: #4060A5;*/
+            background: rgba(64, 96, 165, 0.9);
             -webkit-transition: all 0.4s ease-in-out 0s;
             -moz-transition: all 0.4s ease-in-out 0s;
             -ms-transition: all 0.4s ease-in-out 0s;
@@ -48,7 +51,7 @@
             padding: 0;
             list-style: none;
         }
-        .sidebar-nav li {
+        .sidebar-nav>li {
             position: relative;
             line-height: 20px;
             display: inline-block;
@@ -58,7 +61,7 @@
             text-transform: uppercase;
             outline: none;
         }
-        .sidebar-nav li:before {
+        .sidebar-nav>li:before {
             content: '';
             position: absolute;
             top: 0;
@@ -71,52 +74,66 @@
             -ms-transition: width .4s ease-in-out;
             transition: width .4s ease-in-out;
         }
-        .sidebar-nav li:first-child a {
-            color: #fff;
+        .sidebar-nav>li:first-child a {
+            /*color: #fff;*/
             background-color: #1a1a1a;
         }
-        .sidebar-nav li:nth-child(2):before {
-            color: #fff;
-            background-color: #1a1a1a;
+        .sidebar-nav>li:nth-child(2):before {
+            /*color: #fff;*/
+            /*background-color: #279636;*/
+            background-color: #449d44;
+            border: 1px solid #398439;
         }
-        .sidebar-nav li:nth-child(3):before {
-            background-color: #ec1b5a;
+
+        .sidebar-nav>li:nth-child(3):before {
+            /*color: #fff;*/
+            /*background: #FEA501;*/
+            /*background: #edeea7;*/
+            background: rgba(20, 37, 86, 0.8);
+            border: 1px solid rgba(20, 37, 86, 1);
+            /*border: 1px solid #FEA501;*/
         }
-        .sidebar-nav li:nth-child(4):before {
+        .sidebar-nav>li:nth-child(4):before {
             background-color: #79aefe;
         }
-        .sidebar-nav li:nth-child(5):before {
+        .sidebar-nav>li:nth-child(5):before {
             background-color: #314190;
         }
-        .sidebar-nav li:nth-child(6):before {
-            background-color: #279636;
+        .sidebar-nav>li:nth-child(6):before {
+            background-color: #ec1b5a;
         }
-        .sidebar-nav li:nth-child(7):before {
+        .sidebar-nav>li:nth-child(7):before {
             background-color: #7d5d81;
         }
-        .sidebar-nav li:nth-child(8):before {
+        .sidebar-nav>li:nth-child(8):before {
             background-color: #ead24c;
         }
-        .sidebar-nav li:nth-child(9):before {
+        .sidebar-nav>li:nth-child(9):before {
             background-color: #2d2366;
         }
-        .sidebar-nav li:nth-child(10):before {
+        .sidebar-nav>li:nth-child(10):before {
             background-color: #35acdf;
         }
-        .sidebar-nav li:hover:before, .sidebar-nav li.open:hover:before {
+        .sidebar-nav>li:nth-child(11):before {
+            /*color: #fff;*/
+            background-color: #808080;
+        }
+        .sidebar-nav>li:hover:before, .sidebar-nav>li.open:hover:before {
             width: 100%;
             -webkit-transition: width .4s ease-in-out;
             -moz-transition: width .4s ease-in-out;
             -ms-transition: width .4s ease-in-out;
             transition: width .4s ease-in-out;
         }
-        .sidebar-nav li a {
+        .sidebar-nav>li a {
             display: block;
-            color: #ddd;
+            /*color: #ddd;*/
+            color: #f4f4f4;
+            /*color: #222;*/
             text-decoration: none;
             padding: 10px 15px 10px 30px;
         }
-        .sidebar-nav li a:hover, .sidebar-nav li a:active, .sidebar-nav li a:focus, .sidebar-nav li.open a:hover, .sidebar-nav li.open a:active, .sidebar-nav li.open a:focus {
+        .sidebar-nav>li a:hover, .sidebar-nav>li a:active, .sidebar-nav>li a:focus, .sidebar-nav>li.open a:hover, .sidebar-nav>li.open a:active, .sidebar-nav>li.open a:focus {
             color: #fff;
             text-decoration: none;
             background-color: transparent;
@@ -126,7 +143,7 @@
             font-size: 18px;
             line-height: 1.43;
         }
-        .sidebar-nav .dropdown-menu {
+        .sidebar-nav > .dropdown-menu {
             position: relative;
             width: 100%;
             padding: 0;
@@ -227,18 +244,18 @@
             box-shadow: inset 0 0 0 2px #c9302c;
             border-color: #ac2925;
         }
-        .btn-dark{
-            border-radius: 0;
-            color: #fff;
-            background-color: rgba(0,0,0,0.4);
-        }
-        .btn-dark:hover,
-        .btn-dark:focus,
-        .btn-dark:active,
-        .btn-dark.active{
-            color: #fff;
-            background-color: rgba(0,0,0,0.7);
-        }
+        /*.btn-dark{*/
+            /*border-radius: 0;*/
+            /*color: #fff;*/
+            /*background-color: rgba(0,0,0,0.4);*/
+        /*}*/
+        /*.btn-dark:hover,*/
+        /*.btn-dark:focus,*/
+        /*.btn-dark:active,*/
+        /*.btn-dark.active{*/
+            /*color: #fff;*/
+            /*background-color: rgba(0,0,0,0.7);*/
+        /*}*/
 
         /********************************/
         /*          Custom Buttons      */
@@ -293,6 +310,312 @@
             top: 0;
             left: .5%;
         }
+
+        .empty_list{
+            padding: 0.2em 0.2em;
+            width: 100%;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .elem-in-list{
+            -webkit-border-radius: 0.2em;
+            -moz-border-radius: 0.2em;
+            border-radius: 0.2em;
+            width: 90%;
+            border: 1px solid #204d74;
+            /*border: 1px solid #398439;*/
+            /*border: 1px solid #0094BC;*/
+            padding: 0.2em 0;
+            margin-bottom: 0.5em;
+            cursor: pointer;
+        }
+
+        #tasksListBlock{
+            padding: 1em 0;
+        }
+
+        .elemFromList-GeoPoints {
+            /*background: #449d44;*/
+            background: rgba(71, 164, 71, 0.7);
+        }
+        .elemFromList-GeoPoints:hover {
+            /*background: #449d44;*/
+            background: rgba(68,157,68,1);
+        }
+
+        div.ListTasksOwner,
+        .elemFromList-TasksOwner {
+            /*background: #FEA501;*/
+            /*background: rgba(249,182,63,0.7);*/
+            /*background: #edeea7;*/
+            background: rgba(241,196,15,0.7);
+        }
+        .elemFromList-TasksOwner:hover {
+            /*background: #f1c40f;*/
+            background: rgba(241,196,15,1);
+        }
+
+        div.ListTasksLocal,
+        .elemFromList-TasksLocal {
+            /*background: #e88845;*/
+            background: rgba(217, 83, 79, 0.7)
+        }
+        .elemFromList-TasksLocal:hover {
+            background: rgba(217, 83, 79, 1)
+        }
+
+        div.ListTasksSubscribed,
+        .elemFromList-TasksSubscribed {
+            /*background: #337ab7*/
+            background: rgba(51, 122, 183, 0.7);
+        }
+        .elemFromList-TasksSubscribed:hover {
+            background: rgba(51, 122, 183, 1);
+        }
+
+        div.ListTasksRecent,
+        .elemFromList-TasksRecent {
+            /*background: #5bc0de;*/
+            background: rgba(91, 192, 222, 0.7);
+        }
+        .elemFromList-TasksRecent:hover {
+            background: rgba(91, 192, 222, 1);
+        }
+
+        div.ListTasksChart,
+        .elemFromList-TasksChart {
+            /*background: #f0ad4e;*/
+            background: rgba(232, 136, 69, 0.7)
+        }
+        .elemFromList-TasksChart:hover {
+            background: rgba(232, 136, 69, 1)
+        }
+
+    </style>
+
+    <!--STYLES FOR CHECKBOXES for TASKS LISTS-->
+    <style th:inline="text">
+        .material-switch > input[type="checkbox"] {
+            display: none;
+        }
+
+        .material-switch > label {
+            cursor: pointer;
+            height: 0px;
+            position: relative;
+            width: 40px;
+        }
+
+        .material-switch > label::before {
+            background: rgb(0, 0, 0);
+            box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            content: '';
+            height: 16px;
+            margin-top: -8px;
+            position:absolute;
+            opacity: 0.3;
+            transition: all 0.4s ease-in-out;
+            width: 40px;
+        }
+        .material-switch > label::after {
+            background: rgb(255, 255, 255);
+            border-radius: 16px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            content: '';
+            height: 24px;
+            left: -4px;
+            margin-top: -8px;
+            position: absolute;
+            top: -4px;
+            transition: all 0.3s ease-in-out;
+            width: 24px;
+        }
+        .material-switch > input[type="checkbox"]:checked + label::before {
+            background: inherit;
+            opacity: 0.5;
+        }
+        .material-switch > input[type="checkbox"]:checked + label::after {
+            background: inherit;
+            left: 20px;
+        }
+    </style>
+
+    <!--STYLES FOR Vertical Lists-->
+    <style th:inline="text">
+
+        #accordion-left.accordion-toggle, #accordion-left.social {
+            top: 4em;
+            left: .5%;
+        }
+        #accordion-right .accordion-toggle, #accordion-right.social {
+            top: 4em;
+            right: .5%;
+        }
+        #accordion-right>div>ul>li>a{
+            right: 1em;
+        }
+        .accordion-toggle{
+            z-index: 801;
+            position: fixed;
+            /*top: 4em;*/
+            /*top: 0;*/
+            /*left: .5%;*/
+        }
+
+        .accordion-toggle:hover, .accordion-toggle:focus{
+            cursor:pointer;
+        }
+
+        .social {
+            z-index: 801;
+            position: fixed;
+            /*top: 4em;*/
+            /*top: 10%;*/
+            /*left: .5%;*/
+            padding: 0;
+            margin: 0;
+            font-size: 100%;
+            width:2.7%;
+        }
+        .social ul {
+            background: #4060A5;
+        }
+        .social ul li {
+            list-style: none outside none;
+            display: block;
+            background: #222;
+            padding: 0;
+            margin: 0;
+        }
+
+        /*.nav>li>a:focus, .nav>li>a:hover {*/
+        /*text-decoration: none;*/
+        /*background-color: #222;*/
+        /*}*/
+        .social i {
+            width:100%;
+            min-width: 50px;
+            height: 100%;
+            min-height: 50px;
+            color: #FFF;
+            background-color: #222;
+            font-size: 22px;
+            text-align: center;
+            padding-top: 12px;
+            -webkit-transition: all ease 0.3s;
+            -moz-transition: all ease 0.3s;
+            -ms-transition: all ease 0.3s;
+            -o-transition: all ease 0.3s;
+            transition: all ease 0.3s;
+        }
+        .social .fa-map-marker:hover, .social .fa-tags:hover {
+            background: #449d44;
+            border: 1px solid #398439;
+        }
+        .social .fa-stack-exchange:hover, .social .fa-tasks:hover {
+            /*background: #FEA501;*/
+            /*color: #9d9d9d;*/
+            /*background: #808080;*/
+            /*background: #edeea7;*/
+            background: rgba(20, 37, 86, 0.8);
+            /*border: 1px solid #f6a001;*/
+            /*border: 1px solid #eeec99;*/
+            border: 1px solid rgba(20, 37, 86, 1);
+        }
+        .social .fa-map-marker:hover {
+            background: #449d44;
+            border: 1px solid #398439;
+        }
+        .social .fa-facebook:hover {
+            background: #4060A5;
+            border: 1px solid #4060A5;
+        }
+        .social .fa-twitter:hover {
+            background: #00ABE3;
+            border: 1px solid #00ABE3;
+        }
+        .social .fa-google-plus:hover {
+            background: #e64522;
+            border: 1px solid #e64522;
+        }
+        .social .fa-github:hover {
+            background: #343434;
+            border: 1px solid #343434;
+        }
+        .social .fa-linkedin:hover {
+            background: #0094BC;
+            border: 1px solid #0094BC;
+        }
+        .social .fa-stack-overflow:hover {
+            background: #FEA501;
+            border: 1px solid #FEA501;
+        }
+        .social .fa-skype:hover {
+            background: #00C6FF;
+            border: 1px solid #00C6FF;
+        }
+        /*.social .fa-stack-exchange:hover {*/
+        /*background: #4D86C9;*/
+        /*border: 1px solid #4D86C9;*/
+        /*}*/
+        .social .fa-rss:hover {
+            background: #e88845;
+            border: 1px solid #e88845;
+        }
+        #social-collapse:after {
+            font-family: 'FontAwesome';
+            content: "\f068";
+            float: none;
+            position: relative;
+            color: white;
+        }
+        #social-collapse.collapsed:after {
+            content: "\f067";
+        }
+
+        /*
+        ========================
+        Social Accordion Styling
+        ========================
+        */
+        .nav-stacked > li > a {
+            position: relative;
+            display: block;
+            padding: 0!important;
+            margin: 0!important;
+        }
+        .nav-stacked > li > a:focus, .nav-stacked > li > a:hover {
+            text-decoration: none;
+            background-color: #222;
+        }
+
+        .nav-tabs.nav-justified {
+            border-bottom: 0 none;
+            width: 100%;
+        }
+
+        .nav-tabs.nav-justified > li {
+            display: table-cell;
+            width: 1%;
+            float: none;
+        }
+
+        .container-form .nav-tabs.nav-justified > li > a, .container-form .nav-tabs.nav-justified > li > a:hover, .container-form .nav-tabs.nav-justified > li > a:focus {
+            background: #333333;
+            border: 0 none;
+            color: #ffffff;
+            margin-bottom: 0;
+            margin-right: 0;
+            border-radius: 0;
+            padding: 6% 3%;
+            line-height: 1.5;
+            font-weight: 600;
+            font-size: 100%;
+            outline: 0 none;
+        }
+
     </style>
 
     <!--STYLES FOR MAP-->
@@ -333,13 +656,33 @@
 
     <!--STYLES FOR MESSAGES-->
     <style th:inline="text">
-        #responseMessage {
-            background-color: #fff;
-            color: #0074D9;
-        }
+        /*#responseMessage {*/
+            /*background-color: #fff;*/
+            /*color: #0074D9;*/
+        /*}*/
         #message-add_place {
             background-color: #0074D9;
             color: #fff;
+        }
+        .Message--orange {
+            background-color: #F39C12;
+        }
+
+        .Message--red {
+            background-color: #FF4136;
+        }
+
+        .Message--green {
+            background-color: #2ECC40;
+        }
+
+        #message-info.Message{
+            top: 4em;
+            background-color: #0074D9;
+            color: #fff;
+        }
+        #message-info.Message.is-hidden{
+            top: -250px;
         }
         .Message {
             display: table;
@@ -439,6 +782,8 @@
         .u-italic {
             font-style: italic;
         }
+
+
     </style>
 
     <!--STYLES FOR CHANGING FORMS IN RIGHT MENU-->
@@ -464,10 +809,8 @@
     <div id="map" style="width: 90vw; height: 90vh"></div>
     <!--<div id="map" style="position: relative;display: block;width: 100%; height: 100%"></div>-->
 
-    <!--<th:block layout:fragment="script">-->
-    <!--<script  type="text/javascript" src="ymaps.js" th:src="@{/js/ymaps.js}"></script>-->
-    <!--</th:block>-->
 
+    <!--<script th:src="@{/ymaps.js}"></script>-->
     <script  type="text/javascript" th:src="@{/js/ymaps.js}" src="/static/js/ymaps.js"></script>
 
     <!--OBJECTS TO MAP-->
@@ -478,14 +821,14 @@
         var groups = [
             {
                 name: "GeoPoints",
-                style: 'islands#blueIcon',
+                style: 'islands#darkGreenIcon',
                 styleCircle: {
                     // Прозрачность заливки.
-                    fillColor: "#84bfe2",
+                    fillColor: "#2bce4e",
                     // Прозрачность заливки.
                     fillOpacity: 0.3,
                     // Цвет обводки.
-                    strokeColor: "#72b5c2",
+                    strokeColor: "#27bb47",
                     // Прозрачность обводки.
                     strokeOpacity: 0.5,
                     // Ширина обводки в пикселях.
@@ -537,11 +880,74 @@
                 style: 'islands#redIcon',
                 styleCircle: {
                     // Прозрачность заливки.
-                    fillColor: "#f0a85c",
+                    fillColor: "#f0a561",
                     // Прозрачность заливки.
                     fillOpacity: 0.3,
                     // Цвет обводки.
                     strokeColor: "#ef8a6f",
+                    // Прозрачность обводки.
+                    strokeOpacity: 0.5,
+                    // Ширина обводки в пикселях.
+                    strokeWidth: 1
+                },
+                items: [
+
+                ],
+                placemarkCollection: null,
+                circleCollection: null
+            },
+            {
+                name: "TasksSubscribed",
+                style: 'islands#darkBlueIcon',
+                styleCircle: {
+                    // Прозрачность заливки.
+                    fillColor: "#84bfe2",
+                    // Прозрачность заливки.
+                    fillOpacity: 0.3,
+                    // Цвет обводки.
+                    strokeColor: "#72b5c2",
+                    // Прозрачность обводки.
+                    strokeOpacity: 0.5,
+                    // Ширина обводки в пикселях.
+                    strokeWidth: 1
+                },
+                items: [
+
+                ],
+                placemarkCollection: null,
+                circleCollection: null
+            },
+            {
+                name: "TasksRecent",
+                style: 'islands#lightblueIcon',
+                styleCircle: {
+                    // Прозрачность заливки.
+                    fillColor: "#00C6FF",
+                    // Прозрачность заливки.
+                    fillOpacity: 0.3,
+                    // Цвет обводки.
+                    strokeColor: "#00bff6",
+                    // Прозрачность обводки.
+                    strokeOpacity: 0.5,
+                    // Ширина обводки в пикселях.
+                    strokeWidth: 1
+                },
+                items: [
+
+                ],
+                placemarkCollection: null,
+                circleCollection: null
+            },
+            {
+                name: "TasksChart",
+                style: 'islands#orangeIcon',
+                styleCircle: {
+                    // Прозрачность заливки.
+                    fillColor: "#f0c85e",
+                    // Прозрачность заливки.
+                    fillOpacity: 0.3,
+                    // Цвет обводки.
+                    strokeColor: "#efbd81",
                     // Прозрачность обводки.
                     strokeOpacity: 0.5,
                     // Ширина обводки в пикселях.
@@ -578,6 +984,32 @@
             }
         }
 
+        function selectMarkOnMap(type, id) {
+                var groupIndex = getGroupIndex(type);
+                var mark = null;
+
+                if(groups[groupIndex].placemarkCollection==null) {
+                    console.log("WARN: Collection:"+type + " id empty. SearchId:"+id);
+                    return;
+                }
+
+                try{
+                    var iterator = groups[groupIndex].placemarkCollection.getIterator(),
+                        object, durind=0;
+                    while (object = iterator.getNext()) {
+                        if (object['properties'].get('id')==id) {
+                            mark = groups[groupIndex].placemarkCollection.get(durind);
+                            break;
+                        }
+                        durind++;
+                    }
+
+                    mark.balloon.open();
+
+                } catch (e){console.log(e.toString());}
+//            return mark;
+        }
+
         function getGroupIndex(group) {
             switch (group) {
                 case "GeoPoints":
@@ -588,6 +1020,15 @@
                     break;
                 case "TasksLocal":
                     return 2;
+                    break;
+                case "TasksSubscribed":
+                    return 3;
+                    break;
+                case "TasksRecent":
+                    return 4;
+                    break;
+                case "TasksChart":
+                    return 5;
                     break;
                 default:
                     console.log("Unknown type of Tasks for refresh!");
@@ -625,7 +1066,7 @@
                 circle = getCircleByCoords(type, coords[0], coords[1]);
 
                 replaceTaskContent(durPlaceMark['properties'].get('id'), coords[0], coords[1],
-                    circle == null ? defaultGeoRadius :circle.geometry.getRadius());
+                    circle == null ? defaultGeoRadius :circle.geometry.getRadius(), durPlaceMark['properties'].get('balloonContent'));
 
                 $("#sidebar-wrapper-right").toggleClass("active", true);
 
@@ -639,18 +1080,11 @@
 
             try{
                 if(placemarkYour!=null){
-                    placemarkYour.options._options.visible;
-
-                    placemarkYour._options.visible;
-
-                    placemarkYour.options.visible;
-
                     if(placemarkYour.options._options.visible == true) {
                         isTrustedClose = false;
                         placemarkYour.balloon.close();
                     }
                 }
-
             }catch(e){console.log(e.toString())}
 
         }
@@ -689,6 +1123,11 @@
                     createSubMenu(group, group.items[j], group.placemarkCollection,group.circleCollection);
                 }
 
+                try{
+//                    group.circleCollection.options.cursor = initial;
+                    $(group.circleCollection).off("click");
+                } catch (e) {console.log(e.toString());}
+
                 switch(group.name){
                     case "GeoPoints":
                         group.placemarkCollection.events
@@ -713,7 +1152,7 @@
                                     durPlaceMark = event.get('target')
                                     coords = durPlaceMark.geometry._coordinates;
 
-                                    circle = getCircleByCoords("GeoPoints", coords[0], coords[1]);
+                                    circle = getCircleByCoords(group.name, coords[0], coords[1]);
 
                                     refreshChangeGeoPointForm(
                                         durPlaceMark['properties'].get('id'),
@@ -754,6 +1193,9 @@
                         break;
                     case "TasksOwner":
                     case "TasksLocal":
+                    case "TasksSubscribed":
+                    case "TasksRecent":
+                    case "TasksChart":
                         group.placemarkCollection.events.add('mouseenter', function (e) {
                             try{
                                 // Ссылку на объект, вызвавший событие,
@@ -770,6 +1212,7 @@
                             closeChangingTask();
                         });
                         break;
+
                     default:
                         console.log("Unknown type refresh Map!")
                         return;
@@ -803,6 +1246,9 @@
                                 break;
                             case 1:
                             case 2:
+                            case 3:
+                            case 4:
+                            case 5:
                                 placemark.properties.set('balloonContent', item.theme==null||item.theme==="" ? "Адрес: " + newContent : item.theme);
                                 break;
                         }
@@ -827,6 +1273,7 @@
                         // Содержимое хинта.
                         //                        hintContent: "Подвинь меня"
                     }, {
+                        interactivityModel: "default#transparent",
                         // Задаем опции круга.
                         // Включаем возможность перетаскивания круга.
                         //                        draggable: true,
@@ -841,7 +1288,8 @@
                         // Прозрачность обводки.
                         strokeOpacity: group.styleCircle.strokeOpacity,
                         // Ширина обводки в пикселях.
-                        strokeWidth: group.styleCircle.strokeWidth
+                        strokeWidth: group.styleCircle.strokeWidth,
+
                     }
                 );
 
@@ -942,7 +1390,7 @@
 
             function hideYourPlaceholder() {
                 if(placemarkYour==null||placemarkYour.options._options.visible == false) {
-                    console.log("ERROR with YourPlacemark");
+                    console.log("YourPlacemark is always hidden or not exist!");
                     return;
                 }
                 try{
@@ -962,7 +1410,7 @@
                     // balloonContent: '<img src="http://img-fotki.yandex.ru/get/6114/82599242.2d6/0_88b97_ec425cf5_M" />',
                     iconContent: "Новое"
                 }, {
-                    preset: "islands#greenStretchyIcon",
+                    preset: "islands#nightStretchyIcon",
                     // Отключаем кнопку закрытия балуна.
 //                            balloonCloseButton: false,
                     // Балун будем открывать и закрывать кликом по иконке метки.
@@ -985,17 +1433,18 @@
                         // Содержимое хинта.
                         //                        hintContent: "Подвинь меня"
                     }, {
+                        interactivityModel: "default#transparent",
                         // Задаем опции круга.
                         // Включаем возможность перетаскивания круга.
                         //                        draggable: true,
                         // Цвет заливки.
                         // Последний байт (77) определяет прозрачность.
                         // Прозрачность заливки также можно задать используя опцию "fillOpacity".
-                        fillColor: "#27bb47",
+                        fillColor: "#0098c1",
                         // Прозрачность заливки.
                         fillOpacity: 0.3,
                         // Цвет обводки.
-                        strokeColor: "#67e250",
+                        strokeColor: "#008eb5",
                         // Прозрачность обводки.
                         strokeOpacity: 0.5,
                         // Ширина обводки в пикселях.
@@ -1017,7 +1466,8 @@
                             true);
 
                         replaceTaskContent(placemarkYour.id, coords[0], coords[1],
-                            circleYour == null ? defaultGeoRadius :circleYour.geometry.getRadius());
+                            circleYour == null ? defaultGeoRadius :circleYour.geometry.getRadius(),
+                            placemarkYour['properties'].get('balloonContent'));
 
                         messageToAddPlace();
 
@@ -1086,8 +1536,10 @@
                     //placemarkYour.balloon.open();
                 }
                 else {
+
                     myMap.balloon.close();
-                    /*hideYourPlaceholder();*/
+
+                    hideYourPlaceholder();
                 }
             });
 
@@ -1098,6 +1550,36 @@
 
 <!--WRAPPER MENUS-->
 <div th:replace="fragments/wrappermenu :: wrappermenu"> </div>
+
+<!--EVENT ON ELEM IN LIST CLICKED-->
+<script th:inline="javascript">
+    // <![CDATA[
+    //        $('li.elem-in-list').on('click',
+    function setEventElemsInList(event, ob) {
+        var id = $(ob).find('span.elem-in-list-id').text(),
+            check = "elemFromList-",
+            cls = $(ob).attr('class').split(' '),
+            type = "";
+//        for (var i = 0; i < cls.length; i++) {
+//            // Iterate over the class and log it if it matches
+//            if (cls[i].indexOf(check) > -1) {
+//                type = (cls[i].slice(check.length, cls[i].length));
+//                console.log("Check mark with type:" + type + " and id:"+id);
+//                break;
+//            }
+//        }
+
+        var cls = $.map(cls, function (val, i) {
+            if (val.indexOf(check) > -1) {
+                return val.slice(check.length, val.length)
+            }
+        });
+        console.log(type=cls.join(' '));
+
+        selectMarkOnMap(type,id);
+    };
+    /*]]>*/
+</script>
 
 <!--EVENTS LISTS IN LEFT MENU-->
 <script th:inline="javascript">
@@ -1160,11 +1642,11 @@
     }
 
     $(document).ready(function() {
-        $('#changeGeoPointsButton').click(function (e) {
+        $('.changeGeoPointsButton').click(function (e) {
             toggleList("addGeoPointForm");
         });
 
-        $('#getGeoPointsButton').click(function (e) {
+        $('.getGeoPointsButton').click(function (e) {
 
             if($('#geoPointListBlock').children().length==0){
                 refreshGeoPointsList();
@@ -1175,32 +1657,100 @@
 //            });
         });
 
-        $('#getTasksListButton').click(function (e) {
+        $('.getTasksListButton').click(function (e) {
             toggleList("tasksList");
         });
 
-        $('#getTasksOwnerButton').click(function (e) {
-            if($('#TasksOwnerListBlock').children().length==0){
-                refreshTasksList("TasksOwner");
+        $(".check-box-task-lists").change(function() {
+            // this will contain a reference to the checkbox
+            if (this.checked) {
+                // the checkbox is now checked
+                refreshTasksList(this.value);
+            } else {
+                // the checkbox is now no longer checked
+                deleteCustomListFromMenu(this.value);
+                deleteMarksFromMap(this.value);
             }
         });
 
-        $('#getTasksLocalButton').click(function (e) {
-            if($('#TasksOwnerListBlock').children().length==0){
-                refreshTasksList("TasksLocal");
-            }
-        });
-
+//        $('#getTasksOwnerButton').click(function (e) {
+////            if($('#tasksListBlock').children().length==0){
+//                refreshTasksList("TasksOwner");
+////            }
+//        });
+//
+//        $('#getTasksLocalButton').click(function (e) {
+////            if($('#tasksListBlock').children().length==0){
+//                refreshTasksList("TasksLocal");
+////            }
+//        });
+//
+//        $('#getTasksSubscribedButton').click(function (e) {
+////            if($('#tasksListBlock').children().length==0){
+//                refreshTasksList("TasksSubscribed");
+////            }
+//        });
+//
+//        $('#getTasksRecentButton').click(function (e) {
+////            if($('#tasksListBlock').children().length==0){
+//            refreshTasksList("TasksRecent");
+////            }
+//        });
+//        $('#getTasksChartButton').click(function (e) {
+////            if($('#tasksListBlock').children().length==0){
+//            refreshTasksList("TasksChart");
+////            }
+//        });
     });
-
+    /*]]>*/
 </script>
 
-<!--RESPONSE FROM CRUD-->
-<div id="responseBlock" class="Message is-hidden">
-    <span id="responseMessage"></span>
+<!--<div th:replace="fragments/mapfragments :: messages">Page Content</div>-->
+<!--<th:block layout:fragment="script">-->
+    <!--<h2>Static content for prototyping purposes only</h2>-->
+<!--</th:block>-->
+
+
+<!-- ---MESSAGES--- -->
+
+<!--Message on success creating/updating-->
+<div id="responseBlockSuccess" class="Message Message--green is-hidden">
+    <div class="Message-icon">
+        <i class="fa fa-check"></i>
+    </div>
+    <div id="responseMessageSuccess" class="Message-body">
+        <p>This is a message telling you that everything is a-okay!</p>
+        <p>Good job, and good riddance.</p>
+    </div>
+    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
 </div>
 
-<!--MESSAGES-->
+<!--message on Removing-->
+<div id="responseBlockWarning"  class="Message Message--orange is-hidden">
+    <div class="Message-icon">
+        <i class="fa fa-exclamation"></i>
+    </div>
+    <div id="responseMessageWarning"  class="Message-body">
+        <p>This is a simple notification with a brighter color...</p>
+        <p>If you bring you mouse here you can close it manually.</p>
+    </div>
+    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
+</div>
+
+<!--message on Error-->
+<div id="responseBlockError"  class="Message Message--red is-hidden">
+    <div class="Message-icon">
+        <i class="fa fa-times"></i>
+    </div>
+    <div id="responseMessageError" class="Message-body">
+        <p>This is a notification that something went wrong...</p>
+        <!--<button class="Message-button" id="js-helpMe">Yikes, help me please!</button>-->
+        <!--<button class="Message-button js-messageClose">Don't care.</button>-->
+    </div>
+    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
+</div>
+
+<!--message after tap on map-->
 <div id="message-add_place" class="Message is-hidden">
     <div class="Message-icon">
         <i class="fa fa-bell-o"></i>
@@ -1215,21 +1765,70 @@
     <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
 </div>
 
+<!--Message in top for start-->
+<div id="message-info"  class="Message is-hidden">
+    <div class="Message-icon">
+        <i class="fa fa-bell-o"></i>
+    </div>
+    <div class="Message-body">
+        <p id="info-message-top">Рады приветствовать Вас!</p>
+        <p class="u-italic">Кликните по карте и выберите место для начала работы!</p>
+    </div>
+    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
+</div>
+
+<!--EVENTS CONTROLS for messages-->
 <script th:inline="javascript">
     /*<![CDATA[*/
+    var responseBlockSuccess, responseBlockWarning, responseBlockError, mesageToAdd;
+
     function closeMessage(el) {
         el.addClass('is-hidden');
     }
 
+    function showResponseMessage(type, text) {
+        switch(type) {
+            case "created":
+            case "updated":
+                $('#responseMessageSuccess').text(text);
+                responseBlockSuccess.removeClass('is-hidden');
+                setTimeout(function() {
+                    closeMessage(responseBlockSuccess);
+                }, 7000);
+                break;
+            case "removed":
+                $('#responseMessageWarning').text(text);
+                responseBlockWarning.removeClass('is-hidden');
+                setTimeout(function() {
+                    closeMessage(responseBlockWarning);
+                }, 7000);
+                break;
+            case "error":
+                $('#responseMessageError').text(text);
+                responseBlockError.removeClass('is-hidden');
+                setTimeout(function() {
+                    closeMessage(responseBlockError);
+                }, 7000);
+                break;
+            default:
+                alert("Unknown Type of response type to show message!")
+                break;
+        }
+    }
+
     function messageToAddPlace() {
-        var mes = $('#message-add_place');
-        mes.removeClass('is-hidden');
+        mesageToAdd.removeClass('is-hidden');
         setTimeout(function() {
-            closeMessage(mes);
-        }, 10000);
+            closeMessage(mesageToAdd);
+        }, 15000);
     }
 
     $(document).ready(function() {
+        mesageToAdd = $('#message-add_place');
+        responseBlockSuccess = $('#responseBlockSuccess');
+        responseBlockWarning = $('#responseBlockWarning');
+        responseBlockError = $('#responseBlockError');
+
         $('.js-messageClose').on('click', function(e) {
             closeMessage($(this).closest('.Message'));
             setDisplayList("addGeoPointForm",false);
@@ -1251,9 +1850,17 @@
             setDisplayList("changeTaskForm",true);
             closeMessage($(this).closest('.Message'));
         });
+
+        $('#message-info').removeClass('is-hidden');
+        setTimeout(function() {
+            closeMessage($('#message-info'));
+        }, 10000);
+
     });
     /*]]*/
 </script>
+
+<!-- ---END MESSAGES--- -->
 
 <!--GEOPOINTS CRUD + BUTTONS GEOFORM-->
 <script th:inline="javascript">
@@ -1347,25 +1954,18 @@
             success: function (response) {
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
                 } else {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    showResponseMessage("created", response.message);
                     refreshGeoPointsList();
-
-                    //                    isTrustedClose = false;
+//                    isTrustedClose = false;
                     placemarkYour.balloon.close();
                 }
             },
             error :function(response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
-                $("#responseMessage").text(response.message);
-                $("#responseMessage").show('slow');
-                $("#responseMessage").hide('slow');
+                showResponseMessage("error", msg+response.message);
             }
         });
 
@@ -1394,22 +1994,16 @@
             success: function (response) {
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
                 } else {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    showResponseMessage("updated", response.message);
                     refreshGeoPointsList();
                 }
             },
             error :function(response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
-                $("#responseMessage").text(response.message);
-                $("#responseMessage").show('slow');
-                $("#responseMessage").hide('slow');
+                showResponseMessage("error", msg+response.message);
             }
         });
 
@@ -1432,22 +2026,16 @@
             },
             success : function(response) {
                 if ($(response).find('.has-error').length) {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
                 } else {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    showResponseMessage("removed", response.message);
                     refreshGeoPointsList();
                 }
             },
             error :function(response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
-                $("#responseMessage").text(response.message);
-                $("#responseMessage").show('slow');
-                $("#responseMessage").hide('slow');
+                showResponseMessage("error", msg+response.message);
             }
         });
     }
@@ -1479,22 +2067,16 @@
             success: function (response) {
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
                 } else {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
+                    showResponseMessage("removed", msg+response.message);
                 }
             },
 //            error :function(XMLHttpRequest, textStatus, errorThrown) {
             error :function(response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
-                $("#responseMessage").text(response);
-                $("#responseMessage").show('slow');
-                $("#responseMessage").hide('slow');
+                showResponseMessage("error", msg+response.message);
             }
         });
 
@@ -1543,16 +2125,20 @@
         responseAsObject = $.parseJSON(response);
         var htmlResponse;
         if(responseAsObject.length>0){
-            htmlResponse = "<ul>";
+            var descr;
+            htmlResponse = "<ul class='ListGeoPoints'>";
             for(var i=0; i<responseAsObject.length; i++) {
-                htmlResponse+="<li class='elem-geoPointFromList'>";
-                htmlResponse+="<span id='geo_point-id-in-list-"+i+"' style='display:none;'>";
+                descr = (responseAsObject[i].descr==null||responseAsObject[i].descr=="") ?
+                    "Моё место" :
+                    responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
+
+                htmlResponse+="<li class='elemFromList-GeoPoints elem-in-list'>";
+                htmlResponse+="<span id='geo_point-id-in-list-"+i+"' class='elem-in-list-id' style='display:none;'>";
                 htmlResponse+= responseAsObject[i].id+"</span>";
-                htmlResponse+= "Info "+responseAsObject[i].descr==null||responseAsObject[i].descr==""?"Моё место":responseAsObject[i].descr
-                htmlResponse+= "<br>"+
-                    "latitude "+responseAsObject[i].latitude+"<br>"+
-                    "longitude "+responseAsObject[i].longitude+"<br>"+
-                    "radius "+responseAsObject[i].radius;
+                htmlResponse+= descr+"<br>";
+                htmlResponse+= "<span style='display:none;'>latitude "+responseAsObject[i].latitude+"</span>";
+                htmlResponse+="<span style='display:none;'>longitude "+responseAsObject[i].longitude+"<br>"+"</span>";
+                htmlResponse+="Радиус: "+responseAsObject[i].radius;
                 htmlResponse+="</li>";
             }
             htmlResponse+="</ul>";
@@ -1590,6 +2176,11 @@
 
                 $("#geoPointListBlock").html(filteredresponse[0]);
 
+                $("#geoPointListBlock").find('li.elem-in-list')
+                    .on('click',function (e) {
+                        setEventElemsInList(e, this);
+                    });
+
                 updateMarksOnMap("GeoPoints", filteredresponse[1]);
             }
         });
@@ -1602,13 +2193,14 @@
 <!--TASKS BUTTONS-->
 <script th:inline="javascript">
     // <![CDATA[
-    function replaceTaskContent(id,latitude,longitude,radius) {
+    function replaceTaskContent(id,latitude,longitude,radius,name) {
         document.getElementById('input-task-id').value = id;
-        try{
-            document.getElementById('input-task-latitude').value = latitude;
-            document.getElementById('input-task-longitude').value = longitude;
-            document.getElementById('input-task-radius').value = radius;
-        } catch (e) {console.log(e.toString());}
+        $('#input-task-name').text(name);
+//        try{
+//            document.getElementById('input-task-latitude').value = latitude;
+//            document.getElementById('input-task-longitude').value = longitude;
+//            document.getElementById('input-task-radius').value = radius;
+//        } catch (e) {console.log(e.toString());}
     }
      /*var changeTaskFormData, viewTaskButton;
 
@@ -1689,17 +2281,10 @@
 
                 // if the response contains any errors, replace the form
                 if ($(response).find('.has-error').length) {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
-
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
                 } else {
-                    $("#responseMessage").text(response.message);
-                    $("#responseMessage").show('slow');
-                    $("#responseMessage").hide('slow');
-
 //                    refreshTasksOwnerList();
-
 //                    isTrustedClose = false;
                     placemarkYour.balloon.close();
 
@@ -1714,8 +2299,7 @@
             },
             error :function(response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
-                $("#responseMessage").text(response.message);
+                showResponseMessage("error", msg+response.message);
             }
         });
 
@@ -1726,7 +2310,7 @@
         setCreateTaskButton();
     }
 
-    $('#changeTasksButton').click(function (e) {
+    $('.changeTasksButton').click(function (e) {
         toggleList("changeTaskForm");
     });
 
@@ -1750,24 +2334,55 @@
 
         responseAsObject = $.parseJSON(response);
         var htmlResponse;
+
         if(responseAsObject.length>0){
-            htmlResponse = "<ul>";
+            var theme,descr;
+            htmlResponse = "<ul class='List"+type+"'>";
+
             for(var i=0; i<responseAsObject.length; i++) {
-                htmlResponse+="<li class='elem-"+type+"FromList'>";
-                htmlResponse+="<span id='tasks_"+type+"-id-in-list-"+i+"' style='display:none;'>";
+                theme = (responseAsObject[i].theme==null||responseAsObject[i].theme=="") ?
+                    "Задание" :
+                    responseAsObject[i].theme.length>25 ? responseAsObject[i].theme.substr(0, 25)+".." : responseAsObject[i].theme,
+                    descr = (responseAsObject[i].descr==null||responseAsObject[i].descr=="") ?
+                        "Описание отсутствует" :
+                        responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
+
+                htmlResponse+="<li class='elemFromList-"+type+" elem-in-list'>";
+                htmlResponse+="<span id='tasks_"+type+"-id-in-list-"+i+"' class='elem-in-list-id' style='display:none;'>";
                 htmlResponse+= responseAsObject[i].id+"</span>";
-                htmlResponse+= "Theme "+responseAsObject[i].theme==null||responseAsObject[i].theme==""?"Задание":responseAsObject[i].theme
-                htmlResponse+= "<br>"+
-                    "descr     "+responseAsObject[i].descr+"<br>"+
-                    "type      "+responseAsObject[i].type+"<br>"+
-                    "latitude  "+responseAsObject[i].latitude+"<br>"+
-                    "longitude "+responseAsObject[i].longitude+"<br>"+
-                    "radius    "+responseAsObject[i].radius;
+                htmlResponse+= theme + "<br>";
+                htmlResponse+= "Описание: "+ descr +"<br>";
+                htmlResponse+= "Тип:      "+responseAsObject[i].type+"<br>";
+                htmlResponse+= "<span style='display:none;'>latitude "+responseAsObject[i].latitude+"</span>";
+                htmlResponse+="<span style='display:none;'>longitude "+responseAsObject[i].longitude+"<br>"+"</span>";
+                htmlResponse+="Радиус: "+responseAsObject[i].radius;
                 htmlResponse+="</li>";
             }
             htmlResponse+="</ul>";
         } else {
-            htmlResponse = "<div class='empty_list'>Добавьте своё место либо задание!</div>"
+            htmlResponse = "<div class='List";
+            switch (type) {
+                case "TasksOwner":
+                    htmlResponse += type+" empty_list'>Добавьте своё задание!</div>";
+                    break;
+                case "TasksLocal":
+                    htmlResponse += type+" empty_list'>Нет заданий возле ваших мест :(</div>";
+                    break;
+                case "TasksSubscribed":
+                    htmlResponse += type+" empty_list'>Вы не подписаны ни на одно задание :(</div>";
+                    break;
+                case "TasksRecent":
+                    htmlResponse += type+" empty_list'>Нет обновлений в заданиях :(</div>";
+                    break;
+                case "TasksChart":
+                    htmlResponse += type+" empty_list'>Нет заданий :(</div>";
+                    break;
+                default:
+                    htmlResponse += type+" empty_list'>Неверный тип заданий!</div>";                                                                       type+" empty_list'>Добавьте своё место либо задание!</div>"
+                    console.log("Unknown type of Tasks for refresh!");
+                    return;
+                    break;
+            }
         }
         return [htmlResponse, responseAsObject];
     }
@@ -1781,11 +2396,21 @@
             case "TasksLocal":
                 url = /*[[@{/secure/api/feed/30}]]*/'/secure/api/feed/30';
                 break;
+            case "TasksSubscribed":
+                url = /*[[@{/secure/api/feed/50}]]*/'/secure/api/feed/50';
+                break;
+            case "TasksRecent":
+                url = /*[[@{/secure/api/feed/20}]]*/'/secure/api/feed/20';
+                break;
+            case "TasksChart":
+                url = /*[[@{/secure/api/feed/40}]]*/'/secure/api/feed/40';
+                break;
             default:
                 console.log("Unknown type of Tasks for refresh!")
                 return;
                 break;
         }
+
         /*
          $("#geoPointListBlock").load(url, function (response, status, xhr) {
          console.log('ajax refreshGeoPointsList()');
@@ -1805,26 +2430,58 @@
             url: url,
             error: function (response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
+                showResponseMessage("error", msg+response.message);
             },
             success: function (response) {
                 var filteredresponse = filterListTasksOwnerResponse(type, response);
 
-                $("#tasksListBlock").html(filteredresponse[0]);
+                deleteCustomListFromMenu(type);
+
+//                $("#tasksListBlock").html(filteredresponse[0]);
+                $("#tasksListBlock").append(filteredresponse[0]);
+
+                $("#tasksListBlock").find('li.elemFromList-'+type)
+                    .on('click',function (e) {
+                        setEventElemsInList(e, this);
+                    });
 
                 updateMarksOnMap(type, filteredresponse[1]);
             }
         });
     }
 
+    function deleteCustomListFromMenu(type){
+        if(groups!=null && groups.length!=0) {
+            var tasksListBlock = $("#tasksListBlock");
+            var customList = $(tasksListBlock).find('.List'+type);
+            if(customList.length>0) {
+                customList.detach();//tasksListBlock
+//                customList.remove();
+            }
+        }
+    }
+
+    function deleteMarksFromMap(type){
+        if(groups!=null && groups.length!=0) {
+            var index = getGroupIndex(type);
+
+            if(groups[index].items.length>0) {
+                groups[index].items.length=0;
+                myMap.geoObjects.remove(groups[index].placemarkCollection);
+                myMap.geoObjects.remove(groups[index].circleCollection);
+            }
+        }
+    }
+
     function updateMarksOnMap(type, list) {
         if(groups!=null && groups.length!=0) {
             var index = getGroupIndex(type);
 
-            groups[index].items.length=0;
-            myMap.geoObjects.remove(groups[index].placemarkCollection);
-
-            myMap.geoObjects.remove(groups[index].circleCollection);
+            deleteMarksFromMap(type);
+//            groups[index].items.length=0;
+//            myMap.geoObjects.remove(groups[index].placemarkCollection);
+//
+//            myMap.geoObjects.remove(groups[index].circleCollection);
 
             for(var i=0; i<list.length; i++) {
                 groups[index].items.push(list[i]);

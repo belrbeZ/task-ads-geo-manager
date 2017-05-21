@@ -4,7 +4,7 @@ package com.keeper.controllers.restful;
  * Created by GoodforGod on 19.03.2017.
  */
 
-import com.keeper.model.SimpleResponse;
+import com.keeper.model.util.SimpleResponse;
 import com.keeper.model.dao.User;
 import com.keeper.model.dto.TaskDTO;
 import com.keeper.service.modelbased.impl.TaskService;
