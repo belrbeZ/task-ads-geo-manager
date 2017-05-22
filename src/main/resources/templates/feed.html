@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8" content="text/html"/>
     <title>Feed</title>
@@ -13,6 +13,46 @@
 
         body {
             font-family: 'Roboto', sans-serif;
+        }
+
+        .button {
+            display: inline-block;
+            border-radius: 4px;
+            background-color: #0094BC;
+            border: none;
+            color: #FFFFFF;
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            padding: 5px;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .button span {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            transition: 0.5s;
+        }
+
+        .button span:after {
+            content: '\00bb';
+            position: absolute;
+            opacity: 0;
+            top: 0;
+            right: -20px;
+            transition: 0.5s;
+        }
+
+        .button:hover span {
+            padding-right: 25px;
+        }
+
+        .button:hover span:after {
+            opacity: 1;
+            right: 0;
         }
 
         .badge-notify {
@@ -135,13 +175,6 @@
         }
 
         .mascara-enlace-blog-home span {
-            text-align: center;
-            max-height: 160px;
-            border: 1px solid #fff;
-            display: inline-block;
-            padding: 10px 30px;
-            border-radius: 3px;
-            color: #fff;
             font-weight: 900;
             font-size: 16px;
         }
@@ -282,7 +315,13 @@
     <div>
         <section class="publicaciones-blog-home">
 
-            <h2>Create new <b><a th:href="@{/secure/map}">Task</a></b></h2>
+            <h2>Create new
+                <button class="button" href="/secure/map">
+                    <span>
+                        Task
+                    </span>
+                </button>
+            </h2>
 
             <div> <span th:utext="${message}"></span> </div>
 
@@ -312,12 +351,18 @@
                         </div>
 
                         <div class="mascara-enlace-blog-home">
-                            <span style="height: 20%; padding: 5px 10px;">Read</span>
+                            <div>
+                                <form th:action="${'/secure/task/' + ${task.id}}" method="GET">
+                                    <button class="btn btn btn-info" name="id" th:value="${task.id}" type="Submit">
+                                        <span> Read </span>
+                                    </button>
+                                </form>
+                            </div>
                             <div th:if="${task.topicStarterId} == ${userId}">
                                 <form th:action="@{/secure/task/form}" method="GET"
                                       style="padding: 10px">
                                     <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit">
-                                        Update
+                                        <span>Update</span>
                                     </button>
                                 </form>
 
@@ -325,7 +370,7 @@
                                       style="padding: 2px">
                                     <input type="hidden" name="_method" value="DELETE"/>
                                     <button class="btn btn-danger" type="Submit">
-                                        Delete
+                                        <span>Delete</span>
                                     </button>
                                 </form>
                             </div>

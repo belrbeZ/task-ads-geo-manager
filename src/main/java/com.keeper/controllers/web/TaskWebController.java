@@ -72,6 +72,8 @@ public class TaskWebController {
             if(Validator.isIdValid(taskId)) {
                 Optional<Task> daoTask = taskService.get(taskId);
                 if(daoTask.isPresent()) {
+                    String creator = (taskId.equals(user.get().getId())) ? user.get().getName() : userService.get(taskId).get().getName();
+                    modelAndView.addObject("creator", creator);
                     modelAndView.addObject("user", ModelTranslator.toDTO(user.get()));
                     TaskDTO taskDTO = subsService.fillSubs(user.get().getId(),
                                                         ModelTranslator.toDTO(daoTask.get()));
