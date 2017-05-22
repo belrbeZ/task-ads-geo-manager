@@ -269,15 +269,14 @@
     <div>
         <div class="row" style="margin: 5px">
             <form th:action="@{/secure/feed/filter}" method="GET">
-                <input type="hidden" name="_method" value="GET"/>
                 <div class="col-md-6" style="padding: 10px">
 
                     <div class="input-group col-md-12" style="padding: 10px">
                         <input type="text" name="search" class="form-control input-lg" placeholder="Enter Search Query"/>
                         <span class="input-group-btn">
-                                <button class="btn btn-info btn-lg" type="submit">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
+                            <button class="btn btn-info btn-lg" type="submit">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
                         </span>
                     </div>
 
@@ -323,9 +322,9 @@
                 </h2>
             </form>
 
-            <div> <span th:utext="${message}"></span> </div>
+            <!--<div> <span th:utext="${message}"></span> </div>-->
 
-            <div class="row-page row" th:unless="${#lists.isEmpty(tasks)}">
+            <div class="row-page row" th:if="${!tasks.isEmpty()}">
                 <div class="col-page col-sm-4 col-md-3" th:each="task : ${tasks}">
 
                     <a th:href="@{'/secure/task/' + ${task.id}}" class="fondo-publicacion-home">
@@ -352,15 +351,15 @@
 
                         <div class="mascara-enlace-blog-home">
                             <div>
-                                <form th:action="${'/secure/task/' + ${task.id}}" method="GET">
+                                <form th:action="@{'/secure/task/' + ${task.id}}" method="GET">
                                     <button class="btn btn btn-info" name="id" th:value="${task.id}" type="Submit">
                                         <span> Read </span>
                                     </button>
                                 </form>
                             </div>
+
                             <div th:if="${task.topicStarterId} == ${userId}">
-                                <form th:action="@{/secure/task/form}" method="GET"
-                                      style="padding: 10px">
+                                <form th:action="@{/secure/task/form}" method="GET" style="padding: 10px">
                                     <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit">
                                         <span>Update</span>
                                     </button>
