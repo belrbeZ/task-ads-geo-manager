@@ -4,10 +4,7 @@ package com.keeper.model.util;
  * Created by @GoodforGod on 01.05.2017.
  */
 
-import com.keeper.util.Validator;
-import com.keeper.util.validation.annotation.GeoList;
-
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,19 +12,23 @@ import java.util.List;
  */
 public class SimpleRoute {
 
-    private List<Double> longtitudes;
-    private List<Double> latitudes;
+    private List<SimpleGeoPoint> geos;
     private double radius;
 
     public SimpleRoute() {
-        this.latitudes = Collections.emptyList();
-        this.longtitudes = Collections.emptyList();
-        this.radius = 0;
+        this.geos = new ArrayList<>();
+        this.radius = 10;
     }
 
-    public SimpleRoute(List<Double> longtitudes, List<Double> latitudes) {
-        this.latitudes = longtitudes;
-        this.latitudes = latitudes;
+    public SimpleRoute(List<Double> longitudes, List<Double> latitudes) {
+        this();
+        if(longitudes == null || longitudes.isEmpty() || latitudes == null || latitudes.isEmpty())
+            throw new NullPointerException("Nullable Latitude or longitude");
+        if(longitudes.size() != latitudes.size())
+            throw new NullPointerException("Latitude size NOT EQUAL Longitude size");
+
+        for(int i = 0; i < latitudes.size(); i++)
+            geos.add(new SimpleGeoPoint(latitudes.get(i).toString(), longitudes.get(i).toString()));
     }
 
     public SimpleRoute(List<Double> longtitudes, List<Double> latitudes, Double radius) {
@@ -35,14 +36,20 @@ public class SimpleRoute {
         this.radius = radius;
     }
 
-    public SimpleRoute(@GeoList String[] longtitudes,
-                       @GeoList String[] latitudes) {
-        this.latitudes = Validator.convertGeoArrayToList(longtitudes);
-        this.latitudes = Validator.convertGeoArrayToList(latitudes);
+    public SimpleRoute(String[] longitudes,
+                       String[] latitudes) {
+        this();
+        if(longitudes == null || longitudes.length == 0 || latitudes == null || latitudes.length == 0)
+            throw new NullPointerException("Nullable Latitude or longitude");
+        if(longitudes.length != latitudes.length)
+            throw new NullPointerException("Latitude size NOT EQUAL Longitude size");
+
+        for(int i = 0; i < latitudes.length; i++)
+            geos.add(new SimpleGeoPoint(latitudes[i], longitudes[i]));
     }
 
-    public SimpleRoute(@GeoList String[] longtitudes,
-                       @GeoList String[] latitudes,
+    public SimpleRoute(String[] longtitudes,
+                       String[] latitudes,
                        Double radius) {
         this(longtitudes, latitudes);
         this.radius = radius;
@@ -50,20 +57,12 @@ public class SimpleRoute {
 
     //<editor-fold desc="GetterAndSetter">
 
-    public List<Double> getLongtitudes() {
-        return longtitudes;
+    public List<SimpleGeoPoint> getGeos() {
+        return geos;
     }
 
-    public void setLongtitudes(List<Double> longtitudes) {
-        this.longtitudes = longtitudes;
-    }
-
-    public List<Double> getLatitudes() {
-        return latitudes;
-    }
-
-    public void setLatitudes(List<Double> latitudes) {
-        this.latitudes = latitudes;
+    public void setGeos(List<SimpleGeoPoint> geos) {
+        this.geos = geos;
     }
 
     public double getRadius() {
@@ -73,6 +72,6 @@ public class SimpleRoute {
     public void setRadius(double radius) {
         this.radius = radius;
     }
-    //</editor-fold>
 
+    //</editor-fold>
 }

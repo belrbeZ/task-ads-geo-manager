@@ -302,7 +302,26 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
     }
 
     private void calculateRoutes() {
+        for (Route route : routes.entrySet().stream()
+                .filter(entry -> pointsToProceed.contains(entry.getKey()))
+                .map(Map.Entry::getValue).collect(Collectors.toList())) {
+            for (Map.Entry<Long, Task> task : tasks.entrySet()) {
+                if (route.getGeoPoints().getGeos().stream().anyMatch(geo -> GeoComputer.geoInRadius(geo, task.getValue().getGeo()))
+                        && !route.getUserId().equals(task.getValue().getTopicStarterId())) {
+                    Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(route.getUserId(), createTaskNode(task.getKey()));
 
+                    if(taskLocations == null)
+                        taskLocations = localizedTasks.get(route.getUserId());
+
+                    GeoLocations geoLocations = taskLocations.putIfAbsent(task.getKey(), new GeoLocations());
+
+                    if(geoLocations == null)
+                        geoLocations = taskLocations.get(task.getKey());
+
+                    geoLocations.addRoute(route);
+                }
+            }
+        }
     }
 
     private void calculateTasks() {

@@ -45,6 +45,11 @@ public class GeoComputer {
         return geoInRadius(origin.getLatitude(), origin.getLongitude(), target.getLatitude(), target.getLongitude(), origin.getRadius());
     }
 
+    public static boolean geoInRadius(SimpleGeoPoint origin, SimpleGeoPoint target) {
+        return geoInRadius(origin.getLatitude(), origin.getLongitude(), target.getLatitude(), target.getLongitude(), origin.getRadius());
+    }
+
+
     /**
      * @param lat1 & lng1 POINT #1
      * @param lat2 & lng2 POINT #2 to check
@@ -63,6 +68,12 @@ public class GeoComputer {
     }
 
     public static boolean geoWithInRange(GeoPoint origin, SimpleGeoPoint target, Integer error) {
+        return geoWithInRange(origin.getLatitude(), origin.getLongitude(),
+                target.getLatitude(), target.getLongitude(),
+                origin.getRadius(), error);
+    }
+
+    public static boolean geoWithInRange(SimpleGeoPoint origin, SimpleGeoPoint target, Integer error) {
         return geoWithInRange(origin.getLatitude(), origin.getLongitude(),
                 target.getLatitude(), target.getLongitude(),
                 origin.getRadius(), error);

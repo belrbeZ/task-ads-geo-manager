@@ -77,6 +77,7 @@ public class TaskWebController {
                                                         ModelTranslator.toDTO(daoTask.get()));
 
                     taskDTO.setComments(ModelTranslator.commentsToDTO(commentService.getByTaskId(taskDTO.getId()).orElse(Collections.emptyList())));
+
                     try {
                         taskDTO.getComments().forEach(com -> com.setUserName(userService.get(com.getUserId()).get().getName()));
                     } catch (Exception e) {
