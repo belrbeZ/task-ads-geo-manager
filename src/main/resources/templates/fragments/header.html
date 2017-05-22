@@ -64,7 +64,7 @@
 
                 <li th:classappend="${module == 'feed' ? 'active' : ''}">
                     <a href="/secure/feed" th:href="@{/secure/feed}">
-                        <span class="glyphicon" aria-hidden="true"> </span>Feed</a>
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span> Feed</a>
                 </li>
             </ul>
 
@@ -72,7 +72,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li th:classappend="${module == 'profile' ? 'active' : ''}">
                     <a href="/secure/profile" th:href="@{/secure/profile}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span> Profile</a>
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a>
                 </li>
                 <li>
                     <a href="/secure/logout" th:href="@{/secure/logout}" onclick="$('#form').submit();">
