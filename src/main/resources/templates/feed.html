@@ -315,13 +315,15 @@
     <div>
         <section class="publicaciones-blog-home">
 
-            <h2>Create new
-                <button class="button" href="/secure/map">
-                    <span>
-                        Task
-                    </span>
-                </button>
-            </h2>
+            <form th:action=@{/secure/map}" method="GET">
+                <h2>Create new
+                        <button class="button">
+                            <span>
+                                Task
+                            </span>
+                        </button>
+                </h2>
+            </form>
 
             <div> <span th:utext="${message}"></span> </div>
 
