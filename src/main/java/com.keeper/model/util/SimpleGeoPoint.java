@@ -53,6 +53,13 @@ public class SimpleGeoPoint {
         this.radius = radius;
         this.radius = radius;
     }
+    public SimpleGeoPoint(@Geo Double latitude,
+                          @Geo Double longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.radius = radius;
+        this.radius = radius;
+    }
     //<editor-fold desc="GetterAndSetter">
 
     public Double getLongitude() {

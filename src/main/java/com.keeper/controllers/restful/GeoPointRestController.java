@@ -56,10 +56,10 @@ public class GeoPointRestController {
 //            List<GeoPoint> geodao = user.get().getGeoPoints();
             List<GeoPoint> geodao = repoService.getByUserId(user.get().getId()).get();
 
-            LOGGER.info(" gettedlist " + geodao.size());
+            LOGGER.info("Rest getting list of geoPoints " + geodao.size());
             return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(geodao), HttpStatus.OK);
         } else {
-            LOGGER.warn(" REST ERROR of getting list!");
+            LOGGER.warn("REST ERROR of getting list of geoPoints!");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
