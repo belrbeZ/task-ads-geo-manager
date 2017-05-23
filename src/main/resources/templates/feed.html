@@ -326,7 +326,7 @@
             <div class="col-md-6" style="padding: 10px">
 
                 <div class="input-group col-md-12" style="padding: 10px">
-                    <input type="text" name="search" class="form-control input-lg" placeholder="Enter Search Query"/>
+                    <input type="text" name="search" class="form-control input-lg" placeholder="Введите название задания.."/>
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" type="submit">
                             <i class="glyphicon glyphicon-search"></i>
@@ -336,22 +336,22 @@
 
                 <div class="col-md-12">
                     <input type="radio" name="filter" value="50" id="subscribed">
-                    <label for="subscribed">Subscribed</label>
+                    <label for="subscribed">Отслеживаемые</label>
 
                     <input type="radio" name="filter" value="30" id="local">
-                    <label for="local">Local</label>
+                    <label for="local">Подходящие</label>
 
                     <input type="radio" name="filter" value="10" id="my">
-                    <label for="my">My</label>
+                    <label for="my">Мои</label>
 
                     <input type="radio" name="filter" value="40" id="chart">
-                    <label for="chart">Popular</label>
+                    <label for="chart">Популярные</label>
 
                     <input type="radio" name="filter" value="20" id="recent">
-                    <label for="recent">Recent</label>
+                    <label for="recent">Свежие</label>
 
                     <input type="radio" name="filter" value="0" id="all">
-                    <label for="all">All</label>
+                    <label for="all">Все</label>
                 </div>
             </div>
         </form>
@@ -361,9 +361,9 @@
         <section class="publicaciones-blog-home">
 
             <form th:action="@{/secure/map}" method="GET">
-                <h2>Create new
+                <h2>Создать новое
                     <button class="button">
-                        <span> Task </span>
+                        <span> Задание </span>
                     </button>
                 </h2>
             </form>
@@ -404,7 +404,7 @@
                             <div>
                                 <form th:action="@{'/secure/task/' + ${task.id}}" method="GET">
                                     <button class="btn btn btn-info" name="id" th:value="${task.id}" type="Submit">
-                                        <span> Read </span>
+                                        <span> Читать </span>
                                     </button>
                                 </form>
                             </div>
@@ -412,7 +412,7 @@
                             <div th:if="${task.topicStarterId} == ${userId}">
                                 <form th:action="@{/secure/task/form}" method="GET" style="padding: 10px">
                                     <button class="btn btn btn-success" name="id" th:value="${task.id}" type="Submit">
-                                        <span>Update</span>
+                                        <span>Обновить</span>
                                     </button>
                                 </form>
 
@@ -420,7 +420,7 @@
                                       style="padding: 2px">
                                     <input type="hidden" name="_method" value="DELETE"/>
                                     <button class="btn btn-danger" type="Submit">
-                                        <span>Delete</span>
+                                        <span>Удалить</span>
                                     </button>
                                 </form>
                             </div>

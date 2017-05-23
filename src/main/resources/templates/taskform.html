@@ -59,7 +59,7 @@
                           style="padding: 5px">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button class="btn btn-danger" type="Submit">
-                            Delete
+                            Удалить
                         </button>
                     </form>
                 </li>
@@ -68,7 +68,7 @@
                     <form th:action=" ${task.id} != null ? @{'/secure/task/'+ ${task.id}} : @{'/secure/map/'} " method="GET"
                           style="padding: 5px">
                         <button class="btn btn-warning" type="Submit">
-                            Cancel
+                            Отменить
                         </button>
                     </form>
                 </li>
@@ -79,7 +79,7 @@
                     <form th:action="@{'/secure/feed'}" method="GET"
                           style="padding: 5px">
                         <button class="btn btn-warning" type="Submit">
-                            Cancel
+                            Отменить
                         </button>
                     </form>
                 </li>
@@ -111,10 +111,10 @@
                 <!--<input type="hidden" th:field="*{radius}" placeholder="Radius" class="form-control" />-->
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="theme_input">Theme / Title</label>
+                    <label class="col-md-4 control-label" for="theme_input">Название</label>
                     <div class="col-md-4">
                         <input id="theme_input" type="text" th:field="*{theme}"
-                               placeholder="Theme" class="form-control" />
+                               placeholder="Название" class="form-control" />
 
                         <span class="help-block">
                             <label th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}" class="validation-message"></label>
@@ -135,10 +135,10 @@
                 <!--</div>-->
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="descr_input">Description</label>
+                    <label class="col-md-4 control-label" for="descr_input">Описание</label>
                     <div class="col-md-4">
                         <textarea id="descr_input" th:field="*{descr}"
-                                  placeholder="Description" class="form-control" rows="4"></textarea>
+                                  placeholder="Описание" class="form-control" rows="4"></textarea>
 
                         <span class="help-block">
                             <label th:if="${#fields.hasErrors('descr')}" th:errors="*{descr}" class="validation-message"></label>
@@ -147,10 +147,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-md-4 control-label" for="theme_input">Radius</label>
+                    <label class="col-md-4 control-label" for="theme_input">Радиус</label>
                     <div class="col-md-4">
                         <input id="radius_input" type="number" th:field="*{radius}"
-                               placeholder="Radius" class="form-control" />
+                               placeholder="Радиус" class="form-control" />
 
                         <span class="help-block">
                             <label th:if="${#fields.hasErrors('radius')}" th:errors="*{radius}" class="validation-message"></label>
@@ -164,7 +164,7 @@
                             <span class="help-block">
                                 <span th:utext="${successMessage}"></span>
                             </span>
-                        <button id="button_input" class="btn btn-success" type="submit">Save</button>
+                        <button id="button_input" class="btn btn-success" type="submit">Сохранить</button>
                     </div>
                 </div>
             </form>

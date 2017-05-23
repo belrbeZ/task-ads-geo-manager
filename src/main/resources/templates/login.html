@@ -63,12 +63,12 @@
     <div class="container">
 
         <div class="alert alert-success" align="center" th:if="${logout != null}">
-            <p style="font-size: 20px">You have successfully logged out</p>
+            <p style="font-size: 20px">Вы успешно вышли</p>
         </div>
 
         <div class="container">
             <div class="main row">
-                <h3>Please Log In, or <a th:href="@{/register}">Sign Up</a></h3>
+                <h3>Войдите, или <a th:href="@{/register}"> Зарегистрируйтесь</a></h3>
                 <!--<div class="row">-->
                     <!--<div class="col-xs-6 col-sm-6 col-md-6">-->
                         <!--<a href="#" class="btn btn-lg btn-primary btn-block">VK</a>-->
@@ -79,7 +79,7 @@
                 <!--</div>-->
                 <div class="login-or">
                     <hr class="hr-or">
-                    <span class="span-or">or</span>
+                    <span class="span-or">Или</span>
                 </div>
             </div>
 
@@ -89,29 +89,27 @@
 
                     <div class="form-group">
                         <div class="form-group">
-                            <label for="email_input">Enter Email</label>
+                            <label for="email_input">Введите Email</label>
                             <input id="email_input" class="form-control" type="text" name="email" placeholder="Email"/>
                         </div>
                         <div class="form-group">
-                            <label for="password_input">Enter Password</label>
-                            <input id="password_input" class="form-control" type="password" name="password" placeholder="Password"/>
+                            <label for="password_input">Введите пароль</label>
+                            <input id="password_input" class="form-control" type="password" name="password" placeholder="Пароль"/>
                         </div>
                         <div class="checkbox pull-right">
-                            <label>
-                                <input type="checkbox">
-                                Remember me
-                            </label>
+                            <input id="remember" type="checkbox">
+                            <label for="remember"> Запомнить </label>
                         </div>
 
                         <button type="Submit" class="btn btn btn-primary">
-                            Login
+                            Войти
                         </button>
 
                     </div>
 
                     <div class="alert alert-danger" th:if="${error != null}">
                         <span>
-                            Email or Password invalid, please verify
+                            Email или пароль, не соответствуют
                         </span>
                     </div>
                 </form>

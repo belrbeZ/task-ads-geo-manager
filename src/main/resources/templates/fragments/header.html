@@ -3,6 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
 
 <head>
+    <meta charset="UTF-8" content="text/html"/>
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
@@ -36,7 +37,7 @@
                         </a>
                     </div>
                     <a class="navbar-brand" href="/welcome">
-                        Welcome
+                        <span style="text-shadow: 0 0 3px #2BBCDE, 0 0 5px #2BBCDE; font-size: 26px; color: #e5e7e8">KEEPER</span>
                         <!--<i class="fa fa-grav" aria-hidden="true"></i>-->
                     </a>
                 </div>
@@ -47,11 +48,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <a href="/register" th:href="@{/register}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span> Sign up</a>
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span> Зарегистрироваться</a>
                 </li>
                 <li>
                     <a href="/login" th:href="@{/login}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span> Log in</a>
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"> </span> Войти</a>
                 </li>
             </ul>
         </div>
@@ -60,14 +61,14 @@
             <ul class="nav navbar-nav navbar-center">
                 <li th:classappend="${module == 'map' ? 'active' : ''}">
                     <a href="/secure/map" th:href="@{/secure/map}">
-                        <span class="glyphicon" aria-hidden="true"> </span> Map
+                        <span class="glyphicon" aria-hidden="true"> </span> Карта
                         <i class="fa fa-map-o" aria-hidden="true"></i>
                     </a>
                 </li>
 
                 <li th:classappend="${module == 'feed' ? 'active' : ''}">
                     <a href="/secure/feed" th:href="@{/secure/feed}">
-                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span> Feed</a>
+                        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span> Лента</a>
                 </li>
             </ul>
 
@@ -75,11 +76,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li th:classappend="${module == 'profile' ? 'active' : ''}">
                     <a href="/secure/profile" th:href="@{/secure/profile}">
-                        <span class="glyphicon glyphicon-user" aria-hidden="true"> </span> Profile</a>
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"> </span> Аккаунт</a>
                 </li>
                 <li>
                     <a href="/secure/logout" th:href="@{/secure/logout}" onclick="$('#form').submit();">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span> Logout </a>
+                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"> </span> Выйти </a>
                     <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/secure/logout}"></form>
                 </li>
             </ul>
