@@ -383,7 +383,7 @@
                             <div th:if="${task.topicStarterId} == ${userId}"
                                  style="background: #00C6FF; width: 100%; height: 100%;">
 
-                                <div style="position:absolute; top: 10px; right: 10px;">
+                                <div style="position:absolute; top: 5px; right: 5px;">
                                     <span class="glyphicon glyphicon-asterisk"
                                           style="font-size: 32px; color: #2BBCDE; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"></span>
                                 </div>
@@ -427,11 +427,11 @@
                         </div>
 
                         <div th:if="${task?.modifyCount != null}" class="text-right"
-                             style="position:absolute; top: 10px; right: 5px;">
+                             style="position:absolute; top: 4px; right: -3px ">
                             <form th:action="@{/secure/task}" method="GET">
-                                <button class="btn btn-default btn-lg btn-link" style="font-size:22px;"
+                                <button class="btn btn-default btn-lg btn-link" style="font-size:22px"
                                         name="id" th:value="${task.id}">
-                                    <span class="glyphicon glyphicon-bell" style="color: #204d74"></span>
+                                    <span class="glyphicon glyphicon-bell" style="color: #00ABE3; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"></span>
                                 </button>
                                 <span class="badge badge-notify" th:text="${task.modifyCount}"></span>
                             </form>

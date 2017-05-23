@@ -178,9 +178,7 @@
                                         </small>
                                     </span>
                                     <p>
-                                        <strong class="text-success">@
-                                            <span th:text="${comment.userName} != null ? ${comment.userName} : 'Anonymous'"></span>
-                                        </strong>
+                                        <strong class="text-success">@<span th:text="${comment.userName} != null ? ${comment.userName} : 'Anonymous'"></span></strong>
                                     </p>
                                     <p> <span th:text="${comment.message}"> </span> </p>
                                 </div>

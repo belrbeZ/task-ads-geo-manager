@@ -135,6 +135,7 @@ public class UserService extends PrimeModelService<User, Long> implements IUserS
         return user;
     }
 
+    @Transactional
     @Override
     public void remove(Long id) {
         super.remove(id);
