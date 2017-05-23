@@ -94,7 +94,8 @@
             /*border: 1px solid #FEA501;*/
         }
         .sidebar-nav>li:nth-child(4):before {
-            background-color: #79aefe;
+            background: #ed4723;
+            border: 1px solid #e64522;
         }
         .sidebar-nav>li:nth-child(5):before {
             background-color: #314190;
@@ -117,6 +118,9 @@
         .sidebar-nav>li:nth-child(11):before {
             /*color: #fff;*/
             background-color: #808080;
+        }
+        .sidebar-nav>li:nth-child(12):before {
+            background-color: #79aefe;
         }
         .sidebar-nav>li:hover:before, .sidebar-nav>li.open:hover:before {
             width: 100%;
@@ -398,6 +402,17 @@
             background: rgba(232, 136, 69, 1)
         }
 
+        div.ListRoutes,
+        .elemFromList-Routes {
+            /*background: #e64522;*/
+            /*border: 1px solid #e64522;*/
+            /*background: #f0ad4e;*/
+            background: rgba(230, 69, 34, 0.7)
+        }
+        .elemFromList-Routes:hover {
+            background: rgba(230, 69, 34, 1)
+        }
+
     </style>
 
     <!--STYLES FOR CHECKBOXES for TASKS LISTS-->
@@ -411,6 +426,10 @@
             height: 0px;
             position: relative;
             width: 40px;
+        }
+
+        .label-for-check-box {
+            cursor: pointer;
         }
 
         .material-switch > label::before {
@@ -516,6 +535,7 @@
             -o-transition: all ease 0.3s;
             transition: all ease 0.3s;
         }
+
         .social .fa-map-marker:hover, .social .fa-tags:hover {
             background: #449d44;
             border: 1px solid #398439;
@@ -530,9 +550,9 @@
             /*border: 1px solid #eeec99;*/
             border: 1px solid rgba(20, 37, 86, 1);
         }
-        .social .fa-map-marker:hover {
-            background: #449d44;
-            border: 1px solid #398439;
+        .social .fa-exchange:hover, .social .fa-car:hover {
+            background: #e64522;
+            border: 1px solid #e64522;
         }
         .social .fa-facebook:hover {
             background: #4060A5;
@@ -794,7 +814,7 @@
 
     <!--STYLES FOR CHANGING FORMS IN RIGHT MENU-->
     <style th:inline="text">
-        .geo_point-button {
+        .right-menu-button {
             width:49%;
         }
 
@@ -803,10 +823,12 @@
         }
     </style>
 
+    <!--BODY-->
     <style>
         body {
             background-color: aliceblue;
         }
+
     </style>
 
 </head>
@@ -970,6 +992,58 @@
                 ],
                 placemarkCollection: null,
                 circleCollection: null
+            },
+            {
+                name: "Routes",
+                stylesRoute: {
+                    // Внешний вид путевых точек.
+                    wayPointStartIconColor: "#000000",
+                    // Задаем собственную картинку для последней путевой точки.
+//                    wayPointFinishIconLayout: "default#image",
+//                    wayPointFinishIconImageHref: "images/sokolniki.png",
+//                    wayPointFinishIconImageSize: [30, 30],
+//                    wayPointFinishIconImageOffset: [-15, -15],
+                    // Позволяет скрыть иконки путевых точек маршрута.
+//                     wayPointVisible:false,
+
+                    // Внешний вид транзитных точек.
+//                    viaPointIconRadius: 7,
+//                    viaPointIconFillColor: "#000088",
+//                    viaPointActiveIconFillColor: "#E63E92",
+                    // Транзитные точки можно перетаскивать, при этом
+                    // маршрут будет перестраиваться.
+//                    viaPointDraggable: true,
+                    // Позволяет скрыть иконки транзитных точек маршрута.
+                     viaPointVisible:false,
+
+                    // Внешний вид точечных маркеров под путевыми точками.
+//                    pinIconFillColor: "#000088",
+//                    pinActiveIconFillColor: "#E63E92",
+                    // Позволяет скрыть точечные маркеры путевых точек.
+                     pinVisible:false,
+
+                    // Внешний вид линии маршрута.
+                    routeStrokeWidth: 2,
+                    routeStrokeColor: "#000088",
+                    routeActiveStrokeWidth: 6,
+                    routeActiveStrokeColor: "#E63E92",
+
+                    // Внешний вид линии пешеходного маршрута.
+                    routeActivePedestrianSegmentStrokeStyle: "solid",
+                    routeActivePedestrianSegmentStrokeColor: "#00CDCD",
+
+                    // Автоматически устанавливать границы карты так, чтобы маршрут был виден целиком.
+//                    boundsAutoApply: true,
+
+                    // Тип промежуточных точек, которые могут быть добавлены при редактировании.
+                    editorMidPointsType: "via",
+                    // В режиме добавления новых путевых точек запрещаем ставить точки поверх объектов карты.
+                    editorDrawOver: false
+                },
+                items: [
+
+                ],
+                multiRoutesCollection: null
             }
         ];
 
@@ -1016,7 +1090,14 @@
                         durind++;
                     }
 
-                    mark.balloon.open();
+                    if(groupIndex > -1 && groupIndex<6) {
+                        mark.balloon.open();
+                    }
+                    else if(groupIndex==6) {
+                        //select route
+                        console.log("selecting route")
+                    }
+
 
                 } catch (e){console.log(e.toString());}
 //            return mark;
@@ -1041,6 +1122,9 @@
                     break;
                 case "TasksChart":
                     return 5;
+                    break;
+                case "Routes":
+                    return 6;
                     break;
                 default:
                     console.log("Unknown type of Tasks for refresh!");
@@ -1101,6 +1185,39 @@
 
         }
 
+        function deleteMarksFromMap(type){
+            if(groups!=null && groups.length!=0) {
+                var index = getGroupIndex(type);
+
+                if(!groups[index].items.length>0)
+                    return;
+
+                if(index>-1 && index<6) {
+                    groups[index].items.length=0;
+                    myMap.geoObjects.remove(groups[index].placemarkCollection);
+                    myMap.geoObjects.remove(groups[index].circleCollection);
+                } else if(index==6) {
+                    groups[index].items.length=0;
+                    myMap.geoObjects.remove(groups[index].multiRoutesCollection);
+                }
+            }
+        }
+
+        function updateMarksOnMap(type, list) {
+            if(groups!=null && groups.length!=0) {
+                var index = getGroupIndex(type);
+
+                deleteMarksFromMap(type);
+                for(var i=0; i<list.length; i++) {
+                    groups[index].items.push(list[i]);
+                }
+
+                refreshMAP(index);
+            }
+        }
+
+        var checkedRoute, checkedFirstPointInRoute;
+        var buttonEditor;
         function refreshMAP(groupChangedIndex) {
 
             if(groupChangedIndex==null || groupChangedIndex==-1){
@@ -1108,12 +1225,113 @@
                     createMenuGroup(groups[i]);
                 }
             } else {
-                createMenuGroup(groups[groupChangedIndex]);
+                if(groupChangedIndex==6){
+                    createRoutesMap(groups[groupChangedIndex]);
+                } else {
+                    createMenuGroup(groups[groupChangedIndex]);
+                }
+            }
+
+            function createRoutesMap(group) {
+                group.multiRoutesCollection = new ymaps.GeoObjectCollection({});
+                // Добавляем коллекцию на карту.
+                myMap.geoObjects.add(group.multiRoutesCollection);
+
+                addRoutesOnMap(group);
+
+                if(buttonEditor == null) {
+                    buttonEditor = new ymaps.control.Button({
+                        data: { content: "Режим редактирования" }
+                    });
+                    buttonEditor.events.add("select", function () {
+                        /**
+                         * Включение режима редактирования.
+                         * В качестве опций может быть передан объект с полями:
+                         * addWayPoints - разрешает добавление новых путевых точек при клике на карту. Значение по умолчанию: false.
+                         * dragWayPoints - разрешает перетаскивание уже существующих путевых точек. Значение по умолчанию: true.
+                         * removeWayPoints - разрешает удаление путевых точек при двойном клике по ним. Значение по умолчанию: false.
+                         * dragViaPoints - разрешает перетаскивание уже существующих транзитных точек. Значение по умолчанию: true.
+                         * removeViaPoints - разрешает удаление транзитных точек при двойном клике по ним. Значение по умолчанию: true.
+                         * addMidPoints - разрешает добавление промежуточных транзитных или путевых точек посредством перетаскивания маркера, появляющегося при наведении курсора мыши на активный маршрут. Тип добавляемых точек задается опцией midPointsType. Значение по умолчанию: true
+                         * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml#editor
+                         */
+                        if(checkedRoute!=null) {
+                            checkedRoute.editor.start({
+//                            addWayPoints: true,
+//                            dragWayPoints: true,
+//                            removeWayPoints: true,
+                                dragViaPoints: true,
+                                removeViaPoints: true,
+                                addMidPoints: true
+                            });
+                        }
+                    });
+                    buttonEditor.events.add("deselect", function () {
+                        // Выключение режима редактирования.
+                        if(checkedRoute!=null) {
+                            checkedRoute.editor.stop();
+                        }
+                    });
+                    myMap.controls.add(buttonEditor);
+                }
+
+                group.multiRoutesCollection.events
+                    .add('click', function (event) {
+                        checkedRoute = event.get('target');
+//                        checkedFirstPointInRoute = checkedRoute.getWayPoints().get(0)['properties'].get('balloonContent');
+                        var index = groups[6].multiRoutesCollection.indexOf(checkedRoute);
+
+                        setUpdateRouteButton(groups[6].items[index].id, groups[6].items[index].info);
+                        setDisplayList("changeRouteForm",true);
+                        $("#sidebar-wrapper-right").toggleClass("active", true);
+                    })
+
+            }
+
+            function addRoutesOnMap(group) {
+                // Объявляем набор опорных точек и массив индексов транзитных точек.
+                var referencePointsArr = [],
+                    viaIndexes = [];
+                var multiRoute;
+
+                //Проходим по каждому полученному маршруту
+                for(var j=0; j<group.items.length; j++) {
+                    //Проверяем корректность полученных данных в список
+                    if (group.items[j].latitudes.length != group.items[j].longitudes.length) {
+                        showResponseMessage("error", "Получен неверный список точек для маршрута (разные размеры массивов).")
+                        return;
+                    }
+                    //Все массивы половинных координат преобразуем в массивы точек-координат вида [x,y]
+                    for(var i=0; i<group.items[j].latitudes.length; i++){
+                        referencePointsArr.push([group.items[j].latitudes[i], group.items[j].longitudes[i]]);
+                    }
+                    //Устанавливаем индексы промежуточных точек
+                    for (var i = 0/*, k=0*/; i < referencePointsArr.length - 2; i++) {
+                        viaIndexes[i] = i+1;
+//                        viaIndexes[k] = i;
+//                        k++;
+                    }
+                    //Строим маршрут
+                    multiRoute = new ymaps.multiRouter.MultiRoute({
+                        referencePoints: referencePointsArr,
+                        params: {viaIndexes: viaIndexes}
+                    }, group.stylesRoute);
+                    /*{id: group.items[j].id},*/
+                    group.multiRoutesCollection.add(multiRoute);
+
+//                    var wayPoint = multiRoute.getWayPoints().get(0);
+//                    ymaps.geoObject.addon.balloon.get(wayPoint);
+//                    wayPoint.properties.set({balloonContent: group.items[j].id});
+
+//                    multiRoute.getWayPoints().get(0)
+//                        .properties.set('balloonContent',  group.items[j].id);
+
+                    referencePointsArr = [];
+                }
             }
 
             function createMenuGroup (group) {
                 // Коллекция для геообъектов группы.
-
                 group.placemarkCollection = new ymaps.GeoObjectCollection({}, {
                     preset: group.style/*,
                     strokeWidth: 4,
@@ -1174,7 +1392,6 @@
                                         true);
 
                                     setDisplayList("addGeoPointForm",true);
-
                                 } catch (e){console.log(e.toString());}
 
                                 recenterMap(coords[0],coords[1],zoomByClick);
@@ -1320,20 +1537,61 @@
         }
 
         var placemarkYour, circleYour, isTrustedClose = true;
+        var routeAddOnMapButton, createdRoute;
 
         ymaps.ready(function () {
             // Создание экземпляра карты.
             if(ymaps==null){alert("Can't connect to maps")}
             myMap = new ymaps.Map('map', {
                     center: [59.93, 30.32],
-                    zoom: 13
+                    zoom: 13,
+//                    controls: ['routeEditor']
+                    /*controls: ['scaleLine']*/
                 }, {
-                    searchControlProvider: 'yandex#search'
+                    searchControlProvider: 'yandex#search',
+                    buttonMaxWidth: 300
                 });
             //Getting list of geopoints
             if($('#geoPointListBlock').children().length==0) {
                 refreshGeoPointsList();
             }
+
+//            myMap.controls.add('scaleLine');
+            var routeEditor = new ymaps.control.RouteEditor();
+            routeAddOnMapButton = new ymaps.control.Button({
+                data: {
+                    content: "Сохранить маршрут",
+                    /*  image: 'my_button.png',*/
+                    title: "Добавить маршрут"
+                },
+                options: {
+                    maxWidth: [28, 150, 178]
+                }
+            });
+            routeAddOnMapButton.events.add('click', function (e) {
+                try{
+                    createdRoute = routeEditor.getRoute();
+                    if(createdRoute && createdRoute.getParent()) {
+
+                        $("#sidebar-wrapper-right").toggleClass("active", true);
+                        setDisplayList("changeRouteForm",true);
+                        setCreateRouteButton();
+
+                        console.log("Success creating of route!" + createdRoute);
+                    } else {
+                        showResponseMessage("error", "Сначала создайте маршрут!");
+                    }
+                }catch(e){console.log(e.toString())}
+            });
+            myMap.controls.add(routeEditor);
+            myMap.controls.add(routeAddOnMapButton, {float: 'left', floatIndex: 100});
+
+
+//            var buttonEditor = new ymaps.control.Button({
+//                data: { content: "Режим редактирования" }
+//            });
+//            myMap.controls.add(buttonEditor);
+
 
         /*    var yellowCollection = new ymaps.GeoObjectCollection(null, {
                     preset: 'islands#yellowIcon'
@@ -1590,6 +1848,7 @@
 
         selectMarkOnMap(type,id);
     };
+
     /*]]>*/
 </script>
 
@@ -1602,7 +1861,8 @@
             case "geoPointList":
                 $('#geoPointListBlock').toggle("fast");
                 break;
-            case "routeList":
+            case "routesList":
+                $('#routesListBlock').toggle("fast");
                 break;
             case "tasksList":
                 $('#tasksBlock').toggle("fast");
@@ -1613,6 +1873,10 @@
             case "changeTaskForm":
                 $('#change-task-form').toggle("fast");
                 break;
+            case "changeRouteForm":
+                $('#change-route-form').toggle("fast");
+                break;
+
         }
     }
 
@@ -1622,7 +1886,8 @@
                 case "geoPointList":
                     $('#geoPointListBlock').show("fast");
                     break;
-                case "routeList":
+                case "routesList":
+                    $('#routesListBlock').show("fast");
                     break;
                 case "myTaskList":
                     break;
@@ -1632,13 +1897,17 @@
                 case "changeTaskForm":
                     $('#change-task-form').show("fast");
                     break;
+                case "changeRouteForm":
+                    $('#change-route-form').show("fast");
+                    break;
             }
         } else if(bool===false) {
             switch (elemName){
                 case "geoPointList":
                     $('#geoPointListBlock').hide("fast");
                     break;
-                case "routeList":
+                case "routesList":
+                    $('#routesListBlock').hide("fast");
                     break;
                 case "myTaskList":
                     break;
@@ -1648,9 +1917,24 @@
                 case "changeTaskForm":
                     $('#change-task-form').hide("fast");
                     break;
+                case "changeRouteForm":
+                    $('#change-route-form').hide("fast");
+                    break;
             }
         }
 
+    }
+
+    function deleteCustomListFromMenu(type){
+        if(groups!=null && groups.length!=0) {
+//            var tasksListBlock = $("#tasksListBlock");
+            var leftMenu = $("#sidebar-wrapper-left");
+            var customList = $(leftMenu).find('.List'+type);
+            if(customList.length>0) {
+                customList.detach();//tasksListBlock
+//                customList.remove();
+            }
+        }
     }
 
     $(document).ready(function() {
@@ -1724,158 +2008,160 @@
 
 
 <!-- ---MESSAGES--- -->
+<div>
+    <!--Message on success creating/updating-->
+    <div id="responseBlockSuccess" class="Message Message--green is-hidden">
+        <div class="Message-icon">
+            <i class="fa fa-check"></i>
+        </div>
+        <div id="responseMessageSuccess" class="Message-body">
+            <p>This is a message telling you that everything is a-okay!</p>
+            <p>Good job, and good riddance.</p>
+        </div>
+        <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
+    </div>
 
-<!--Message on success creating/updating-->
-<div id="responseBlockSuccess" class="Message Message--green is-hidden">
-    <div class="Message-icon">
-        <i class="fa fa-check"></i>
+    <!--message on Removing-->
+    <div id="responseBlockWarning"  class="Message Message--orange is-hidden">
+        <div class="Message-icon">
+            <i class="fa fa-exclamation"></i>
+        </div>
+        <div id="responseMessageWarning"  class="Message-body">
+            <p>This is a simple notification with a brighter color...</p>
+            <p>If you bring you mouse here you can close it manually.</p>
+        </div>
+        <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
     </div>
-    <div id="responseMessageSuccess" class="Message-body">
-        <p>This is a message telling you that everything is a-okay!</p>
-        <p>Good job, and good riddance.</p>
-    </div>
-    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
-</div>
 
-<!--message on Removing-->
-<div id="responseBlockWarning"  class="Message Message--orange is-hidden">
-    <div class="Message-icon">
-        <i class="fa fa-exclamation"></i>
+    <!--message on Error-->
+    <div id="responseBlockError"  class="Message Message--red is-hidden">
+        <div class="Message-icon">
+            <i class="fa fa-times"></i>
+        </div>
+        <div id="responseMessageError" class="Message-body">
+            <p>This is a notification that something went wrong...</p>
+            <!--<button class="Message-button" id="js-helpMe">Yikes, help me please!</button>-->
+            <!--<button class="Message-button js-messageClose">Don't care.</button>-->
+        </div>
+        <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
     </div>
-    <div id="responseMessageWarning"  class="Message-body">
-        <p>This is a simple notification with a brighter color...</p>
-        <p>If you bring you mouse here you can close it manually.</p>
-    </div>
-    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
-</div>
 
-<!--message on Error-->
-<div id="responseBlockError"  class="Message Message--red is-hidden">
-    <div class="Message-icon">
-        <i class="fa fa-times"></i>
+    <!--message after tap on map-->
+    <div id="message-add_place" class="Message is-hidden">
+        <div class="Message-icon">
+            <i class="fa fa-bell-o"></i>
+        </div>
+        <div class="Message-body">
+            <p>Выберите место для дальнейшего действия!
+                <small><br>Добавьте новое место или задание!</small>
+            </p>
+            <button class="Message-button" id="js-showMeGeo">Добавить место!</button>
+            <button class="Message-button" id="js-showMeTask">Добавить задание!</button>
+        </div>
+        <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
     </div>
-    <div id="responseMessageError" class="Message-body">
-        <p>This is a notification that something went wrong...</p>
-        <!--<button class="Message-button" id="js-helpMe">Yikes, help me please!</button>-->
-        <!--<button class="Message-button js-messageClose">Don't care.</button>-->
-    </div>
-    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
-</div>
 
-<!--message after tap on map-->
-<div id="message-add_place" class="Message is-hidden">
-    <div class="Message-icon">
-        <i class="fa fa-bell-o"></i>
+    <!--Message in top for start-->
+    <div id="message-info"  class="Message is-hidden">
+        <div class="Message-icon">
+            <i class="fa fa-bell-o"></i>
+        </div>
+        <div class="Message-body">
+            <p id="info-message-top">Рады приветствовать Вас!</p>
+            <p class="u-italic">Кликните по карте и выберите место для начала работы!</p>
+        </div>
+        <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
     </div>
-    <div class="Message-body">
-        <p>Выберите место для дальнейшего действия!
-            <small><br>Добавьте новое место или задание!</small>
-        </p>
-        <button class="Message-button" id="js-showMeGeo">Добавить место!</button>
-        <button class="Message-button" id="js-showMeTask">Добавить задание!</button>
-    </div>
-    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
-</div>
 
-<!--Message in top for start-->
-<div id="message-info"  class="Message is-hidden">
-    <div class="Message-icon">
-        <i class="fa fa-bell-o"></i>
-    </div>
-    <div class="Message-body">
-        <p id="info-message-top">Рады приветствовать Вас!</p>
-        <p class="u-italic">Кликните по карте и выберите место для начала работы!</p>
-    </div>
-    <button class="Message-close js-messageClose"><i class="fa fa-times"></i></button>
-</div>
+    <!--EVENTS CONTROLS for messages-->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var responseBlockSuccess, responseBlockWarning, responseBlockError, mesageToAdd;
 
-<!--EVENTS CONTROLS for messages-->
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var responseBlockSuccess, responseBlockWarning, responseBlockError, mesageToAdd;
-
-    function closeMessage(el) {
-        el.addClass('is-hidden');
-    }
-
-    function showResponseMessage(type, text) {
-        switch(type) {
-            case "created":
-            case "updated":
-                $('#responseMessageSuccess').text(text);
-                responseBlockSuccess.removeClass('is-hidden');
-                setTimeout(function() {
-                    closeMessage(responseBlockSuccess);
-                }, 7000);
-                break;
-            case "removed":
-                $('#responseMessageWarning').text(text);
-                responseBlockWarning.removeClass('is-hidden');
-                setTimeout(function() {
-                    closeMessage(responseBlockWarning);
-                }, 7000);
-                break;
-            case "error":
-                $('#responseMessageError').text(text);
-                responseBlockError.removeClass('is-hidden');
-                setTimeout(function() {
-                    closeMessage(responseBlockError);
-                }, 7000);
-                break;
-            default:
-                alert("Unknown Type of response type to show message!")
-                break;
+        function closeMessage(el) {
+            el.addClass('is-hidden');
         }
-    }
 
-    function messageToAddPlace() {
-        mesageToAdd.removeClass('is-hidden');
-        setTimeout(function() {
-            closeMessage(mesageToAdd);
-        }, 15000);
-    }
+        function showResponseMessage(type, text) {
+            switch(type) {
+                case "created":
+                case "updated":
+                case "getted":
+                    $('#responseMessageSuccess').text(text);
+                    responseBlockSuccess.removeClass('is-hidden');
+                    setTimeout(function() {
+                        closeMessage(responseBlockSuccess);
+                    }, 7000);
+                    break;
+                case "removed":
+                    $('#responseMessageWarning').text(text);
+                    responseBlockWarning.removeClass('is-hidden');
+                    setTimeout(function() {
+                        closeMessage(responseBlockWarning);
+                    }, 7000);
+                    break;
+                case "error":
+                    $('#responseMessageError').text(text);
+                    responseBlockError.removeClass('is-hidden');
+                    setTimeout(function() {
+                        closeMessage(responseBlockError);
+                    }, 7000);
+                    break;
+                default:
+                    alert("Unknown Type of response type to show message!")
+                    break;
+            }
+        }
 
-    $(document).ready(function() {
-        mesageToAdd = $('#message-add_place');
-        responseBlockSuccess = $('#responseBlockSuccess');
-        responseBlockWarning = $('#responseBlockWarning');
-        responseBlockError = $('#responseBlockError');
+        function messageToAddPlace() {
+            mesageToAdd.removeClass('is-hidden');
+            setTimeout(function() {
+                closeMessage(mesageToAdd);
+            }, 15000);
+        }
 
-        $('.js-messageClose').on('click', function(e) {
-            closeMessage($(this).closest('.Message'));
-            setDisplayList("addGeoPointForm",false);
-            setDisplayList("changeTaskForm",false);
+        $(document).ready(function() {
+            mesageToAdd = $('#message-add_place');
+            responseBlockSuccess = $('#responseBlockSuccess');
+            responseBlockWarning = $('#responseBlockWarning');
+            responseBlockError = $('#responseBlockError');
+
+            $('.js-messageClose').on('click', function(e) {
+                closeMessage($(this).closest('.Message'));
+                setDisplayList("addGeoPointForm",false);
+                setDisplayList("changeTaskForm",false);
+            });
+
+            $('#js-showMeGeo').on('click', function(e) {
+                $("#sidebar-wrapper-right").toggleClass("active", true);
+                setCreateCancelButtons();
+                setCreateTaskButton();
+                setDisplayList("addGeoPointForm",true);
+                closeMessage($(this).closest('.Message'));
+            });
+
+            $('#js-showMeTask').on('click', function(e) {
+                $("#sidebar-wrapper-right").toggleClass("active", true);
+                setCreateTaskButton();
+                setCreateCancelButtons();
+                setDisplayList("changeTaskForm",true);
+                closeMessage($(this).closest('.Message'));
+
+                try{
+                    circleYour.options.set('visible', false);
+                }catch(e){e.toString();}
+            });
+
+            $('#message-info').removeClass('is-hidden');
+            setTimeout(function() {
+                closeMessage($('#message-info'));
+            }, 10000);
+
         });
+        /*]]*/
+    </script>
 
-        $('#js-showMeGeo').on('click', function(e) {
-            $("#sidebar-wrapper-right").toggleClass("active", true);
-            setCreateCancelButtons();
-            setCreateTaskButton();
-            setDisplayList("addGeoPointForm",true);
-            closeMessage($(this).closest('.Message'));
-        });
-
-        $('#js-showMeTask').on('click', function(e) {
-            $("#sidebar-wrapper-right").toggleClass("active", true);
-            setCreateTaskButton();
-            setCreateCancelButtons();
-            setDisplayList("changeTaskForm",true);
-            closeMessage($(this).closest('.Message'));
-
-            try{
-                circleYour.options.set('visible', false);
-            }catch(e){e.toString();}
-        });
-
-        $('#message-info').removeClass('is-hidden');
-        setTimeout(function() {
-            closeMessage($('#message-info'));
-        }, 10000);
-
-    });
-    /*]]*/
-</script>
-
+</div>
 <!-- ---END MESSAGES--- -->
 
 <!--GEOPOINTS CRUD + BUTTONS GEOFORM-->
@@ -1938,7 +2224,7 @@
     }
 
     function getData() {
-        var data = {}
+        var data = {};
         data["id"] = $("#input-geo_point-id").val();
         data["descr"] = $("#input-geo_point-descr").val();
         data["latitude"] = $("#input-geo_point-latitude").val();
@@ -2119,6 +2405,8 @@
         document.getElementById('input-geo_point-radius').value = R;
         document.getElementById('input-geo_point-descr').value = T;
 
+//        setDisplayList("addGeoPointForm",bool);
+
         $("#sidebar-wrapper-right").toggleClass("active", bool);
 
         $("#responseMessage").text('');
@@ -2128,10 +2416,10 @@
     function closeChangingGeoPoint() {
         refreshChangeGeoPointForm(null,null,null,defaultGeoRadius,"",false);
 
+        setDisplayList("addGeoPointForm",false);
         //CREATE CANCEL
         setCreateCancelButtons();
 
-        setDisplayList("addGeoPointForm",false);
     }
 
     function filterListGeoResponse(response){
@@ -2166,18 +2454,18 @@
 
     function refreshGeoPointsList() {
         var url = /*[[@{/secure/api/geo/geoPointList}]]*/'/secure/api/geo/geoPointList';
-/*
-        $("#geoPointListBlock").load(url, function (response, status, xhr) {
-            console.log('ajax refreshGeoPointsList()');
-            if (status == "error") {
-                var msg = "Sorry but there was an error: ";
-                alert(msg + xhr.status + " " + xhr.statusText);
-            } else if (status == "success") {
-                var filteredresponse = filterListGeoResponse(response);
-                response = filteredresponse[0];
-                updateGeoPointsOnMap(filteredresponse[1]);
-            }
-        });*/
+        /*
+         $("#geoPointListBlock").load(url, function (response, status, xhr) {
+         console.log('ajax refreshGeoPointsList()');
+         if (status == "error") {
+         var msg = "Sorry but there was an error: ";
+         alert(msg + xhr.status + " " + xhr.statusText);
+         } else if (status == "success") {
+         var filteredresponse = filterListGeoResponse(response);
+         response = filteredresponse[0];
+         updateGeoPointsOnMap(filteredresponse[1]);
+         }
+         });*/
 
         $.ajax({
             type: "GET",
@@ -2185,7 +2473,7 @@
             url: url,
             error: function (response) {
                 var msg = "Sorry but there was an error: ";
-                alert(msg+response.responseText);
+                showResponseMessage("error", msg+response.responseText);
             },
             success: function (response) {
                 var filteredresponse = filterListGeoResponse(response);
@@ -2347,11 +2635,9 @@
         toggleList("changeTaskForm");
     });
 
-    $("#task-cancel-button").click(function (e) {
+    $(".form-cancel-button").click(function (e) {
         closeEditForms();
-
         $("#sidebar-wrapper-right").toggleClass("active", false);
-
 //        placemarkYour.balloon.close();
     });
 
@@ -2483,49 +2769,395 @@
         });
     }
 
-    function deleteCustomListFromMenu(type){
-        if(groups!=null && groups.length!=0) {
-            var tasksListBlock = $("#tasksListBlock");
-            var customList = $(tasksListBlock).find('.List'+type);
-            if(customList.length>0) {
-                customList.detach();//tasksListBlock
-//                customList.remove();
-            }
-        }
-    }
-
-    function deleteMarksFromMap(type){
-        if(groups!=null && groups.length!=0) {
-            var index = getGroupIndex(type);
-
-            if(groups[index].items.length>0) {
-                groups[index].items.length=0;
-                myMap.geoObjects.remove(groups[index].placemarkCollection);
-                myMap.geoObjects.remove(groups[index].circleCollection);
-            }
-        }
-    }
-
-    function updateMarksOnMap(type, list) {
-        if(groups!=null && groups.length!=0) {
-            var index = getGroupIndex(type);
-
-            deleteMarksFromMap(type);
-//            groups[index].items.length=0;
-//            myMap.geoObjects.remove(groups[index].placemarkCollection);
-//
-//            myMap.geoObjects.remove(groups[index].circleCollection);
-
-            for(var i=0; i<list.length; i++) {
-                groups[index].items.push(list[i]);
-            }
-
-            refreshMAP(index);
-        }
-    }
-
     // ]]>
 </script>
 
+
+<!--ROUTES BUTTONS-->
+<script th:inline="javascript">
+    // <![CDATA[
+        var switchRoutes = null;
+
+    $(document).ready(function(){
+        switchRoutes= $('#switchRoutes');
+
+        $('.changeRoutesButton').click(function (e) {
+//            setDisplayList("changeRouteForm",true);
+            toggleList("changeRouteForm");
+        });
+
+        $('.getRoutesListButton').click(function (e) {
+//            toggleList("routesList");
+        });
+
+
+//        $('.getRoutesButton').click(function (e) {
+//            switchRoutes.attr("checked", !switchRoutes.attr("checked"));
+//        });
+
+        $('#switchRoutes').change(function (e) {
+            if (this.checked) {
+                // the checkbox is now checked
+                refreshRoutesList();
+                setDisplayList("routesList",true);
+            } else {
+                // the checkbox is now no longer checked
+                deleteCustomListFromMenu(this.value);
+                deleteMarksFromMap(this.value);
+                setDisplayList("routesList",false);
+            }
+        });
+
+//        $(".check-box-routes-lists").change(function() {
+//            // this will contain a reference to the checkbox
+//            if (this.checked) {
+//                // the checkbox is now checked
+////                refreshRoutesList();
+//            } else {
+//                // the checkbox is now no longer checked
+//                deleteCustomListFromMenu(this.value);
+//                deleteMarksFromMap(this.value);
+//            }
+//        });
+
+    });
+
+    // ]]>
+</script>
+<!--ROUTES-->
+<script th:inline="javascript">
+    // <![CDATA[
+    function initCreatingRoute() {
+        /*/!**
+         * Создание мультимаршрута.
+         * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml
+         *!/
+        var multiRoute = new ymaps.multiRouter.MultiRoute({
+            referencePoints: ["Москва", "Тверь"]
+        }, {
+            // Тип промежуточных точек, которые могут быть добавлены при редактировании.
+            editorMidPointsType: "via",
+            // В режиме добавления новых путевых точек запрещаем ставить точки поверх объектов карты.
+            editorDrawOver: false
+        });
+
+        var buttonEditor = new ymaps.control.Button({
+            data: { content: "Режим редактирования" }
+        });
+
+        buttonEditor.events.add("select", function () {
+            /!**
+             * Включение режима редактирования.
+             * В качестве опций может быть передан объект с полями:
+             * addWayPoints - разрешает добавление новых путевых точек при клике на карту. Значение по умолчанию: false.
+             * dragWayPoints - разрешает перетаскивание уже существующих путевых точек. Значение по умолчанию: true.
+             * removeWayPoints - разрешает удаление путевых точек при двойном клике по ним. Значение по умолчанию: false.
+             * dragViaPoints - разрешает перетаскивание уже существующих транзитных точек. Значение по умолчанию: true.
+             * removeViaPoints - разрешает удаление транзитных точек при двойном клике по ним. Значение по умолчанию: true.
+             * addMidPoints - разрешает добавление промежуточных транзитных или путевых точек посредством перетаскивания маркера, появляющегося при наведении курсора мыши на активный маршрут. Тип добавляемых точек задается опцией midPointsType. Значение по умолчанию: true
+             * @see https://api.yandex.ru/maps/doc/jsapi/2.1/ref/reference/multiRouter.MultiRoute.xml#editor
+             *!/
+            multiRoute.editor.start({
+                addWayPoints: true,
+                removeWayPoints: true
+            });
+        });
+
+        buttonEditor.events.add("deselect", function () {
+            // Выключение режима редактирования.
+            multiRoute.editor.stop();
+        });
+
+        // Создаем карту с добавленной на нее кнопкой.
+        /!*myMap.controls.add('buttonEditor');
+        var myMap = new ymaps.Map('map', {
+            center: [56.399625, 36.71120],
+            zoom: 7,
+            controls: [buttonEditor]
+        }, {
+            buttonMaxWidth: 300
+        });*!/
+
+        // Добавляем мультимаршрут на карту.
+        myMap.geoObjects.add(multiRoute);
+*/
+    }
+
+    function getDataCheckedRoute(checkedRoute) {
+        var data = checkedRoute;
+        var wayPoints, paths, viaPoints;
+        var arrOfPoints=[], tmpArr,
+            arrToSend;
+        var tmpArrToJSON;
+        try{
+            wayPoints = data.getWayPoints();
+            viaPoints = data.getViaPoints();
+            length = viaPoints.getLength();
+            wayPoints.getLength();
+
+            arrOfPoints.push(wayPoints.get(0).geometry.getCoordinates());
+            for(var i=0; i<length; i++) {
+                arrOfPoints.push(viaPoints.get(i).geometry.getCoordinates());
+            }
+            arrOfPoints.push(wayPoints.get(1).geometry.getCoordinates());
+//            arrToSend=arrToSend.substr(0,arrToSend.length-1);
+//            arrToSend+="]";
+            arrToSend = JSON.stringify(arrOfPoints);
+//            arrToSend = JSON.stringify(tmpArrToJSON);
+        }catch(e){console.log(e.toString());}
+
+        console.log(arrToSend);
+
+        data = {};
+        data["id"] = $('#input-route-id').val() == null || $('#input-route-id').val() == "" ? -1 : $('#input-route-id').val();
+        data["arrayPoints2D"] = arrToSend;
+        data["radius"] = $('#input-route-radius').val();
+        data["info"] = $('#input-route-info').val();
+
+        return JSON.stringify(data);
+    }
+
+    function getDataRoute(createdRoute) {
+        var data = createdRoute;
+        var paths,length;
+        var arrOfPoints=[], tmpArr,
+            arrToSend="[";
+        var tmpArrToJSON;
+
+        console.log("getLength: " + data.getLength());//Возвращает длину маршрута в метрах.
+        console.log("getHumanLength: " + data.getHumanLength());//Возвращает строковое представление длины маршрута с единицами измерения.
+
+        console.log("getTime: " + data.getTime());//Возвращает время проезда маршрута в секундах.
+        console.log("getJamsTime: " + data.getJamsTime());//Возвращает время проезда маршрута в секундах с учетом пробок.
+        console.log("getHumanTime: " + data.getHumanTime());//Возвращает строковое представление времени проезда маршрута с единицами измерения.
+        console.log("getHumanJamsTime: " + data.getHumanJamsTime());//Возвращает строковое представление времени проезда маршрута с единицами измерения с учетом пробок.
+//
+//        console.log(data.getViaPoints());
+//        console.log(data.getWayPoints());
+
+        try{
+            paths = createdRoute.getPaths();
+            length=paths.getLength();
+//            console.log(length=paths.getLength());
+            for(var i=0; i<length; i++) {
+//                console.log(paths.get(i).geometry.getCoordinates());
+                tmpArr = paths.get(i).geometry.getCoordinates();
+                $.each(tmpArr,function (key, value) {
+                    arrOfPoints.push(value);
+//                    tmpArrToJSON += JSON.stringify(value);
+
+//                    arrToSend += "{"+ value[0] + ",";
+//                    arrToSend += value[1] + "},";
+                });
+            }
+//            arrToSend=arrToSend.substr(0,arrToSend.length-1);
+//            arrToSend+="]";
+            arrToSend = JSON.stringify(arrOfPoints);
+//            arrToSend = JSON.stringify(tmpArrToJSON);
+        }catch(e){console.log(e.toString());}
+
+        console.log(arrToSend);
+
+        data = {};
+        data["id"] = $('#input-route-id').val() == null || $('#input-route-id').val() == "" ? -1 : $('#input-route-id').val();
+        data["arrayPoints2D"] = arrToSend;
+        data["radius"] = $('#input-route-radius').val();
+        data["info"] = $('#input-route-info').val();
+
+        return JSON.stringify(data);
+    }
+
+    function setCreateRouteButton() {
+        $('#route-create_view-button').html("Сохранить");
+
+        $('#route-create_view-button').off("click").click(function (e) {
+            e.preventDefault();
+            var action =/*[[@{/secure/api/routes}]]*/'/secure/api/routes',
+                type = 'POST';
+            submitCreateUpdateRoute(action, type);
+        });
+
+        $('#route-cancel-delete-button').html("Отменить");
+
+        $('#route-cancel-delete-button').off("click").click(function (e) {
+            if(createdRoute!=null && createdRoute.getParent()!=null)
+                createdRoute.getParent().remove(createdRoute);
+
+        });
+    }
+
+    function setUpdateRouteButton(id, info) {
+        document.getElementById('input-route-id').value = id;
+        document.getElementById('input-route-info').value = info;
+
+        $('#route-create_view-button').html("Обновить");
+
+        $('#route-create_view-button').off("click").click(function (e) {
+            e.preventDefault();
+            var action =/*[[@{/secure/api/routes}]]*/'/secure/api/routes',
+                type = 'PATCH';
+            submitCreateUpdateRoute(action, type);
+        });
+
+        $('#route-cancel-delete-button').html("Удалить");
+
+        $('#route-cancel-delete-button').off("click").click(function (e) {
+            e.preventDefault();
+            submitDeleteRoute();
+        });
+    }
+
+    function submitDeleteRoute() {
+        var action =/*[[@{/secure/api/routes}]]*/'/secure/api/routes',
+            type = 'DELETE';
+
+        if($('#input-route-id').val()==null || $('#input-route-id').val()=="") {
+            var msg = "Sorry but there was an error: выберите маршрут!.";
+            showResponseMessage("error", msg);
+            return;
+        }
+
+        action += "?id=" + $('#input-route-id').val();
+
+        $.ajax({
+            type : type,
+            url : action,
+            data: {},
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            timeout: 600000,
+            async: true,
+            beforeSend: function(request) {
+                request.setRequestHeader([[${_csrf.headerName}]], [[${_csrf.token}]]);
+            },
+            success : function(response) {
+                if ($(response).find('.has-error').length) {
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
+                } else {
+                    showResponseMessage("removed", response.message);
+                    refreshRoutesList();
+                }
+            },
+            error :function(response) {
+                var msg = "Sorry but there was an error: ";
+                showResponseMessage("error", msg+response.message);
+            }
+        });
+    }
+
+    function submitCreateUpdateRoute(action, type) {
+//        var action =/*[[@{/secure/api/routes}]]*/'/secure/api/routes';
+
+        console.log('ajax submitCreateUpdateRoute()');
+        var data;
+        if(type=="POST")
+            data = getDataRoute(createdRoute);
+        else if(type=="PATCH")
+            data = getDataCheckedRoute(checkedRoute);
+
+        $.ajax({
+            url: action,
+            type: type,
+            data: data,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            timeout: 600000,
+            async: true,
+            beforeSend: function(request) {
+                request.setRequestHeader([[${_csrf.headerName}]], [[${_csrf.token}]]);
+            },
+            success: function (response) {
+                // if the response contains any errors, replace the form
+                if ($(response).find('.has-error').length) {
+                    var msg = "Sorry but there was an error: ";
+                    showResponseMessage("error", msg+response.message);
+                } else {
+                    showResponseMessage("created", response.message);
+                    if(type=="POST")
+                        createdRoute.getParent().remove(createdRoute);
+                    refreshRoutesList();
+                }
+            },
+            error :function(response) {
+                var msg = "Sorry but there was an error: ";
+                showResponseMessage("error", msg+response.message);
+            }
+        });
+
+    }
+
+    function filterListRoutes(response) {
+//        var routesListBlock = $('#routesListBlock');
+        var responseAsObject;
+
+        responseAsObject = $.parseJSON(response);
+        var htmlResponse;
+        if(responseAsObject.length>0){
+            var descr;
+            htmlResponse = "<ul style='margin-left: 5%;width: 90%;' class='ListRoutes list-group'>";
+            for(var i=0; i<responseAsObject.length; i++) {
+//                descr = (responseAsObject[i].descr==null||responseAsObject[i].descr=="") ?
+//                    "Моё место" :
+//                    responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
+
+//                htmlResponse += "<li class='elem-in-list list-group-item elemFromList-GeoPoints'>";
+//                htmlResponse += "<span id='geo_point-id-in-list-" + i + "' class='elem-in-list-id hidden'>";
+//                htmlResponse += responseAsObject[i].id + "</span>";
+//                htmlResponse += "<span style='width: 100%; text-align: center;'>" + descr + "</span><br>";
+//                htmlResponse += "<span class='hidden'>latitude " + responseAsObject[i].latitude + "</span>";
+//                htmlResponse += "<span class='hidden'>longitude " + responseAsObject[i].longitude + "</span>";
+//                htmlResponse += "Радиус: <span class='text-no-decor'>" + responseAsObject[i].radius + "</span>";
+//                htmlResponse += "</li>";
+            }
+            htmlResponse += "</ul>";
+        } else {
+            htmlResponse = "<div class='empty_list'>Добавьте часто посещаемые места</div>"
+        }
+        return [htmlResponse, responseAsObject];
+    }
+
+    function refreshRoutesList() {
+        var url = /*[[@{/secure/api/routes/routesList}]]*/'/secure/api/routes/routesList';
+
+        /*$("#routesListBlock").load(url, function (response, status, xhr) {
+             console.log('ajax refreshRoutesList()');
+             if (status == "error") {
+                 var msg = "Sorry but there was an error: ";
+                 showResponseMessage("error", msg + xhr.status + " " + xhr.statusText);
+             } else if (status == "success") {
+                 var filteredresponse = filterListRoutes(response);
+                 response = filteredresponse[0];
+                 updateMarksOnMap("Routes",filteredresponse[1]);
+             }
+         });*/
+
+        $.ajax({
+            type: "GET",
+            dataType: 'html',
+            url: url,
+            error: function (response) {
+                var msg = "Sorry but there was an error: ";
+                showResponseMessage("error", msg + response.responseText);
+            },
+            success: function (response) {
+
+                var filteredresponse = filterListRoutes(response);
+
+                $("#routesListBlock").html(filteredresponse[0]);
+
+                $("#routesListBlock").find('li.elem-in-list')
+                    .on('click',function (e) {
+//                        setEventElemsInList(e, this);
+                    });
+
+                updateMarksOnMap("Routes",filteredresponse[1]);
+            }
+        });
+    }
+
+
+    // ]]>
+</script>
 </body>
 </html>

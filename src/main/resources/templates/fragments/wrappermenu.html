@@ -74,20 +74,80 @@
                         </div>
 
 
-                        &lt;!&ndash;<button id="task-create_view-button" class="geo_point-button geo_point-create_update-button" type="submit">Добавить</button>&ndash;&gt;
+                        &lt;!&ndash;<button id="task-create_view-button" class="right-menu-button geo_point-create_update-button" type="submit">Добавить</button>&ndash;&gt;
 
-                        <button id="task-create-button" class="geo_point-button geo_point-create_update-button" type="submit">Добавить</button>
+                        <button id="task-create-button" class="right-menu-button geo_point-create_update-button" type="submit">Добавить</button>
 
-                        &lt;!&ndash;<button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>&ndash;&gt;
+                        &lt;!&ndash;<button id="task-cancel-button" class="right-menu-button geo_point-delete_cancel-button" type="button">Отменить</button>&ndash;&gt;
                     </form>
 
-                    <button id="task-view-button" class="geo_point-button geo_point-create_update-button" type="submit" style="display: none;">Обновить</button>
-                    <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button" type="button">Отменить</button>
+                    <button id="task-view-button" class="right-menu-button geo_point-create_update-button" type="submit" style="display: none;">Обновить</button>
+                    <button id="task-cancel-button" class="right-menu-button geo_point-delete_cancel-button" type="button">Отменить</button>
 -->
-                    <button id="task-create_view-button" class="geo_point-button geo_point-create_update-button btn btn-dark btn-md" style="color: #ffffff;" type="submit">Добавить</button>
+                    <div style="display: inline-block; padding: 0em 1em; width: 100%;">
+                        <button id="task-create_view-button" class="right-menu-button geo_point-create_update-button btn btn-dark btn-md" style="color: #ffffff;" type="submit">Добавить</button>
 
-                    <button id="task-cancel-button" class="geo_point-button geo_point-delete_cancel-button btn btn-dark btn-md" style="color: #ffffff;" type="button">Отменить</button>
+                        <button id="task-cancel-button" class="form-cancel-button right-menu-button geo_point-delete_cancel-button btn btn-dark btn-md" style="color: #ffffff;" type="button">Отменить</button>
+                    </div>
+                </div>
+            </li>
 
+            <li>
+                <a class="changeRoutesButton" style="cursor: pointer;" title="Our Blog">Маршрут</a>
+                <div id="change-route-form"  class="form-horizontal" style="display: none;">
+
+                    <div class="form-group hidden">
+                        <label class="col-md-4 control-label" for="input-route-id">Id</label>
+                        <div class="col-md-8">
+                            <input id="input-route-id" type="number" placeholder="Id" class="form-control input-md id" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="input-route-info">Описание</label>
+                        <div class="col-md-8">
+                            <input id="input-route-info" type="text"  placeholder="Info" class="form-control input-md descr" />
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden">
+                        <label class="col-md-4 control-label" for="input-route-radius">Радиус</label>
+                        <div class="col-md-8">
+                            <input id="input-route-radius" type="number" placeholder="Radius" class="form-control input-md radius" value="20"/>
+                        </div>
+                    </div>
+
+                    <!--<form id="change-task-form-data" th:action="@{/secure/task/form/withSimpleGeo}" autocomplete="off" method="post" class="form-registration" role="form">
+
+                        <div style="display: none;">
+                            <input id="input-task-latitude" type="text" placeholder="Latitude" class="form-control latitude" />
+                            <label class="validation-message"></label>
+                        </div>
+                        <div style="display: none;">
+                            <input id="input-task-longitude" type="text" placeholder="Longitude" class="form-control longitude" />
+                            <label class="validation-message"></label>
+                        </div>
+                        <div style="display: none;">
+                            <input id="input-task-radius" type="text" placeholder="Radius" class="form-control radius" />
+                            <label class="validation-message"></label>
+                        </div>
+
+
+                        &lt;!&ndash;<button id="task-create_view-button" class="right-menu-button geo_point-create_update-button" type="submit">Добавить</button>&ndash;&gt;
+
+                        <button id="task-create-button" class="right-menu-button geo_point-create_update-button" type="submit">Добавить</button>
+
+                        &lt;!&ndash;<button id="task-cancel-button" class="right-menu-button geo_point-delete_cancel-button" type="button">Отменить</button>&ndash;&gt;
+                    </form>
+
+                    <button id="task-view-button" class="right-menu-button geo_point-create_update-button" type="submit" style="display: none;">Обновить</button>
+                    <button id="task-cancel-button" class="right-menu-button geo_point-delete_cancel-button" type="button">Отменить</button>
+-->
+                    <div style="display: inline-block; padding: 0em 1em; width: 100%;">
+                        <button id="route-create_view-button" class="right-menu-button geo_point-create_update-button btn btn-dark btn-md" style="color: #ffffff;" type="submit">Добавить</button>
+
+                        <button id="route-cancel-delete-button" class="form-cancel-button right-menu-button geo_point-delete_cancel-button btn btn-dark btn-md" style="color: #ffffff;" type="button">Отменить</button>
+                    </div>
                 </div>
             </li>
         </ul>
@@ -99,6 +159,7 @@
             <ul class="panel-collapse collapse in nav nav-stacked" role="tabpanel" aria-labelledby="social-collapse" id="collapseOne">
                 <li><a class="changeGeoPointsButton vert-list-but-right" style="cursor: pointer;"><i class="fa fa-lg fa-map-marker" target="_blank"></i></a></li>
                 <li><a class="changeTasksButton vert-list-but-right" style="cursor: pointer;" target="_blank"><i class="fa fa-lg fa-stack-exchange"></i></a></li>
+                <li><a class="changeRoutesButton vert-list-but-right" style="cursor: pointer;" target="_blank"><i class="fa fa-lg fa-car"></i></a></li>
             </ul>
         </div>
     </aside>
@@ -143,7 +204,7 @@
                                 </div>
                             </li>-->
                             <li class="list-group-item">
-                                Мои
+                                <label for="switchTasksOwner" class="label-for-check-box">Мои</label>
                                 <div class="material-switch pull-right">
                                     <input id="switchTasksOwner" name="switchTasksOwner" type="checkbox" value="TasksOwner" class="check-box-task-lists"/>
                                     <label for="switchTasksOwner" style="background: #f1c40f;" class="label-warning"></label>
@@ -151,14 +212,14 @@
                             </li>
 
                             <li class="list-group-item">
-                                Подходящие
+                                <label for="switchTasksLocal" class="label-for-check-box">Подходящие</label>
                                 <div class="material-switch pull-right">
                                     <input id="switchTasksLocal" name="switchTasksLocal" type="checkbox" value="TasksLocal" class="check-box-task-lists"/>
                                     <label for="switchTasksLocal" class="label-danger"></label>
                                 </div>
                             </li>
                             <li class="list-group-item">
-                                Отслеживаемые
+                                <label for="switchTasksSubscribed" class="label-for-check-box">Отслеживаемые</label>
                                 <div class="material-switch pull-right">
                                     <input id="switchTasksSubscribed" name="switchTasksSubscribed" type="checkbox" value="TasksSubscribed" class="check-box-task-lists"/>
                                     <label for="switchTasksSubscribed" class="label-primary"></label>
@@ -166,7 +227,7 @@
                             </li>
 
                             <li class="list-group-item">
-                                Последние
+                                <label for="switchTasksRecent" class="label-for-check-box">Последние</label>
                                 <div class="material-switch pull-right">
                                     <input id="switchTasksRecent" name="switchTasksRecent" type="checkbox" value="TasksRecent" class="check-box-task-lists"/>
                                     <label for="switchTasksRecent" class="label-info"></label>
@@ -174,9 +235,9 @@
                             </li>
 
                             <li class="list-group-item">
-                                Chart
+                                <label for="switchTasksChart" class="label-for-check-box">Chart</label>
                                 <div class="material-switch pull-right">
-                                    <input id="switchTasksChart" name="switchTasksChart" type="checkbox" value="TasksChart" class="check-box-task-lists"/>
+                                    <input id="switchTasksChart" name="switchTasksChart" type="checkbox" value="" class="check-box-task-lists"/>
                                     <label for="switchTasksChart" class="label-warning"></label>
                                 </div>
                             </li>
@@ -188,10 +249,20 @@
                 </div>
             </li>
 
-            <!-- <li>
-                 <a href="/resume" title="Navigate to Jonathan Adcox IT Resume">Resume</a>
+             <li>
+                 <!--style="cursor: pointer;"-->
+                 <a class="getRoutesButton"  title="List of Routes">
+                     <label for="switchRoutes" style="text-decoration: none;" class="label-for-check-box">Мои маршруты</label>
 
-             </li>-->
+                     <div class="material-switch pull-right">
+                         <input id="switchRoutes" name="switchRoutes" type="checkbox" value="Routes" class="check-box-routes-lists"/>
+                         <label for="switchRoutes" class="label-danger"></label>
+                     </div>
+                 </a>
+                 <div style="display: none;" id="routesListBlock">
+
+                 </div>
+             </li>
             <!--<li>
             <a href="/portfolio" title="Navigate to 'Our Services' section">Portfolio</a>
             </li>
@@ -217,6 +288,7 @@
             <ul class="panel-collapse collapse in nav nav-stacked" role="tabpanel" aria-labelledby="social-collapse" id="collapseTwo">
                 <li><a target="_blank" class="getGeoPointsButton vert-list-but-left" style="cursor: pointer;"><i class="fa fa-lg fa-tags"></i></a></li>
                 <li><a target="_blank" class="getTasksListButton vert-list-but-left" style="cursor: pointer;"><i class="fa fa-lg fa-tasks"></i></a></li>
+                <li><a target="_blank" class="getRoutesListButton vert-list-but-left" style="cursor: pointer;"><i class="fa fa-lg fa-exchange"></i></a></li>
 
                 <!--<li><a href="https://www.facebook.com/soldierupdesigns" target="_blank"><i class="fa fa-lg fa-facebook"></i></a></li>-->
                 <!--<li><a href="https://twitter.com/soldierupdesign" target="_blank"><i class="fa fa-lg fa-twitter"></i></a></li>-->

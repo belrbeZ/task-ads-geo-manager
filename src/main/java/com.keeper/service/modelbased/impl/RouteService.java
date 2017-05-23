@@ -74,6 +74,9 @@ public class RouteService extends PrimeModelService<Route, Long> implements IRou
             return Optional.empty();
         }
 
+        if(invalidId(model.getId(), REMOVE_NULLABLE_ID))
+            return Optional.empty();
+
         Optional<Route> toSave = get(model.getId());
 
         if(!toSave.isPresent()) {
