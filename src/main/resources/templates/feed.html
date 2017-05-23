@@ -12,8 +12,64 @@
         @import url(https://fonts.googleapis.com/css?family=Roboto:400,100italic,100,300,300italic,900italic,900,700,700italic,500italic,500,400italic);
 
         body {
-            font-family: 'Roboto', sans-serif;
+
         }
+
+        input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        label {
+            position: relative;
+            display: inline-block;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding-left: 30px;
+            padding-right: 10px;
+            line-height: 36px;
+            cursor: pointer;
+        }
+
+        label::before {
+            content: " ";
+            position: absolute;
+            top: 6px;
+            left: 0;
+            display: block;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #0094BC;
+            border-radius: 4px;
+            z-index: -1;
+        }
+
+        input[type="radio"] + label::before {
+            border-radius: 18px;
+        }
+
+        /* Checked */
+        input[type="radio"]:checked + label {
+            padding-left: 10px;
+            color: #fff;
+        }
+
+        input[type="radio"]:checked + label::before {
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #0094BC;
+        }
+
+        /* Transition */
+        label,
+        label::before {
+            -webkit-transition: .25s all ease;
+            transition: .25s all ease;
+        }
+
+        <!-- -->
 
         .button {
             display: inline-block;
@@ -128,7 +184,6 @@
             display: inline-block;
             vertical-align: top;
             width: 49%;
-            padding: 0 10px;
         }
 
         .publicaciones-blog-home .fondo-publicacion-home .contenido-publicacion-principal-home h3 {
@@ -266,49 +321,40 @@
     <br/>
     <br/>
 
-    <div>
-        <div class="row" style="margin: 5px">
-            <form th:action="@{/secure/feed/filter}" method="GET">
-                <div class="col-md-6" style="padding: 10px">
+    <div class="row" style="margin: 5px">
+        <form th:action="@{/secure/feed/filter}" method="GET">
+            <div class="col-md-6" style="padding: 10px">
 
-                    <div class="input-group col-md-12" style="padding: 10px">
-                        <input type="text" name="search" class="form-control input-lg" placeholder="Enter Search Query"/>
-                        <span class="input-group-btn">
-                            <button class="btn btn-info btn-lg" type="submit">
-                                <i class="glyphicon glyphicon-search"></i>
-                            </button>
-                        </span>
-                    </div>
-
-                    <div class="btn-group" data-toggle="buttons" style="padding: 10px">
-                        <label class="btn btn-primary">
-                            <input onchange="this.form.submit()" type="radio"
-                                   name="filter" value="50" id="Subscribed" autocomplete="off"> Subscribed
-                        </label>
-                        <label class="btn btn-primary">
-                            <input onchange="this.form.submit()" type="radio"
-                                   name="filter" value="30" id="Local" autocomplete="off"> Local
-                        </label>
-                        <label class="btn btn-primary">
-                            <input onchange="this.form.submit()" type="radio"
-                                   name="filter" value="20" id="Recent" autocomplete="off"> Recent
-                        </label>
-                        <label class="btn btn-primary">
-                            <input onchange="this.form.submit()" type="radio"
-                                   name="filter" value="10" id="My" autocomplete="off"> My
-                        </label>
-                        <label class="btn btn-primary">
-                            <input onchange="this.form.submit()" type="radio"
-                                   name="filter" value="40" id="Chart" autocomplete="off"> Top Rated
-                        </label>
-                        <label class="btn btn-primary">
-                            <input onchange="this.form.submit()" type="radio"
-                                   name="filter" value="0" id="All" autocomplete="off"> All
-                        </label>
-                    </div>
+                <div class="input-group col-md-12" style="padding: 10px">
+                    <input type="text" name="search" class="form-control input-lg" placeholder="Enter Search Query"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg" type="submit">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </span>
                 </div>
-            </form>
-        </div>
+
+                <div class="col-md-12">
+                    <input type="radio" name="filter" value="50" id="subscribed">
+                    <label for="subscribed">Subscribed</label>
+
+                    <input type="radio" name="filter" value="30" id="local">
+                    <label for="local">Local</label>
+
+                    <input type="radio" name="filter" value="20" id="recent">
+                    <label for="recent">Recent</label>
+
+                    <input type="radio" name="filter" value="10" id="my">
+                    <label for="my">My</label>
+
+                    <input type="radio" name="filter" value="40" id="chart">
+                    <label for="chart">Chart</label>
+
+                    <input type="radio" name="filter" value="0" id="all">
+                    <label for="all">All</label>
+                </div>
+            </div>
+        </form>
     </div>
 
     <div>
@@ -334,8 +380,13 @@
                                      style="position: absolute; bottom: 85%">
                             </div>
 
-                            <div th:if="${task.topicStarterId} == ${userId}" style="background: cornflowerblue">
-                                <div style="color: cornflowerblue"></div>
+                            <div th:if="${task.topicStarterId} == ${userId}"
+                                 style="background: #00C6FF; width: 100%; height: 100%;">
+
+                                <div style="position:absolute; top: 10px; right: 10px;">
+                                    <span class="glyphicon glyphicon-asterisk"
+                                          style="font-size: 32px; color: #2BBCDE; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;"></span>
+                                </div>
                             </div>
                         </div>
 
@@ -385,7 +436,6 @@
                                 <span class="badge badge-notify" th:text="${task.modifyCount}"></span>
                             </form>
                         </div>
-
                     </a>
                 </div>
             </div>

@@ -283,8 +283,8 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
                 .filter(entry -> pointsToProceed.contains(entry.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toList())) {
             for (Map.Entry<Long, Task> task : tasks.entrySet()) {
-                if (GeoComputer.geoInRadius(geo, task.getValue().getGeo())
-                        && !geo.getUserId().equals(task.getValue().getTopicStarterId())) {
+                if (!geo.getUserId().equals(task.getValue().getTopicStarterId())
+                        && GeoComputer.geoInRadius(geo, task.getValue().getGeo())) {
                     Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(geo.getUserId(), createTaskNode(task.getKey()));
 
                     if(taskLocations == null)
@@ -306,8 +306,8 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
                 .filter(entry -> pointsToProceed.contains(entry.getKey()))
                 .map(Map.Entry::getValue).collect(Collectors.toList())) {
             for (Map.Entry<Long, Task> task : tasks.entrySet()) {
-                if (route.getGeoPoints().getGeos().stream().anyMatch(geo -> GeoComputer.geoInRadius(geo, task.getValue().getGeo()))
-                        && !route.getUserId().equals(task.getValue().getTopicStarterId())) {
+                if (!route.getUserId().equals(task.getValue().getTopicStarterId())
+                        && route.getGeoPoints().getGeos().stream().anyMatch(geo -> GeoComputer.geoInRadius(geo, task.getValue().getGeo()))) {
                     Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(route.getUserId(), createTaskNode(task.getKey()));
 
                     if(taskLocations == null)
@@ -329,8 +329,8 @@ public class FeedService implements IFeed, IFeedSubmit, IFeedChartRate {
                 .filter(entryTask -> tasksToProceed.contains(entryTask.getId()))
                 .collect(Collectors.toList())) {
             for (Map.Entry<Long, GeoPoint> geo : points.entrySet()) {
-                if (GeoComputer.geoInRadius(geo.getValue(), task.getGeo())
-                        && !geo.getValue().getUserId().equals(task.getTopicStarterId())) {
+                if (!geo.getValue().getUserId().equals(task.getTopicStarterId())
+                        && GeoComputer.geoInRadius(geo.getValue(), task.getGeo())) {
                     Map<Long, GeoLocations> taskLocations = localizedTasks.putIfAbsent(geo.getValue().getUserId(), createTaskNode(task.getId()));
 
                     if(taskLocations == null)

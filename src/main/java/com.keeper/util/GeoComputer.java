@@ -6,6 +6,10 @@ package com.keeper.util;
 
 import com.keeper.model.dao.GeoPoint;
 import com.keeper.model.util.SimpleGeoPoint;
+import com.keeper.model.util.SimpleRoute;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Computes Marks for Hot Geo Points and Routes
@@ -49,6 +53,63 @@ public class GeoComputer {
         return geoInRadius(origin.getLatitude(), origin.getLongitude(), target.getLatitude(), target.getLongitude(), origin.getRadius());
     }
 
+    public static boolean geoInRouteRadius(SimpleGeoPoint origin, SimpleRoute route) {
+        Iterator<SimpleGeoPoint> geoIterator = route.getGeos().iterator();
+
+        boolean result = false;
+
+        while (geoIterator.hasNext()) {
+            SimpleGeoPoint startPoint = geoIterator.next();
+            result = geoInRadius(origin, startPoint);
+
+            if(result) break;
+
+            if(geoIterator.hasNext()) {
+                SimpleGeoPoint nextPoint = geoIterator.next();
+
+                int stepsToDo = (int)(haversineInMeters(startPoint.getLatitude(), startPoint.getLongitude(), nextPoint.getLatitude(), nextPoint.getLongitude()) / route.getRadius());
+
+                // Useless, all should be recreated
+                result = geoInRadius(origin, nextPoint);
+
+                if(result) break;
+            }
+        }
+
+        return result;
+    }
+
+    public static boolean geoInsidePolygon(SimpleGeoPoint geo, ArrayList<Double> lat, ArrayList<Double> lng) {
+        double angle = 0;
+        double point1_lat;
+        double point1_long;
+        double point2_lat;
+        double point2_long;
+
+        for (int i = 0; i < lat.size(); i++) {
+            point1_lat = lat.get(i) - geo.getLatitude();
+            point1_long = lng.get(i) - geo.getLongitude();
+            point2_lat = lat.get((i + 1) % lat.size()) - geo.getLatitude();
+            point2_long = lng.get((i + 1) % lat.size()) - geo.getLongitude();
+            angle += Angle2D(point1_lat, point1_long, point2_lat, point2_long);
+        }
+
+        return !(Math.abs(angle) < Math.PI);
+    }
+
+    private static final Double TWO_PI = Math.PI * 2;
+
+    private static double Angle2D(double y1, double x1, double y2, double x2) {
+        double theta = Math.atan2(y2, x2) - Math.atan2(y1, x1);
+
+        while (theta > Math.PI)
+            theta -= TWO_PI;
+
+        while (theta < -Math.PI)
+            theta += TWO_PI;
+
+        return theta;
+    }
 
     /**
      * @param lat1 & lng1 POINT #1

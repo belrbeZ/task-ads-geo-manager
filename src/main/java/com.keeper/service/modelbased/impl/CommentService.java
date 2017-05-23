@@ -7,6 +7,8 @@ package com.keeper.service.modelbased.impl;
 import com.keeper.model.dao.Comment;
 import com.keeper.model.dto.CommentDTO;
 import com.keeper.repo.CommentRepository;
+import com.keeper.service.core.ISubscription;
+import com.keeper.service.core.impl.SubscriptionService;
 import com.keeper.service.modelbased.ICommentService;
 import com.keeper.util.ModelTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +26,14 @@ import static com.keeper.util.resolvers.ErrorMessageResolver.*;
 @Service
 public class CommentService extends PrimeModelService<Comment, Long> implements ICommentService {
 
-    public final CommentRepository repository;
+    private final CommentRepository repository;
+    private final ISubscription subsService;
 
     @Autowired
-    public CommentService(CommentRepository repository) {
+    public CommentService(CommentRepository repository, SubscriptionService subsService) {
         this.repository = repository;
         setup(repository);
+        this.subsService = subsService;
     }
 
     @Transactional
@@ -40,7 +44,9 @@ public class CommentService extends PrimeModelService<Comment, Long> implements 
             return Optional.empty();
         }
 
-        return super.save(ModelTranslator.toDAO(model));
+        Optional<Comment> comment = super.save(ModelTranslator.toDAO(model));
+        comment.ifPresent(comm -> subsService.modifyTask(comm.getTaskId()));
+        return comment;
     }
 
     @Transactional

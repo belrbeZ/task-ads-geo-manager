@@ -123,7 +123,7 @@
 
                 <div class="row">
                     <div class="col-md-12 post-header-line">
-                        <!--<span class="glyphicon glyphicon-user"></span> by <span th:text="${creator}"></span> |-->
+                        <span class="glyphicon glyphicon-user"></span> by <span th:text="${creator.name}"></span> |
                         <span class="glyphicon glyphicon-calendar"></span><span th:text="${task.getPrettyCreateDate()}"></span> |
                         <span th:if="${!task.tags.isEmpty()}">
                             <span class="glyphicon glyphicon-tags"></span> Tags :

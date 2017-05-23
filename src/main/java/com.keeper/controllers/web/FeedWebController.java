@@ -37,7 +37,7 @@ public class FeedWebController {
     private final String USER_ID_OBJ = "userId";
     private final String MSG = "msg";
 
-    private final String ATTR_SEARCH = "searchByTheme";
+    private final String ATTR_SEARCH = "search";
     private final String ATTR_FILTER = "filter";
 
     @Autowired
