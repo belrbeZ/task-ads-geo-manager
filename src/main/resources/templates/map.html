@@ -831,6 +831,68 @@
 
     </style>
 
+    <!--BELL FOR TASKS-->
+    <style>
+        /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+        @import url(http://weloveiconfonts.com/api/?family=entypo);
+        [class*="entypo-"]:before {font-family: 'entypo', sans-serif;font-size:30px;color:#555;}
+        /*html, body {height: 100%;}*/
+        /*body {align-items: center;display: flex;font-family: sans-serif;justify-content: center;}*/
+        .container-bell {
+            top: -30px;
+            position: relative;
+            float: right;
+            -webkit-perspective: 1000;
+            -webkit-backface-visibility: hidden;
+        }
+        .badge-num {
+            box-sizing:border-box;
+            font-family: 'Trebuchet MS', sans-serif;
+            background: #ff0000;
+            cursor:default;
+            border-radius: 50%;
+            color: #fff;
+            font-weight:bold;
+            font-size: 16px;
+            height: 30px;
+            letter-spacing:-1px;
+            line-height:1.55em;
+            top:-4px;
+            right:-12px;
+            border:3px solid #fff;
+            position: absolute;
+            text-align: center;
+            width: 30px;
+            box-shadow: 1px 1px 5px rgba(0,0,0, .2);
+            animation: pulse 1.5s 1;
+        }
+        .badge-num:hover {
+            color: #555;
+        }
+        .badge-num:after  {
+            content: '';
+            position: absolute;
+            top:-2px;
+            left:-2px;
+            border:2px solid rgba(255,0,0,.5);
+            opacity:0;
+            border-radius: 50%;
+            width:100%;
+            height:100%;
+            animation: sonar 1.5s 1;
+        }
+        @keyframes sonar {
+            0% {transform: scale(.9); opacity:1;}
+            100% {transform: scale(2);opacity: 0;}
+        }
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            20% {transform: scale(1.4); }
+            50% {transform: scale(.9);}
+            80% {transform: scale(1.2);}
+            100% {transform: scale(1);}
+        }
+    </style>
 </head>
 <body style="background-color: aliceblue;">
 
@@ -2667,6 +2729,7 @@
                         responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
 
                 htmlResponse += "<li class='elem-in-list list-group-item elemFromList-"+type+"'>";
+                htmlResponse += "<div>";
                 htmlResponse += "<span id='tasks_" + type + "-id-in-list-" + i + "' class='elem-in-list-id hidden'>";
                 htmlResponse += responseAsObject[i].id + "</span>";
                 htmlResponse += "<span style='width: 100%; text-align: center;'>" + theme + "</span><br>";
@@ -2675,6 +2738,10 @@
                 htmlResponse += "<span class='hidden'>latitude " + responseAsObject[i].latitude + "</span>";
                 htmlResponse += "<span class='hidden'>longitude " + responseAsObject[i].longitude + "</span>";
                 htmlResponse += "Радиус: <span class='text-no-decor'>" + responseAsObject[i].radius;
+                htmlResponse += "</div>";
+                if(responseAsObject[i].modifyCount>0)
+                    htmlResponse +='<div class="container-bell" id="badge"><a class="entypo-bell"></a><div class="badge-num">'+responseAsObject[i].modifyCount+'</div></div>';
+
                 htmlResponse += "</li>";
             }
             htmlResponse += "</ul>";
@@ -3097,18 +3164,18 @@
             var descr;
             htmlResponse = "<ul style='margin-left: 5%;width: 90%;' class='ListRoutes list-group'>";
             for(var i=0; i<responseAsObject.length; i++) {
-//                descr = (responseAsObject[i].descr==null||responseAsObject[i].descr=="") ?
-//                    "Моё место" :
-//                    responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
+                descr = (responseAsObject[i].descr==null||responseAsObject[i].descr=="") ?
+                    "Мой маршрут" :
+                    responseAsObject[i].descr.length>25 ? responseAsObject[i].descr.substr(0, 25)+".." : responseAsObject[i].descr;
 
-//                htmlResponse += "<li class='elem-in-list list-group-item elemFromList-GeoPoints'>";
-//                htmlResponse += "<span id='geo_point-id-in-list-" + i + "' class='elem-in-list-id hidden'>";
-//                htmlResponse += responseAsObject[i].id + "</span>";
-//                htmlResponse += "<span style='width: 100%; text-align: center;'>" + descr + "</span><br>";
+                htmlResponse += "<li class='elem-in-list list-group-item elemFromList-Routes'>";
+                htmlResponse += "<span id='route-id-in-list-" + i + "' class='elem-in-list-id hidden'>";
+                htmlResponse += responseAsObject[i].id + "</span>";
+                htmlResponse += "<span style='width: 100%; text-align: center;'>" + descr + "</span><br>";
 //                htmlResponse += "<span class='hidden'>latitude " + responseAsObject[i].latitude + "</span>";
 //                htmlResponse += "<span class='hidden'>longitude " + responseAsObject[i].longitude + "</span>";
 //                htmlResponse += "Радиус: <span class='text-no-decor'>" + responseAsObject[i].radius + "</span>";
-//                htmlResponse += "</li>";
+                htmlResponse += "</li>";
             }
             htmlResponse += "</ul>";
         } else {
