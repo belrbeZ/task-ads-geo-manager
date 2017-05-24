@@ -71,7 +71,7 @@ public class TaskRestController {
 
             repoService.update(ModelTranslator.toDAO(modelTask));
         } else {
-            LOGGER.warn("    REST ERROR of updating TASK " + modelTask.getId());
+            LOGGER.debug("    REST ERROR of updating TASK " + modelTask.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
 
@@ -85,11 +85,11 @@ public class TaskRestController {
 
         if(user.isPresent()) {
             modelTask.setTopicStarterId(user.get().getId());
-            LOGGER.info(user.get().getEmail() + " REST Creating TASK " + modelTask.toString());
+            LOGGER.debug(user.get().getEmail() + " REST Creating TASK " + modelTask.toString());
 
             repoService.saveDTO(modelTask);
         } else {
-            LOGGER.warn("    REST ERROR of creating TASK " + modelTask.getId());
+            LOGGER.debug("    REST ERROR of creating TASK " + modelTask.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(new SimpleResponse("Задание добавлено!"), HttpStatus.OK);
@@ -100,10 +100,10 @@ public class TaskRestController {
     public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long taskId) {
         Optional<User> user = userService.getAuthorized();
         if(user.isPresent()) {
-            LOGGER.info("    "+user.get().getEmail()+"REST Removing TASK id:" + taskId);
+            LOGGER.debug("    "+user.get().getEmail()+"REST Removing TASK id:" + taskId);
             repoService.remove(taskId);
         }else {
-            LOGGER.warn("    REST ERROR of deleting TASK " + taskId);
+            LOGGER.debug("    REST ERROR of deleting TASK " + taskId);
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(new SimpleResponse("Место удалено!"), HttpStatus.OK);

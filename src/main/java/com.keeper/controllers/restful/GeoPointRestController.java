@@ -51,15 +51,15 @@ public class GeoPointRestController {
     public ResponseEntity<List<GeoPointDTO>> getGeoPointsByEmail() {
         Optional<User> user = userService.getAuthorized();
         if (user.isPresent()) {
-//            LOGGER.warn("" + user.get().getEmail() + " REST getList byEmail ListGeoPoints size:" + user.get().getGeoPoints().size());
+//            LOGGER.debug("" + user.get().getEmail() + " REST getList byEmail ListGeoPoints size:" + user.get().getGeoPoints().size());
 
 //            List<GeoPoint> geodao = user.get().getGeoPoints();
             List<GeoPoint> geodao = repoService.getByUserId(user.get().getId()).get();
 
-            LOGGER.info("Rest getting list of geoPoints " + geodao.size());
+            LOGGER.debug("{}: Rest getting list of geoPoints {}", Thread.currentThread().getName(), geodao.size());
             return new ResponseEntity<>(ModelTranslator.geoPointsToDTO(geodao), HttpStatus.OK);
         } else {
-            LOGGER.warn("REST ERROR of getting list of geoPoints!");
+            LOGGER.debug("{}: Rest ERROR of getting list of geoPoints.",Thread.currentThread().getName());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
@@ -70,16 +70,16 @@ public class GeoPointRestController {
         Optional<User> user = userService.getAuthorized();
 
         if(model.getId()<1) {
-            LOGGER.warn("    REST ERROR of updating by id" + model.getId());
+            LOGGER.debug("{}: Rest ERROR of updating by id: {}",Thread.currentThread().getName(), model.getId());
             return new ResponseEntity<>(new SimpleResponse("Неправильный ввод!"), HttpStatus.NOT_FOUND);
         }
 
         if(user.isPresent()) {
             model.setUserId(user.get().getId());
-            LOGGER.info("    REST Updating " + model.toString());
+            LOGGER.debug("{}: Rest Updating {}",Thread.currentThread().getName(), model.toString());
             repoService.updateDTO(model);
         } else {
-            LOGGER.warn("    REST ERROR of updating " + model.getId());
+            LOGGER.debug("{}: Rest ERROR of updating {}",Thread.currentThread().getName(),model.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
 
@@ -93,11 +93,11 @@ public class GeoPointRestController {
 
         if(user.isPresent()) {
             model.setUserId(user.get().getId());
-            LOGGER.info(user.get().getEmail() + " REST Creating Geo " + model.toString());
+            LOGGER.debug("{}: Rest Creating Geo by {} : {}",Thread.currentThread().getName(),user.get().getEmail(), model.toString());
 
             repoService.saveDTO(model);
         } else {
-            LOGGER.warn("    REST ERROR of creating " + model.getId());
+            LOGGER.debug("{}: Rest ERROR of creating geo {}" ,Thread.currentThread().getName(), model.getId());
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(new SimpleResponse("Место добавлено!"), HttpStatus.OK);
@@ -106,23 +106,23 @@ public class GeoPointRestController {
 
     @RequestMapping(value = ApiResolver.GEO, method = RequestMethod.DELETE)
     public ResponseEntity<SimpleResponse> delete(@RequestParam("id") Long pointId) {
-        LOGGER.info("    REST Removing point id:" + pointId);
+        LOGGER.debug("{}: Rest Removing point id: {}" ,Thread.currentThread().getName(), pointId);
 
         Optional<User> user = userService.getAuthorized();
 
         if(user.isPresent()) {
-//            LOGGER.warn("        "+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
+//            LOGGER.debug("        "+user.get().getEmail()+" remove from ListGeoPoints size:"+user.get().getGeoPoints().size());
 
 //            GeoPoint geoFroDelete = repoService.get(pointId).get();
-//            LOGGER.warn("    getted for delete:"+geoFroDelete);
+//            LOGGER.debug("    getted for delete:"+geoFroDelete);
 //            user.get().removeGeoPoint(geoFroDelete);
 //            userService.save(user.get());
 
             repoService.remove(pointId);
 //            repoService.removeByObj(geoFroDelete, user.get());
-//            LOGGER.warn("        "+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
+//            LOGGER.debug("        "+user.get().getEmail()+" after remove ListGeoPoints size:"+user.get().getGeoPoints().size());
         }else {
-            LOGGER.warn("    REST ERROR of deleting geo " + pointId);
+            LOGGER.debug("{}: Rest ERROR of deleting geo {}",Thread.currentThread().getName(), pointId);
             return new ResponseEntity<>(new SimpleResponse("Авторизуйтесь!"), HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(new SimpleResponse("Место удалено!"), HttpStatus.OK);
@@ -131,10 +131,10 @@ public class GeoPointRestController {
     /*@RequestMapping(value = PATH+"/byObj", method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SimpleResponse>  deleteByObj(@Valid GeoPointDTO model) {
-        LOGGER.warn("REST Deleting " + model.toString());
+        LOGGER.debug("REST Deleting " + model.toString());
 
         if(model.getId()<1) {
-            LOGGER.warn("REST ERROR deleting by obj");
+            LOGGER.debug("REST ERROR deleting by obj");
             return  new ResponseEntity<>(new SimpleResponse("Неправильный ввод!"), HttpStatus.BAD_REQUEST);
         }
 

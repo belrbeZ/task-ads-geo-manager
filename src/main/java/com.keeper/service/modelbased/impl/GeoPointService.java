@@ -80,9 +80,6 @@ public class GeoPointService extends PrimeModelService<GeoPoint, Long> implement
             logger.warn(UPDATE_NOT_FOUND);
             return Optional.empty();
         }
-
-        System.out.println("    getted for update:"+toSave.get());
-
         return super.save(ModelTranslator.updateDAO(toSave.get(), model));
     }
 

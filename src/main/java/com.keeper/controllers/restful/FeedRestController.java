@@ -49,14 +49,14 @@ public class FeedRestController {
                     : feedService.searchByTheme(user.get().getId(), search, FeedType.calc(type));
 
             if(!usersTasks.isPresent()) {
-                LOGGER.warn(user.get().getEmail() + " REST Can't get list of Tasks!");
+                LOGGER.debug(user.get().getEmail() + " REST Can't get list of Tasks!");
                 return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
             }
 
-            LOGGER.warn(user.get().getEmail() + " REST getListTasks "+FeedType.calc(type)+" size: " + usersTasks.get().size());
+            LOGGER.debug(user.get().getEmail() + " REST getListTasks "+FeedType.calc(type)+" size: " + usersTasks.get().size());
             return new ResponseEntity<>(usersTasks.get(), HttpStatus.OK);
         } else {
-            LOGGER.warn("    REST ERROR of getting TASKS ALL list!");
+            LOGGER.debug("    REST ERROR of getting TASKS ALL list!");
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
